@@ -1,0 +1,103 @@
+<template>
+<v-app id="inspire">
+    <v-navigation-drawer style="z-index: 999" v-model="drawer" app>
+        <v-list dense>
+            <v-list-item link to="/">
+                <v-list-item-action>
+                    <v-icon>mdi-home</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>Home</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/gunsan">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        고군산관광벨트
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/daegu">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        대구수성알파시티
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/sejong">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        세종호수공원
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/sangam">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        상암DMC홍보관
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link @click="logout">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        로그아웃
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar style="box-shadow: none; border-bottom: 1px solid #DBDBDB;" app color="#FFF" dark>
+        <v-app-bar-nav-icon color="#555" @click.stop="drawer = !drawer" />
+        <v-toolbar-title class="d-inline-block pl-0 text-center" style='width: 100%'>
+            <img src="../assets/tasio_logo.svg" align="center" justify="center" class="pr-3" />
+        </v-toolbar-title>
+    </v-app-bar>
+
+    <v-content>
+        <v-container class="fill-height" fluid>
+            <v-row class="text-center" align="center" justify="center">
+                <v-col class="text-center" cols="12">
+                    <router-view />
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-content>
+
+    <v-footer style="border-top: 1px solid #DBDBDB;" color="#FFF" app>
+        <span class="text-center" style="width: 100%; color: #B7B7B7; font-size: 12px;">
+            <p class="mb-0">&copy; Springcloud Ltd,.</p>
+            <p class="mb-0">경기도 성남시 수정구 창업로 42, 경기기업성장센터 523, 524</p>
+        </span>
+    </v-footer>
+</v-app>
+</template>
+
+<script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
+export default {
+    name: 'home',
+
+    data: () => ({
+        drawer: null,
+    }),
+
+    methods: {
+        logout() {
+            firebase.auth().signOut().then(() => {
+                this.$router.replace('login')
+            })
+        }
+    }
+
+}
+</script>
+
+<style scoped>
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
+}
+</style>
