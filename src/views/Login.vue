@@ -3,8 +3,8 @@
     <div class="login">
         <h3>Login</h3>
         <v-form>
-            <v-text-field type="text" placeholder="Email"></v-text-field>
-            <v-text-field type="password" placeholder="Password"></v-text-field>
+            <v-text-field type="text" v-model="email" placeholder="Email"></v-text-field>
+            <v-text-field type="password" v-model="password" placeholder="Password"></v-text-field>
         </v-form>
         <v-btn @click="login">Connection</v-btn>
         <p>You don't have an account ? You can <router-link to="/signup">create one</router-link>
@@ -20,14 +20,17 @@ import 'firebase/auth'
 export default {
     name: 'Login',
 
-    data: () => ({}),
+    data: () => ({
+        email: '',
+        password: ''
+    }),
 
     methods: {
         login() {
           firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
             // eslint-disable-next-line no-unused-vars
             (user) => {
-              this.$router.replace('home')
+              this.$router.replace('/')
             },
             (error) => {
               alert('Oops. ' + error.message)

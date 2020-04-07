@@ -1,22 +1,16 @@
 <template>
 <v-app id="inspire">
-    <Home></Home>
+    <router-view></router-view>
 </v-app>
 </template>
 
 <script>
-import Home from './views/Home'
-
 export default {
     name: 'App',
 
     data: () => ({
         drawer: null,
-    }),
-
-    components: {
-        Home
-    },
+    })
 };
 </script>
 

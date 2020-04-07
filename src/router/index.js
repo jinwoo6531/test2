@@ -17,48 +17,50 @@ const Sangam = () => import( /* webpackChunkName: "Sangam" */ '@/components/Sang
 const router = new Router({
   mode: 'history',
   routes: [{
-      path: '/home',
-      name: 'Home',
-      component: Home,
-      // 페이지를 볼 때 인증이 필요한지 등의 라우트 고유 정보를 설정
-      meta: {
-        requireAuth: true
-      }
+    path: '/',
+    name: 'Home',
+    component: Home,
+    // 페이지를 볼 때 인증이 필요한지 등의 라우트 고유 정보를 설정
+    meta: {
+      requireAuth: true
     },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/signup',
-      name: 'signUp',
-      component: SignUp
-    },
-    {
-      path: '/gunsan',
-      name: 'Gunsan',
-      component: Gunsan
-    },
-    {
-      path: '/daegu',
-      name: 'Daegu',
-      component: Daegu
-    },
-    {
-      path: '/sejong',
-      name: 'Sejong',
-      component: Sejong
-    },
-    {
-      path: '/sangam',
-      name: 'Sangam',
-      component: Sangam
-    },
+    children: [
+      {
+        path: '/gunsan',
+        name: 'Gunsan',
+        component: Gunsan
+      },
+      {
+        path: '/daegu',
+        name: 'Daegu',
+        component: Daegu
+      },
+      {
+        path: '/sejong',
+        name: 'Sejong',
+        component: Sejong
+      },
+      {
+        path: '/sangam',
+        name: 'Sangam',
+        component: Sangam
+      },
+    ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/signup',
+    name: 'signUp',
+    component: SignUp
+  }
   ]
 })
 
-router.beforeEach ((to, from, next) => {
+router.beforeEach((to, from, next) => {
   // Firebase에서 현재 사용자를 가져오는 기능
   // 현재 로그인 한 사용자를 다시 보낸다.
   // 사용자가 로그인하지 않은 경우 null
@@ -71,7 +73,7 @@ router.beforeEach ((to, from, next) => {
   // 인증이 되어 있으면 home 페이지로 라우트
   else if (!requireAuth && currentUser) next('home')
   // 인증이 필요하지 않은 라우트면 next()로 이동
-  else next() 
+  else next()
 })
 
 export default router
