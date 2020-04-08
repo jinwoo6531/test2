@@ -21,7 +21,7 @@
             </v-col>
             <v-col>
                 <p v-if="warn">승차지는 해당 노선 내에서 선택해주세요.</p>
-                <p v-else>약 1.5km (약 20분 소요)</p>
+                <p v-else>약 {{ km }}km (약 {{ minutes }}분 소요)</p>
             </v-col>
             <v-col v-if="callBtn" class="d-flex" cols="12" sm="12">
                 <v-btn>호출하기</v-btn>
@@ -71,7 +71,8 @@ export default {
         startId: [],
         endId: [],
         vehicle: 0,
-
+        km: 0,
+        minutes: 0,
         daeguList: [],
         warn: true,
         callBtn: false,
@@ -188,6 +189,7 @@ export default {
                     console.log(error)
                 })
         },
+
         onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6)
@@ -196,7 +198,6 @@ export default {
             if (this.start.id != undefined && this.end.id != undefined) {
                 // ADD Between Station
                 if (this.start.id < this.end.id) {
-                    console.log('end Id is bigger than start Id')
                     this.waypoints.push({
                         lat: this.start.lat,
                         lng: this.start.lon
@@ -209,7 +210,6 @@ export default {
                         })
                     }
                 } else if (this.start.id > this.end.id) {
-                    console.log('start Id is bigger than end Id')
                     this.waypoints.push({
                         lat: this.start.lat,
                         lng: this.start.lon
@@ -223,24 +223,6 @@ export default {
                     }
                     // SAME Station Id
                 } else if (this.start.id == this.end.id) {
-                    console.log('start Id is same end Id')
-                    // this.waypoints.push({
-                    //     lat: this.start.lat,
-                    //     lng: this.start.lon
-                    // })
-                    // for (let i = this.start.id; i < this.daeguList.length; i++) {
-                    //     // this.waypoints.push({
-                    //     //     lat: this.daeguList[i].lat,
-                    //     //     lng: this.daeguList[i].lon
-                    //     // })
-                    //     // if (i == 3) i = 0
-                    //     console.log(i)
-                    // }
-                    // this.waypoints.push({
-                    //     lat: this.end.lat,
-                    //     lng: this.end.lon
-                    // })
-                    // console.log(this.waypoints)
                     switch (this.start.id) {
                         case 1:
                             this.waypoints.push({
@@ -315,12 +297,19 @@ export default {
                             })
                     }
                 }
+                // SET New Routing
+                this.addRouting(this.waypoints)
+
+                control.on('routesfound', function (e) {
+                    var routes = e.routes
+                    var summary = routes[0].summary
+                    this.km = summary.totalDistance / 1000
+                    this.minutes = Math.round(summary.totalTime % 3600 / 60)
+                    console.log('Total distance is ' + this.km + ' km and total time is ' + this.minutes + ' minutes')
+                }).addTo(this.map)
                 this.warn = false
                 this.callBtn = true
             }
-
-            // SET New Routing
-            this.addRouting(this.waypoints)
         },
 
         getVehicle() {
