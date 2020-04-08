@@ -299,17 +299,21 @@ export default {
                 }
                 // SET New Routing
                 this.addRouting(this.waypoints)
+                this.totalDistance()
 
-                control.on('routesfound', function (e) {
-                    var routes = e.routes
-                    var summary = routes[0].summary
-                    this.km = summary.totalDistance / 1000
-                    this.minutes = Math.round(summary.totalTime % 3600 / 60)
-                    console.log('Total distance is ' + this.km + ' km and total time is ' + this.minutes + ' minutes')
-                }).addTo(this.map)
-                this.warn = false
-                this.callBtn = true
             }
+        },
+
+        totalDistance() {
+            control.on('routesfound', function (e) {
+                var routes = e.routes
+                var summary = routes[0].summary
+                this.km = summary.totalDistance / 1000
+                this.minutes = Math.round(summary.totalTime % 3600 / 60)
+                console.log('Total distance is ' + this.km + ' km and total time is ' + this.minutes + ' minutes')
+            }).addTo(this.map)
+            this.warn = false
+            this.callBtn = true
         },
 
         getVehicle() {
