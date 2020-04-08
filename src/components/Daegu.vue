@@ -19,6 +19,10 @@
                     <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
                 </select>
             </v-col>
+            <v-col>
+                <p v-if="warn">승차지는 해당 노선 내에서 선택해주세요.</p>
+                <p v-else>약 1.5km (약 20분 소요)</p>
+            </v-col>
             <v-col v-if="callBtn" class="d-flex" cols="12" sm="12">
                 <v-btn>호출하기</v-btn>
             </v-col>
@@ -69,8 +73,8 @@ export default {
         vehicle: 0,
 
         daeguList: [],
-
-        callBtn: false
+        warn: true,
+        callBtn: false,
     }),
 
     created() {
@@ -311,7 +315,7 @@ export default {
                             })
                     }
                 }
-                // 호출하기 버튼 보여주기
+                this.warn = false
                 this.callBtn = true
             }
 
