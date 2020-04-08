@@ -15,7 +15,7 @@ const createTileLayer = async (map, url, options) => {
 // Icon과 Maker의 두 가지 생성 방법 추가
 const createIcon = options => {
     return $L.icon(options)
-  };
+}
 
 /**
  *
@@ -29,7 +29,7 @@ const createMakerByXY = (map, coordinate, options = {}) => {
     let marker = $L.marker($L.latLng(coordinate[0], coordinate[1]), options)
     marker.addTo(map)
     return marker
-};
+}
 
 // Leaflet Default Maker를 표시 할 수없는 문제 해결
 import icon from "leaflet/dist/images/marker-icon.png"

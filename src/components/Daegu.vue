@@ -19,6 +19,9 @@
                     <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
                 </select>
             </v-col>
+            <v-col v-if="callBtn" class="d-flex" cols="12" sm="12">
+                <v-btn>호출하기</v-btn>
+            </v-col>
         </v-row>
     </v-container>
 </div>
@@ -63,37 +66,42 @@ export default {
         end: '도착지: ',
         startId: [],
         endId: [],
+        vehicle: 0,
 
-        daeguList: []
+        daeguList: [],
+
+        callBtn: false
     }),
 
     created() {
         this.getStation()
 
-        setInterval(function () {
-            axios.get('/api/vehicles/')
-                .then(response => {
-                    this.$store.state.vehicleList = response.data.sort(function (a, b) {
-                        return a.id < b.id ? -1 : 1
-                    })
+        this.getVehicle()
 
-                    this.vehicleReady = true
-                    this.$store.state.vLat = this.$store.state.vehicleList[0].lat
-                    this.$store.state.vLng = this.$store.state.vehicleList[0].lon
+        // setInterval(function () {
+        //     axios.get('/api/vehicles/')
+        //         .then(response => {
+        //             this.$store.state.vehicleList = response.data.sort(function (a, b) {
+        //                 return a.id < b.id ? -1 : 1
+        //             })
 
-                    let vehicleIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../assets/vehicle1.svg"),
-                        iconSize: [32, 32]
-                    })
-                    this.$utils.map.createMakerByXY(this.map, [this.$store.state.vLat, this.$store.state.vLng], {
-                        icon: vehicleIcon
-                    })
-                }).catch(error => {
-                    console.log('Error on Authentication')
-                    this.error = error
-                    console.log(error)
-                })
-        }.bind(this), 1000)
+        //             this.vehicleReady = true
+        //             this.$store.state.vLat = this.$store.state.vehicleList[0].lat
+        //             this.$store.state.vLng = this.$store.state.vehicleList[0].lon
+
+        //             let vehicleIcon = this.$utils.map.createIcon({
+        //                 iconUrl: require("../assets/vehicle1.svg"),
+        //                 iconSize: [32, 32]
+        //             })
+        //             this.$utils.map.createMakerByXY(this.map, [this.$store.state.vLat, this.$store.state.vLng], {
+        //                 icon: vehicleIcon
+        //             })
+        //         }).catch(error => {
+        //             console.log('Error on Authentication')
+        //             this.error = error
+        //             console.log(error)
+        //         })
+        // }.bind(this), 1000)
     },
 
     mounted() {
@@ -303,11 +311,42 @@ export default {
                             })
                     }
                 }
+                // 호출하기 버튼 보여주기
+                this.callBtn = true
             }
 
             // SET New Routing
             this.addRouting(this.waypoints)
+        },
+
+        getVehicle() {
+            // vehicle Icon 생성
+            let vehicleIcon = this.$utils.map.createIcon({
+                iconUrl: require("../assets/vehicle1.svg"),
+                iconSize: [32, 32]
+            })
+
+            axios.get('/api/vehicles/')
+                .then(response => {
+                    this.$store.state.vehicleList = response.data.sort(function (a, b) {
+                        return a.id < b.id ? -1 : 1
+                    })
+
+                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.$store.state.vehicleList[0].lat, this.$store.state.vehicleList[0].lon], {
+                        icon: vehicleIcon
+                    })
+
+                    // 얘네를 1초마다 업데이트
+                    // 어떻게 해줘야할까...
+                    console.log('Vehicle Lat: ', this.vehicle._latlng.lat)
+                    console.log('Vehicle Lng: ', this.vehicle._latlng.lng)
+                }).catch(error => {
+                    console.log('Error on Authentication')
+                    this.error = error
+                    console.log(error)
+                })
         }
+
     }
 }
 </script>
