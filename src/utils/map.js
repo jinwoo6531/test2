@@ -31,6 +31,12 @@ const createMakerByXY = (map, coordinate, options = {}) => {
     return marker
 }
 
+const updateMarkerByXY = (map, coordinate) => {
+    let marker = $L.marker($L.latLng(coordinate[0], coordinate[1])).update(marker)
+    marker.addTo(map)
+    return marker
+}
+
 // Leaflet Default Maker를 표시 할 수없는 문제 해결
 import icon from "leaflet/dist/images/marker-icon.png"
 import iconShadow from "leaflet/dist/images/marker-shadow.png"
@@ -51,5 +57,6 @@ export default {
     createTileLayer,
     createIcon,
     createMakerByXY,
-    createRouting
+    createRouting,
+    updateMarkerByXY
 }

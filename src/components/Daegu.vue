@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import L from "leaflet"
 import axios from 'axios'
 var control
 
@@ -71,34 +72,16 @@ export default {
         startId: [],
         endId: [],
         vehicle: 0,
-        km: 200,
+        km: 0,
         minutes: 0,
         daeguList: [],
         warn: true,
-        callBtn: false,
+        callBtn: false
     }),
 
     created() {
         this.getStation()
-
-        // vehicle Icon 생성
-        let vehicleIcon = this.$utils.map.createIcon({
-            iconUrl: require("../assets/vehicle1.svg"),
-            iconSize: [32, 32]
-        })
-        axios.get('/api/vehicles/')
-            .then(response => {
-                this.$store.state.vehicleList = response.data.sort(function (a, b) {
-                    return a.id < b.id ? -1 : 1
-                })
-                this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.$store.state.vehicleList[0].lat, this.$store.state.vehicleList[0].lon], {
-                    icon: vehicleIcon
-                })
-            }).catch(error => {
-                console.log('Error on Authentication')
-                this.error = error
-                console.log(error)
-            })
+        this.getVehicle()
     },
 
     mounted() {
@@ -116,18 +99,6 @@ export default {
 
         this.addMarker()
         this.addRouting(this.waypoints)
-    },
-
-    updated() {
-        let lat = (this.vehicle._latlng.lat)
-        let lng = (this.vehicle._latlng.lng)
-
-        console.log('Lat: ', lat, 'Lng: ', lng)
-        
-        // setInterval(function () {
-            let vehiclePos = this.vehicle.setLatLng([lat, lng]).update()
-            console.log('vehicle Position: ', vehiclePos)
-        // }.bind(this), 1000)
     },
 
     methods: {
@@ -303,20 +274,95 @@ export default {
                 }
                 // SET New Routing
                 this.addRouting(this.waypoints)
-                this.totalDistance()
+
+                control.on('routesfound', function (e) {
+                    var routes = e.routes
+                    var summary = routes[0].summary
+                    this.km = summary.totalDistance / 1000
+                    this.minutes = Math.round(summary.totalTime % 3600 / 60)
+                    console.log('Total distance is ' + this.km + ' km and total time is ' + this.minutes + ' minutes')
+                }).addTo(this.map)
+                this.warn = false
+                this.callBtn = true
             }
         },
 
-        totalDistance() {
-            control.on('routesfound', (e) => {
-                // 출발지와 도착지의 totalDistance
-                this.km = e.routes[0].summary.totalDistance / 1000
-                this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
-            }).addTo(this.map)
-
-            this.warn = false,
-                this.callBtn = true
+        getVehicle() {
+            var request_count = 0
+            setInterval(function () {
+                request_count++
+                axios.get('/api/vehicles/')
+                    .then(response => {
+                        var vehicle_data = response.data.sort(function (a, b) {
+                            return a.id < b.id ? -1 : 1
+                        })
+                        var vehicleCount = Object.keys(vehicle_data).length;
+                        for (let i = 0; i < vehicleCount; i++) {
+                            if (vehicle_data[i].site == 2) {
+                                if (request_count <= 1) {
+                                    var vehicleIcon = this.$utils.map.createIcon({
+                                        iconUrl: require("../assets/vehicle1.svg"),
+                                        iconSize: [32, 32]
+                                    })
+                                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                        draggable: false,
+                                        icon: vehicleIcon
+                                    })
+                                    console.log("Vehicle location: " + vehicle_data[i].lat + "," + vehicle_data[i].lon);
+                                } else {
+                                    var newLatLng = new L.LatLng(vehicle_data[i].lat, vehicle_data[i].lon);
+                                    this.vehicle.setLatLng(newLatLng)
+                                }
+                            }
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
+            }.bind(this), 1000)
         }
+
+        /*async getVehicle() {
+            // vehicle Icon 생성
+            let vehicleIcon = this.$utils.map.createIcon({
+                iconUrl: require("../assets/vehicle1.svg"),
+                iconSize: [32, 32]
+            })
+
+            await axios.get('/api/vehicles/')
+                .then(response => {
+                    this.$store.state.vehicleList = response.data.sort(function (a, b) {
+                        return a.id < b.id ? -1 : 1
+                    })
+
+                    this.vLat = this.$store.state.vehicleList[0].lat
+                    this.vLng = this.$store.state.vehicleList[0].lon
+                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.vLat, this.vLng], {
+                        draggable: false,
+                        icon: vehicleIcon
+                    })
+
+                    setInterval(function () {
+                        axios.get('/api/vehicles/')
+                            .then((response) => {
+                                var ourVehicle = response.data.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1
+                                })
+                                //if (this.vehicle != undefined)
+                                   // this.map.removeLayer(this.vehicle)
+                                    console.log(this.vehicle)
+                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon]);//.update()
+
+                            }).catch(error => {
+                                console.log(error)
+                            })
+                    }.bind(this), 1000)
+
+                }).catch(error => {
+                    console.log('Error on Authentication')
+                    this.error = error
+                    console.log(error)
+                }) 
+        }*/
     }
 }
 </script>

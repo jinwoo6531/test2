@@ -5,6 +5,15 @@
         <v-form>
             <v-text-field type="text" v-model="email" placeholder="Email"></v-text-field>
             <v-text-field type="password" v-model="password" placeholder="Password"></v-text-field>
+            <v-text-field type="password" v-model="password" placeholder="Password Check"></v-text-field>
+            <v-text-field type="text" v-model="password" placeholder="Name"></v-text-field>
+            <v-radio v-model="genter">남성</v-radio>
+            <v-radio v-model="genter">여성</v-radio>
+            <select>
+              <option></option>
+              <option></option>
+              <option></option>
+            </select>
         </v-form>
         <v-btn @click="signUp">Sign Up</v-btn>
         <span>or go back to <router-link to="/login">login</router-link></span>
