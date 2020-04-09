@@ -71,7 +71,7 @@ export default {
         startId: [],
         endId: [],
         vehicle: 0,
-        km: 0,
+        km: 200,
         minutes: 0,
         daeguList: [],
         warn: true,
@@ -81,32 +81,24 @@ export default {
     created() {
         this.getStation()
 
-        this.getVehicle()
-
-        // setInterval(function () {
-        //     axios.get('/api/vehicles/')
-        //         .then(response => {
-        //             this.$store.state.vehicleList = response.data.sort(function (a, b) {
-        //                 return a.id < b.id ? -1 : 1
-        //             })
-
-        //             this.vehicleReady = true
-        //             this.$store.state.vLat = this.$store.state.vehicleList[0].lat
-        //             this.$store.state.vLng = this.$store.state.vehicleList[0].lon
-
-        //             let vehicleIcon = this.$utils.map.createIcon({
-        //                 iconUrl: require("../assets/vehicle1.svg"),
-        //                 iconSize: [32, 32]
-        //             })
-        //             this.$utils.map.createMakerByXY(this.map, [this.$store.state.vLat, this.$store.state.vLng], {
-        //                 icon: vehicleIcon
-        //             })
-        //         }).catch(error => {
-        //             console.log('Error on Authentication')
-        //             this.error = error
-        //             console.log(error)
-        //         })
-        // }.bind(this), 1000)
+        // vehicle Icon 생성
+        let vehicleIcon = this.$utils.map.createIcon({
+            iconUrl: require("../assets/vehicle1.svg"),
+            iconSize: [32, 32]
+        })
+        axios.get('/api/vehicles/')
+            .then(response => {
+                this.$store.state.vehicleList = response.data.sort(function (a, b) {
+                    return a.id < b.id ? -1 : 1
+                })
+                this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.$store.state.vehicleList[0].lat, this.$store.state.vehicleList[0].lon], {
+                    icon: vehicleIcon
+                })
+            }).catch(error => {
+                console.log('Error on Authentication')
+                this.error = error
+                console.log(error)
+            })
     },
 
     mounted() {
@@ -124,6 +116,18 @@ export default {
 
         this.addMarker()
         this.addRouting(this.waypoints)
+    },
+
+    updated() {
+        let lat = (this.vehicle._latlng.lat)
+        let lng = (this.vehicle._latlng.lng)
+
+        console.log('Lat: ', lat, 'Lng: ', lng)
+        
+        // setInterval(function () {
+            let vehiclePos = this.vehicle.setLatLng([lat, lng]).update()
+            console.log('vehicle Position: ', vehiclePos)
+        // }.bind(this), 1000)
     },
 
     methods: {
@@ -300,50 +304,19 @@ export default {
                 // SET New Routing
                 this.addRouting(this.waypoints)
                 this.totalDistance()
-
             }
         },
 
         totalDistance() {
-            control.on('routesfound', function (e) {
-                var routes = e.routes
-                var summary = routes[0].summary
-                this.km = summary.totalDistance / 1000
-                this.minutes = Math.round(summary.totalTime % 3600 / 60)
-                console.log('Total distance is ' + this.km + ' km and total time is ' + this.minutes + ' minutes')
+            control.on('routesfound', (e) => {
+                // 출발지와 도착지의 totalDistance
+                this.km = e.routes[0].summary.totalDistance / 1000
+                this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
-            this.warn = false
-            this.callBtn = true
-        },
 
-        getVehicle() {
-            // vehicle Icon 생성
-            let vehicleIcon = this.$utils.map.createIcon({
-                iconUrl: require("../assets/vehicle1.svg"),
-                iconSize: [32, 32]
-            })
-
-            axios.get('/api/vehicles/')
-                .then(response => {
-                    this.$store.state.vehicleList = response.data.sort(function (a, b) {
-                        return a.id < b.id ? -1 : 1
-                    })
-
-                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.$store.state.vehicleList[0].lat, this.$store.state.vehicleList[0].lon], {
-                        icon: vehicleIcon
-                    })
-
-                    // 얘네를 1초마다 업데이트
-                    // 어떻게 해줘야할까...
-                    console.log('Vehicle Lat: ', this.vehicle._latlng.lat)
-                    console.log('Vehicle Lng: ', this.vehicle._latlng.lng)
-                }).catch(error => {
-                    console.log('Error on Authentication')
-                    this.error = error
-                    console.log(error)
-                })
+            this.warn = false,
+                this.callBtn = true
         }
-
     }
 }
 </script>
