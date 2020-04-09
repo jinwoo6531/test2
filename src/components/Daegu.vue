@@ -274,17 +274,19 @@ export default {
                 }
                 // SET New Routing
                 this.addRouting(this.waypoints)
-
-                control.on('routesfound', function (e) {
-                    var routes = e.routes
-                    var summary = routes[0].summary
-                    this.km = summary.totalDistance / 1000
-                    this.minutes = Math.round(summary.totalTime % 3600 / 60)
-                    console.log('Total distance is ' + this.km + ' km and total time is ' + this.minutes + ' minutes')
-                }).addTo(this.map)
-                this.warn = false
-                this.callBtn = true
+                this.totalDistance()
             }
+        },
+
+        totalDistance() {
+            control.on('routesfound', (e) => {
+                // 출발지와 도착지의 totalDistance
+                this.km = e.routes[0].summary.totalDistance / 1000
+                this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
+            }).addTo(this.map)
+
+            this.warn = false,
+            this.callBtn = true
         },
 
         getVehicle() {
