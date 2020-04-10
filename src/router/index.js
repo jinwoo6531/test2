@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import SignUp from '@/views/SignUp'
+import AgreeCheck from '@/views/AgreeCheck'
+import InfoStep from '@/views/InfoStep'
 
 Vue.use(Router)
 
@@ -17,46 +19,55 @@ const Sangam = () => import( /* webpackChunkName: "Sangam" */ '@/components/Sang
 const router = new Router({
   mode: 'history',
   routes: [{
-    path: '/',
-    name: 'Home',
-    component: Home,
-    // 페이지를 볼 때 인증이 필요한지 등의 라우트 고유 정보를 설정
-    meta: {
-      requireAuth: true
+      path: '/',
+      name: 'Home',
+      component: Home,
+      // 페이지를 볼 때 인증이 필요한지 등의 라우트 고유 정보를 설정
+      meta: {
+        requireAuth: true
+      },
+      children: [{
+          path: '/gunsan',
+          name: 'Gunsan',
+          component: Gunsan
+        },
+        {
+          path: '/daegu',
+          name: 'Daegu',
+          component: Daegu
+        },
+        {
+          path: '/sejong',
+          name: 'Sejong',
+          component: Sejong
+        },
+        {
+          path: '/sangam',
+          name: 'Sangam',
+          component: Sangam
+        },
+      ]
     },
-    children: [
-      {
-        path: '/gunsan',
-        name: 'Gunsan',
-        component: Gunsan
-      },
-      {
-        path: '/daegu',
-        name: 'Daegu',
-        component: Daegu
-      },
-      {
-        path: '/sejong',
-        name: 'Sejong',
-        component: Sejong
-      },
-      {
-        path: '/sangam',
-        name: 'Sangam',
-        component: Sangam
-      },
-    ]
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/signup',
-    name: 'signUp',
-    component: SignUp
-  }
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/signup',
+      name: 'signUp',
+      component: SignUp
+    },
+    {
+      path: '/agreecheck',
+      name: 'AgreeCheck',
+      component: AgreeCheck
+    }, 
+    {
+      path: '/infostep',
+      name: 'InfoStep',
+      component: InfoStep
+    }
   ]
 })
 
