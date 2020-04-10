@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import L from "leaflet"
+//import L from "leaflet"
 import axios from 'axios'
 var control
 
@@ -289,7 +289,7 @@ export default {
             this.callBtn = true
         },
 
-        getVehicle() {
+        /*getVehicle() {
             var request_count = 0
             setInterval(function () {
                 request_count++
@@ -321,9 +321,9 @@ export default {
                         console.log(error)
                     })
             }.bind(this), 1000)
-        }
+        }*/
 
-        /*async getVehicle() {
+        async getVehicle() {
             // vehicle Icon 생성
             let vehicleIcon = this.$utils.map.createIcon({
                 iconUrl: require("../assets/vehicle1.svg"),
@@ -343,16 +343,14 @@ export default {
                         icon: vehicleIcon
                     })
 
+                    // update function
                     setInterval(function () {
                         axios.get('/api/vehicles/')
                             .then((response) => {
                                 var ourVehicle = response.data.sort(function (a, b) {
                                     return a.id < b.id ? -1 : 1
                                 })
-                                //if (this.vehicle != undefined)
-                                   // this.map.removeLayer(this.vehicle)
-                                    console.log(this.vehicle)
-                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon]);//.update()
+                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon]);
 
                             }).catch(error => {
                                 console.log(error)
@@ -364,7 +362,7 @@ export default {
                     this.error = error
                     console.log(error)
                 }) 
-        }*/
+        }
     }
 }
 </script>
