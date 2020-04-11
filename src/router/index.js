@@ -6,6 +6,7 @@ import Login from '@/views/Login'
 import SignUp from '@/views/SignUp'
 import AgreeCheck from '@/views/AgreeCheck'
 import InfoStep from '@/views/InfoStep'
+import Sign from '@/views/sign'
 
 Vue.use(Router)
 
@@ -67,6 +68,11 @@ const router = new Router({
       path: '/infostep',
       name: 'InfoStep',
       component: InfoStep
+    },
+    {
+      path: '/sign',
+      name: 'Sign',
+      component: Sign
     }
   ]
 })

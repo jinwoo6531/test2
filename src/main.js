@@ -13,6 +13,9 @@ import 'firebase/database' // for realtime database
 import 'firebase/firestore' // for cloud firestore
 import 'firebase/messaging' // for cloud messaging
 import 'firebase/functions' // for cloud functions
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate);
 
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
