@@ -16,11 +16,17 @@
         </v-layout>
         <v-layout>
             <v-flex>
-                <p><input type="checkbox" @click="selectAll" v-model="allSelected">전체 동의</p>
-                <div v-for="agree in agreeList" :key="agree.id">
-                    <p><input type="checkbox" v-model="selectIds" @click="select" :value="agree.id">{{ agree.name }}</p>
-                </div>
-                <v-btn cols="12" style="width: 100%;" @click="next">다음</v-btn>
+                <form>
+                    <input type="checkbox" @click="selectAll" v-model="allSelected" /> 전체동의
+
+                    <div v-for="agree1 in agreeList1" :key="agree1.id">
+                        <input type="checkbox" v-model="selectIds1" @click="select" :value="agree1.id">{{ agree1.name }}
+                    </div>
+                    <div v-for="agree2 in agreeList2" :key="agree2.id">
+                        <input type="checkbox" v-model="selectIds2" @click="select" :value="agree2.id">{{ agree2.name }}
+                    </div>
+                    <v-btn cols="12" style="width: 100%;" @click="next">다음</v-btn>
+                </form>
             </v-flex>
         </v-layout>
     </v-container>
@@ -31,8 +37,7 @@
 export default {
     data() {
         return {
-            agreeList: [
-                {
+            agreeList1: [{
                     "id": "1",
                     "name": "(필수) 개인정보 수집 및 이용에 대한 동의"
                 },
@@ -43,8 +48,9 @@ export default {
                 {
                     "id": "3",
                     "name": "(필수) 위치정보 탑승위치 제공 동의"
-                },
-                {
+                }
+            ],
+            agreeList2: [{
                     "id": "4",
                     "name": "(선택) 이벤트 및 마케팅 활용 동의"
                 },
@@ -53,27 +59,34 @@ export default {
                     "name": "(선택) 이벤트 알림 수신 동의"
                 }
             ],
-            selected: [],
+
             allSelected: false,
-            selectIds: []
+            selectIds1: [],
+            selectIds2: [],
         }
 
     },
+
     methods: {
-        selectAll: function () {
-            this.selectIds = [];
+        selectAll() {
+            this.selectIds1 = []
+            this.selectIds2 = []
 
             if (!this.allSelected) {
-                for (let i = 0; i < this.agreeList.length; i++) {
-                    this.selectIds.push(this.agreeList[i].id.toString());
+                for (let i = 0; i < this.agreeList1.length; i++) {
+                    this.selectIds1.push(this.agreeList1[i].id.toString())
+                }
+                for (let j = 0; j < this.agreeList2.length; j++) {
+                    this.selectIds2.push(this.agreeList2[j].id.toString())
                 }
             }
         },
-        select: function () {
-            this.allSelected = false;
+
+        select() {
+            this.allSelected = false
         },
+
         next() {
-            console.log(this.val)
             this.$router.replace('SignUp')
         }
     }
