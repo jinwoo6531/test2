@@ -8,6 +8,8 @@ import AgreeCheck from '@/views/AgreeCheck'
 import InfoStep from '@/views/InfoStep'
 import AgreeList from '@/views/AgreeList'
 import AccessPhone from '@/views/AccessPhone'
+import Register from '@/views/Register'
+import Dashboard from '@/views/Dashboard'
 
 Vue.use(Router)
 
@@ -17,9 +19,9 @@ const Gunsan = () => import( /* webpackChunkName: "Gunsan" */ '@/components/Guns
 const Daegu = () => import( /* webpackChunkName: "Daegu" */ '@/components/Daegu.vue')
 const Sejong = () => import( /* webpackChunkName: "Sejong" */ '@/components/Sejong.vue')
 const Sangam = () => import( /* webpackChunkName: "Sangam" */ '@/components/Sangam.vue')
-const Schedule = () => import(/* webpackChunkName: "Schedule" */ '@/components/Schedule')
-const Introduction = () => import(/* webpackChunkName: "Introduction" */ '@/components/Introduction')
-const FAQ = () => import(/* webpackChunkName: "FAQ" */ '@/components/FAQ')
+const Schedule = () => import( /* webpackChunkName: "Schedule" */ '@/components/Schedule')
+const Introduction = () => import( /* webpackChunkName: "Introduction" */ '@/components/Introduction')
+const FAQ = () => import( /* webpackChunkName: "FAQ" */ '@/components/FAQ')
 
 const router = new Router({
   mode: 'history',
@@ -82,7 +84,7 @@ const router = new Router({
       path: '/agreecheck',
       name: 'AgreeCheck',
       component: AgreeCheck
-    }, 
+    },
     {
       path: '/infostep',
       name: 'InfoStep',
@@ -97,7 +99,17 @@ const router = new Router({
       path: '/accessphone',
       name: 'AccessPhone',
       component: AccessPhone
-    }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard
+  }
   ]
 })
 

@@ -2,56 +2,84 @@
 <v-container>
     <v-layout row wrap>
         <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <form>
-                <input type="text" v-model="number" placeholder="+82">
-                <button type="button" @click="phoneAuth">보내기</button>
-            </form>
+            +82<input type="number" v-model="phNo" placeholder="전화번호">
+            <button id="sign-in-button" @click="sendOtp">보내기</button>
+            <div id="recaptcha-container"></div>
             <br>
-            <form>
-                <input type="text" v-model="verficationCode" placeholder="인증번호를 입력해주세요.">
-                <button type="button" @click="codeverify"></button>
-            </form>
+            <input type="number" v-model="otp" placeholder="인증번호"/>
+            <button @click="verifyOtp">확인</button><br>
+            <button @click="sendOtp">재전송</button>
         </v-flex>
     </v-layout>
 </v-container>
 </template>
 
-
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
     name: 'AccessPhone',
 
     data: () => ({
-        number: 0,
-        verficationCode: 0,
+        phoneNumber: '',
+        phNo: '',
+        appVerifier: '',
+        otp: '',
         coderesult: 0
     }),
 
     methods: {
-        phoneAuth() {
-            firebase.auth().signInWithPhoneNumber(this.number).then(confirmationResult => {
+        sendOtp() {
+            if(this.phNo.length != 10) {
+                alert('전화번호 형식을 지켜주세요!')
+            } else {
+                let countryCode = '+82' // Korea
+                this.phoneNumber = countryCode + this.phNo
+            }
+            firebase.auth().signInWithPhoneNumber(this.phoneNumber, this.appVerifier)
+            .then(confirmationResult => {
+                // SMS 전송
                 window.confirmationResult = confirmationResult
-                this.coderesult = confirmationResult;
-                console.log(this.coderesult)
-                alert("메세지를 전송하였습니다.")
+                alert('메세지를 전송하였습니다!')
             }).catch(error => {
-                console.log(error)
+                // SMS 전송 실패
+                alert(error + '메세지 전송에 실패하였습니다!')
             })
         },
 
-        codeverify() {
-            this.coderesult.confirm()
-            .then(result => {
-                alert('인증이 완료되었습니다.')
-                var user = result.user;
-                console.log(user)
-            }).catch(error => {
-                console.log(error.message)
-            })
+        verifyOtp() {
+            if(this.phNo.length != 10 || this.otp.length != 6) {
+                alert('잘못된 전화번호 / 인증코드 형식 입니다.')
+            } else {
+                window.confirmationResult.confirm(this.otp)
+                .then(result => {
+                    var user = result.user
+                    console.log(user)
+                }).catch(error => {
+                    alert(error + '인증코드가 잘못되었습니다.')
+                })
+            }
+        },
+        
+        initReCaptcha() {
+            setTimeout(() => {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'invisible',
+                    'callback': function (response) {
+                        console.log(response)
+                    },
+                    'expired-callback': function () {
+                    }
+                });
+                //
+                this.appVerifier = window.recaptchaVerifier
+            }, 1000)
         }
+    },
+
+    created() {
+        this.initReCaptcha()
     }
 }
 </script>

@@ -27,28 +27,27 @@ var username = 'yjhyeon@aspringcloud.com'
 var password = '9772dbwls!'
 axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password)
 
-let app = ''
-
 var firebaseConfig = {
-  apiKey: "AIzaSyB1-ghXWkaklsBqRGl_RGes9GiO2YF50Y0",
-  authDomain: "tasio-19a7e.firebaseapp.com",
-  databaseURL: "https://tasio-19a7e.firebaseio.com",
-  projectId: "tasio-19a7e",
-  storageBucket: "tasio-19a7e.appspot.com",
-  messagingSenderId: "557365782718",
-  appId: "1:557365782718:web:6230565419ccea0a29d6ef",
-  measurementId: "G-509ZP8CB3K"
+  apiKey: "AIzaSyAv5CnjBSIPh9v3FZvV7auV9IBmUaaJl_c",
+    authDomain: "tasio-fcef3.firebaseapp.com",
+    databaseURL: "https://tasio-fcef3.firebaseio.com",
+    projectId: "tasio-fcef3",
+    storageBucket: "tasio-fcef3.appspot.com",
+    messagingSenderId: "289638736893",
+    appId: "1:289638736893:web:628d81b525bd8c9743ef94",
+    measurementId: "G-6KSNTBC2KL"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-firebase.auth().onAuthStateChanged(() => {
-  if (!app) {
-    app = new Vue({
-      router,
-      store,
-      vuetify,
-      render: h => h(App)
-    }).$mount('#app')
-  }
-})
+firebase.auth().onAuthStateChanged(user => {
+  store.dispatch("fetchUser", user);
+});
+
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')
