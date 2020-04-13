@@ -1,38 +1,36 @@
 <template>
-<v-app>
-    <v-container>
-        <v-layout row wrap>
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-                <v-btn @click="jump">건너뛰기</v-btn>
-            </v-flex>
-        </v-layout>
+<v-container>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-btn @click="jump">건너뛰기</v-btn>
+        </v-flex>
+    </v-layout>
 
-        <v-layout row wrap>
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-                <v-carousel v-model="model" :continuous="false" :cycle="cycle" :show-arrows="false" hide-delimiters>
-                    <v-carousel-item v-for="(content, i) in contents" :key="content">
-                        <v-sheet height="70%" tile>
-                            <v-row class="fill-height" align="center" justify="center">
-                                <div class="display-3">Tasio {{ i + 1 }}</div>
-                            </v-row>
-                        </v-sheet>
-                        <v-sheet height="30%" tile>
-                            <v-row class="fill-height" align="center" justify="center">
-                                {{ content }}
-                            </v-row>
-                        </v-sheet>
-                    </v-carousel-item>
-                </v-carousel>
-            </v-flex>
-        </v-layout>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-carousel v-model="model" :continuous="false" :cycle="cycle" :show-arrows="false" hide-delimiters>
+                <v-carousel-item v-for="(content, i) in contents" :key="content">
+                    <v-sheet height="70%" tile>
+                        <v-row class="fill-height" align="center" justify="center">
+                            <div class="display-3">Tasio {{ i + 1 }}</div>
+                        </v-row>
+                    </v-sheet>
+                    <v-sheet height="30%" tile>
+                        <v-row class="fill-height" align="center" justify="center">
+                            {{ content }}
+                        </v-row>
+                    </v-sheet>
+                </v-carousel-item>
+            </v-carousel>
+        </v-flex>
+    </v-layout>
 
-        <v-layout row wrap>
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-                <v-btn style="width: 100%;" @click="model++">다음</v-btn>
-            </v-flex>
-        </v-layout>
-    </v-container>
-</v-app>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-btn style="width: 100%;" @click="model++">다음</v-btn>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>

@@ -38,6 +38,27 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            <v-list-item link to="/schedule">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        운행 시간표
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/introduction">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        타시오 소개
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/faq">
+                <v-list-item-content>
+                    <v-list-item-title>
+                        자주 묻는 질문
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
             <v-list-item link @click="logout">
                 <v-list-item-content>
                     <v-list-item-title>

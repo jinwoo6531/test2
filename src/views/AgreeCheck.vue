@@ -22,7 +22,7 @@
                 </div>
 
                 <div v-for="agree2 in agreeList2" :key="agree2.id">
-                    <input type="checkbox" v-model="selectIds2" @click="select" :value="agree2.id">{{ agree2.name }}
+                    <input type="checkbox" v-model="selectIds2" @click="select" :value="agree2.id"> {{ agree2.name }}
                 </div>
                 <button>동의하고 가입하기</button>
                 <!-- <v-btn cols="12" style="width: 100%;" @click="next">다음</v-btn> -->

@@ -16,6 +16,9 @@ const Gunsan = () => import( /* webpackChunkName: "Gunsan" */ '@/components/Guns
 const Daegu = () => import( /* webpackChunkName: "Daegu" */ '@/components/Daegu.vue')
 const Sejong = () => import( /* webpackChunkName: "Sejong" */ '@/components/Sejong.vue')
 const Sangam = () => import( /* webpackChunkName: "Sangam" */ '@/components/Sangam.vue')
+const Schedule = () => import(/* webpackChunkName: "Schedule" */ '@/components/Schedule')
+const Introduction = () => import(/* webpackChunkName: "Introduction" */ '@/components/Introduction')
+const FAQ = () => import(/* webpackChunkName: "FAQ" */ '@/components/FAQ')
 
 const router = new Router({
   mode: 'history',
@@ -47,6 +50,21 @@ const router = new Router({
           name: 'Sangam',
           component: Sangam
         },
+        {
+          path: '/schedule',
+          name: 'Schedule',
+          component: Schedule
+        },
+        {
+          path: '/introduction',
+          name: 'Introduction',
+          component: Introduction
+        },
+        {
+          path: '/faq',
+          name: 'FAQ',
+          component: FAQ
+        }
       ]
     },
     {
