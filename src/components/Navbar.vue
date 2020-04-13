@@ -49,7 +49,7 @@ export default {
                 .signOut()
                 .then(() => {
                     this.$router.replace({
-                        name: "home"
+                        name: "Home"
                     });
                 });
         }
