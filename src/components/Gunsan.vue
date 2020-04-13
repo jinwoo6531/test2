@@ -1,13 +1,11 @@
 <template>
-      <div class="map-container">
-        <v-container class="grey lighten-5 pa-0">
-            <v-row no-gutters>
-                <v-col cols="12" xs="12" sm="12">
-                    <v-card id="map-container" class="pa-0" height="236px" outlined tile></v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-    </div>
+<v-container class="map-container" fluid grid-list-md>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-card id="map-container" class="pa-0" height="236px" outlined tile></v-card>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>

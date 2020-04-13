@@ -1,16 +1,19 @@
 <template>
-<v-flex xs12 md7 offset-md1>
-    <div class="login">
-        <h3>Login</h3>
-        <v-form>
-            <v-text-field type="text" v-model="email" placeholder="Email"></v-text-field>
-            <v-text-field type="password" v-model="password" placeholder="Password"></v-text-field>
-        </v-form>
-        <v-btn @click="login">Connection</v-btn>
-        <p>You don't have an account ? You can <router-link to="/signup">create one</router-link>
-        </p>
-    </div>
-</v-flex>
+<v-container fluid grid-list-md>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-card class="login">
+                <v-form>
+                    <v-text-field type="text" v-model="email" placeholder="Email"></v-text-field>
+                    <v-text-field type="password" v-model="password" placeholder="Password"></v-text-field>
+                    <v-btn style="width: 100%;" @click="login">Connection</v-btn>
+                </v-form>
+                <p>You don't have an account ? You can <router-link to="/signup">create one</router-link>
+                </p>
+            </v-card>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -27,15 +30,15 @@ export default {
 
     methods: {
         login() {
-          firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-            // eslint-disable-next-line no-unused-vars
-            (user) => {
-              this.$router.replace('/')
-            },
-            (error) => {
-              alert('Oops. ' + error.message)
-            }
-          )
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+                // eslint-disable-next-line no-unused-vars
+                (user) => {
+                    this.$router.replace('/')
+                },
+                (error) => {
+                    alert('Oops. ' + error.message)
+                }
+            )
         }
     }
 }

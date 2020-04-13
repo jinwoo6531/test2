@@ -1,14 +1,14 @@
 <template>
 <v-app>
     <v-container>
-        <v-row no-gutters>
-            <v-col cols="12" xs="12" sm="12">
+        <v-layout row wrap>
+            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
                 <v-btn @click="jump">건너뛰기</v-btn>
-            </v-col>
-        </v-row>
+            </v-flex>
+        </v-layout>
 
-        <v-row no-gutters>
-            <v-col cols="12" xs="12" sm="12">
+        <v-layout row wrap>
+            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
                 <v-carousel v-model="model" :continuous="false" :cycle="cycle" :show-arrows="false" hide-delimiters>
                     <v-carousel-item v-for="(content, i) in contents" :key="content">
                         <v-sheet height="70%" tile>
@@ -23,14 +23,14 @@
                         </v-sheet>
                     </v-carousel-item>
                 </v-carousel>
-            </v-col>
-        </v-row>
+            </v-flex>
+        </v-layout>
 
-        <v-row justify="space-around">
-            <v-col cols="12" xs="12" sm="12">
+        <v-layout row wrap>
+            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
                 <v-btn style="width: 100%;" @click="model++">다음</v-btn>
-            </v-col>
-        </v-row>
+            </v-flex>
+        </v-layout>
     </v-container>
 </v-app>
 </template>

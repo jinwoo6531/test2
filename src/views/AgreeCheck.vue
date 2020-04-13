@@ -1,36 +1,35 @@
 <template>
-<v-app>
-    <v-container>
-        <v-layout column>
-            <v-flex>
-                <v-sheet>추가 동의가 필요합니다.</v-sheet>
-            </v-flex>
-            <v-flex>
-                <div>
-                    <ul>
-                        <li>전체동의는 필수 및 선택정보에 대한 동의도 포함되어 있으며, 개별적으로도 동의를 선택할 수 있습니다.</li>
-                        <li>선택항목에 대한 동의를 거부하는 경우에도 서비스 이용이 가능합니다.</li>
-                    </ul>
+<v-container class="map-container" fluid grid-list-md>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <h3>추가 동의가 필요합니다.</h3>
+            <div>
+                <ul>
+                    <li>전체동의는 필수 및 선택정보에 대한 동의도 포함되어 있으며, 개별적으로도 동의를 선택할 수 있습니다.</li>
+                    <li>선택항목에 대한 동의를 거부하는 경우에도 서비스 이용이 가능합니다.</li>
+                </ul>
+            </div>
+        </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-form @submit.prevent="handleSubmit">
+                <input type="checkbox" @click="selectAll" v-model="allSelected" /> 전체동의
+                
+                <div v-for="agree1 in agreeList1" :key="agree1.id">
+                    <input type="checkbox" id="necessary" name="necessary" v-validate="'required'" v-model="selectIds1" @click="select" :value="agree1.id"> {{ agree1.name }}
+                    <span class="help is-danger" v-show="errors.has('necessary')">{{ errors.first('necessary') }}</span>
                 </div>
-            </v-flex>
-        </v-layout>
-        <v-layout>
-            <v-flex>
-                <form>
-                    <input type="checkbox" @click="selectAll" v-model="allSelected" /> 전체동의
 
-                    <div v-for="agree1 in agreeList1" :key="agree1.id">
-                        <input type="checkbox" v-model="selectIds1" @click="select" :value="agree1.id">{{ agree1.name }}
-                    </div>
-                    <div v-for="agree2 in agreeList2" :key="agree2.id">
-                        <input type="checkbox" v-model="selectIds2" @click="select" :value="agree2.id">{{ agree2.name }}
-                    </div>
-                    <v-btn cols="12" style="width: 100%;" @click="next">다음</v-btn>
-                </form>
-            </v-flex>
-        </v-layout>
-    </v-container>
-</v-app>
+                <div v-for="agree2 in agreeList2" :key="agree2.id">
+                    <input type="checkbox" v-model="selectIds2" @click="select" :value="agree2.id">{{ agree2.name }}
+                </div>
+                <button>동의하고 가입하기</button>
+                <!-- <v-btn cols="12" style="width: 100%;" @click="next">다음</v-btn> -->
+            </v-form>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -63,11 +62,21 @@ export default {
             allSelected: false,
             selectIds1: [],
             selectIds2: [],
+            submitted: false
         }
 
     },
 
     methods: {
+        handleSubmit() {
+            this.submitted = true;
+            this.$validator.validate().then(valid => {
+                if (valid) {
+                    alert("SUCCESS!! :-)\n\n" + JSON.stringify(this.user));
+                }
+            });
+        },
+
         selectAll() {
             this.selectIds1 = []
             this.selectIds2 = []

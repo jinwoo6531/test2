@@ -56,13 +56,7 @@
     </v-app-bar>
 
     <v-content>
-        <v-container class="fill-height" fluid>
-            <v-row class="text-center" align="center" justify="center">
-                <v-col class="text-center" cols="12">
-                    <router-view />
-                </v-col>
-            </v-row>
-        </v-container>
+        <router-view></router-view>
     </v-content>
 
     <v-footer style="border-top: 1px solid #DBDBDB;" color="#FFF" app>

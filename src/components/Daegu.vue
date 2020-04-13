@@ -1,34 +1,30 @@
 <template>
-<div class="map-container">
-    <v-container class="pa-0">
-        <v-row no-gutters>
-            <v-col cols="12" xs="12" sm="12">
-                <v-card id="map-container" class="pa-0" height="236px" outlined tile></v-card>
-            </v-col>
-        </v-row>
-    </v-container>
-    <v-container class="pa-2">
-        <v-row no-gutters>
-            <v-col class="d-flex" cols="12" sm="12" style="border: 1px solid #ddd">
+<v-container class="map-container" fluid grid-list-md>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <v-card id="map-container" class="pa-0" height="236px" outlined tile></v-card>
+        </v-flex>
+        <v-flex class="pa-2" xs12 sm12 md12 lg12 xl2>
+            <v-flex style="border: 1px solid #ddd" x12 sm12 md12 lg12 xl12>
                 <select v-model="start" @change="onChange()" style="display: inline-block; width: 100%; height: 100%;">
                     <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
                 </select>
-            </v-col>
-            <v-col class="d-flex" cols="12" sm="12" style="border: 1px solid #ddd">
+            </v-flex>
+            <v-flex style="border: 1px solid #ddd" x12 sm12 md12 lg12 xl12>
                 <select v-model="end" @change="onChange()" style="display: inline-block; width: 100%; height: 100%;">
                     <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
                 </select>
-            </v-col>
-            <v-col>
+            </v-flex>
+            <v-flex class="text-center" x12 sm12 md12 lg12 xl12>
                 <p v-if="warn">승차지는 해당 노선 내에서 선택해주세요.</p>
                 <p v-else>약 {{ km }}km (약 {{ minutes }}분 소요)</p>
-            </v-col>
-            <v-col v-if="callBtn" class="d-flex" cols="12" sm="12">
-                <v-btn>호출하기</v-btn>
-            </v-col>
-        </v-row>
-    </v-container>
-</div>
+            </v-flex>
+            <v-flex v-if="callBtn" x12 sm12 md12 lg12 xl12>
+                <v-btn style="width: 100%;">호출하기</v-btn>
+            </v-flex>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -286,7 +282,7 @@ export default {
             }).addTo(this.map)
 
             this.warn = false,
-            this.callBtn = true
+                this.callBtn = true
         },
 
         /*getVehicle() {
@@ -361,7 +357,7 @@ export default {
                     console.log('Error on Authentication')
                     this.error = error
                     console.log(error)
-                }) 
+                })
         }
     }
 }
