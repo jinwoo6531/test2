@@ -3,23 +3,23 @@
     <v-layout row wrap>
         <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
             <v-form @submit.prevent="handleSubmit">
-                <div>
+                <div style="width: 100%;">
                     <label for="email">Email</label>
-                    <input type="email" v-model="user.email" v-validate="'required|email'" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.has('email') }" />
+                    <input type="email" v-model="user.email" v-validate="'required|email'" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && errors.has('email') }" style="width: 100%;">
                     <div v-if="submitted && errors.has('email')" class="invalid-feedback">
                         {{ errors.first("email") }}
                     </div>
                 </div>
-                <div>
+                <div style="width: 100%;">
                     <label for="password">Password</label>
-                    <input type="password" v-model="user.password" v-validate="{ required: true, min: 6 }" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.has('password') }" />
+                    <input type="password" v-model="user.password" v-validate="{ required: true, min: 6 }" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.has('password') }" style="width: 100%;">
                     <div v-if="submitted && errors.has('password')" class="invalid-feedback">
                         {{ errors.first("password") }}
                     </div>
                 </div>
-                <div>
+                <div style="width: 100%;">
                     <label for="name">Name</label>
-                    <input type="text" v-model="user.name" v-validate="'required'" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && errors.has('name') }" />
+                    <input type="text" v-model="user.name" v-validate="'required'" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && errors.has('name') }" style="width: 100%;">
                     <div v-if="submitted && errors.has('name')" class="invalid-feedback">
                         {{ errors.first("name") }}
                     </div>
@@ -42,18 +42,19 @@
                         </v-date-picker>
                     </v-menu>
                 </div>
-                <!-- <v-btn @click="signUp">Sign Up</v-btn> -->
                 <button>가입하기</button>
             </v-form>
-            <span><router-link to="/login">로그인</router-link> 페이지로 돌아가기</span>
+            <span>
+                <router-link to="/login">로그인</router-link> 페이지로 돌아가기
+            </span>
         </v-flex>
     </v-layout>
 </v-container>
 </template>
 
 <script>
-// import firebase from 'firebase/app'
-// import 'firebase/auth'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 export default {
     name: 'signUp',
@@ -82,23 +83,16 @@ export default {
             this.submitted = true;
             this.$validator.validate().then(valid => {
                 if (valid) {
-                    alert("SUCCESS!! :-)\n\n" + JSON.stringify(this.user));
+                    firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+                        .then(user => {
+                            alert(user + '님, 환영합니다.')
+                        }).catch(error => {
+                            alert('회원가입에 실패하였습니다.' + error.message)
+                        })
+                    this.$router.replace('login')
                 }
             });
         }
-
-        // signUp() {
-        //     firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        //         // eslint-disable-next-line no-unused-vars
-        //         function (user) {
-        //             alert('You account has been created!')
-        //         },
-        //         function (error) {
-        //             alert('Oops' + error.message)
-        //         }
-        //     )
-        //     this.$router.replace('login')
-        // }
     }
 }
 </script>

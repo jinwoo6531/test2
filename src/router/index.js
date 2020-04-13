@@ -6,7 +6,8 @@ import Login from '@/views/Login'
 import SignUp from '@/views/SignUp'
 import AgreeCheck from '@/views/AgreeCheck'
 import InfoStep from '@/views/InfoStep'
-import Sign from '@/views/sign'
+import AgreeList from '@/views/AgreeList'
+import AccessPhone from '@/views/AccessPhone'
 
 Vue.use(Router)
 
@@ -88,9 +89,14 @@ const router = new Router({
       component: InfoStep
     },
     {
-      path: '/sign',
-      name: 'Sign',
-      component: Sign
+      path: '/agreelist',
+      name: 'AgreeList',
+      component: AgreeList
+    },
+    {
+      path: '/accessphone',
+      name: 'AccessPhone',
+      component: AccessPhone
     }
   ]
 })
