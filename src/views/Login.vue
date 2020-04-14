@@ -52,18 +52,13 @@ export default {
     },
     methods: {
         submit() {
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(this.form.email, this.form.password)
-                .then(data => {
-                    console.log(data)
-                    this.$router.replace({
-                        name: "Dashboard"
-                    });
-                })
-                .catch(err => {
-                    this.error = err.message;
-                });
+            firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+            .then(data => {
+                console.log(data)
+                this.$router.replace({name: "Dashboard"});
+            }).catch(err => {
+                this.error = err.message;
+            });
         }
     }
 };

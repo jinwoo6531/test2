@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+// import firebase from 'firebase/app'
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
@@ -8,8 +8,11 @@ import AgreeCheck from '@/views/AgreeCheck'
 import InfoStep from '@/views/InfoStep'
 import AgreeList from '@/views/AgreeList'
 import AccessPhone from '@/views/AccessPhone'
+
+import SignIn from '@/views/SignIn'
 import Register from '@/views/Register'
 import Dashboard from '@/views/Dashboard'
+import AccessCode from '@/views/AccessCode'
 
 Vue.use(Router)
 
@@ -100,6 +103,12 @@ const router = new Router({
       name: 'AccessPhone',
       component: AccessPhone
     },
+
+    {
+      path: '/signin',
+      name: 'signIn',
+      component: SignIn
+    },
     {
       path: '/register',
       name: 'Register',
@@ -109,11 +118,16 @@ const router = new Router({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard
-  }
+    },
+    {
+      path: '/accesscode',
+      name: 'AccessCode',
+      component: AccessCode
+    },
   ]
 })
 
-router.beforeEach((to, from, next) => {
+/* router.beforeEach((to, from, next) => {
   // Firebase에서 현재 사용자를 가져오는 기능
   // 현재 로그인 한 사용자를 다시 보낸다.
   // 사용자가 로그인하지 않은 경우 null
@@ -127,6 +141,6 @@ router.beforeEach((to, from, next) => {
   else if (!requireAuth && currentUser) next('home')
   // 인증이 필요하지 않은 라우트면 next()로 이동
   else next()
-})
+}) */
 
 export default router

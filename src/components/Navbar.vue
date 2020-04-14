@@ -16,7 +16,7 @@
                 </template>
                 <template v-else>
                     <li class="nav-item">
-                        <router-link to="login" class="nav-link">Login</router-link>
+                        <router-link to="accessphone" class="nav-link">Login</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="register" class="nav-link">Register</router-link>
@@ -49,7 +49,7 @@ export default {
                 .signOut()
                 .then(() => {
                     this.$router.replace({
-                        name: "Home"
+                        name: "SignIn"
                     });
                 });
         }
