@@ -1,5 +1,6 @@
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import * as firebase from "firebase/app"
+import "firebase/auth"
+import router from '../../router'
 
 const state = {
   info: {
@@ -36,23 +37,25 @@ const actions = {
       });
   },
 
-  verifyOtp(_, {
-    otp
-  }) {
-    console.log(window.confirmationResult)
-    if (otp.length != 6) {
-      alert("잘못된 인증코드 형식 입니다.");
-    } else {
-      window.confirmationResult
-        .confirm(otp)
-        .then(result => {
-          console.log(result);
-          alert("로그인 성공.");
+  verifyOtp(_, { otp }) {
+    window.confirmationResult
+      .confirm(otp)
+      .then(result => {
+        console.log('로그인 정보: ', result)
+        alert("로그인 성공.")
+
+        router.push({
+          name: "Register",
+          params: {
+            uid: result.user.uid
+          }
         })
-        .catch(error => {
-          alert(error + "인증코드가 잘못되었습니다.");
-        });
-    }
+        
+      })
+      .catch(error => {
+        alert(error + "인증코드가 잘못되었습니다.")
+        router.replace('AccessPhone')
+      });
   },
 
   initReCaptcha({

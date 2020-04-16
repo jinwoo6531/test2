@@ -1,32 +1,34 @@
 const state = {
     user: {
         loggedIn: false,
-        data: null
+        data: {}
     }
 }
+
 const getters = {
     user(state) {
         return state.user
     }
 }
+
 const mutations = {
     SET_LOGGED_IN(state, value) {
         state.user.loggedIn = value;
     },
+
     SET_USER(state, data) {
         state.user.data = data;
     }
 }
+
 const actions = {
-    fetchUser({
-        commit
-    }, user) {
+    fetchUser({commit}, user) {
         commit("SET_LOGGED_IN", user !== null);
         if (user) {
             commit("SET_USER", {
-                displayName: user.displayName,
-                email: user.email
-            });
+                uid: user.uid,
+                phoneNumber: user.phoneNumber
+            })
         } else {
             commit("SET_USER", null);
         }

@@ -1,52 +1,47 @@
 <template>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Register</div>
-                <div class="card-body">
-                    <div v-if="error" class="alert alert-danger">{{error}}</div>
-                    <form action="#" @submit.prevent="submit">
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name" value required autofocus v-model="form.name" />
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value required autofocus v-model="form.email" />
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required v-model="form.password" />
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">Register</button>
-                            </div>
-                        </div>
-                    </form>
+<v-container>
+    <v-layout row wrap>
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+            <h3>이제 마지막 단계에요</h3>
+            <p>제가 모시게 될 고객님은 어떤 분인가요?</p>
+            <form @submit.prevent="submit">
+                <div style="display: none">
+                    <label for="uid">uid</label>
+                    <input type="text" id="uid" name="uid" v-model="user.data.uid" />
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                <div>
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" value required autofocus v-model="form.name" />
+                </div>
+                <div>
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" value required autofocus v-model="form.email" />
+                </div>
+                <div>
+                    <label>성별</label>
+                    <input type="radio" id="gender" name="man" value="man" required v-model="form.gender" />
+                    <label for="man">남성</label>
+                    <input type="radio" id="gender" name="woman" value="woman" required v-model="form.gender" />
+                    <label for="woman">여성</label>
+                </div>
+                <div>
+                    <label for="birth">생년월일</label>
+                    <input type="number" id="birth" name="birth" required autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
+                </div>
+                <button type="submit">가입 완료하기</button>
+            </form>
+            <p v-if="error">{{ error }}</p>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
 import * as firebase from "firebase/app"
 import "firebase/auth"
+import {
+    mapGetters
+} from 'vuex'
 
 export default {
     data() {
@@ -54,26 +49,62 @@ export default {
             form: {
                 name: "",
                 email: "",
-                password: ""
+                gender: "",
+                birth: ""
             },
-            error: null
+            error: null,
+            items: []
         };
     },
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        })
+    },
+
     methods: {
-        submit() {
-            firebase
-                .auth()
-                .createUserWithEmailAndPassword(this.form.email, this.form.password)
-                .then(data => {
-                    data.user
-                        .updateProfile({
-                            displayName: this.form.name
-                        })
-                        .then(() => {});
+        async submit() {
+            const r = await firebase.firestore().collection('users').add({
+                uid: this.user.data.uid,
+                name: this.form.name,
+                email: this.form.email,
+                gender: this.form.gender,
+                birth: this.form.birth
+            })
+
+            this.form.name = ''
+            this.form.email = ''
+            this.form.gender = ''
+            this.form.birth = ''
+
+            await this.get()
+            console.log(r)
+        },
+
+        async get() {
+            const snapshot = await firebase.firestore().collection('users').get()
+
+            this.items = []
+            snapshot.forEach(v => {
+                const {
+                    uid,
+                    name,
+                    email,
+                    gender,
+                    birth
+                } = v.data()
+                this.items.push({
+                    uid,
+                    name,
+                    email,
+                    gender,
+                    birth,
+                    id: v.id
                 })
-                .catch(err => {
-                    this.error = err.message;
-                });
+            })
+            console.log("items: ", this.items)
+            console.log('snapshot: ', snapshot)
         }
     }
 };

@@ -24,6 +24,8 @@ export default {
                 this.$store.dispatch("verifyOtp", {
                     otp: this.otp
                 });
+            } else {
+                alert("잘못된 인증코드 형식 입니다.")
             }
         },
         

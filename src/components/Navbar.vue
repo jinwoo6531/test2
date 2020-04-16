@@ -1,25 +1,21 @@
 <template>
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container">
-        <router-link to="/" class="navbar-brand">Vue Firebase Auth</router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label>
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <router-link to="/" class="navbar-brand">Home</router-link>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav ml-auto">
+
                 <template v-if="user.loggedIn">
-                    <div class="nav-item">{{ user.data.displayName }}</div>
+                    <div class="nav-item">{{ user.data.phoneNumber }}</div>
                     <li class="nav-item">
-                        <a class="nav-link" @click.prevent="signOut">Sign out</a>
+                        <a @click.prevent="signOut">Sign out</a>
                     </li>
                 </template>
+
                 <template v-else>
-                    <li class="nav-item">
-                        <router-link to="accessphone" class="nav-link">Login</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link to="register" class="nav-link">Register</router-link>
+                    <li>
+                        <router-link to="/accessphone">Login</router-link>
                     </li>
                 </template>
             </ul>
@@ -29,29 +25,24 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from "vuex";
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import * as firebase from "firebase/app"
+import "firebase/auth"
+import { mapGetters } from "vuex"
 
 export default {
     computed: {
         ...mapGetters({
-            // map `this.user` to `this.$store.getters.user`
             user: "user"
         })
     },
+
     methods: {
         signOut() {
-            firebase
-                .auth()
-                .signOut()
-                .then(() => {
-                    this.$router.replace({
-                        name: "SignIn"
-                    });
-                });
+            firebase.auth().signOut()
+            .then(() => {
+                alert('로그아웃 되었습니다.')
+                this.$router.replace('AccessPhone')
+            });
         }
     }
 };

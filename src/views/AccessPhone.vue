@@ -42,7 +42,7 @@ export default {
                         params: {
                             phoneNumber: this.phoneNumber
                         }
-                    }, );
+                    });
                 });
         }
     },
