@@ -18,13 +18,6 @@
                     <input type="email" id="email" name="email" value required autofocus v-model="form.email" />
                 </div>
                 <div>
-                    <label>성별</label>
-                    <input type="radio" id="gender" name="man" value="man" required v-model="form.gender" />
-                    <label for="man">남성</label>
-                    <input type="radio" id="gender" name="woman" value="woman" required v-model="form.gender" />
-                    <label for="woman">여성</label>
-                </div>
-                <div>
                     <label for="birth">생년월일</label>
                     <input type="number" id="birth" name="birth" required autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </div>

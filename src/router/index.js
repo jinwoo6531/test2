@@ -1,14 +1,13 @@
 // import firebase from 'firebase/app'
 import Vue from 'vue'
 import Router from 'vue-router'
+import Splash from '@/views/Splash'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import SignUp from '@/views/SignUp'
 import AgreeCheck from '@/views/AgreeCheck'
 import InfoStep from '@/views/InfoStep'
-import AgreeList from '@/views/AgreeList'
 import AccessPhone from '@/views/AccessPhone'
-
 import SignIn from '@/views/SignIn'
 import Register from '@/views/Register'
 import Dashboard from '@/views/Dashboard'
@@ -29,6 +28,10 @@ const FAQ = () => import( /* webpackChunkName: "FAQ" */ '@/components/FAQ')
 const router = new Router({
   mode: 'history',
   routes: [{
+      path: '/splash',
+      name: 'Splash',
+      component: Splash
+    }, {
       path: '/',
       name: 'Home',
       component: Home,
@@ -92,11 +95,6 @@ const router = new Router({
       path: '/infostep',
       name: 'InfoStep',
       component: InfoStep
-    },
-    {
-      path: '/agreelist',
-      name: 'AgreeList',
-      component: AgreeList
     },
     {
       path: '/accessphone',

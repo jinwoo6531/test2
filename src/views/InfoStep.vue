@@ -1,8 +1,8 @@
 <template>
 <v-container>
     <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <v-btn @click="jump">건너뛰기</v-btn>
+        <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
+            <p style="color: #E61773; font-size: 14px; margin-right: 25px; margin-top: 13px;" @click="jump">건너뛰기</p>
         </v-flex>
     </v-layout>
 
@@ -11,13 +11,13 @@
             <v-carousel v-model="model" :continuous="false" :cycle="cycle" :show-arrows="false" hide-delimiters>
                 <v-carousel-item v-for="(content, i) in contents" :key="content">
                     <v-sheet height="70%" tile>
-                        <v-row class="fill-height" align="center" justify="center">
-                            <div class="display-3">Tasio {{ i + 1 }}</div>
+                        <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
+                            <img :src="require(`../assets/step${i + 1}.gif`)" />
                         </v-row>
                     </v-sheet>
                     <v-sheet height="30%" tile>
-                        <v-row class="fill-height" align="center" justify="center">
-                            {{ content }}
+                        <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
+                            <p style="color: #000">{{ content }}</p>
                         </v-row>
                     </v-sheet>
                 </v-carousel-item>
@@ -26,8 +26,8 @@
     </v-layout>
 
     <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <v-btn style="width: 100%;" @click="model++">다음</v-btn>
+        <v-flex class="d-flex justify-center" xs12 sm12 md12 lg12 xl2>
+            <v-btn style="width: 312px; height: 50px; background: #E61773; color: #FFF; font-size: 18px;" @click="model++">다음</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
