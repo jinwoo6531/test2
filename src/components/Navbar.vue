@@ -9,7 +9,7 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav ml-auto">
                 <template v-if="user.loggedIn">
-                    <div class="nav-item">{{user.data.displayName}}</div>
+                    <div class="nav-item">{{ user.data.displayName }}</div>
                     <li class="nav-item">
                         <a class="nav-link" @click.prevent="signOut">Sign out</a>
                     </li>
