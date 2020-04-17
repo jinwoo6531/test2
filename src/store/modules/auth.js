@@ -37,20 +37,26 @@ const actions = {
       });
   },
 
-  verifyOtp(_, { otp }) {
+  verifyOtp(_, {
+    otp
+  }) {
     window.confirmationResult
       .confirm(otp)
       .then(result => {
-        console.log('로그인 정보: ', result)
+        console.log('회원 level: ', result)
         alert("로그인 성공.")
-
-        router.push({
-          name: "Register",
-          params: {
-            uid: result.user.uid
-          }
-        })
-        
+        firebase.firestore().collection('users').get().then(function (querySnapshot) { // Promise 이용해서 해결하기
+          querySnapshot.forEach(function (doc) {
+            // 만약 있는 회원이라면
+            if (doc.id == result.user.uid) {
+              console.log('1. Dashboard로 이동하자')
+              router.replace('/dashboard')
+            } else { // 없는 회원이라면
+              console.log('2. Register로 이동하자')
+              router.replace('/register')
+            }
+          });
+        });
       })
       .catch(error => {
         alert(error + "인증코드가 잘못되었습니다.")

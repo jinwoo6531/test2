@@ -4,9 +4,10 @@
         <div class="col-md-8">
             <div class="card">
                 <navbar></navbar>
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">TASIO TEST</div>
                 <div class="card-body">
-                    <div v-if="user.loggedIn" class="alert alert-success" role="alert">You are logged in!</div>
+                    <div v-if="user.loggedIn">로그인 상태!</div>
+                    <div v-else>로그아웃 상태!</div>
                 </div>
             </div>
         </div>

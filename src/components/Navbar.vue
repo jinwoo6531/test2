@@ -1,22 +1,15 @@
 <template>
-<nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-    <div class="container">
+<nav>
+    <div>
         <router-link to="/" class="navbar-brand">Home</router-link>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-
+        <div>
+            <ul>
                 <template v-if="user.loggedIn">
-                    <div class="nav-item">{{ user.data.phoneNumber }}</div>
-                    <li class="nav-item">
-                        <a @click.prevent="signOut">Sign out</a>
-                    </li>
+                    <div>{{ user.data.phoneNumber }}</div>
+                    <li><a @click.prevent="signOut">Sign out</a></li>
                 </template>
-
                 <template v-else>
-                    <li>
-                        <router-link to="/accessphone">Login</router-link>
-                    </li>
+                    <li><router-link to="/accessphone">Login</router-link></li>
                 </template>
             </ul>
         </div>

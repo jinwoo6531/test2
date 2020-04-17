@@ -41,7 +41,7 @@ export default {
                     })
                     // 만약에 Database에 없는 uid라면
                     this.$router.push({
-                        name: "AccessCode"
+                        name: "Register"
                     })
                 });
         },
