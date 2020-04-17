@@ -17,7 +17,7 @@
                     </v-sheet>
                     <v-sheet height="30%" tile>
                         <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
-                            <p style="color: #000">{{ content }}</p>
+                            <p style="width: 168px; font-size: 0.85em; color: #262626">{{ content }}</p>
                         </v-row>
                     </v-sheet>
                 </v-carousel-item>

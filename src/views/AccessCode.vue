@@ -35,9 +35,14 @@ export default {
                     phoneNumber: this.$route.params.phoneNumber
                 })
                 .then(() => {
+                    // 만약에 Database에 있는 uid라면
+                    this.$router.push({
+                        name: "Home"
+                    })
+                    // 만약에 Database에 없는 uid라면
                     this.$router.push({
                         name: "AccessCode"
-                    });
+                    })
                 });
         },
     },
