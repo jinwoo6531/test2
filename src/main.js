@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify';
+import './plugins/vue-progress-bar';
 import utils from './utils'
 import store from './store'
 import 'leaflet-routing-machine'
@@ -10,7 +11,7 @@ import firebase from 'firebase/app'
 import firebaseConfig from '../firebaseConfig'
 import 'firebase/auth' // for authentication
 import 'firebase/firestore' // for cloud firestore
-import VeeValidate from 'vee-validate';
+import VeeValidate from 'vee-validate'
 
 Vue.use(VeeValidate);
 
@@ -27,7 +28,15 @@ axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
+Vue.prototype.$isFirebaseAuth = false
+
 firebase.auth().onAuthStateChanged(user => {
+  Vue.prototype.$isFirebaseAuth = true
+  if (user) {
+    router.push('/dashboard')
+  } else {
+    router.push('/accessphone')
+  }
   store.dispatch("fetchUser", user);
 });
 

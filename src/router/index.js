@@ -125,6 +125,18 @@ const router = new Router({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  setTimeout(() => {
+    Vue.prototype.$Progress.start()
+  })
+  if (Vue.prototype.$isFirebaseAuth) next()
+})
+
+// eslint-disable-next-line no-unused-vars
+router.afterEach((to, from) => {
+  Vue.prototype.$Progress.finish()
+})
+
 /* router.beforeEach((to, from, next) => {
   // Firebase에서 현재 사용자를 가져오는 기능
   // 현재 로그인 한 사용자를 다시 보낸다.
