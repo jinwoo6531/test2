@@ -1,19 +1,16 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import vuetify from './plugins/vuetify';
-import './plugins/vue-progress-bar';
+import './plugins/firebase'
+import vuetify from './plugins/vuetify'
+import './plugins/vue-progress-bar'
 import utils from './utils'
 import store from './store'
 import 'leaflet-routing-machine'
 import axios from 'axios'
-import firebase from 'firebase/app'
-import firebaseConfig from '../firebaseConfig'
-import 'firebase/auth' // for authentication
-import 'firebase/firestore' // for cloud firestore
 import VeeValidate from 'vee-validate'
 
-Vue.use(VeeValidate);
+Vue.use(VeeValidate)
 
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
@@ -24,21 +21,6 @@ axios.defaults.baseURL = 'http://115.93.143.2:9103'
 var username = 'yjhyeon@aspringcloud.com'
 var password = '9772dbwls!'
 axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password)
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig)
-
-Vue.prototype.$isFirebaseAuth = false
-
-firebase.auth().onAuthStateChanged(user => {
-  Vue.prototype.$isFirebaseAuth = true
-  if (user) {
-    router.push('/dashboard')
-  } else {
-    router.push('/accessphone')
-  }
-  store.dispatch("fetchUser", user);
-});
 
 new Vue({
   router,

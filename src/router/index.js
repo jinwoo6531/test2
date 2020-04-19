@@ -125,11 +125,29 @@ const router = new Router({
   ]
 })
 
+// const waitFirebase = () => {
+//   return new Promise((resolve, reject) => {
+//     let cnt = 0
+//     const timer = setInterval(() => {
+//       if (store.state.firebaseLoaded) {
+//         clearInterval(timer)
+//         resolve()
+//       } else if (cnt++ > 200) {
+//         clearInterval(timer)
+//         reject(Error('Firebase Load Error'))
+//       }
+//     }, 10)
+//   })
+// }
+
 router.beforeEach((to, from, next) => {
   setTimeout(() => {
     Vue.prototype.$Progress.start()
   })
   if (Vue.prototype.$isFirebaseAuth) next()
+  // waitFirebase()
+  // .then(() => next())
+  // .catch(e => console.log(e))
 })
 
 // eslint-disable-next-line no-unused-vars

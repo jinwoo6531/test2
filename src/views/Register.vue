@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import * as firebase from "firebase/app"
-import "firebase/auth"
 import {
     mapGetters
 } from 'vuex'
@@ -58,7 +56,7 @@ export default {
 
     methods: {
         async submit() {
-            const r = await firebase.firestore().collection('users').add({
+            const r = await this.$firebase.firestore().collection('users').add({
                 uid: this.user.data.uid,
                 name: this.form.name,
                 email: this.form.email,
@@ -76,7 +74,7 @@ export default {
         },
 
         async get() {
-            const snapshot = await firebase.firestore().collection('users').get()
+            const snapshot = await this.$firebase.firestore().collection('users').get()
 
             this.items = []
             snapshot.forEach(v => {

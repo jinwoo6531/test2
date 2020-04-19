@@ -53,9 +53,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
-
 export default {
     name: 'signUp',
 
@@ -83,7 +80,7 @@ export default {
             this.submitted = true;
             this.$validator.validate().then(valid => {
                 if (valid) {
-                    firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+                    this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                         .then(user => {
                             alert(user + '님, 환영합니다.')
                         }).catch(error => {

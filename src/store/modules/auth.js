@@ -1,5 +1,4 @@
-import * as firebase from "firebase/app"
-import "firebase/auth"
+import Vue from 'vue'
 import router from '../../router'
 
 const state = {
@@ -22,7 +21,7 @@ const actions = {
   async sendOtp({
     state
   }, payload) {
-    await firebase
+    await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
       .then(confirmationResult => {
@@ -45,7 +44,7 @@ const actions = {
       .then(result => {
         console.log('회원 level: ', result)
         alert("로그인 성공.")
-        firebase.firestore().collection('users').get().then(function (querySnapshot) { // Promise 이용해서 해결하기
+        Vue.prototype.$firebase.firestore().collection('users').get().then(function (querySnapshot) { // Promise 이용해서 해결하기
           querySnapshot.forEach(function (doc) {
             // 만약 있는 회원이라면
             if (doc.id == result.user.uid) {
@@ -68,7 +67,7 @@ const actions = {
     commit
   }) {
     setTimeout(() => {
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier(
         "recaptcha-container", {
           size: "invisible",
           callback: function (response) {

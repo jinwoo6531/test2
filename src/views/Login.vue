@@ -37,9 +37,6 @@
 </template>
 
 <script>
-import * as firebase from "firebase/app";
-import "firebase/auth";
-
 export default {
     data() {
         return {
@@ -52,7 +49,7 @@ export default {
     },
     methods: {
         submit() {
-            firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+            this.$firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
             .then(data => {
                 console.log(data)
                 this.$router.replace({name: "Dashboard"});

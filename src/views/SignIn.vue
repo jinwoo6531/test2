@@ -14,9 +14,6 @@
 </template>
 
 <script>
-import * as firebase from "firebase/app"
-import "firebase/auth"
-
 export default {
     name: 'SignIn',
 
@@ -36,7 +33,7 @@ export default {
                 let countryCode = '+82' // Korea
                 this.phoneNumber = countryCode + this.phNo
             }
-            firebase.auth().signInWithPhoneNumber(this.phoneNumber, this.appVerifier)
+            this.$firebase.auth().signInWithPhoneNumber(this.phoneNumber, this.appVerifier)
                 .then(confirmationResult => {
                     // SMS 전송
                     window.confirmationResult = confirmationResult
@@ -70,7 +67,7 @@ export default {
 
         initReCaptcha() {
             setTimeout(() => {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                window.recaptchaVerifier = new this.$firebase.auth.RecaptchaVerifier('recaptcha-container', {
                     'size': 'invisible',
                     'callback': function (response) {
                         console.log(response)
