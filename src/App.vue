@@ -11,7 +11,9 @@
             </v-card>
         </v-layout>
     </v-container>
-    <router-view></router-view>
+    <v-content class="container">
+        <router-view></router-view>
+    </v-content>
 </v-app>
 </template>
 
@@ -26,6 +28,14 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+.container {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #E5E5E5;
+}
+
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
 }

@@ -18,9 +18,7 @@ const mutations = {
   }
 }
 const actions = {
-  async sendOtp({
-    state
-  }, payload) {
+  async sendOtp({ state }, payload) {
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -32,7 +30,7 @@ const actions = {
       })
       .catch(error => {
         // SMS 전송 실패
-        alert(error + "메세지 전송에 실패하였습니다!")
+        console.error(error.message)
       });
   },
 
@@ -73,7 +71,9 @@ const actions = {
           callback: function (response) {
             console.log(response)
           },
-          "expired-callback": function () {}
+          "expired-callback": function () {
+            alert('응답이 만료되었습니다.')
+          }
         }
       );
       commit("SET_DATA", {
