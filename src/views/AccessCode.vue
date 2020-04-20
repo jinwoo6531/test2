@@ -67,16 +67,16 @@ export default {
                 .dispatch("sendOtp", {
                     phoneNumber: this.$route.params.phoneNumber
                 })
-            // .then(() => {
-            //     // 만약에 Database에 있는 uid라면
-            //     this.$router.push({
-            //         name: "Dashboard"
-            //     })
-            //     // 만약에 Database에 없는 uid라면
-            //     this.$router.push({
-            //         name: "Register"
-            //     })
-            // });
+            .then(() => {
+                // 만약에 Database에 있는 uid라면
+                this.$router.push({
+                    name: "Dashboard"
+                })
+                // 만약에 Database에 없는 uid라면
+                this.$router.push({
+                    name: "Register"
+                })
+            });
         },
     },
 

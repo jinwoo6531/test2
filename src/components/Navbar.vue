@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import * as firebase from "firebase/app"
-import "firebase/auth"
 import { mapGetters } from "vuex"
 
 export default {
@@ -31,7 +29,7 @@ export default {
 
     methods: {
         signOut() {
-            firebase.auth().signOut()
+            this.$firebase.auth().signOut()
             .then(() => {
                 alert('로그아웃 되었습니다.')
                 this.$router.replace('AccessPhone')

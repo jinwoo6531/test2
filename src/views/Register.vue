@@ -58,21 +58,21 @@ export default {
         async submit() {
             // 만약 form을 모두 잘 작성했다면 firestore에 저장해주고 Dashboard로 넘겨주기
             // if (!this.error) {
-                const r = await this.$firebase.firestore().collection('users').add({
-                    uid: this.user.data.uid,
-                    name: this.form.name,
-                    email: this.form.email,
-                    gender: this.form.gender,
-                    birth: this.form.birth
-                })
+            const r = await this.$firebase.firestore().collection('users').add({
+                uid: this.user.data.uid,
+                name: this.form.name,
+                email: this.form.email,
+                gender: this.form.gender,
+                birth: this.form.birth
+            })
 
-                this.form.name = ''
-                this.form.email = ''
-                this.form.gender = ''
-                this.form.birth = ''
+            this.form.name = ''
+            this.form.email = ''
+            this.form.gender = ''
+            this.form.birth = ''
 
-                await this.get()
-                console.log(r)
+            await this.get()
+            console.log(r)
             // } else {
             //     alert('')
             // }

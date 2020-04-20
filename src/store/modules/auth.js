@@ -50,7 +50,7 @@ const actions = {
               router.replace('/dashboard').catch(e => {console.log('Go to Dashboard Error', e)})
             } else { // 없는 회원이라면
               console.log('2. Register로 이동하자')
-              router.replace('/register').catch(e => {console.log('Go to Register Error', e)})
+              router.replace('/register')
             }
           })
         })

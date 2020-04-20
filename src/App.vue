@@ -11,7 +11,7 @@
             </v-card>
         </v-layout>
     </v-container>
-    <v-content class="container">
+    <v-content class="container pa-0">
         <router-view></router-view>
     </v-content>
 </v-app>
@@ -33,7 +33,7 @@ export default {
 
 .container {
     font-family: 'Noto Sans KR', sans-serif;
-    background: #E5E5E5;
+    background: #FAFAFA;
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {

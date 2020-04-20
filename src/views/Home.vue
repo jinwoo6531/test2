@@ -59,17 +59,29 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="logout">
-                <v-list-item-content>
-                    <v-list-item-title>
-                        로그아웃
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+            <template v-if="user.loggedIn">
+                <v-list-item link @click.prevent="signOut">
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            {{ user.data.phoneNumber }}
+                            로그아웃
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                </template>
+                <template v-else>
+                <v-list-item link to="/accessphone">
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            로그인
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </template>
         </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar style="box-shadow: none; border-bottom: 1px solid #DBDBDB;" app color="#FFF" dark>
+    <v-app-bar style="box-shadow: none; border-bottom: 1px solid #DBDBDB; background: #FAFAFA;" app color="#FFF" dark>
         <v-app-bar-nav-icon color="#555" @click.stop="drawer = !drawer" />
         <v-toolbar-title class="d-inline-block pl-0 text-center" style='width: 100%'>
             <img src="../assets/tasio_logo.svg" align="center" justify="center" class="pr-3" />
@@ -80,7 +92,7 @@
         <router-view></router-view>
     </v-content>
 
-    <v-footer style="border-top: 1px solid #DBDBDB;" color="#FFF" app>
+    <v-footer style="border-top: 1px solid #DBDBDB; background: #FAFAFA;" color="#FFF" app>
         <span class="text-center" style="width: 100%; color: #B7B7B7; font-size: 12px;">
             <p class="mb-0">&copy; Springcloud Ltd,.</p>
             <p class="mb-0">경기도 성남시 수정구 창업로 42, 경기기업성장센터 523, 524</p>
@@ -90,18 +102,29 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
     name: 'home',
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        })
+    },
 
     data: () => ({
         drawer: null,
     }),
 
     methods: {
-        logout() {
-            this.$firebase.auth().signOut().then(() => {
-                this.$router.replace('login')
-            })
+        signOut() {
+            this.$firebase.auth().signOut()
+            .then(() => {
+                alert('로그아웃 되었습니다.')
+                this.$router.replace('AccessPhone')
+                this.$Progress.start()
+            });
         }
     }
 
@@ -109,6 +132,10 @@ export default {
 </script>
 
 <style scoped>
+#inspire {
+    background: #FAFAFA;
+}
+
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
 }
