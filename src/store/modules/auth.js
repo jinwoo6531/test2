@@ -26,13 +26,13 @@ const actions = {
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
       .then(confirmationResult => {
         // SMS 전송
-        window.confirmationResult = confirmationResult;
+        window.confirmationResult = confirmationResult
         alert("메세지를 전송하였습니다!");
 
       })
       .catch(error => {
         // SMS 전송 실패
-        alert(error + "메세지 전송에 실패하였습니다!");
+        alert(error + "메세지 전송에 실패하였습니다!")
       });
   },
 
@@ -49,13 +49,13 @@ const actions = {
             // 만약 있는 회원이라면
             if (doc.id == result.user.uid) {
               console.log('1. Dashboard로 이동하자')
-              router.replace('/dashboard')
+              router.replace('/dashboard').catch(e => {console.log('Go to Dashboard Error', e)})
             } else { // 없는 회원이라면
               console.log('2. Register로 이동하자')
-              router.replace('/register')
+              router.replace('/register').catch(e => {console.log('Go to Register Error', e)})
             }
-          });
-        });
+          })
+        })
       })
       .catch(error => {
         alert(error + "인증코드가 잘못되었습니다.")
