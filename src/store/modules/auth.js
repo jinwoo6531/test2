@@ -6,8 +6,9 @@ const state = {
     phoneNumber: null,
     appVerifier: {}
   },
+  user: null,
   token: '',
-    claims: null,
+  claims: null,
 }
 const getters = {
   info(state) {
@@ -18,15 +19,17 @@ const mutations = {
   SET_DATA(state, data) {
     state.info = data;
   },
-  setToken (state, token) {
+  setToken(state, token) {
     state.token = token
   },
-  setClaims (state, claims) {
+  setClaims(state, claims) {
     state.claims = claims
   },
 }
 const actions = {
-  async sendOtp({ state }, payload) {
+  async sendOtp({
+    state
+  }, payload) {
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -42,24 +45,39 @@ const actions = {
       });
   },
 
-  verifyOtp({commit}, {otp}) {
+  verifyOtp({
+    dispatch
+  }, {
+    otp
+  }) {
     window.confirmationResult
       .confirm(otp)
       .then(async result => {
         console.log('회원 result ', result)
         alert("로그인 성공.")
+        state.user = result.user
 
-        const token = await result.user.getIdToken(true)
-        console.log('token: ', token)
-        commit('setToken', token)
-        const { claims } = await result.user.getIdTokenResult()
-        commit('setClaims', claims)
-        console.log('claims: ', claims)
+        if (!state.user) false
+        await dispatch('getToken')
       })
       .catch(error => {
         alert(error + "인증코드가 잘못되었습니다.")
         router.replace('AccessPhone')
       });
+  },
+
+  async getToken({
+    commit,
+    state
+  }) {
+    const token = await state.user.getIdToken(true)
+    console.log('token: ', token)
+    commit('setToken', token)
+    const {
+      claims
+    } = await state.user.getIdTokenResult()
+    commit('setClaims', claims)
+    console.log('claims: ', claims)
   },
 
   initReCaptcha({
