@@ -5,7 +5,9 @@ const state = {
   info: {
     phoneNumber: null,
     appVerifier: {}
-  }
+  },
+  token: '',
+    claims: null,
 }
 const getters = {
   info(state) {
@@ -15,7 +17,13 @@ const getters = {
 const mutations = {
   SET_DATA(state, data) {
     state.info = data;
-  }
+  },
+  setToken (state, token) {
+    state.token = token
+  },
+  setClaims (state, claims) {
+    state.claims = claims
+  },
 }
 const actions = {
   async sendOtp({ state }, payload) {
@@ -34,26 +42,19 @@ const actions = {
       });
   },
 
-  verifyOtp(_, {
-    otp
-  }) {
+  verifyOtp({commit}, {otp}) {
     window.confirmationResult
       .confirm(otp)
-      .then(result => {
-        console.log('회원 level: ', result)
+      .then(async result => {
+        console.log('회원 result ', result)
         alert("로그인 성공.")
-        Vue.prototype.$firebase.firestore().collection('users').get().then(function (querySnapshot) { // Promise 이용해서 해결하기
-          querySnapshot.forEach(function (doc) {
-            // 만약 있는 회원이라면
-            if (doc.id == result.user.uid) {
-              console.log('1. Dashboard로 이동하자')
-              router.replace('/dashboard').catch(e => {console.log('Go to Dashboard Error', e)})
-            } else { // 없는 회원이라면
-              console.log('2. Register로 이동하자')
-              router.replace('/register')
-            }
-          })
-        })
+
+        const token = await result.user.getIdToken(true)
+        console.log('token: ', token)
+        commit('setToken', token)
+        const { claims } = await result.user.getIdTokenResult()
+        commit('setClaims', claims)
+        console.log('claims: ', claims)
       })
       .catch(error => {
         alert(error + "인증코드가 잘못되었습니다.")
