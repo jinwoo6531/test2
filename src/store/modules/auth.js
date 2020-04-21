@@ -6,18 +6,32 @@ const state = {
     phoneNumber: null,
     appVerifier: {}
   },
-  user: null,
+  user: {
+    loggedIn: false,
+    data: {}
+  },
   token: '',
   claims: null,
 }
+
 const getters = {
   info(state) {
     return state.info
+  },
+  user(state) {
+    return state.user
   }
 }
+
 const mutations = {
   SET_DATA(state, data) {
     state.info = data;
+  },
+  SET_LOGGED_IN(state, value) {
+    state.user.loggedIn = value
+  },
+  SET_USER(state, data) {
+    state.user.data = data
   },
   setToken(state, token) {
     state.token = token
@@ -46,7 +60,7 @@ const actions = {
   },
 
   verifyOtp({
-    dispatch
+    dispatch, commit
   }, {
     otp
   }) {
@@ -55,10 +69,12 @@ const actions = {
       .then(async result => {
         console.log('회원 result ', result)
         alert("로그인 성공.")
-        state.user = result.user
+        // state.user = result.user
+        await commit('SET_USER', result.user)
+        await dispatch('fetchUser')
 
-        if (!state.user) false
-        await dispatch('getToken')
+        // if (!state.user) false
+        // await dispatch('getToken')
       })
       .catch(error => {
         alert(error + "인증코드가 잘못되었습니다.")
@@ -66,16 +82,26 @@ const actions = {
       });
   },
 
+  async fetchUser({commit, dispatch}, user) {
+    commit("SET_LOGGED_IN", user !== null)
+        if (user) {
+            await commit("SET_USER", user)
+            await dispatch('getToken')
+        } else {
+            commit("SET_USER", null);
+        }
+  },
+
   async getToken({
     commit,
     state
   }) {
-    const token = await state.user.getIdToken(true)
+    const token = await state.user.data.getIdToken(true)
     console.log('token: ', token)
     commit('setToken', token)
     const {
       claims
-    } = await state.user.getIdTokenResult()
+    } = await state.user.data.getIdTokenResult()
     commit('setClaims', claims)
     console.log('claims: ', claims)
   },
