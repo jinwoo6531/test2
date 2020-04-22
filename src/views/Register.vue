@@ -5,25 +5,32 @@
             <h3>이제 마지막 단계에요</h3>
             <p>제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
-                <div style="display: none">
-                    <label for="uid">uid</label>
-                    <input type="text" id="uid" name="uid" v-model="user.data.uid" />
+                <div>
+                    <p>uid</p>
+                    <input type="text" id="uid" name="uid" v-model="this.form.uid">
                 </div>
                 <div>
-                    <label for="name">이름</label>
+                    <p>이름</p>
                     <input type="text" id="name" name="name" value required autofocus v-model="form.name" />
                 </div>
                 <div>
-                    <label for="email">이메일</label>
+                    <p>이메일</p>
                     <input type="email" id="email" name="email" value required autofocus v-model="form.email" />
                 </div>
                 <div>
-                    <label for="birth">생년월일</label>
+                    <p>성별</p>
+                    <input type="radio" id="gender" name="man" value required autofocus v-model="form.gender" />
+                    <label for="man"> 남성</label>
+                    <input type="radio" id="gender" name="woman" value required autofocus v-model="form.gender" />
+                    <label for="woman"> 여성</label>
+                </div>
+                <div>
+                    <p>생년월일</p>
                     <input type="number" id="birth" name="birth" required autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </div>
+                <p v-if="error">{{ error }}</p>
                 <button type="submit">가입 완료하기</button>
             </form>
-            <p v-if="error">{{ error }}</p>
         </v-flex>
     </v-layout>
 </v-container>
@@ -38,6 +45,7 @@ export default {
     data() {
         return {
             form: {
+                uid: "",
                 name: "",
                 email: "",
                 gender: "",
@@ -48,6 +56,10 @@ export default {
         };
     },
 
+    mounted() {
+        this.form.uid = this.user.data.uid
+    },
+
     computed: {
         ...mapGetters({
             user: "user"
@@ -55,14 +67,14 @@ export default {
     },
 
     methods: {
-        async submit() {
-            // 만약 form을 모두 잘 작성했다면 firestore에 저장해주고 Dashboard로 넘겨주기
-            // if (!this.error) {
-            const r = await this.$firebase.firestore().collection('users').add({
-                uid: this.user.data.uid,
-                name: this.form.name,
+        async submit(uid) {
+            uid = this.form.uid
+            await this.$firebase.firestore().collection('users').doc(uid).set({
+                uid: this.form.uid,
+                displayName: this.form.name,
                 email: this.form.email,
                 gender: this.form.gender,
+                level: 1,
                 birth: this.form.birth
             })
 
@@ -71,11 +83,8 @@ export default {
             this.form.gender = ''
             this.form.birth = ''
 
+            this.$router.push('/')
             await this.get()
-            console.log(r)
-            // } else {
-            //     alert('')
-            // }
         },
 
         async get() {

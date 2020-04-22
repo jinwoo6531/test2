@@ -2,16 +2,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Splash from '@/views/Splash'
-import Home from '@/views/Home'
-import Login from '@/views/Login'
-import SignUp from '@/views/SignUp'
-import AgreeCheck from '@/views/AgreeCheck'
 import InfoStep from '@/views/InfoStep'
+import Home from '@/views/Home'
 import AccessPhone from '@/views/AccessPhone'
-import SignIn from '@/views/SignIn'
-import Register from '@/views/Register'
-import Dashboard from '@/views/Dashboard'
 import AccessCode from '@/views/AccessCode'
+import AgreeCheck from '@/views/AgreeCheck'
+import Register from '@/views/Register'
 
 Vue.use(Router)
 
@@ -77,16 +73,6 @@ const router = new Router({
       ]
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/signup',
-      name: 'signUp',
-      component: SignUp
-    },
-    {
       path: '/agreecheck',
       name: 'AgreeCheck',
       component: AgreeCheck
@@ -101,21 +87,10 @@ const router = new Router({
       name: 'AccessPhone',
       component: AccessPhone
     },
-
-    {
-      path: '/signin',
-      name: 'signIn',
-      component: SignIn
-    },
     {
       path: '/register',
       name: 'Register',
       component: Register
-    },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard
     },
     {
       path: '/accesscode',
@@ -154,21 +129,5 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   Vue.prototype.$Progress.finish()
 })
-
-/* router.beforeEach((to, from, next) => {
-  // Firebase에서 현재 사용자를 가져오는 기능
-  // 현재 로그인 한 사용자를 다시 보낸다.
-  // 사용자가 로그인하지 않은 경우 null
-  const currentUser = firebase.auth().currentUser
-  // 상위 라우트를 포함해 인증이 필요한 라우트인지 확인
-  const requireAuth = to.matched.some(record => record.meta.requireAuth)
-
-  // 인증이 되어있지 않으면 login 페이지로 라우트
-  if (currentUser && !requireAuth) next('login')
-  // 인증이 되어 있으면 home 페이지로 라우트
-  else if (!requireAuth && currentUser) next('home')
-  // 인증이 필요하지 않은 라우트면 next()로 이동
-  else next()
-}) */
 
 export default router

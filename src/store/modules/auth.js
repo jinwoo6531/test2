@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import axios from 'axios'
 import router from '../../router'
 
 const state = {
@@ -59,52 +60,55 @@ const actions = {
       });
   },
 
-  verifyOtp({
-    dispatch, commit
-  }, {
+  verifyOtp(_, {
     otp
   }) {
     window.confirmationResult
       .confirm(otp)
       .then(async result => {
-        console.log('회원 result ', result)
-        alert("로그인 성공.")
-        // state.user = result.user
-        await commit('SET_USER', result.user)
-        await dispatch('fetchUser')
-
-        // if (!state.user) false
-        // await dispatch('getToken')
+        console.log('회원 result ', result.user.uid)
+        await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
+        .then(response => {
+          console.log('get ', response)
+          if (response.data == null || response.data == "" || response.data.level == 2) {
+            state.user.data = result.user.uid
+            alert(state.user.data)
+            router.push('/register')
+          } else if (response.data.level == 1) {
+            router.push('/')
+          }
+        }).catch(error => {
+          console.log('adsf', error)
+        })
       })
       .catch(error => {
         alert(error + "인증코드가 잘못되었습니다.")
-        router.replace('AccessPhone')
-      });
+      })
   },
 
-  async fetchUser({commit, dispatch}, user) {
-    commit("SET_LOGGED_IN", user !== null)
-        if (user) {
-            await commit("SET_USER", user)
-            await dispatch('getToken')
-        } else {
-            commit("SET_USER", null);
-        }
-  },
+  // async fetchUser({commit, dispatch}, user) {
+  //   commit("SET_LOGGED_IN", user !== null)
+  //       if (user) {
+  //           await commit("SET_USER", user)
+  //           await dispatch('getToken')
+  //       } else {
+  //           commit("SET_USER", null);
+  //       }
+  // },
 
-  async getToken({
-    commit,
-    state
-  }) {
-    const token = await state.user.data.getIdToken(true)
-    console.log('token: ', token)
-    commit('setToken', token)
-    const {
-      claims
-    } = await state.user.data.getIdTokenResult()
-    commit('setClaims', claims)
-    console.log('claims: ', claims)
-  },
+  // async getToken({
+  //   commit,
+  //   state
+  // }) {
+  //   const token = await state.user.data.getIdToken(true)
+  //   console.log('token: ', token)
+  //   commit('setToken', token)
+  //   const {
+  //     claims
+  //   } = await state.user.data.getIdTokenResult()
+  //   commit('setClaims', claims)
+  //   console.log('claims: ', claims)
+  // },
 
   initReCaptcha({
     commit
