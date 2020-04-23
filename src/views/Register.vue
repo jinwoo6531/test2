@@ -57,7 +57,8 @@ export default {
     },
 
     mounted() {
-        this.form.uid = this.user.data.uid
+        this.form.uid = this.user.data
+        console.log(this.user)
     },
 
     computed: {

@@ -60,9 +60,7 @@ const actions = {
       });
   },
 
-  verifyOtp(_, {
-    otp
-  }) {
+  verifyOtp(_, {otp}) {
     window.confirmationResult
       .confirm(otp)
       .then(async result => {
@@ -72,13 +70,12 @@ const actions = {
           console.log('get ', response)
           if (response.data == null || response.data == "" || response.data.level == 2) {
             state.user.data = result.user.uid
-            alert(state.user.data)
             router.push('/register')
           } else if (response.data.level == 1) {
             router.push('/')
           }
         }).catch(error => {
-          console.log('adsf', error)
+          console.log('User read: ', error)
         })
       })
       .catch(error => {
@@ -86,15 +83,17 @@ const actions = {
       })
   },
 
-  // async fetchUser({commit, dispatch}, user) {
-  //   commit("SET_LOGGED_IN", user !== null)
-  //       if (user) {
-  //           await commit("SET_USER", user)
-  //           await dispatch('getToken')
-  //       } else {
-  //           commit("SET_USER", null);
-  //       }
-  // },
+  fetchUser({commit}, user) {
+    commit("SET_LOGGED_IN", user !== null)
+        if (user) {
+            commit("SET_USER", {
+              uid: user.uid
+            })
+            // await dispatch('getToken')
+        } else {
+            commit("SET_USER", null);
+        }
+  },
 
   // async getToken({
   //   commit,
@@ -110,25 +109,23 @@ const actions = {
   //   console.log('claims: ', claims)
   // },
 
-  initReCaptcha({
-    commit
-  }) {
+  initReCaptcha({commit}) {
     setTimeout(() => {
-      window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier(
-        "recaptcha-container", {
+      window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier("recaptcha-container", {
           size: "invisible",
           callback: function (response) {
             console.log(response)
+            // dispatch('sendOtp')
           },
           "expired-callback": function () {
-            alert('응답이 만료되었습니다.')
+            console.log('Recaptcha Error')
           }
         }
       );
       commit("SET_DATA", {
         appVerifier: window.recaptchaVerifier
-      });
-    }, 1000);
+      })
+    }, 1000)
   }
 }
 
