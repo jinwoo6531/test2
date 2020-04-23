@@ -5,7 +5,7 @@
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
-                <v-flex xs12 sm12 md12>
+                <v-flex style="display: none;" xs12 sm12 md12>
                     <p>uid</p>
                     <input type="text" id="uid" name="uid" v-model="this.form.uid">
                 </v-flex>
@@ -19,17 +19,19 @@
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p>성별</p>
-                    <input type="radio" id="man" name="gender" value required v-model="form.gender" />
-                    <label for="man"> 남성</label>
-                    <input type="radio" id="woman" name="gender" value required v-model="form.gender" />
-                    <label for="woman"> 여성</label>
+                    <v-radio-group v-model="form.gender" row>
+                        <v-radio label="남성" color="#E61773" value="man"></v-radio>
+                        <v-radio label="여성" color="#E61773" value="woman"></v-radio>
+                    </v-radio-group>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p>생년월일</p>
                     <input type="number" id="birth" name="birth" required autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
                 <p v-if="error">{{ error }}</p>
-                <button type="submit">가입 완료하기</button>
+                <v-footer absolute style="margin-bottom: 24px; background: transparent;">
+                    <button class="signupBtn" type="submit">가입 완료하기</button>
+                </v-footer>
             </form>
         </v-flex>
     </v-layout>
@@ -142,5 +144,16 @@ input {
     font-weight: normal;
     border-bottom: 0.5px solid #828282;
     padding: 14px 0 11px 10px;
+}
+
+.signupBtn {
+    width: 100%;
+    height: 50px;
+    background: #E61773;
+    border-radius: 2px;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
 }
 </style>

@@ -1,26 +1,28 @@
 <template>
-<v-container class="map-container" fluid grid-list-md>
-    <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <v-card id="map-container" class="pa-0" height="236px" outlined tile></v-card>
+<v-container class="map-container pa-0 ma-0" fluid grid-list-md>
+    <v-layout row wrap class="pa-0 ma-0" style="width: 100%; height: 100%;">
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2 style="width: 100%; height: 100%;">
+            <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
         </v-flex>
-        <v-flex class="pa-2" xs12 sm12 md12 lg12 xl2>
-            <v-flex style="border: 1px solid #ddd" x12 sm12 md12 lg12 xl12>
-                <select v-model="start" @change="onChange()" style="display: inline-block; width: 100%; height: 100%;">
-                    <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                </select>
+        <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl2>
+            <v-flex class="pa-4" xs12 sm12 md12 lg12 xl2>
+                <v-flex class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs6 sm6 md12 lg12 xl12>
+                    <p class="ma-0" style="color: #828282">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></p>
+                </v-flex>
+                <v-flex class="selectStationWrap" x12 sm12 md12 lg12 xl12>
+                    <select style="width: 100%" v-model="start" @change="onChange()">
+                        <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
+                    </select>
+                    <span class="divide-bar"></span>
+                    <select style="width: 100%" v-model="end" @change="onChange()">
+                        <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
+                    </select>
+                </v-flex>
             </v-flex>
-            <v-flex style="border: 1px solid #ddd" x12 sm12 md12 lg12 xl12>
-                <select v-model="end" @change="onChange()" style="display: inline-block; width: 100%; height: 100%;">
-                    <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                </select>
-            </v-flex>
-            <v-flex class="text-center" x12 sm12 md12 lg12 xl12>
-                <p v-if="warn">승차지는 해당 노선 내에서 선택해주세요.</p>
-                <p v-else>약 {{ km }}km (약 {{ minutes }}분 소요)</p>
-            </v-flex>
-            <v-flex v-if="callBtn" x12 sm12 md12 lg12 xl12>
-                <v-btn style="width: 100%;">호출하기</v-btn>
+            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
+                <v-flex class="pa-0" v-if="callBtn" x12 sm12 md12 lg12 xl12>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
+                </v-flex>
             </v-flex>
         </v-flex>
     </v-layout>
@@ -28,7 +30,6 @@
 </template>
 
 <script>
-//import L from "leaflet"
 import axios from 'axios'
 var control
 
@@ -71,7 +72,6 @@ export default {
         km: 0,
         minutes: 0,
         daeguList: [],
-        warn: true,
         callBtn: false
     }),
 
@@ -281,8 +281,7 @@ export default {
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
 
-            this.warn = false,
-                this.callBtn = true
+            this.callBtn = true
         },
 
         /*getVehicle() {
@@ -375,5 +374,38 @@ export default {
 #map-container {
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+.selectBox {
+    width: 100%;
+    position: fixed;
+    z-index: 9;
+    bottom: 0;
+}
+
+.selectStationWrap {
+    width: 100%;
+    height: 90px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    text-align: center;
+}
+
+.divide-bar {
+    display: inline-block;
+    width: 90%;
+    border: 0.8px dashed #E0E0E0;
+}
+
+.callShuttle {
+    width: 100%;
+    border-radius: 0;
+    color: #FFF;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
 }
 </style>

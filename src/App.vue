@@ -1,7 +1,7 @@
 <template>
 <v-app id="inspire">
     <vue-progress-bar></vue-progress-bar>
-    <v-container grid-list-md>
+    <v-container class="pa-0 ma-0">
         <v-layout row wrap align-center justify-center>
             <v-card color="transparent" flat v-if="!$isFirebaseAuth">
                 <v-card-text class="text-xs-center">

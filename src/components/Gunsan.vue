@@ -1,10 +1,11 @@
 <template>
-<v-container class="map-container" fluid grid-list-md>
-    <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <v-card id="map-container" class="pa-0" height="236px" outlined tile></v-card>
+<v-container class="map-container pa-0 ma-0" fluid grid-list-md>
+    <v-layout row wrap class="pa-0 ma-0" style="width: 100%; height: 100%;">
+        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2 style="width: 100%; height: 100%;">
+            <v-card id="map-container" class="pa-0 ma-0" style="width: 100%; height: 100%;" outlined tile></v-card>
         </v-flex>
-        <v-flex class="pa-2" xs12 sm12 md12 lg12 xl2>
+
+        <v-flex class="pa-5 selectBox" xs12 sm12 md12 lg12 xl2>
             <v-flex style="border: 1px solid #ddd" x12 sm12 md12 lg12 xl12>
                 <select v-model="start" @change="onChange()" style="display: inline-block; width: 100%; height: 100%;">
                     <option v-for="item in this.gunsanList" :key="item.id" :value="item">{{ item.name }}</option>
@@ -16,12 +17,11 @@
                 </select>
             </v-flex>
             <v-flex class="text-center" x12 sm12 md12 lg12 xl12>
-                <p v-if="warn">승차지는 해당 노선 내에서 선택해주세요.</p>
-                <p v-else>약 {{ km }}km (약 {{ minutes }}분 소요)</p>
+                <p>약 {{ km }}km (약 {{ minutes }}분 소요)</p>
             </v-flex>
             <v-flex v-if="callBtn" x12 sm12 md12 lg12 xl12>
                 <v-btn style="width: 100%;">호출하기</v-btn>
-            </v-flex>
+            </v-flex> 
         </v-flex>
     </v-layout>
 </v-container>
@@ -196,8 +196,7 @@ export default {
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
 
-            this.warn = false,
-                this.callBtn = true
+            this.callBtn = true
         },
     }
 
@@ -216,5 +215,14 @@ export default {
 #map-container {
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+.selectBox {
+    width: 100%;
+    position: fixed;
+    z-index: 9;
+    bottom: 0;
 }
 </style>
