@@ -73,11 +73,6 @@ const router = new Router({
       ]
     },
     {
-      path: '/agreecheck',
-      name: 'AgreeCheck',
-      component: AgreeCheck
-    },
-    {
       path: '/infostep',
       name: 'InfoStep',
       component: InfoStep
@@ -88,15 +83,21 @@ const router = new Router({
       component: AccessPhone
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
       path: '/accesscode',
       name: 'AccessCode',
       component: AccessCode
     },
+    {
+      path: '/agreecheck',
+      name: 'AgreeCheck',
+      component: AgreeCheck
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
+    
   ]
 })
 
