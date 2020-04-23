@@ -63,20 +63,9 @@ export default {
         },
 
         sendOtp() {
-            this.$store
-                .dispatch("sendOtp", {
-                    phoneNumber: this.$route.params.phoneNumber
-                })
-            .then(() => {
-                // 만약에 Database에 있는 uid라면
-                this.$router.push({
-                    name: "Dashboard"
-                })
-                // 만약에 Database에 없는 uid라면
-                this.$router.push({
-                    name: "Register"
-                })
-            });
+            this.$store.dispatch("sendOtp", {
+                phoneNumber: this.$route.params.phoneNumber
+            })
         },
     },
 
@@ -86,8 +75,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped >
 .AccessCodeTitle {
+    font-style: normal;
     font-weight: bold;
     font-size: 20px;
     color: #262626;
