@@ -11,11 +11,11 @@
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" value required autofocus v-model="form.name" />
+                    <input type="text" id="name" name="name" autofocus v-model="form.name" />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p>이메일</p>
-                    <input type="email" id="email" name="email" value required autofocus v-model="form.email" />
+                    <input type="email" id="email" name="email" autofocus v-model="form.email" />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p>성별</p>
@@ -28,7 +28,7 @@
                     <p>생년월일</p>
                     <input type="number" id="birth" name="birth" required autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
-                <p v-if="error">{{ error }}</p>
+                <p>{{ error }}</p>
                 <v-footer absolute style="margin-bottom: 24px; background: transparent;">
                     <button class="signupBtn" type="submit">가입 완료하기</button>
                 </v-footer>
@@ -54,7 +54,7 @@ export default {
                 gender: "",
                 birth: ""
             },
-            error: null,
+            error: "",
             items: []
         };
     },
@@ -72,6 +72,23 @@ export default {
 
     methods: {
         async submit(uid) {
+            if (!this.form.name) {
+                this.error = "이름은 필수 항목입니다."
+                return
+            }
+            if (!this.form.email) {
+                this.error = "이메일은 필수 항목입니다."
+                return
+            }
+            if (!this.form.gender) {
+                this.error = "성별은 필수 선택항목입니다."
+                return
+            }
+            if (!this.form.birth) {
+                this.error = "생일은 필수 선택항목입니다."
+                return
+            }
+
             uid = this.form.uid
             await this.$firebase.firestore().collection('users').doc(uid).set({
                 uid: this.form.uid,
@@ -86,6 +103,7 @@ export default {
             this.form.email = ''
             this.form.gender = ''
             this.form.birth = ''
+
 
             this.$router.push('/')
             await this.get()

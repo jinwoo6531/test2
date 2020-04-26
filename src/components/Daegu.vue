@@ -1,32 +1,70 @@
 <template>
-<v-container class="map-container pa-0 ma-0" fluid grid-list-md>
-    <v-layout row wrap class="pa-0 ma-0" style="width: 100%; height: 100%;">
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2 style="width: 100%; height: 100%;">
-            <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
-        </v-flex>
-        <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl2>
-            <v-flex class="pa-4" xs12 sm12 md12 lg12 xl2>
-                <v-flex class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs6 sm6 md12 lg12 xl12>
-                    <p class="ma-0" style="color: #828282">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></p>
-                </v-flex>
-                <v-flex class="selectStationWrap" x12 sm12 md12 lg12 xl12>
-                    <select style="width: 100%" v-model="start" @change="onChange()">
-                        <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                    </select>
-                    <span class="divide-bar"></span>
-                    <select style="width: 100%" v-model="end" @change="onChange()">
-                        <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                    </select>
+<div id="daegu">
+    <v-container class="map-container pa-0 ma-0" fluid justify-center grid-list-md fill-height>
+        <v-layout column>
+            <v-flex class="pa-0">
+                <v-layout row wrap style="width: 100%; height: 100%; margin: 0;">
+                    <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
+                        <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
+                    </v-flex>
+                </v-layout>
+
+                <v-flex class="pa-0 selectBox" xs12 sm12 md12>
+                    <v-layout row wrap class="pa-4" xs12 sm12 md12>
+                        <v-flex class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs6 sm6 md6>
+                            <p class="ma-0" style="color: #828282">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></p>
+                        </v-flex>
+                        <v-flex class="selectStationWrap" x12 sm12 md12>
+                            <v-dialog v-model="dialog1" scrollable max-width="300px">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+                                </template>
+                                <v-card>
+                                    <v-card-text style="height: 300px;">
+                                        <v-radio-group v-model="start" column @change="onChange()">
+                                            <v-radio v-for="item in this.daeguList" :key="item.id" :value="item" :label="item.name"></v-radio>
+                                        </v-radio-group>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-btn color="blue darken-1" text @click="dialog1 = false">다음</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <span class="divide-bar"></span>
+                            <v-dialog v-model="dialog2" scrollable max-width="300px">
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+                                </template>
+                                <v-card>
+                                    <v-card-text style="height: 300px;">
+                                        <v-radio-group v-model="end" column @change="onChange()">
+                                            <v-radio v-for="item in this.daeguList" :key="item.id" :value="item" :label="item.name"></v-radio>
+                                        </v-radio-group>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-btn color="blue darken-1" text @click="dialog2 = false">다음</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <!-- <select style="width: 100%" v-model="start" @change="onChange()">
+                                <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
+                            </select>
+                            <span class="divide-bar"></span>
+                            <select style="width: 100%" v-model="end" @change="onChange()">
+                                <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
+                            </select> -->
+                        </v-flex>
+                    </v-layout>
+                    <v-layout row wrap xs12 sm12 md12>
+                        <v-flex class="pa-0" v-if="callBtn">
+                            <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
             </v-flex>
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-                <v-flex class="pa-0" v-if="callBtn" x12 sm12 md12 lg12 xl12>
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
-                </v-flex>
-            </v-flex>
-        </v-flex>
-    </v-layout>
-</v-container>
+        </v-layout>
+    </v-container>
+</div>
 </template>
 
 <script>
@@ -72,7 +110,10 @@ export default {
         km: 0,
         minutes: 0,
         daeguList: [],
-        callBtn: false
+        callBtn: false,
+
+        dialog1: false,
+        dialog2: false,
     }),
 
     created() {
