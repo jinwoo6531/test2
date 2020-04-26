@@ -1,5 +1,5 @@
 <template>
-<v-app id="inspire">
+<v-app class="home">
     <v-navigation-drawer style="z-index: 999" v-model="drawer" app>
         <v-list dense>
             <v-list-item link to="/">
@@ -68,8 +68,8 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                </template>
-                <template v-else>
+            </template>
+            <template v-else>
                 <v-list-item link to="/accessphone">
                     <v-list-item-content>
                         <v-list-item-title>
@@ -80,40 +80,37 @@
             </template>
         </v-list>
     </v-navigation-drawer>
+
     <v-content>
-    <!-- <v-app-bar style="box-shadow: none; background: none;" app color="transparents">
-        <img src="../assets/nav-icon.svg" class="nav-icon" @click.stop="drawer = !drawer" />
-        <v-toolbar-title class="d-inline-block pl-0 text-center" style='width: 100%'>
-            <img src="../assets/tasio-logo.svg" class="logo" />
-        </v-toolbar-title>
-    </v-app-bar> -->
-    <v-container>
-        <v-row no-gutters>
-            <v-col xs="4" sm="4">
-                <img src="../assets/nav-icon.svg" class="nav-icon" @click.stop="drawer = !drawer" />
-            </v-col>
-            <v-col xs="6" sm="6">
-                <img src="../assets/tasio-logo.svg" class="logo" />
-            </v-col>
-            <v-col xs="2" sm="2">
-                <!-- <img src="../assets/tasio-logo.svg" class="logo" /> -->
-            </v-col>
-        </v-row>
-    </v-container>
+        <v-container class="grey lighten-5">
+            <v-row no-gutters justify="start">
+                <v-col xs="4">
+                    <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
+                        <img src="../assets/nav-icon.svg" @click.stop="drawer = !drawer" />
+                    </v-card>
+                </v-col>
+                <v-col xs="4">
+                    <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
+                        <img src="../assets/tasio-logo.svg" />
+                    </v-card>
+                </v-col>
+                <v-col xs="4">
+                    <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
+                        
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+
         <router-view></router-view>
     </v-content>
-
-    <!-- <v-footer style="border-top: 1px solid #DBDBDB; background: #FAFAFA;" color="#FFF" app>
-        <span class="text-center" style="width: 100%; color: #B7B7B7; font-size: 12px;">
-            <p class="mb-0">&copy; Springcloud Ltd,.</p>
-            <p class="mb-0">경기도 성남시 수정구 창업로 42, 경기기업성장센터 523, 524</p>
-        </span>
-    </v-footer> -->
 </v-app>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import {
+    mapGetters
+} from "vuex"
 
 export default {
     name: 'home',
@@ -131,11 +128,11 @@ export default {
     methods: {
         signOut() {
             this.$firebase.auth().signOut()
-            .then(() => {
-                alert('로그아웃 되었습니다.')
-                this.$router.replace('AccessPhone')
-                this.$Progress.start()
-            });
+                .then(() => {
+                    alert('로그아웃 되었습니다.')
+                    this.$router.replace('AccessPhone')
+                    this.$Progress.start()
+                });
         }
     }
 
@@ -143,18 +140,12 @@ export default {
 </script>
 
 <style scoped>
-#inspire {
-    background: #FAFAFA;
-}
-
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
 }
 
-.nav-icon, .logo {
+.nav-icon {
     position: fixed;
     z-index: 9;
 }
-
-
 </style>

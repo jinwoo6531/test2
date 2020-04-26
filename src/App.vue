@@ -1,5 +1,5 @@
 <template>
-<v-app id="inspire">
+<v-app id="tasio">
     <vue-progress-bar></vue-progress-bar>
     <v-container class="pa-0 ma-0">
         <v-layout row wrap align-center justify-center>
@@ -11,7 +11,8 @@
             </v-card>
         </v-layout>
     </v-container>
-    <v-content class="container pa-0">
+
+    <v-content>
         <router-view></router-view>
     </v-content>
 </v-app>
@@ -30,6 +31,10 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+#tasio {
+    background: #FAFAFA;
+}
 
 .container {
     font-family: 'Noto Sans KR', sans-serif;
