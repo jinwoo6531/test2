@@ -31,7 +31,7 @@
                                     <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
                                 </v-card-text>
                                 <v-card-actions class="pa-0">
-                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false">
+                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
                                         출발지 적용하기
                                     </v-btn>
                                 </v-card-actions>
@@ -43,19 +43,23 @@
                                     <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
                                 </v-card-text>
                                 <v-card-actions class="pa-0">
-                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false">
+                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
                                         도착지 적용하기
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-overlay>
+
+                        <!-- 아직 선택하기 전(처음에 페이지 로드 될 때): 출발지 선택, 도착지 선택 -->
                         <v-flex class="selectStationWrap" x12 sm12 md12>
-                            <v-sheet color="transparent" @click="overlay1 = !overlay1;" @change="onChange()" v-model="start">
+                            <v-sheet color="transparent" @click="overlay1 = !overlay1" v-model="start">
                                 {{ start }}
+                                <!-- {{ options[start - 1] }} -->
                             </v-sheet>
                             <span class="divide-bar"></span>
-                            <v-sheet color="transparent" @click="overlay2 = !overlay2" @change="onChange()" v-model="end">
+                            <v-sheet color="transparent" @click="overlay2 = !overlay2" v-model="end">
                                 {{ end }}
+                                <!-- {{ options[end - 1] }} -->
                             </v-sheet>
                         </v-flex>
                     </v-layout>
@@ -209,7 +213,7 @@ export default {
                     for (var arr of this.daeguList) {
                         this.options.push({
                             name: arr.name,
-                            value: arr.name
+                            value: arr.id
                         })
                     }
                 }).catch(error => {
@@ -224,39 +228,35 @@ export default {
             control.spliceWaypoints(0, 6)
             this.waypoints = []
 
-            if (this.start.id != undefined && this.end.id != undefined) {
+            if (this.start != undefined && this.end != undefined) {
                 // ADD Between Station
-                if (this.start.id < this.end.id) {
-                    this.waypoints.push({
-                        lat: this.start.lat,
-                        lng: this.start.lon
-                    })
-                    for (let i = this.start.id;
-                        ((i - 1) % 4) + 1 != this.end.id; i++) {
+                if (this.start < this.end) {
+                    for (let i = this.start; i <= this.end; i++) {
                         this.waypoints.push({
-                            lat: this.daeguList[((i - 1) % 4) + 1].lat,
-                            lng: this.daeguList[((i - 1) % 4) + 1].lon
+                            lat: this.daeguList[i - 1].lat,
+                            lng: this.daeguList[i - 1].lon
                         })
                     }
-                } else if (this.start.id > this.end.id) {
+
+                } else if (this.start > this.end) {
                     this.waypoints.push({
-                        lat: this.start.lat,
-                        lng: this.start.lon
+                        lat: this.daeguList[this.start - 1].lat,
+                        lng: this.daeguList[this.start - 1].lon
                     })
-                    for (let i = this.start.id;
-                        (i % 4) != this.end.id; i++) {
+                    for (let i = this.start;
+                        (i % 4) != this.end; i++) {
                         this.waypoints.push({
                             lat: this.daeguList[i % 4].lat,
                             lng: this.daeguList[i % 4].lon
                         })
                     }
                     // SAME Station Id
-                } else if (this.start.id == this.end.id) {
-                    switch (this.start.id) {
+                } else if (this.start == this.end) {
+                    switch (this.start) {
                         case 1:
                             this.waypoints.push({
-                                lat: this.start.lat,
-                                lng: this.start.lon
+                                lat: this.daeguList[0].lat,
+                                lng: this.daeguList[0].lon
                             }, {
                                 lat: this.daeguList[1].lat,
                                 lng: this.daeguList[1].lon
@@ -267,14 +267,14 @@ export default {
                                 lat: this.daeguList[3].lat,
                                 lng: this.daeguList[3].lon
                             }, {
-                                lat: this.end.lat,
-                                lng: this.end.lon
+                                lat: this.daeguList[0].lat,
+                                lng: this.daeguList[0].lon
                             })
                             break
                         case 2:
                             this.waypoints.push({
-                                lat: this.start.lat,
-                                lng: this.start.lon
+                                lat: this.daeguList[1].lat,
+                                lng: this.daeguList[1].lon
                             }, {
                                 lat: this.daeguList[2].lat,
                                 lng: this.daeguList[2].lon
@@ -282,35 +282,38 @@ export default {
                                 lat: this.daeguList[3].lat,
                                 lng: this.daeguList[3].lon
                             }, {
+                                lat: this.daeguList[0].lat,
+                                lng: this.daeguList[0].lon
+                            }, {
                                 lat: this.daeguList[1].lat,
                                 lng: this.daeguList[1].lon
-                            }, {
-                                lat: this.end.lat,
-                                lng: this.end.lon
                             })
                             break
                         case 3:
                             this.waypoints.push({
-                                lat: this.start.lat,
-                                lng: this.start.lon
+                                lat: this.daeguList[2].lat,
+                                lng: this.daeguList[2].lon
                             }, {
                                 lat: this.daeguList[3].lat,
                                 lng: this.daeguList[3].lon
+                            }, {
+                                lat: this.daeguList[0].lat,
+                                lng: this.daeguList[0].lon
                             }, {
                                 lat: this.daeguList[1].lat,
                                 lng: this.daeguList[1].lon
                             }, {
                                 lat: this.daeguList[2].lat,
                                 lng: this.daeguList[2].lon
-                            }, {
-                                lat: this.end.lat,
-                                lng: this.end.lon
                             })
                             break
                         default:
                             this.waypoints.push({
-                                lat: this.start.lat,
-                                lng: this.start.lon
+                                lat: this.daeguList[3].lat,
+                                lng: this.daeguList[3].lon
+                            }, {
+                                lat: this.daeguList[0].lat,
+                                lng: this.daeguList[0].lon
                             }, {
                                 lat: this.daeguList[1].lat,
                                 lng: this.daeguList[1].lon
@@ -320,9 +323,6 @@ export default {
                             }, {
                                 lat: this.daeguList[3].lat,
                                 lng: this.daeguList[3].lon
-                            }, {
-                                lat: this.end.lat,
-                                lng: this.end.lon
                             })
                     }
 

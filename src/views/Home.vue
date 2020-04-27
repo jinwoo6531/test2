@@ -75,7 +75,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <!-- <template v-if="user.loggedIn">
+            <template v-if="user.loggedIn">
                 <v-list-item link @click.prevent="signOut">
                     <v-list-item-content>
                         <v-list-item-title>
@@ -93,7 +93,7 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-            </template> -->
+            </template>
         </v-list>
 
         <v-footer class="nav-footer justify-left" style="background: transparent; margin-top: 65px;">
