@@ -11,19 +11,14 @@
 
                 <v-flex class="pa-0 selectBox" xs12 sm12 md12>
                     <v-layout row wrap class="pa-4" xs12 sm12 md12>
-                        <v-flex class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs6 sm6 md6>
-                            <p class="ma-0" style="color: #828282">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></p>
+                        <v-flex v-if="callBtn" class="mb-3" style="background: rgba(255, 255, 255, 0.3); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
+                            <p class="ma-0" style="color: #828282; height: 30px;">
+                                <span style="display: inline-block; height: 100%;">
+                                    <img style="vertical-align: middle;" class="pl-3 pr-3" src="../assets/time-icon.svg">
+                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></span>
+                                </span>
+                            </p>
                         </v-flex>
-
-                        <!-- <v-flex class="selectStationWrap" x12 sm12 md12 lg12 xl12>
-                            <select style="width: 100%" v-model="start" @change="onChange()">
-                                <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                            </select>
-                            <span class="divide-bar"></span>
-                            <select style="width: 100%" v-model="end" @change="onChange()">
-                                <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                            </select>
-                        </v-flex> -->
 
                         <v-overlay :z-index="zIndex" :value="overlay1">
                             <v-card color="#FFF" style="width: 312px; height: 287px;">
@@ -50,7 +45,6 @@
                             </v-card>
                         </v-overlay>
 
-                        <!-- 아직 선택하기 전(처음에 페이지 로드 될 때): 출발지 선택, 도착지 선택 -->
                         <v-flex class="selectStationWrap" x12 sm12 md12>
                             <v-sheet color="transparent" @click="overlay1 = !overlay1">
                                 <span v-if="start >= 1">{{ options[start - 1].name }}</span>
@@ -438,7 +432,7 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 9;
-    bottom: 0;
+    bottom: 20px;
 }
 
 .selectStationWrap {
