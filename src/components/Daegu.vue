@@ -52,14 +52,14 @@
 
                         <!-- 아직 선택하기 전(처음에 페이지 로드 될 때): 출발지 선택, 도착지 선택 -->
                         <v-flex class="selectStationWrap" x12 sm12 md12>
-                            <v-sheet color="transparent" @click="overlay1 = !overlay1" v-model="start">
-                                {{ start }}
-                                <!-- {{ options[start - 1] }} -->
+                            <v-sheet color="transparent" @click="overlay1 = !overlay1">
+                                <span v-if="start >= 1">{{ options[start - 1].name }}</span>
+                                <span v-else>{{ start }}</span>
                             </v-sheet>
                             <span class="divide-bar"></span>
-                            <v-sheet color="transparent" @click="overlay2 = !overlay2" v-model="end">
-                                {{ end }}
-                                <!-- {{ options[end - 1] }} -->
+                            <v-sheet color="transparent" @click="overlay2 = !overlay2">
+                                <span v-if="end >= 1">{{ options[end - 1].name }}</span>
+                                <span v-else>{{ end }}</span>
                             </v-sheet>
                         </v-flex>
                     </v-layout>
@@ -110,9 +110,7 @@ export default {
             }
         ],
         data: null,
-        options: [
-
-        ],
+        options: [],
         station_arr: [],
         start: '출발지 선택',
         end: '도착지 선택 ',
@@ -149,7 +147,6 @@ export default {
 
         this.addMarker()
         this.addRouting(this.waypoints)
-
     },
 
     methods: {
@@ -228,7 +225,7 @@ export default {
             control.spliceWaypoints(0, 6)
             this.waypoints = []
 
-            if (this.start != undefined && this.end != undefined) {
+            if (this.start >= 1 && this.end >= 1) {
                 // ADD Between Station
                 if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {

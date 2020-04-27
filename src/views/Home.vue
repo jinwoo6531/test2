@@ -15,7 +15,7 @@
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
-            <v-list-item link to="/introduction">
+            <v-list-item link to="/">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
                         타시오 소개
@@ -135,8 +135,6 @@ import {
 } from "vuex"
 
 export default {
-    name: 'home',
-
     computed: {
         ...mapGetters({
             user: "user"

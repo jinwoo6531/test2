@@ -24,80 +24,79 @@ const FAQ = () => import( /* webpackChunkName: "FAQ" */ '@/components/FAQ')
 const router = new Router({
   mode: 'history',
   routes: [{
-      path: '/splash',
-      name: 'Splash',
-      component: Splash
-    }, {
-      path: '/',
-      name: 'Home',
-      component: Home,
-      // 페이지를 볼 때 인증이 필요한지 등의 라우트 고유 정보를 설정
-      meta: {
-        requireAuth: true
-      },
-      children: [{
-          path: '/gunsan',
-          name: 'Gunsan',
-          component: Gunsan
-        },
-        {
-          path: '/daegu',
-          name: 'Daegu',
-          component: Daegu
-        },
-        {
-          path: '/sejong',
-          name: 'Sejong',
-          component: Sejong
-        },
-        {
-          path: '/sangam',
-          name: 'Sangam',
-          component: Sangam
-        },
-        {
-          path: '/schedule',
-          name: 'Schedule',
-          component: Schedule
-        },
-        {
-          path: '/introduction',
-          name: 'Introduction',
-          component: Introduction
-        },
-        {
-          path: '/faq',
-          name: 'FAQ',
-          component: FAQ
-        }
-      ]
+    path: '/splash',
+    name: 'Splash',
+    component: Splash
+  }, {
+    path: '/',
+    component: Home,
+    // 페이지를 볼 때 인증이 필요한지 등의 라우트 고유 정보를 설정
+    meta: {
+      requireAuth: true
+    },
+    children: [{
+      path: '',
+      name: 'Introduction',
+      component: Introduction
     },
     {
-      path: '/infostep',
-      name: 'InfoStep',
-      component: InfoStep
+      path: '/gunsan',
+      name: 'Gunsan',
+      component: Gunsan
     },
     {
-      path: '/accessphone',
-      name: 'AccessPhone',
-      component: AccessPhone
+      path: '/daegu',
+      name: 'Daegu',
+      component: Daegu
     },
     {
-      path: '/accesscode',
-      name: 'AccessCode',
-      component: AccessCode
+      path: '/sejong',
+      name: 'Sejong',
+      component: Sejong
     },
     {
-      path: '/agreecheck',
-      name: 'AgreeCheck',
-      component: AgreeCheck
+      path: '/sangam',
+      name: 'Sangam',
+      component: Sangam
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: Register
+      path: '/schedule',
+      name: 'Schedule',
+      component: Schedule
     },
-    
+    {
+      path: '/faq',
+      name: 'FAQ',
+      component: FAQ
+    }
+    ]
+  },
+  {
+    path: '/infostep',
+    name: 'InfoStep',
+    component: InfoStep
+  },
+  {
+    path: '/accessphone',
+    name: 'AccessPhone',
+    component: AccessPhone
+  },
+  {
+    path: '/accesscode',
+    name: 'AccessCode',
+    component: AccessCode
+  },
+  {
+    path: '/agreecheck',
+    name: 'AgreeCheck',
+    component: AgreeCheck
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+
   ]
 })
 
