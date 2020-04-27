@@ -9,8 +9,11 @@ import store from './store'
 import 'leaflet-routing-machine'
 import axios from 'axios'
 import VeeValidate from 'vee-validate'
+import VueScrollPicker from "vue-scroll-picker"
+import "vue-scroll-picker/dist/style.css";
 
 Vue.use(VeeValidate)
+Vue.use(VueScrollPicker)
 
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false

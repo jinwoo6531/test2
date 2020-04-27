@@ -1,5 +1,5 @@
 <template>
-<v-container class="map-container pa-0 ma-0" fluid grid-list-md>
+<v-container class="map-container pa-0 ma-0" fluid grid-list-md fill-height>
     <v-layout row wrap class="pa-0 ma-0" style="width: 100%; height: 100%;">
         <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2 style="width: 100%; height: 100%;">
             <v-card id="map-container" class="pa-0 ma-0" style="width: 100%; height: 100%;" outlined tile></v-card>

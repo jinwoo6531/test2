@@ -14,45 +14,49 @@
                         <v-flex class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs6 sm6 md6>
                             <p class="ma-0" style="color: #828282">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></p>
                         </v-flex>
-                        <v-flex class="selectStationWrap" x12 sm12 md12>
-                            <v-dialog v-model="dialog1" scrollable max-width="300px">
-                                <template v-slot:activator="{ on }">
-                                    <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
-                                </template>
-                                <v-card>
-                                    <v-card-text style="height: 300px;">
-                                        <v-radio-group v-model="start" column @change="onChange()">
-                                            <v-radio v-for="item in this.daeguList" :key="item.id" :value="item" :label="item.name"></v-radio>
-                                        </v-radio-group>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-btn color="blue darken-1" text @click="dialog1 = false">다음</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
-                            <span class="divide-bar"></span>
-                            <v-dialog v-model="dialog2" scrollable max-width="300px">
-                                <template v-slot:activator="{ on }">
-                                    <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
-                                </template>
-                                <v-card>
-                                    <v-card-text style="height: 300px;">
-                                        <v-radio-group v-model="end" column @change="onChange()">
-                                            <v-radio v-for="item in this.daeguList" :key="item.id" :value="item" :label="item.name"></v-radio>
-                                        </v-radio-group>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-btn color="blue darken-1" text @click="dialog2 = false">다음</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
-                            <!-- <select style="width: 100%" v-model="start" @change="onChange()">
+
+                        <!-- <v-flex class="selectStationWrap" x12 sm12 md12 lg12 xl12>
+                            <select style="width: 100%" v-model="start" @change="onChange()">
                                 <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
                             </select>
                             <span class="divide-bar"></span>
                             <select style="width: 100%" v-model="end" @change="onChange()">
                                 <option v-for="item in this.daeguList" :key="item.id" :value="item">{{ item.name }}</option>
-                            </select> -->
+                            </select>
+                        </v-flex> -->
+
+                        <v-overlay :z-index="zIndex" :value="overlay1">
+                            <v-card color="#FFF" style="width: 312px; height: 287px;">
+                                <v-card-text style="color: #000; width: 100%; height: 237px;">
+                                    <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
+                                </v-card-text>
+                                <v-card-actions class="pa-0">
+                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false">
+                                        출발지 적용하기
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-overlay>
+                        <v-overlay :z-index="zIndex" :value="overlay2">
+                            <v-card color="#FFF" style="width: 312px; height: 287px;">
+                                <v-card-text style="color: #000; width: 100%; height: 237px;">
+                                    <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
+                                </v-card-text>
+                                <v-card-actions class="pa-0">
+                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false">
+                                        도착지 적용하기
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-overlay>
+                        <v-flex class="selectStationWrap" x12 sm12 md12>
+                            <v-sheet color="transparent" @click="overlay1 = !overlay1;" @change="onChange()" v-model="start">
+                                {{ start }}
+                            </v-sheet>
+                            <span class="divide-bar"></span>
+                            <v-sheet color="transparent" @click="overlay2 = !overlay2" @change="onChange()" v-model="end">
+                                {{ end }}
+                            </v-sheet>
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap xs12 sm12 md12>
@@ -101,9 +105,13 @@ export default {
                 lng: 128.6815470000000000
             }
         ],
+        data: null,
+        options: [
+
+        ],
         station_arr: [],
-        start: '출발지: ',
-        end: '도착지: ',
+        start: '출발지 선택',
+        end: '도착지 선택 ',
         startId: [],
         endId: [],
         vehicle: 0,
@@ -112,8 +120,9 @@ export default {
         daeguList: [],
         callBtn: false,
 
-        dialog1: false,
-        dialog2: false,
+        overlay1: false,
+        overlay2: false,
+        zIndex: 0
     }),
 
     created() {
@@ -136,6 +145,7 @@ export default {
 
         this.addMarker()
         this.addRouting(this.waypoints)
+
     },
 
     methods: {
@@ -194,6 +204,13 @@ export default {
                                 this.daeguList.push(station_result[i])
                             }
                         }
+                    }
+
+                    for (var arr of this.daeguList) {
+                        this.options.push({
+                            name: arr.name,
+                            value: arr.name
+                        })
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -308,6 +325,7 @@ export default {
                                 lng: this.end.lon
                             })
                     }
+
                 }
                 // SET New Routing
                 this.addRouting(this.waypoints)
