@@ -45,37 +45,36 @@
                             </v-card>
                         </v-overlay>
 
-                        <!-- <v-flex class="selectStationWrap" xs12 sm12 md12>
-                            <v-sheet color="transparent" @click="overlay1 = !overlay1">
-                                <span v-if="start >= 1">{{ options[start - 1].name }}</span>
-                                <span v-else>{{ start }}</span>
-                            </v-sheet>
-                            <span class="divide-bar"></span>
-                            <v-sheet color="transparent" @click="overlay2 = !overlay2">
-                                <span v-if="end >= 1">{{ options[end - 1].name }}</span>
-                                <span v-else>{{ end }}</span>
-                            </v-sheet>
-                        </v-flex> -->
-
                         <v-flex class="selectStationWrap" xs12 sm12 md12>
-                            <v-layout class="d-flex align-center" fill-height xs12 sm12>
+                            <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
                                 <v-flex class="pa-0" xs2 sm2>
                                     <img src="../assets/arrow-icon.svg">
                                 </v-flex>
                                 <v-flex class="pa-0" xs8 sm8 md12>
-                                    <v-flex class="pa-0">
+                                    <!-- <v-flex class="pa-0 justify-center">
                                         <v-sheet color="transparent" @click="overlay1 = !overlay1">
                                             <span v-if="start >= 1">{{ options[start - 1].name }}</span>
                                             <span v-else>{{ start }}</span>
                                         </v-sheet>
                                     </v-flex>
                                     <span class="divide-bar"></span>
-                                    <v-flex class="pa-0">
+                                    <v-flex class="pa-0 justify-center">
                                         <v-sheet color="transparent" @click="overlay2 = !overlay2">
                                             <span v-if="end >= 1">{{ options[end - 1].name }}</span>
                                             <span v-else>{{ end }}</span>
                                         </v-sheet>
-                                    </v-flex>
+                                    </v-flex> -->
+                                    <div class="d-flex flex-column">
+                                        <v-card color="transparent" @click="overlay1 = !overlay1" flat>
+                                            <span v-if="start >= 1">{{ options[start - 1].name }}</span>
+                                            <span v-else>{{ start }}</span>
+                                        </v-card>
+                                        <span class="divide-bar mt-2 mb-2"></span>
+                                        <v-card color="transparent" @click="overlay2 = !overlay2" flat>
+                                            <span v-if="end >= 1">{{ options[end - 1].name }}</span>
+                                            <span v-else>{{ end }}</span>
+                                        </v-card>
+                                    </div>
                                 </v-flex>
                                 <v-flex class="pa-0" xs2 sm2>
                                     <img src="../assets/switch-icon.svg">
@@ -84,11 +83,9 @@
                         </v-flex>
 
                     </v-layout>
-                    <v-layout row wrap xs12 sm12 md12>
-                        <v-flex class="pa-0" v-if="callBtn">
-                            <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
-                        </v-flex>
-                    </v-layout>
+                    <v-flex class="pa-0" v-if="callBtn">
+                        <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
+                    </v-flex>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -473,7 +470,7 @@ export default {
 
 .divide-bar {
     display: inline-block;
-    width: 90%;
+    width: 100%;
     border: 0.8px dashed #E0E0E0;
 }
 

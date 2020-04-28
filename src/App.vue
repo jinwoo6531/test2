@@ -1,13 +1,11 @@
 <template>
 <v-app id="tasio">
-    <vue-progress-bar></vue-progress-bar>
-    <v-container class="pa-0 ma-0">
+    <v-container class="pa-0 ma-0 text-center progress">
         <v-layout row wrap align-center justify-center>
             <v-card color="transparent" flat v-if="!$isFirebaseAuth">
-                <v-card-text class="text-xs-center">
-                    <v-progress-circular indeterminate color="purple"></v-progress-circular>
+                <v-card-text>
+                    <v-progress-circular width="5" size="50" indeterminate color="purple"></v-progress-circular>
                 </v-card-text>
-                <v-card-text class="text-xs-center">인증 상태를 기다리는 중입니다.</v-card-text>
             </v-card>
         </v-layout>
     </v-container>
@@ -34,6 +32,13 @@ export default {
 
 #tasio {
     background: #FAFAFA;
+    position: relative;
+}
+
+.progress {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-90%);
 }
 
 .container {
