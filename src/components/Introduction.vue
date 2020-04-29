@@ -1,11 +1,36 @@
 <template>
-<v-container>
-    <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <p>Introduction</p>
-        </v-flex>
-    </v-layout>
-</v-container>
+<div id="introduction">
+    <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
+        <v-layout row wrap class="ma-0">
+            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
+                <v-card flat>
+                    <v-card flat>
+                        <img src="../assets/introduction-img.png">
+                    </v-card>
+                    <v-card flat>
+                        <v-card class="text-justify pa-5 intro-wrap" flat>
+                            TASIO는 스프링클라우드에서 론칭한 자율주행 셔틀 고객 중심 서비스 브랜드입니다. <br>
+                            스프링클라우드는 2019년 9월에 민간기업 최초로 국토교통부로부터 운전석이 없는 무인 자율주행 차량의 임시운행 허가를 획득했습니다. <br>
+                            스프링클라우드는 자율주행 차량을 많은 사람들이 보다 더 안전하게 이용할 수 있도록 노력할 것입니다.
+                        </v-card>
+
+                        <v-card class="text-justify pa-5 intro-wrap" flat>
+                            <p class="font-weight-bold">추가 정보:</p>
+                            <p>자세한 내용은 TASIO 웹사이트를 참고하세요.</p>
+                            <a href="www.tasio.io">www.tasio.io</a>
+                        </v-card>
+
+                        <v-card class="text-justify pa-5 intro-wrap" flat>
+                            <p class="font-weight-bold">Contact</p>
+                            <p>자세한 내용은 TASIO 웹사이트를 참고하세요.</p>
+                            <a href="www.tasio.io">www.tasio.io</a>
+                        </v-card>
+                    </v-card>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+</div>
 </template>
 
 <script>
@@ -15,5 +40,12 @@ export default {
 </script>
 
 <style>
-
+.intro-wrap {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 23px;
+    color: #555555;
+}
 </style>
