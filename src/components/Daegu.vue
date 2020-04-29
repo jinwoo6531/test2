@@ -190,7 +190,7 @@ export default {
                     draggable: false,
                     styles: [{
                         color: '#E51973',
-                        weight: 3
+                        weight: 5
                     }]
                 },
                 draggable: false,
@@ -332,6 +332,53 @@ export default {
                     }
 
                 }
+
+                let startIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../assets/start-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.start === 1) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 2) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 3) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 4) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
+                        icon: startIcon
+                    })
+                }
+
+                let endIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../assets/end-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.end === 1) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 2) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 3) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 4) {
+                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
+                        icon: endIcon
+                    })
+                }
+
                 // SET New Routing
                 this.addRouting(this.waypoints)
                 this.totalDistance()

@@ -57,7 +57,7 @@ const actions = {
       .catch(error => {
         // SMS 전송 실패
         console.error(error.message)
-      });
+      })
   },
 
   verifyOtp(_, {otp}) {
