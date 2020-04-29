@@ -7,12 +7,19 @@
             </v-flex>
 
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
-                <v-flex class="pa-4" xs12 sm12 md12 lg12 xl12>
-                    <v-flex v-if="callBtn" class="mb-3" style="background: rgba(255, 255, 255, 0.3); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
+                <div>
+                    <v-card class="d-flex justify-end" color="transparent" flat>
+                        <v-card class="pr-4" color="transparent" flat>
+                            <img style="diplay: inline-block;" src="../assets/location-btn.svg">
+                        </v-card>
+                    </v-card>
+                </div>
+                <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
+                    <v-flex v-if="callBtn" class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
                         <p class="ma-0" style="color: #828282; height: 30px;">
                             <span style="display: inline-block; height: 100%;">
                                 <img style="vertical-align: middle;" class="pl-3 pr-3" src="../assets/time-icon.svg">
-                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></span>
+                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
                             </span>
                         </p>
                     </v-flex>

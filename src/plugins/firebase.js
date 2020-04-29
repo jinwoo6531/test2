@@ -19,6 +19,8 @@ firebase.auth().onAuthStateChanged((user) => {
     
     if (user) {
         router.push ('/')
+        // 새로고침 할 경우?
+        // 자동 로그아웃?
     } else {
         router.push('/accessphone')
     }

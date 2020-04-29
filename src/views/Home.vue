@@ -104,7 +104,7 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-container style="background: transparent;" fluid>
+        <v-container style="background: transparent;" class="pa-0" fluid>
             <v-row no-gutters justify="start" xs12 sm12 md12>
                 <v-col cols="4">
                     <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
