@@ -26,7 +26,7 @@ const getters = {
 
 const mutations = {
   SET_DATA(state, data) {
-    state.info = data;
+    state.info = data
   },
   SET_LOGGED_IN(state, value) {
     state.user.loggedIn = value

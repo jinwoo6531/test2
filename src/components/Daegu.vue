@@ -1,91 +1,74 @@
 <template>
 <div id="daegu">
-    <v-container class="map-container pa-0 ma-0" fluid justify-center grid-list-md fill-height>
-        <v-layout column>
-            <v-flex class="pa-0">
-                <v-layout row wrap style="width: 100%; height: 100%; margin: 0;">
-                    <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
-                        <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
+    <v-container class="map-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
+        <v-layout row wrap class="ma-0">
+            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
+                <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
+            </v-flex>
+
+            <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
+                <v-flex class="pa-4" xs12 sm12 md12 lg12 xl12>
+                    <v-flex v-if="callBtn" class="mb-3" style="background: rgba(255, 255, 255, 0.3); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
+                        <p class="ma-0" style="color: #828282; height: 30px;">
+                            <span style="display: inline-block; height: 100%;">
+                                <img style="vertical-align: middle;" class="pl-3 pr-3" src="../assets/time-icon.svg">
+                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></span>
+                            </span>
+                        </p>
                     </v-flex>
-                </v-layout>
 
-                <v-flex class="pa-0 selectBox" xs12 sm12 md12>
-                    <v-layout row wrap class="pa-4" xs12 sm12 md12>
-                        <v-flex v-if="callBtn" class="mb-3" style="background: rgba(255, 255, 255, 0.3); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
-                            <p class="ma-0" style="color: #828282; height: 30px;">
-                                <span style="display: inline-block; height: 100%;">
-                                    <img style="vertical-align: middle;" class="pl-3 pr-3" src="../assets/time-icon.svg">
-                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773">약 {{ minutes }}분</span></span>
-                                </span>
-                            </p>
-                        </v-flex>
+                    <v-overlay :z-index="zIndex" :value="overlay1">
+                        <v-card color="#FFF" style="width: 312px; height: 287px;">
+                            <v-card-text style="color: #000; width: 100%; height: 237px;">
+                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
+                            </v-card-text>
+                            <v-card-actions class="pa-0">
+                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
+                                    출발지 적용하기
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-overlay>
+                    <v-overlay :z-index="zIndex" :value="overlay2">
+                        <v-card color="#FFF" style="width: 312px; height: 287px;">
+                            <v-card-text style="color: #000; width: 100%; height: 237px;">
+                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
+                            </v-card-text>
+                            <v-card-actions class="pa-0">
+                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
+                                    도착지 적용하기
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-overlay>
 
-                        <v-overlay :z-index="zIndex" :value="overlay1">
-                            <v-card color="#FFF" style="width: 312px; height: 287px;">
-                                <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                    <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
-                                </v-card-text>
-                                <v-card-actions class="pa-0">
-                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
-                                        출발지 적용하기
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-overlay>
-                        <v-overlay :z-index="zIndex" :value="overlay2">
-                            <v-card color="#FFF" style="width: 312px; height: 287px;">
-                                <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                    <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
-                                </v-card-text>
-                                <v-card-actions class="pa-0">
-                                    <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
-                                        도착지 적용하기
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-overlay>
-
-                        <v-flex class="selectStationWrap" xs12 sm12 md12>
-                            <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
-                                <v-flex class="pa-0" xs2 sm2>
-                                    <img src="../assets/arrow-icon.svg">
-                                </v-flex>
-                                <v-flex class="pa-0" xs8 sm8 md12>
-                                    <!-- <v-flex class="pa-0 justify-center">
-                                        <v-sheet color="transparent" @click="overlay1 = !overlay1">
-                                            <span v-if="start >= 1">{{ options[start - 1].name }}</span>
-                                            <span v-else>{{ start }}</span>
-                                        </v-sheet>
-                                    </v-flex>
-                                    <span class="divide-bar"></span>
-                                    <v-flex class="pa-0 justify-center">
-                                        <v-sheet color="transparent" @click="overlay2 = !overlay2">
-                                            <span v-if="end >= 1">{{ options[end - 1].name }}</span>
-                                            <span v-else>{{ end }}</span>
-                                        </v-sheet>
-                                    </v-flex> -->
-                                    <div class="d-flex flex-column">
-                                        <v-card color="transparent" @click="overlay1 = !overlay1" flat>
-                                            <span v-if="start >= 1">{{ options[start - 1].name }}</span>
-                                            <span v-else>{{ start }}</span>
-                                        </v-card>
-                                        <span class="divide-bar mt-2 mb-2"></span>
-                                        <v-card color="transparent" @click="overlay2 = !overlay2" flat>
-                                            <span v-if="end >= 1">{{ options[end - 1].name }}</span>
-                                            <span v-else>{{ end }}</span>
-                                        </v-card>
-                                    </div>
-                                </v-flex>
-                                <v-flex class="pa-0" xs2 sm2>
-                                    <img src="../assets/switch-icon.svg">
-                                </v-flex>
-                            </v-layout>
-                        </v-flex>
-
-                    </v-layout>
-                    <v-flex class="pa-0" v-if="callBtn">
-                        <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
+                    <v-flex class="selectStationWrap" xs12 sm12 md12 lg12 xl12>
+                        <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
+                            <v-flex class="pa-0" xs2 sm2 md2>
+                                <img src="../assets/arrow-icon.svg">
+                            </v-flex>
+                            <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
+                                <div class="d-flex flex-column">
+                                    <v-card style="text-align: left;" class="pl-2" color="transparent" @click="overlay1 = !overlay1" flat>
+                                        <span v-if="start >= 1">{{ options[start - 1].name }}</span>
+                                        <span v-else style="color: #BDBDBD">{{ start }}</span>
+                                    </v-card>
+                                    <span class="divide-bar mt-2 mb-2"></span>
+                                    <v-card style="text-align: left;" class="pl-2" color="transparent" @click="overlay2 = !overlay2" flat>
+                                        <span v-if="end >= 1">{{ options[end - 1].name }}</span>
+                                        <span v-else style="color: #BDBDBD">{{ end }}</span>
+                                    </v-card>
+                                </div>
+                            </v-flex>
+                            <v-flex class="pa-0" xs2 sm2 md2>
+                                <img src="../assets/switch-icon.svg">
+                            </v-flex>
+                        </v-layout>
                     </v-flex>
+                </v-flex>
+
+                <v-flex class="pa-0 mt-1" v-if="callBtn">
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -456,7 +439,7 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 9;
-    bottom: 20px;
+    bottom: 0;
 }
 
 .selectStationWrap {

@@ -104,19 +104,19 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-container style="background: transparent;">
-            <v-row no-gutters justify="start">
-                <v-col xs="4">
+        <v-container style="background: transparent;" fluid>
+            <v-row no-gutters justify="start" xs12 sm12 md12>
+                <v-col cols="4">
                     <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
                         <img src="../assets/nav-icon.svg" @click.stop="drawer = !drawer" />
                     </v-card>
                 </v-col>
-                <v-col xs="4">
+                <v-col cols="4">
                     <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
                         <img src="../assets/tasio-logo.svg" />
                     </v-card>
                 </v-col>
-                <v-col xs="4">
+                <v-col cols="4">
                     <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
 
                     </v-card>
