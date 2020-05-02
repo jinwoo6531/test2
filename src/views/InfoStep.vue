@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container style="background: #FFF;">
     <v-layout row wrap>
         <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
             <p style="color: #E61773; font-size: 14px; margin-right: 25px; margin-top: 13px;" @click="jump">건너뛰기</p>

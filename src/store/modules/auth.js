@@ -67,10 +67,9 @@ const actions = {
         console.log('회원 result ', result.user.uid)
         await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
         .then(response => {
-          console.log('get ', response)
           if (response.data == null || response.data == "" || response.data.level == 2) {
             state.user.data = result.user.uid
-            router.push('/register')
+            router.push('/auth/register')
           } else if (response.data.level == 1) {
             router.push('/')
           }

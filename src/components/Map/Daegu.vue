@@ -10,7 +10,7 @@
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
                         <v-card class="pr-4" color="transparent" flat>
-                            <img style="diplay: inline-block;" src="../assets/location-btn.svg">
+                            <img style="diplay: inline-block;" src="../../assets/location-btn.svg">
                         </v-card>
                     </v-card>
                 </div>
@@ -18,7 +18,7 @@
                     <v-flex v-if="callBtn" class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
                         <p class="ma-0" style="color: #828282; height: 30px;">
                             <span style="display: inline-block; height: 100%;">
-                                <img style="vertical-align: middle;" class="pl-3 pr-3" src="../assets/time-icon.svg">
+                                <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
                                 <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
                             </span>
                         </p>
@@ -52,7 +52,7 @@
                     <v-flex class="selectStationWrap" xs12 sm12 md12 lg12 xl12>
                         <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
                             <v-flex class="pa-0" xs2 sm2 md2>
-                                <img src="../assets/arrow-icon.svg">
+                                <img src="../../assets/arrow-icon.svg">
                             </v-flex>
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
@@ -68,7 +68,7 @@
                                 </div>
                             </v-flex>
                             <v-flex class="pa-0" xs2 sm2 md2>
-                                <img src="../assets/switch-icon.svg">
+                                <img src="../../assets/switch-icon.svg">
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -160,7 +160,7 @@ export default {
     methods: {
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
-                iconUrl: require("../assets/station_icon.svg"),
+                iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12]
             })
 
@@ -334,7 +334,7 @@ export default {
                 }
 
                 let startIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../assets/start-icon.svg"),
+                    iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40]
                 })
 
@@ -357,7 +357,7 @@ export default {
                 }
 
                 let endIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../assets/end-icon.svg"),
+                    iconUrl: require("../../assets/end-icon.svg"),
                     iconSize: [40, 40]
                 })
 
@@ -432,7 +432,7 @@ export default {
         async getVehicle() {
             // vehicle Icon 생성
             let vehicleIcon = this.$utils.map.createIcon({
-                iconUrl: require("../assets/vehicle1.svg"),
+                iconUrl: require("../../assets/vehicle1.svg"),
                 iconSize: [32, 32]
             })
 
@@ -474,49 +474,5 @@ export default {
 </script>
 
 <style scoped>
-.map-container {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
 
-#map-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 5;
-}
-
-.selectBox {
-    width: 100%;
-    position: fixed;
-    z-index: 9;
-    bottom: 0;
-}
-
-.selectStationWrap {
-    width: 100%;
-    height: 90px;
-    background: #FFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 3px;
-    text-align: center;
-}
-
-.divide-bar {
-    display: inline-block;
-    width: 100%;
-    border: 0.8px dashed #E0E0E0;
-}
-
-.callShuttle {
-    width: 100%;
-    border-radius: 0;
-    color: #FFF;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-}
 </style>

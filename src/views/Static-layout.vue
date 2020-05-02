@@ -1,6 +1,30 @@
 <template>
-<v-app class="home">
-    <v-navigation-drawer class="pa-5" style="z-index: 999" v-model="drawer" app>
+<v-app class="map">
+    <v-app-bar app flat>
+        <v-container style="height: 100%; background: transparent;" class="pa-0" fluid>
+            <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12 lg12>
+                <v-col style="height: 100%;" cols="4">
+                    <v-card style="height: 100%;" class="pa-0 nav-icon" color="transparent" outlined tile>
+                        <img src="../assets/nav-icon.svg" style="height: 100%;" @click.stop="drawer = !drawer" />
+                    </v-card>
+                </v-col>
+                <v-col style="height: 100%;" cols="4">
+                    <v-card style="height: 100%; text-align: center;" class="pa-1 nav-icon" color="transparent" outlined tile>
+                        <v-card-text v-if="this.$route.fullPath == '/'" class="pa-0 static-title" style="height: 100%; vertical-align: middle;">타시오 소개</v-card-text>
+                        <v-card-text v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title" style="height: 100%; vertical-align: middle;">운행 시간표</v-card-text>
+                        <v-card-text v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title" style="height: 100%; vertical-align: middle;">자주 묻는 질문</v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col style="height: 100%;" cols="4">
+                    <v-card style="height: 100%;" class="pa-0 nav-icon" color="transparent" outlined tile>
+
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-app-bar>
+
+    <v-navigation-drawer temporary class="pa-5" style="z-index: 999" v-model="drawer" app>
         <v-list dense>
             <v-list-item>
                 <v-list-item-content>
@@ -28,28 +52,28 @@
                         전체 노선
                     </v-list-item-title>
 
-                    <v-list-item link to="/gunsan">
+                    <v-list-item link to="/map/gunsan">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산관광벨트
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/daegu">
+                    <v-list-item link to="/map/daegu">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 대구수성알파시티
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/sejong">
+                    <v-list-item link to="/map/sejong">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 세종호수공원
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/sangam">
+                    <v-list-item link to="/map/sangam">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 상암DMC홍보관
@@ -86,7 +110,7 @@
                 </v-list-item>
             </template>
             <template v-else>
-                <v-list-item link to="/accessphone">
+                <v-list-item link to="/auth/accessphone">
                     <v-list-item-content>
                         <v-list-item-title>
                             로그인
@@ -104,26 +128,6 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-container style="background: transparent;" class="pa-0" fluid>
-            <v-row no-gutters justify="start" xs12 sm12 md12>
-                <v-col cols="4">
-                    <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
-                        <img src="../assets/nav-icon.svg" @click.stop="drawer = !drawer" />
-                    </v-card>
-                </v-col>
-                <v-col cols="4">
-                    <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
-                        <img src="../assets/tasio-logo.svg" />
-                    </v-card>
-                </v-col>
-                <v-col cols="4">
-                    <v-card class="pa-2 nav-icon" color="transparent" outlined tile>
-
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-
         <router-view></router-view>
     </v-content>
 </v-app>
@@ -142,7 +146,7 @@ export default {
     },
 
     data: () => ({
-        drawer: null,
+        drawer: null
     }),
 
     methods: {
@@ -159,35 +163,15 @@ export default {
 }
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
-.leaflet-control-container .leaflet-routing-container-hide {
-    display: none;
-}
-
-.boldMenu {
-    margin-top: 20px;
-}
-
-.nav-icon {
-    position: fixed;
-    z-index: 9;
-}
-
-.nav-footer {
-    font-family: 'Roboto', sans-serif;
+.static-title {
+    font-family: Noto Sans KR;
     font-style: normal;
-    font-weight: normal;
-    font-size: 10px;
-    line-height: 14px;
-    /* or 140% */
-
-    display: flex;
-    align-items: flex-end;
-
-    /* Gray 4 */
-
-    color: #BDBDBD;
+    font-weight: 500;
+    font-size: 20px;
+    color: #262626 !important;
 }
 </style>

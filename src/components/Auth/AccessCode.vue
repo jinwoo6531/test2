@@ -1,5 +1,5 @@
 <template>
-<v-container style="height: 100%;" fluid :grid-list-md="$vuetify.breakpoint.xs">
+<v-container style="height: 100%;" fluid>
     <v-layout row wrap>
         <v-flex class="pa-3" d-flex xs12 sm12>
             <p class="AccessCodeTitle mb-0">인증번호를 입력해주세요.</p>

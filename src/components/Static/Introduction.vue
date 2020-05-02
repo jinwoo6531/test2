@@ -5,7 +5,7 @@
             <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
                 <v-card flat>
                     <v-card flat>
-                        <img src="../assets/introduction-img.png">
+                        <img src="../../assets/introduction-img.png">
                     </v-card>
                     <v-card flat>
                         <v-card class="text-justify pa-5 intro-wrap" flat>
@@ -17,13 +17,13 @@
                         <v-card class="text-justify pa-5 intro-wrap" flat>
                             <p class="font-weight-bold">추가 정보:</p>
                             <p>자세한 내용은 TASIO 웹사이트를 참고하세요.</p>
-                            <a href="www.tasio.io">www.tasio.io</a>
+                            <a>www.tasio.io</a>
                         </v-card>
 
                         <v-card class="text-justify pa-5 intro-wrap" flat>
                             <p class="font-weight-bold">Contact</p>
                             <p>자세한 내용은 TASIO 웹사이트를 참고하세요.</p>
-                            <a href="www.tasio.io">www.tasio.io</a>
+                            <a>www.tasio.io</a>
                         </v-card>
                     </v-card>
                 </v-card>
