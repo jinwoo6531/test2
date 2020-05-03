@@ -1,29 +1,5 @@
 <template>
-<v-app class="map">
-    <v-app-bar app flat>
-        <v-container style="height: 100%; background: transparent;" class="pa-0" fluid>
-            <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12 lg12>
-                <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%;" class="pa-0 nav-icon" color="transparent" outlined tile>
-                        <img src="../assets/nav-icon.svg" style="height: 100%;" @click.stop="drawer = !drawer" />
-                    </v-card>
-                </v-col>
-                <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%; text-align: center;" class="pa-1 nav-icon" color="transparent" outlined tile>
-                        <v-card-text v-if="this.$route.fullPath == '/'" class="pa-0 static-title" style="height: 100%; vertical-align: middle;">타시오 소개</v-card-text>
-                        <v-card-text v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title" style="height: 100%; vertical-align: middle;">운행 시간표</v-card-text>
-                        <v-card-text v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title" style="height: 100%; vertical-align: middle;">자주 묻는 질문</v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%;" class="pa-0 nav-icon" color="transparent" outlined tile>
-
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-app-bar>
-
+<v-app class="static">
     <v-navigation-drawer temporary class="pa-5" style="z-index: 999" v-model="drawer" app>
         <v-list dense>
             <v-list-item>
@@ -104,7 +80,6 @@
                     <v-list-item-content>
                         <v-list-item-title>
                             {{ user.data.uid }}
-                            로그아웃
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -128,6 +103,27 @@
     </v-navigation-drawer>
 
     <v-content>
+        <v-container style="background: transparent;" class="pa-0" fluid>
+            <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
+                <v-col style="height: 100%;" cols="4">
+                    <v-card style="height: 100%;" class="pa-2 nav-icon" color="transparent" flat>
+                        <img src="../assets/nav-icon.svg" style="height: 100%;" @click.stop="drawer = !drawer" />
+                    </v-card>
+                </v-col>
+                <v-col style="height: 100%;" cols="4">
+                    <v-card style="height: 100%; text-align: center;" class="pa-2 nav-icon" color="transparent" flat>
+                        <v-card flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title">타시오 소개</v-card>
+                        <v-card flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</v-card>
+                        <v-card flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</v-card>
+                    </v-card>
+                </v-col>
+                <v-col style="height: 100%;" cols="4">
+                    <v-card style="height: 100%;" class="pa-2 nav-icon" color="transparent" flat>
+
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
         <router-view></router-view>
     </v-content>
 </v-app>
