@@ -132,7 +132,10 @@ export default {
 
         overlay1: false,
         overlay2: false,
-        zIndex: 0
+        zIndex: 0,
+
+        start_icon: {},
+        end_icon: {}
     }),
 
     created() {
@@ -339,19 +342,23 @@ export default {
                 })
 
                 if (this.start === 1) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
                         icon: startIcon
                     })
                 } else if (this.start === 2) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
                         icon: startIcon
                     })
                 } else if (this.start === 3) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
                         icon: startIcon
                     })
                 } else if (this.start === 4) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
                         icon: startIcon
                     })
                 }
@@ -362,22 +369,28 @@ export default {
                 })
 
                 if (this.end === 1) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
                         icon: endIcon
                     })
                 } else if (this.end === 2) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
                         icon: endIcon
                     })
                 } else if (this.end === 3) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
                         icon: endIcon
                     })
                 } else if (this.end === 4) {
-                    this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
                         icon: endIcon
                     })
                 }
+
+                this.map.removeLayer(endIcon)
 
                 // SET New Routing
                 this.addRouting(this.waypoints)
