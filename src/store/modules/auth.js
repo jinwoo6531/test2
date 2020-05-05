@@ -13,6 +13,8 @@ const state = {
   },
   token: '',
   claims: null,
+
+  timer: 180
 }
 
 const getters = {
@@ -21,6 +23,9 @@ const getters = {
   },
   user(state) {
     return state.user
+  },
+  timer(state) {
+    return state.timer
   }
 }
 
@@ -40,10 +45,13 @@ const mutations = {
   setClaims(state, claims) {
     state.claims = claims
   },
+  setTimer(state, payload){
+    state.timer = payload
+  }
 }
 const actions = {
   async sendOtp({
-    state
+    state, commit
   }, payload) {
     await Vue.prototype.$firebase
       .auth()
@@ -51,8 +59,8 @@ const actions = {
       .then(confirmationResult => {
         // SMS 전송
         window.confirmationResult = confirmationResult
-        alert("메세지를 전송하였습니다!");
-
+        alert("메세지를 전송하였습니다!")
+        commit('setTimer', new Date())
       })
       .catch(error => {
         // SMS 전송 실패
