@@ -55,11 +55,6 @@ export default {
     margin-top: 20px;
 }
 
-.nav-icon {
-    position: fixed;
-    z-index: 9;
-}
-
 .nav-footer {
     font-family: 'Roboto', sans-serif;
     font-style: normal;

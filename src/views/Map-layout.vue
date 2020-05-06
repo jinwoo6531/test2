@@ -103,25 +103,25 @@
         </v-footer>
     </v-navigation-drawer>
     <v-content>
-        <v-container style="background: transparent;" class="pa-0" fluid>
+        <v-card style="background: transparent;" :height="getHeight" class="pa-0">
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%;" class="pa-2 nav-icon" color="transparent" outlined tile>
-                        <img src="../assets/nav-icon.svg" style="height: 100%;" @click.stop="drawer = !drawer" />
-                    </v-card>
+                    <div style="height: 100%;" class="nav-icon">
+                        <img src="../assets/nav-icon.svg" style="height: 100%; padding: 8px;" @click.stop="drawer = !drawer" />
+                    </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%; text-align: center;" class="pa-2 nav-icon" color="transparent" outlined tile>
-                        <img src="../assets/tasio-logo.svg" style="height: 100%;" />
-                    </v-card>
+                    <div class="nav-icon" style="height: 100%; text-align: center; line-height: 57px;">
+                        <img src="../assets/tasio-logo.svg" style="width: 100%;  height: 100%; padding: 8px;" />
+                    </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%;" class="pa-2 nav-icon" color="transparent" outlined tile>
+                    <div class="nav-icon" style="height: 100%; text-align: center;">
 
-                    </v-card>
+                    </div>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-card>
 
         <router-view></router-view>
     </v-content>
@@ -135,7 +135,11 @@ export default {
     computed: {
         ...mapGetters({
             user: "user"
-        })
+        }),
+
+        getHeight() {
+            return this.$vuetify.breakpoint.xs ? 57 : '70'
+        }
     },
 
     data: () => ({
@@ -160,6 +164,12 @@ export default {
 
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
+}
+
+.nav-icon {
+    position: relative;
+    z-index: 9;
+    width: 100%;
 }
 
 .map-container {

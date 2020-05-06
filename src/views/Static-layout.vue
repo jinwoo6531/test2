@@ -103,27 +103,28 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-container style="background: transparent;" class="pa-0" fluid>
+        <v-card style="background: transparent;" :height="getHeight" class="pa-0">
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%;" class="pa-2 nav-icon" color="transparent" flat>
-                        <img src="../assets/nav-icon.svg" style="height: 100%;" @click.stop="drawer = !drawer" />
-                    </v-card>
+                    <div style="height: 100%;">
+                        <img src="../assets/nav-icon.svg" style="height: 100%;  text-align: center; padding: 8px;" @click.stop="drawer = !drawer" />
+                    </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%; text-align: center;" class="pa-2 nav-icon" color="transparent" flat>
-                        <v-card flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title">타시오 소개</v-card>
-                        <v-card flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</v-card>
-                        <v-card flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</v-card>
-                    </v-card>
+                    <div style="height: 100%; text-align: center; line-height: 57px;">
+                        <span flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title">타시오 소개</span>
+                        <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
+                        <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
+                    </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
-                    <v-card style="height: 100%;" class="pa-2 nav-icon" color="transparent" flat>
+                    <div style="height: 100%; text-align: center;">
 
-                    </v-card>
+                    </div>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-card>
+
         <router-view></router-view>
     </v-content>
 </v-app>
@@ -138,7 +139,11 @@ export default {
     computed: {
         ...mapGetters({
             user: "user"
-        })
+        }),
+
+        getHeight() {
+            return this.$vuetify.breakpoint.xs ? 57 : '70'
+        }
     },
 
     data: () => ({
