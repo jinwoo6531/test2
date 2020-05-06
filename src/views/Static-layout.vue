@@ -103,7 +103,7 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-card style="background: transparent;" :height="getHeight" class="pa-0">
+        <v-card style="background: transparent;" :height="getHeight" class="pa-0" flat>
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%;">
