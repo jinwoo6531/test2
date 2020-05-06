@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container style="height: 100%;">
     <v-layout row wrap>
         <v-flex class="pa-5" xs12 sm12 md12>
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
@@ -11,24 +11,24 @@
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" autofocus v-model="form.name" />
+                    <input type="text" id="name" name="name" autofocus v-model="form.name" placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                    <p>이메일</p>
-                    <input type="email" id="email" name="email" autofocus v-model="form.email" />
+                    <p style="margin-top: 22px;">이메일</p>
+                    <input type="text" id="email" name="email" autofocus v-model="form.email" placeholder="이메일 주소를 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                    <p>성별</p>
+                    <p style="margin-top: 22px;">성별</p>
                     <v-radio-group v-model="form.gender" row>
                         <v-radio label="남성" color="#E61773" value="man"></v-radio>
                         <v-radio label="여성" color="#E61773" value="woman"></v-radio>
                     </v-radio-group>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                    <p>생년월일</p>
-                    <input type="number" id="birth" name="birth" required autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
+                    <p style="margin-top: 22px;">생년월일</p>
+                    <input type="number" id="birth" name="birth" maxlength="6" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
-                <p>{{ error }}</p>
+                <p class="error-message" style="margin-top: 22px;">{{ error }}</p>
                 <v-footer absolute style="margin-bottom: 24px; background: transparent;">
                     <button class="signupBtn" type="submit">가입 완료하기</button>
                 </v-footer>
@@ -104,7 +104,6 @@ export default {
             this.form.gender = ''
             this.form.birth = ''
 
-
             this.$router.push('/')
             await this.get()
             // await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.form.uid)
@@ -156,12 +155,16 @@ input {
     width: 100%;
     height: 40px;
     background: #FFF;
-    color: #E0E0E0;
+    color: #262626;
     font-size: 13px;
     font-style: normal;
     font-weight: normal;
     border-bottom: 0.5px solid #828282;
     padding: 14px 0 11px 10px;
+}
+
+input::placeholder {
+    color: #E0E0E0;
 }
 
 .signupBtn {
@@ -173,5 +176,15 @@ input {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
+}
+
+.error-message {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 19px;
+    display: flex;
+    align-items: flex-end;
+    color: #EB5757;
 }
 </style>

@@ -15,12 +15,12 @@
                 <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
             </v-flex>
             <v-flex class="pa-0" justify-end d-flex xs4 sm4>
-                <p class="RemainTime">{{$store.getters.timer}}</p>
+                <p class="RemainTime">{{ remainTime }}</p>
             </v-flex>
         </v-flex>
         <v-flex class="pa-3 pt-0" d-flex xs12 sm12>
             <v-flex class="pa-0" justify-start d-flex xs8 sm8>
-                <p class="DoneTime">인증번호 유효시간이 만료 됐습니다.</p>
+                <p class="DoneTime">{{ this.doneTime }}</p>
             </v-flex>
             <v-flex class="pa-0" justify-end d-flex xs4 sm4>
                 <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
@@ -37,20 +37,12 @@
 </template>
 
 <script>
-import {
-    mapState
-} from 'vuex'
-
 export default {
-    computed: {
-        ...mapState([
-            'timer'
-        ])
-    },
-
     data: () => ({
         otp: '',
-        phoneN: ''
+        phoneN: '',
+        remainTime: 0,
+        doneTime: ''
     }),
 
     mounted() {
@@ -60,22 +52,43 @@ export default {
         let end = this.$route.params.phoneNumber.substring(10, 14)
         this.phoneN = start + '-' + mid + '-' + end
 
-        console.log(this.$store.getters.timer - new Date())
+        this.timeOut()
+    },
+
+    created() {
+        this.$store.dispatch('initReCaptcha')
+        this.timeStart()
+    },
+
+    beforeDestroy() {
+        clearInterval(this.polling)
     },
 
     methods: {
-        verifyOtp() {
-            console.log(typeof (this.$store.getters.timer))
+        timeStart() {
+            this.polling = setInterval(() => {
+                this.timeOut()
+            }, 1000)
+        },
+
+        timeOut() {
             var a = new Date() - this.$store.getters.timer
-            var second = (180 - parseInt(a / 1000)) //1 2 3 ...   179 %60 178 177 
-            var minute = parseInt(second / 60)
-            console.log(parseInt(a / 1000) )
-            console.log('hi,',second % 60, '초')
-            console.log('hi,',minute, '분')
-            
-            
+            let second = (180 - parseInt(a / 1000))
+            this.minutes = parseInt(second / 60)
+            this.seconds = second % 60
 
+            this.remainTime = this.minutes + '분' + this.seconds + '초'
+            if (this.minutes <= 0 && this.seconds <= 0) {
+                this.timeStop()
+                this.doneTime = '인증번호 유효시간이 만료 됐습니다.'
+            }
+        },
 
+        timeStop() {
+            clearInterval(this.polling)
+        },
+
+        verifyOtp() {
             if (this.otp.length == 6) {
                 this.$store.dispatch("verifyOtp", {
                     otp: this.otp
@@ -85,15 +98,15 @@ export default {
             }
         },
 
-        sendOtp() {
-            this.$store.dispatch("sendOtp", {
+        async sendOtp() {
+            await this.$store.dispatch("sendOtp", {
                 phoneNumber: this.$route.params.phoneNumber
             })
+            this.doneTime = '인증번호를 재발송하였습니다.'
+            clearInterval(this.polling)
+            this.timeOut()
+            this.timeStart()
         },
-    },
-
-    created() {
-        this.$store.dispatch('initReCaptcha');
     }
 };
 </script>
