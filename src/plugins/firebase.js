@@ -18,7 +18,7 @@ firebase.auth().onAuthStateChanged((user) => {
     store.dispatch("fetchUser", user)
     
     if (user) {
-        router.push('/')
+        router.push('/calling')
     } else {
         router.push('/auth/accessphone')
     }

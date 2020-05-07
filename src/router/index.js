@@ -6,6 +6,7 @@ import InfoStep from '@/views/InfoStep'
 import AuthLayout from '@/views/Auth-layout'
 import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
+import CallingLayout from '@/views/Calling-layout'
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,11 @@ const routes = [
     path: '/infostep',
     name: 'InfoStep',
     component: InfoStep
+  },
+  {
+    path: '/calling',
+    name: 'CallingLayout',
+    component: CallingLayout
   },
   {
     path: '/auth',

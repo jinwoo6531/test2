@@ -212,9 +212,9 @@ export default {
 .callShuttle {
     width: 100%;
     border-radius: 0;
-    color: #FFF;
+    color: #FFF !important;
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 16px !important;
 }
 </style>

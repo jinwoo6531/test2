@@ -75,7 +75,7 @@
                 </v-flex>
 
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="$router.push('/calling')">호출하기</v-btn>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -472,7 +472,7 @@ export default {
                                 var ourVehicle = response.data.sort(function (a, b) {
                                     return a.id < b.id ? -1 : 1
                                 })
-                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon]);
+                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon])
 
                             }).catch(error => {
                                 console.log(error)
@@ -489,6 +489,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>
