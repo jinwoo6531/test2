@@ -132,7 +132,10 @@ export default {
 
         overlay1: false,
         overlay2: false,
-        zIndex: 0
+        zIndex: 0,
+
+        start_icon: {},
+        end_icon: {}
     }),
 
     created() {
@@ -213,6 +216,9 @@ export default {
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
                                 this.gunsanList.push(station_result[i])
+                                this.gunsanList = this.gunsanList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1;
+                                })
                             }
                         }
                     }
@@ -251,6 +257,72 @@ export default {
                 } else if (this.start == this.end) {
                     alert('같은 정류장 선택 불가')
                 }
+
+                let startIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/start-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.start === 9) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 10) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 11) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 12) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 13) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
+                        icon: startIcon
+                    })
+                }
+
+                let endIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/end-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.end === 9) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 10) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 11) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 12) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 13) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
+                        icon: endIcon
+                    })
+                }
+
+                this.map.removeLayer(endIcon)
 
                 // SET New Routing
                 this.addRouting(this.waypoints)

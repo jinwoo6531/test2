@@ -132,7 +132,10 @@ export default {
 
         overlay1: false,
         overlay2: false,
-        zIndex: 0
+        zIndex: 0,
+
+        start_icon: {},
+        end_icon: {}
     }),
 
     created() {
@@ -204,6 +207,9 @@ export default {
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
                                 this.sangamList.push(station_result[i])
+                                this.sangamList = this.sangamList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1;
+                                })
                             }
                         }
                     }
@@ -286,6 +292,42 @@ export default {
                     }
 
                 }
+
+                let startIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/start-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.start === 7) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.sangamList[0].lat, this.sangamList[0].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 8) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.sangamList[1].lat, this.sangamList[1].lon], {
+                        icon: startIcon
+                    })
+                }
+
+                let endIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/end-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.end === 7) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.sangamList[0].lat, this.sangamList[0].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 8) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.sangamList[1].lat, this.sangamList[1].lon], {
+                        icon: endIcon
+                    })
+                }
+
+                this.map.removeLayer(endIcon)
 
                 // SET New Routing
                 this.addRouting(this.waypoints)

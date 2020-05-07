@@ -120,7 +120,10 @@ export default {
 
         overlay1: false,
         overlay2: false,
-        zIndex: 0
+        zIndex: 0,
+
+        start_icon: {},
+        end_icon: {}
     }),
 
     created() {
@@ -151,10 +154,10 @@ export default {
                 iconSize: [12, 12]
             })
 
-            this.$utils.map.createMakerByXY(this.map, [37.5793330000000000, 126.8890360000000000], {
+            this.$utils.map.createMakerByXY(this.map, [36.4993510000000000, 127.2706060000000000], {
                 icon: gifIcon
             })
-            this.$utils.map.createMakerByXY(this.map, [37.5812960000000000, 126.8856930000000000], {
+            this.$utils.map.createMakerByXY(this.map, [36.5016900000000000, 127.2723150000000000], {
                 icon: gifIcon
             })
         },
@@ -192,6 +195,9 @@ export default {
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
                                 this.sejongList.push(station_result[i])
+                                this.sejongList = this.sejongList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1;
+                                })
                             }
                         }
                     }
@@ -202,6 +208,7 @@ export default {
                             value: arr.id
                         })
                     }
+
                 }).catch(error => {
                     console.log('station (GET) error: ')
                     this.error = error
@@ -213,6 +220,9 @@ export default {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6)
             this.waypoints = []
+
+            console.log('this.start', this.start)
+            console.log('this.end', this.end)
 
             if (this.start >= 5 && this.end >= 5) {
                 // ADD Between Station
@@ -230,6 +240,42 @@ export default {
                 } else if (this.start == this.end) {
                     alert('같은 정류장 선택 불가')
                 }
+
+                let startIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/start-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.start === 5) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.sejongList[0].lat, this.sejongList[0].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 6) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.sejongList[1].lat, this.sejongList[1].lon], {
+                        icon: startIcon
+                    })
+                }
+
+                let endIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/end-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.end === 5) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.sejongList[0].lat, this.sejongList[0].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 6) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.sejongList[1].lat, this.sejongList[1].lon], {
+                        icon: endIcon
+                    })
+                }
+
+                this.map.removeLayer(endIcon)
 
                 // SET New Routing
                 this.addRouting(this.waypoints)

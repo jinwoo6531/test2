@@ -214,6 +214,9 @@ export default {
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
                                 this.daeguList.push(station_result[i])
+                                this.daeguList = this.daeguList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1;
+                                })
                             }
                         }
                     }
