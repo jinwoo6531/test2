@@ -72,7 +72,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>선착장 행</td>
+                                    <td>선착장행 주차장</td>
                                 </tr>
                             </tbody>
                         </template>
@@ -86,6 +86,12 @@
 <script>
 export default {
     name: 'CallingLayout',
+
+    mounted() {
+        setTimeout(() => {
+            this.$router.push('/map/callingshuttle')
+        }, 3000)
+    },
 
     computed: {
         /* cardWidth() {

@@ -75,6 +75,11 @@ const routes = [
       path: 'sangam',
       name: 'Sangam',
       component: () => import('@/components/Map/Sangam.vue')
+    },
+    {
+      path: 'callingshuttle',
+      name: 'CallingShuttle',
+      component: () => import('@/components/Map/Callingshuttle.vue')
     }]
   },
   {
