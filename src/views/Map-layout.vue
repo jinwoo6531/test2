@@ -129,7 +129,9 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {
+    mapGetters
+} from "vuex"
 
 export default {
     computed: {
@@ -216,5 +218,38 @@ export default {
     font-style: normal;
     font-weight: 500;
     font-size: 16px !important;
+}
+
+.person-modal {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    color: #E61773 !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.count {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    color: #262626 !important;
+    margin: 0 29px;
+}
+
+.select-person-btn {
+    width: 100%;
+    height: 50px;
+    background: #E61773 !important;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
+    position: absolute;
+    bottom: 0;
 }
 </style>

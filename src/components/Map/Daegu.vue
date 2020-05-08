@@ -15,6 +15,43 @@
                     </v-card>
                 </div>
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
+                    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+                        <template v-slot:activator="{ on }">
+                            <v-btn class="person-modal" color="#fff" v-on="on">
+                                <v-icon left>mdi-account-outline</v-icon> 탑승인원 선택
+                            </v-btn>
+                        </template>
+                        <v-card style="position: absolute; width: 100%; height: 100%;">
+                            <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
+                                <v-btn icon @click="dialog = false">
+                                    <v-icon color="#262626">mdi-close</v-icon>
+                                </v-btn>
+                            </v-toolbar>
+                            <v-container fluid class="fill-height" style="position: absolute; background: transparent;">
+                                <v-row align="center" justify="center">
+                                    <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
+                                    <v-card class="d-flex justify-space-around" flat>
+                                        <v-card flat tile>
+                                            <v-btn :class="{ 'is-disabled1': isDisabled1 }" @click="decrement" outlined color="#E61773" fab>
+                                                <v-icon dark>mdi-minus</v-icon>
+                                            </v-btn>
+                                        </v-card>
+                                        <v-card flat tile>
+                                            <v-card-text class="count">{{ count }}</v-card-text>
+                                        </v-card>
+                                        <v-card flat tile>
+                                            <v-btn :class="{ 'is-disabled2': isDisabled2 }" @click="increment" outlined color="#E61773" fab>
+                                                <v-icon dark>mdi-plus</v-icon>
+                                            </v-btn>
+                                        </v-card>
+                                    </v-card>
+                                </v-row>
+                            </v-container>
+
+                            <v-btn class="select-person-btn" @click="dialog = false" depressed tile>선택완료</v-btn>
+                        </v-card>
+                    </v-dialog>
+
                     <v-flex v-if="callBtn" class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
                         <p class="ma-0" style="color: #828282; height: 30px;">
                             <span style="display: inline-block; height: 100%;">
@@ -129,7 +166,10 @@ export default {
         minutes: 0,
         daeguList: [],
         callBtn: false,
-
+        dialog: false,
+        count: 1,
+        isDisabled1: true,
+        isDisabled2: false,
         overlay1: false,
         overlay2: false,
         zIndex: 0,
@@ -161,6 +201,42 @@ export default {
     },
 
     methods: {
+        increment() {
+            this.count += 1
+
+            if (this.count >= 14) {
+                this.isDisabled2 = true
+                this.count = 14
+            } else {
+                this.isDisabled2 = false
+            }
+
+            if (this.count <= 1) {
+                this.isDisabled1 = true
+                this.count = 1
+            } else {
+                this.isDisabled1 = false
+            }
+        },
+
+        decrement() {
+            this.count -= 1
+
+            if (this.count <= 1) {
+                this.isDisabled1 = true
+                this.count = 1
+            } else {
+                this.isDisabled1 = false
+            }
+
+            if (this.count >= 14) {
+                this.isDisabled2 = true
+                this.count = 14
+            } else {
+                this.isDisabled2 = false
+            }
+        },
+
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
@@ -490,4 +566,11 @@ export default {
 </script>
 
 <style>
+.is-disabled1 {
+    color: #BDBDBD !important;
+}
+
+.is-disabled2 {
+    color: #BDBDBD !important;
+}
 </style>

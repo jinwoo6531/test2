@@ -18,7 +18,7 @@ firebase.auth().onAuthStateChanged((user) => {
     store.dispatch("fetchUser", user)
     
     if (user) {
-        router.push('/')
+        router.push('/map/daegu')
     } else {
         router.push('/auth/accessphone')
     }
