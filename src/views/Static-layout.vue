@@ -79,7 +79,7 @@
                 <v-list-item link @click.prevent="signOut">
                     <v-list-item-content>
                         <v-list-item-title>
-                            {{ user.data.uid }}
+                            {{ user.data.name }}({{ user.data.phoneNumber }})
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>

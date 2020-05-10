@@ -72,14 +72,14 @@ const actions = {
     window.confirmationResult
       .confirm(otp)
       .then(async result => {
-        console.log('회원 result ', result.user.uid)
         await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
         .then(response => {
           if (response.data == null || response.data == "" || response.data.level == 2) {
-            state.user.data = result.user.uid
+            state.user.data = result.user
             router.push('/auth/register')
           } else if (response.data.level == 1) {
             router.push('/')
+            console.log(state.user.data)
           }
         }).catch(error => {
           console.log('User read: ', error)

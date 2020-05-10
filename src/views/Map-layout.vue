@@ -89,7 +89,7 @@
                 <v-list-item link to="/auth/accessphone">
                     <v-list-item-content>
                         <v-list-item-title>
-                            로그인
+                            {{ user.data.name }}({{ user.data.phoneNumber }})
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>

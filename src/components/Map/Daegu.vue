@@ -487,9 +487,9 @@ export default {
             this.callBtn = true
         },
 
-        /*getVehicle() {
+        /* async getVehicle() {
             var request_count = 0
-            setInterval(function () {
+            await setInterval(function () {
                 request_count++
                 axios.get('/api/vehicles/')
                     .then(response => {
@@ -501,7 +501,7 @@ export default {
                             if (vehicle_data[i].site == 2) {
                                 if (request_count <= 1) {
                                     var vehicleIcon = this.$utils.map.createIcon({
-                                        iconUrl: require("../assets/vehicle1.svg"),
+                                        iconUrl: require("../../assets/vehicle1.svg"),
                                         iconSize: [32, 32]
                                     })
                                     this.vehicle = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
@@ -510,8 +510,7 @@ export default {
                                     })
                                     console.log("Vehicle location: " + vehicle_data[i].lat + "," + vehicle_data[i].lon);
                                 } else {
-                                    var newLatLng = new L.LatLng(vehicle_data[i].lat, vehicle_data[i].lon);
-                                    this.vehicle.setLatLng(newLatLng)
+                                    this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
                                 }
                             }
                         }
@@ -519,7 +518,7 @@ export default {
                         console.log(error)
                     })
             }.bind(this), 1000)
-        }*/
+        }, */
 
         async getVehicle() {
             // vehicle Icon 생성
