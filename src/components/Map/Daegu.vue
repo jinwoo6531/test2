@@ -521,7 +521,7 @@ export default {
             }.bind(this), 1000)
         }*/
 
-        async getVehicle() {
+        /* async getVehicle() {
             // vehicle Icon 생성
             let vehicleIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/vehicle1.svg"),
@@ -548,6 +548,8 @@ export default {
                                 var ourVehicle = response.data.sort(function (a, b) {
                                     return a.id < b.id ? -1 : 1
                                 })
+
+                                // from the data 
                                 this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon])
 
                             }).catch(error => {
@@ -560,7 +562,46 @@ export default {
                     this.error = error
                     console.log(error)
                 })
-        }
+        } */
+        async getVehicle() {
+            var request_count = 0
+            await setInterval(function () {
+                request_count++
+                axios.get('/api/vehicles/')
+                    .then(response => {
+                        var vehicle_data = response.data.sort(function (a, b) {
+                            return a.id < b.id ? -1 : 1
+                        })
+                        var vehicleCount = Object.keys(vehicle_data).length;
+                        for (let i = 0; i < vehicleCount; i++) {
+                            if (vehicle_data[i].site == 2) {
+                                //name of vehicle
+                                // console.log("vehicle_name: ", vehicle_data[i].name)
+                                if (request_count <= 1) {
+                                    var vehicleIcon = this.$utils.map.createIcon({
+                                        iconUrl: require("../../assets/vehicle1.svg"),
+                                        iconSize: [32, 32]
+                                    })
+                                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                        draggable: false,
+                                        icon: vehicleIcon
+                                    })
+                                    var vehicle_arr = []
+                                    vehicle_arr.push(this.vehicle)
+                                    // console.log(vehicle_arr.length)
+                                    // .log('vehicle_arr', vehicle_arr[0]._latlng.lat)
+                                    // console.log('this.vehicle', this.vehicle._latlng)
+                                    // console.log("Vehicle location: " + vehicle_data[i].lat + "," + vehicle_data[i].lon);
+                                } else {
+                                    this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                                }
+                            }
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
+            }.bind(this), 1000)
+        },
     }
 }
 </script>
