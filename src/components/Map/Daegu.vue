@@ -161,7 +161,7 @@ export default {
         end: '도착지 선택 ',
         startId: [],
         endId: [],
-        vehicle: 0,
+        vehicle: [],
         km: 0,
         minutes: 0,
         daeguList: [],
@@ -563,9 +563,9 @@ export default {
                     console.log(error)
                 })
         } */
-        async getVehicle() {
+        getVehicle() {
             var request_count = 0
-            await setInterval(function () {
+            setInterval(function () {
                 request_count++
                 axios.get('/api/vehicles/')
                     .then(response => {
@@ -573,6 +573,7 @@ export default {
                             return a.id < b.id ? -1 : 1
                         })
                         var vehicleCount = Object.keys(vehicle_data).length;
+                        // var vehicle_arr = []
                         for (let i = 0; i < vehicleCount; i++) {
                             if (vehicle_data[i].site == 2) {
                                 //name of vehicle
@@ -582,18 +583,20 @@ export default {
                                         iconUrl: require("../../assets/vehicle1.svg"),
                                         iconSize: [32, 32]
                                     })
-                                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                    this.vehicle[i] = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
                                         draggable: false,
                                         icon: vehicleIcon
                                     })
-                                    var vehicle_arr = []
-                                    vehicle_arr.push(this.vehicle)
-                                    // console.log(vehicle_arr.length)
-                                    // .log('vehicle_arr', vehicle_arr[0]._latlng.lat)
-                                    // console.log('this.vehicle', this.vehicle._latlng)
-                                    // console.log("Vehicle location: " + vehicle_data[i].lat + "," + vehicle_data[i].lon);
+                                    console.log(this.vehicle[i])
+                                    // console.log(vehicle_data[i])
+                                    // vehicle_arr.push(vehicle_data[i])
+                                    // console.log(vehicle_arr)
                                 } else {
-                                    this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                                    // console.log(this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]))
+                                    // this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                                    // vehicle_arr[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                                    console.log(this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]))
+                                    this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
                                 }
                             }
                         }
