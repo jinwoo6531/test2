@@ -1,18 +1,16 @@
 import Vue from 'vue'
 import axios from 'axios'
-import router from '../../router'
 
 const state = {
   info: {
     phoneNumber: null,
     appVerifier: {}
   },
+
   user: {
     loggedIn: false,
     data: {}
   },
-  token: '',
-  claims: null,
 
   timer: 180
 }
@@ -39,20 +37,12 @@ const mutations = {
   SET_USER(state, data) {
     state.user.data = data
   },
-  setToken(state, token) {
-    state.token = token
-  },
-  setClaims(state, claims) {
-    state.claims = claims
-  },
-  setTimer(state, payload){
+  SET_TIMER(state, payload){
     state.timer = payload
   }
 }
 const actions = {
-  async sendOtp({
-    state, commit
-  }, payload) {
+  async sendOtp({state, commit}, payload) {
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -60,7 +50,7 @@ const actions = {
         // SMS 전송
         window.confirmationResult = confirmationResult
         alert("메세지를 전송하였습니다!")
-        commit('setTimer', new Date())
+        commit('SET_TIMER', new Date())
       })
       .catch(error => {
         // SMS 전송 실패
@@ -71,16 +61,10 @@ const actions = {
   verifyOtp(_, {otp}) {
     window.confirmationResult
       .confirm(otp)
-      .then(async result => {
-        console.log('회원 result ', result.user.uid)
-        await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
+      .then(result => {
+        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
         .then(response => {
-          if (response.data == null || response.data == "" || response.data.level == 2) {
-            state.user.data = result.user.uid
-            router.push('/auth/register')
-          } else if (response.data.level == 1) {
-            router.push('/')
-          }
+          console.log(response.data)
         }).catch(error => {
           console.log('User read: ', error)
         })
@@ -94,27 +78,14 @@ const actions = {
     commit("SET_LOGGED_IN", user !== null)
         if (user) {
             commit("SET_USER", {
-              uid: user.uid
+              uid: user.uid,
+              phoneNumber: user.phoneNumber,
+              displayName: user.displayName
             })
-            // await dispatch('getToken')
         } else {
             commit("SET_USER", null);
         }
   },
-
-  // async getToken({
-  //   commit,
-  //   state
-  // }) {
-  //   const token = await state.user.data.getIdToken(true)
-  //   console.log('token: ', token)
-  //   commit('setToken', token)
-  //   const {
-  //     claims
-  //   } = await state.user.data.getIdTokenResult()
-  //   commit('setClaims', claims)
-  //   console.log('claims: ', claims)
-  // },
 
   initReCaptcha({commit}) {
     setTimeout(() => {

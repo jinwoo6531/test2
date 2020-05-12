@@ -5,10 +5,7 @@
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
-                <v-flex style="display: none;" xs12 sm12 md12>
-                    <p>uid</p>
-                    <input type="text" id="uid" name="uid" v-model="this.form.uid">
-                </v-flex>
+                <p>{{user}}</p>
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
                     <input type="text" id="name" name="name" autofocus v-model="form.name" placeholder="이름을 입력하세요." />
@@ -42,13 +39,14 @@
 import {
     mapGetters
 } from 'vuex'
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
     data() {
         return {
+            uid: "",
+            phoneNumber: "",
             form: {
-                uid: "",
                 name: "",
                 email: "",
                 gender: "",
@@ -59,9 +57,8 @@ export default {
         };
     },
 
-    mounted() {
-        this.form.uid = this.user.data
-        console.log(this.user)
+    created() {
+        this.get()
     },
 
     computed: {
@@ -71,7 +68,7 @@ export default {
     },
 
     methods: {
-        async submit(uid) {
+        submit(uid) {
             if (!this.form.name) {
                 this.error = "이름은 필수 항목입니다."
                 return
@@ -89,9 +86,10 @@ export default {
                 return
             }
 
-            uid = this.form.uid
-            await this.$firebase.firestore().collection('users').doc(uid).set({
-                uid: this.form.uid,
+            uid = this.user.data.uid
+            this.$firebase.firestore().collection('users').doc(uid).set({
+                uid: this.user.data.uid,
+                phoneNumber: this.user.data.phoneNumber,
                 displayName: this.form.name,
                 email: this.form.email,
                 gender: this.form.gender,
@@ -99,38 +97,19 @@ export default {
                 birth: this.form.birth
             })
 
+            this.user.data.displayName = this.form.name
+
             this.form.name = ''
             this.form.email = ''
             this.form.gender = ''
             this.form.birth = ''
-
+            
             this.$router.push('/')
-            await this.get()
-            // await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.form.uid)
+            this.get()
         },
 
         async get() {
-            const snapshot = await this.$firebase.firestore().collection('users').get()
-            this.items = []
-            snapshot.forEach(v => {
-                const {
-                    uid,
-                    name,
-                    email,
-                    gender,
-                    birth
-                } = v.data()
-                this.items.push({
-                    uid,
-                    name,
-                    email,
-                    gender,
-                    birth,
-                    id: v.id
-                })
-            })
-            console.log("items: ", this.items)
-            console.log('snapshot: ', snapshot)
+            await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
         }
     }
 };

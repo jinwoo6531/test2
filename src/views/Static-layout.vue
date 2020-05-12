@@ -78,8 +78,8 @@
             <template v-if="user.loggedIn">
                 <v-list-item link @click.prevent="signOut">
                     <v-list-item-content>
-                        <v-list-item-title>
-                            {{ user.data.uid }}
+                        <v-list-item-title v-if="ready">
+                            {{ displayName }}({{ user.data.phoneNumber }})
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -134,8 +134,22 @@
 import {
     mapGetters
 } from "vuex"
+import axios from 'axios'
 
 export default {
+    data: () => ({
+        drawer: null,
+        ready: false
+    }),
+
+    created() {
+        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            .then(response => {
+                this.displayName = response.data.displayName
+                this.ready = true
+            })
+    },
+
     computed: {
         ...mapGetters({
             user: "user"
@@ -145,10 +159,6 @@ export default {
             return this.$vuetify.breakpoint.xs ? 57 : '70'
         }
     },
-
-    data: () => ({
-        drawer: null
-    }),
 
     methods: {
         signOut() {

@@ -587,15 +587,7 @@ export default {
                                         draggable: false,
                                         icon: vehicleIcon
                                     })
-                                    console.log(this.vehicle[i])
-                                    // console.log(vehicle_data[i])
-                                    // vehicle_arr.push(vehicle_data[i])
-                                    // console.log(vehicle_arr)
                                 } else {
-                                    // console.log(this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]))
-                                    // this.vehicle.setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
-                                    // vehicle_arr[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
-                                    console.log(this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]))
                                     this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
                                 }
                             }
