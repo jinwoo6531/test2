@@ -1,0 +1,96 @@
+<template>
+<v-container class="pa-0 gradient" fluid fill-height>
+    <v-row no-gutters>
+        <v-col xs="12" sm="12" md="12">
+            <v-card color="transparent" v-if="ready" flat>
+                <v-card-title class="mb-3">{{ displayName }} 님 환영합니다!</v-card-title>
+                <v-card-subtitle>이제 모든 준비가 끝났어요. </v-card-subtitle>
+            </v-card>
+        </v-col>
+    </v-row>
+    <v-row no-gutters>
+        <v-col xs="12" sm="12" md="12">
+            <v-card class="pa-2 welcome-msg" color="transparent" flat>
+                자율주행 셔틀 타시오가
+                <br>
+                편안하게 모실게요!
+                <br><br>
+                준비 되셨나요?
+            </v-card>
+        </v-col>
+    </v-row>
+    <v-row no-gutters>
+        <v-col xs="12" sm="12" md="12">
+            <v-card color="transparent" flat></v-card>
+        </v-col>
+    </v-row>
+    <v-row no-gutters>
+        <v-col xs="12" sm="12" md="12">
+            <v-card class="pa-2" color="transparent" flat></v-card>
+        </v-col>
+    </v-row>
+    <v-footer absolute style="margin-bottom: 24px; background: transparent;">
+        <v-btn block depressed height="50px" color="#E61773" class="start-tasio" @click="startTasio">타시오 시작하기</v-btn>
+    </v-footer>
+</v-container>
+</template>
+
+<script>
+import {mapGetters} from "vuex"
+import axios from 'axios'
+
+export default {
+    data: () => ({
+        drawer: null,
+        ready: false
+    }),
+
+    created() {
+        this.get()
+    },
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        })
+    },
+
+    methods: {
+        startTasio() {
+            this.$router.replace('/')
+        },
+
+        async get() {
+            await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            .then(response => {
+                this.displayName = response.data.displayName
+                this.ready = true
+            })
+        }
+    }
+
+}
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+.welcome-msg {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    color: #E61773;
+}
+
+.start-tasio {
+    font-family: Noto Sans KR;
+    width: 100%;
+    border-radius: 2px;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+}
+</style>

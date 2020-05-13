@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Splash from '@/views/Splash'
 import InfoStep from '@/views/InfoStep'
+import Welcome from '@/views/Welcome'
 import AuthLayout from '@/views/Auth-layout'
 import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
@@ -15,6 +16,14 @@ const routes = [
     path: '/splash',
     name: 'Splash',
     component: Splash
+  },
+  {
+    path: '/welcome',
+    name: 'Welcome',
+    component: Welcome,
+    beforeEnter: (to, from, next) => {
+      next()
+    },
   },
   {
     path: '/infostep',

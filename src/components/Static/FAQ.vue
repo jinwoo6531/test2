@@ -66,7 +66,7 @@ export default {
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
-    color: #262626;
+    color: #262626 !important;
 }
 
 .v-tabs-slider-wrapper,
@@ -89,5 +89,15 @@ export default {
 
 .mdi-chevron-down::before {
     display: none;
+}
+
+.v-expansion-panel-content__wrap {
+    background: #F2F2F2;
+    padding: 24px 16px !important;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    color: #888;
 }
 </style>

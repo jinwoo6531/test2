@@ -5,7 +5,6 @@
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
-                <p>{{user}}</p>
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
                     <input type="text" id="name" name="name" autofocus v-model="form.name" placeholder="이름을 입력하세요." />
@@ -104,7 +103,7 @@ export default {
             this.form.gender = ''
             this.form.birth = ''
             
-            this.$router.push('/')
+            this.$router.push('/welcome')
             this.get()
         },
 
