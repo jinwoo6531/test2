@@ -7,22 +7,55 @@
                     <v-list-item-title class="title">
                         <img src="../assets/side-logo.svg">
                     </v-list-item-title>
-                    <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #333333; margin-top: 9px;">
+                    <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #E61773; margin-top: 10px;">
                         스프링클라우드 자율주행 셔틀
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
 
+            <template v-if="user.loggedIn">
+                <v-list-item link @click.prevent="signOut" class="pa-0">
+                    <v-list-item-content v-if="ready">
+                        <v-row class="ma-0" style="height: 30px;">
+                            <v-col class="pa-0" cols="10">
+                                <v-row class="ma-0">
+                                    <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
+                                        {{ displayName }}님
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
+                                        {{ phoneNumber }}
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                            <v-col class="pa-0" cols="2" style="width: 100%; height: 100%; line-height: 34px; text-align: center;">
+                                <img src="../assets/setting.svg" />
+                            </v-col>
+                        </v-row>
+                    </v-list-item-content>
+                </v-list-item>
+            </template>
+            <template v-else>
+                <v-list-item link to="/auth/accessphone" class="pa-0">
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            로그인
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </template>
+
             <v-divider class="mt-3 mb-4"></v-divider>
 
-            <v-list-item link to="/">
+            <v-list-item link to="/" class="pa-0">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
                         타시오 소개
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item class="boldMenu">
+            <v-list-item class="boldMenu pa-0">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626; margin-bottom: 15px;">
                         전체 노선
@@ -59,7 +92,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu" link to="/schedule">
+            <v-list-item class="boldMenu pa-0" link to="/schedule">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
                         운행 시간표
@@ -67,35 +100,16 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu" link to="/faq">
+            <v-list-item class="boldMenu pa-0" link to="/faq">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
                         자주 묻는 질문
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-
-            <template v-if="user.loggedIn">
-                <v-list-item link @click.prevent="signOut">
-                    <v-list-item-content>
-                        <v-list-item-title v-if="ready">
-                            {{ displayName }}({{ user.data.phoneNumber }})
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </template>
-            <template v-else>
-                <v-list-item link to="/auth/accessphone">
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            로그인
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </template>
         </v-list>
 
-        <v-footer class="nav-footer justify-left" style="background: transparent; margin-top: 65px;">
+        <v-footer class="nav-footer justify-left pa-0" style="background: transparent; margin-top: 65px;">
             <span style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; line-height: 17px; display: flex; align-items: flex-end; color: #828282; margin-bottom: 15px;">개인정보보호정책</span>
             <span>COPYRIGHT@SPRINGCLOUD INC. <br>
                 ALL RIGHTS RESERVED.</span>
@@ -146,6 +160,10 @@ export default {
         axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.displayName = response.data.displayName
+                let start = this.user.data.phoneNumber.substring(3, 5)
+                let mid = this.user.data.phoneNumber.substring(5, 9)
+                let end = this.user.data.phoneNumber.substring(9, 13)
+                this.phoneNumber = '0' + start + '-' + mid + '-' + end
                 this.ready = true
             })
     },
