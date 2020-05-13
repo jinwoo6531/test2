@@ -1,5 +1,5 @@
 <template>
-<v-app id="tasio">
+<v-app id="tasio" style="width: 100%; height: 100%; background: #FAFAFA;">
     <!-- 
         아마 이 파일에서 경우에 따라 나누어주어야 할 것 같다.
         처음 앱을 설치할 경우는 Infostep, 로그아웃된 경우, 회원이 아닌 경우는 휴대폰 인증 페이지, 로그인 된 경우는 홈페이지 
@@ -35,19 +35,20 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
 #tasio {
-    background: #FAFAFA;
+    background: #FAFAFA !important;
+    font-family: 'Noto Sans KR', sans-serif;
     position: relative;
+}
+
+.theme--light.v-application {
+    background: #FAFAFA !important;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .progress {
     position: absolute;
     top: 50%;
     transform: translateY(-90%);
-}
-
-.container {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: #FAFAFA;
 }
 
 /* Navigation-drawer */

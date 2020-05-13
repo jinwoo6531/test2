@@ -174,7 +174,6 @@ table tr td {
     height: 200px;
     width: 200px;
     border-radius: 50%;
-    border: 0.5px solid #FFF;
     position: absolute;
     top: 50%;
     left: 50%;

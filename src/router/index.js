@@ -21,9 +21,6 @@ const routes = [
     path: '/welcome',
     name: 'Welcome',
     component: Welcome,
-    beforeEnter: (to, from, next) => {
-      next()
-    },
   },
   {
     path: '/infostep',
@@ -99,6 +96,10 @@ const routes = [
     },
     children: [{
       path: '',
+      name: 'Main',
+      component: () => import('@/components/Static/Main')
+    },{
+      path: 'introduction',
       name: 'Introduction',
       component: () => import('@/components/Static/Introduction')
     },

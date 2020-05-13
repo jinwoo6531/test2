@@ -48,7 +48,7 @@
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
-            <v-list-item link to="/" class="pa-0">
+            <v-list-item link to="/introduction" class="pa-0">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
                         타시오 소개
@@ -58,7 +58,13 @@
             <v-list-item class="boldMenu pa-0">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626; margin-bottom: 15px;">
-                        전체 노선
+                        <v-list-item link to="/" class="pa-0">
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                                    전체 노선
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list-item-title>
 
                     <v-list-item link to="/map/gunsan">
@@ -121,12 +127,13 @@
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%;">
-                        <img src="../assets/nav-icon.svg" style="height: 100%;  text-align: center; padding: 8px;" @click.stop="drawer = !drawer" />
+                        <img src="../assets/static-nav-icon.svg" style="height: 100%;  text-align: center; padding: 8px;" @click.stop="drawer = !drawer" />
                     </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%; text-align: center; line-height: 57px;">
-                        <span flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title">타시오 소개</span>
+                        <span flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
+                        <span flat v-if="this.$route.fullPath == '/introduction'" class="pa-0 static-title">타시오 소개</span>
                         <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
                         <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
                     </div>
@@ -202,5 +209,7 @@ export default {
     font-weight: 500;
     font-size: 20px;
     color: #262626 !important;
+    width: 100%;
+    height: 100%;
 }
 </style>
