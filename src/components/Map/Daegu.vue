@@ -19,6 +19,7 @@
                         <template v-slot:activator="{ on }">
                             <v-btn class="person-modal" color="#fff" v-on="on">
                                 <v-icon left>mdi-account-outline</v-icon> 탑승인원 선택
+                                <!-- <v-icon left>mdi-account-outline</v-icon> 탑승인원 {{count}}명 -->
                             </v-btn>
                         </template>
                         <v-card style="position: absolute; width: 100%; height: 100%;">
@@ -48,7 +49,7 @@
                                 </v-row>
                             </v-container>
 
-                            <v-btn class="select-person-btn" @click="dialog = false" depressed tile>선택완료</v-btn>
+                            <v-btn class="select-person-btn" @click="rideCount" depressed tile>선택완료</v-btn>
                         </v-card>
                     </v-dialog>
 
@@ -112,7 +113,7 @@
                 </v-flex>
 
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="$router.push('/calling')">호출하기</v-btn>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="requestCallBtn">호출하기</v-btn>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -291,7 +292,7 @@ export default {
                             if (station_result[i].site == this.pageId) {
                                 this.daeguList.push(station_result[i])
                                 this.daeguList = this.daeguList.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1;
+                                    return a.id < b.id ? -1 : 1
                                 })
                             }
                         }
@@ -563,6 +564,25 @@ export default {
                     })
             }.bind(this), 1000)
         },
+
+        requestCallBtn() {
+            this.$router.push({
+                name: "CallingLayout",
+                params: {
+                    site: this.pageId,
+                    start: this.start,
+                    end: this.end,
+                    startName: this.options[this.start - 1].name,
+                    endName: this.options[this.end - 1].name,
+                    minutes: this.minutes
+                }
+            })
+        },
+
+        rideCount() {
+            this.count 
+            this.dialog = false
+        }
     }
 }
 </script>

@@ -1,19 +1,19 @@
 <template>
 <div id="calling-shuttle">
-    <v-container class="calling-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
+    <v-container class="map-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
                 <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
             </v-flex>
 
-            <v-flex class="pa-0 call-infomation" xs12 sm12 md12 lg12 xl12>
+            <v-flex class="pa-0 call-infomation" xs12 sm12 md12 lg12 xl12 v-if="ready">
                 <v-flex class="pa-4 desination" xs12 sm12 md12 lg12 xl12>
                     <v-row no-gutters>
-                        <v-col cols="5">자율주행 테마파크</v-col>
+                        <v-col cols="5">{{startName}}</v-col>
                         <v-col cols="2">
                             <img src="../../assets/arrow-icon2.svg" class="display: inline-block;">
                         </v-col>
-                        <v-col cols="5">선착장행</v-col>
+                        <v-col cols="5">{{endName}}</v-col>
                     </v-row>
                 </v-flex>
 
@@ -39,7 +39,7 @@
                     </v-list>
 
                     <p class="arrive-wrap">
-                        <span class="arrive-time">약 3분 후</span>
+                        <span class="arrive-time">약 {{minutes}}분 후</span>
                         셔틀이 출발지에 도착합니다.
                     </p>
                 </v-flex>
@@ -54,12 +54,66 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'CallingShuttle',
 
     data: () => ({
-
+        ready: false,
+        map: null,
+        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        stationList: [],
+        setLat: "",
+        setLng: ""
     }),
+
+    mounted() {
+        this.site = this.$route.params.site
+        this.start = this.$route.params.start
+        this.end = this.$route.params.end
+        this.startName = this.$route.params.startName
+        this.endName = this.$route.params.endName
+        this.minutes = this.$route.params.minutes
+
+        this.getStation()
+        this.ready = true
+
+        this.map = this.$utils.map.createMap('map-container', {
+            zoomControl: false,
+            routeWhileDragging: false,
+            attributionControl: false
+        })
+
+        // Open Street Map Layer Service Load
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
+    },
+
+    methods: {
+        getStation() {
+            axios.get('/api/stations/')
+                .then(response => {
+                    if (response.status == 200) {
+                        let station_result = response.data
+                        let station_count = Object.keys(station_result).length
+                        for (let i = 0; i < station_count; i++) {
+                            if (station_result[i].site == this.site) {
+                                this.stationList.push(station_result[i])
+                                this.stationList = this.stationList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1
+                                })
+                            }
+                        }
+                        // Map View Center Load
+                        this.map.setView([this.stationList[0].lat, this.stationList[0].lon], 15)
+                    }
+                }).catch(error => {
+                    console.log('station (GET) error: ')
+                    this.error = error
+                    console.log(error)
+                })
+        },
+    }
 }
 </script>
 

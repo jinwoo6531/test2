@@ -1,15 +1,15 @@
 <template>
-<v-container class="pa-0 gradient" fluid fill-height>
+<v-container class="pa-0 gradient" fluid fill-height v-if="ready">
     <div class="circle"></div>
     <div class="start-info">
         <span class="info-title">출발지</span>
         <br>
-        <span>선착작행</span>
+        <span>{{startName}}</span>
     </div>
     <div class="end-info">
         <span class="info-title">도착지</span>
         <br>
-        <span>선착작행</span>
+        <span>{{endName}}</span>
     </div>
     <v-card class="d-flex justify-start call-cancel" color="transparent" flat>
         호출 취소하기
@@ -35,7 +35,7 @@
         <v-col xs="12" sm="12" md="12">
             <v-card class="pa-2" color="transparent" flat>
                 <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>2명</span></v-card-text>
-                <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>20분</span></v-card-text>
+                <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{minutes}}분</span></v-card-text>
             </v-card>
         </v-col>
     </v-row>
@@ -47,17 +47,40 @@ export default {
     name: 'CallingLayout',
 
     data: () => ({
-        message: '타시오 자율주행 셔틀을 호출 중입니다.'
+        message: '타시오 자율주행 셔틀을 호출 중입니다.',
+        ready: false,
     }),
 
     mounted() {
-        setTimeout(() => {
-            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
-        }, 60000),
+        this.site = this.$route.params.site
+        this.start = this.$route.params.start
+        this.end = this.$route.params.end
+        this.startName = this.$route.params.startName
+        this.endName = this.$route.params.endName
+        this.minutes = this.$route.params.minutes
+        this.ready = true
 
         setTimeout(() => {
-            this.$router.push('/fail')
-        }, 180000)
+                this.$router.push({
+                    name: "CallingShuttle",
+                    params: {
+                        site: this.site,
+                        start: this.start,
+                        end: this.end,
+                        startName: this.startName,
+                        endName: this.endName,
+                        minutes: this.minutes
+                    }
+                })
+            }, 3000),
+
+            setTimeout(() => {
+                this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
+            }, 60000)
+
+            /*setTimeout(() => {
+                this.$router.push('/fail')
+            }, 180000)*/
     },
     computed: {
         /* cardWidth() {
@@ -145,7 +168,8 @@ export default {
     top: 160px;
 }
 
-.start-info span, .end-info span {
+.start-info span,
+.end-info span {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
