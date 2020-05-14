@@ -1,56 +1,85 @@
 <template>
-<div id="calling-shuttle">
-    <v-container class="map-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
-        <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
-                <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
-            </v-flex>
-
-            <v-flex class="pa-0 call-infomation" xs12 sm12 md12 lg12 xl12 v-if="ready">
-                <v-flex class="pa-4 desination" xs12 sm12 md12 lg12 xl12>
-                    <v-row no-gutters>
-                        <v-col cols="5">{{startName}}</v-col>
-                        <v-col cols="2">
-                            <img src="../../assets/arrow-icon2.svg" class="display: inline-block;">
+<v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
+    <v-layout row wrap class="ma-0">
+        <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
+            <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
+        </v-flex>
+        <v-flex class="d-flex align-end pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
+            <v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
+                <v-layout row wrap class="ma-0">
+                    <v-flex class="d-flex flex-column justify-start align-start text-center pa-0 call-infomation color: red" xs12 sm12 md12 v-if="ready">
+                        <v-card class="desination color: yellow" xs12 sm12 md12>
+                            <!-- <v-row no-gutters>
+                                <v-col cols="8">
+                                    <v-row no-gutters class="ma-0">
+                                <v-col cols="5">{{startName}}</v-col>
+                                <v-col cols="2">
+                                    <img src="../../assets/arrow-icon2.svg" class="display: inline-block;">
+                                </v-col>
+                                <v-col cols="5">{{endName}}</v-col>
+                            </v-row>
                         </v-col>
-                        <v-col cols="5">{{endName}}</v-col>
-                    </v-row>
-                </v-flex>
+                        <v-col cols="4">
+                            <v-row no-gutters cols="12">
+                                <v-col cols="12" class="text-center">탑승인원</v-col>
+                            </v-row>
+                            <v-row no-gutters cols="12">
+                                <v-col cols="12" class="text-center">{{}}</v-col>
+                            </v-row>
+                        </v-col>
+                    </v-row> -->
 
-                <v-divider class="ml-5 mr-5"></v-divider>
+                            <table>
+                                <tr>
+                                    <td>출발지</td>
+                                    <td rowspan="2"><img src="../../assets/arrow-icon2.svg" class="display: inline-block;"></td>
+                                    <td>도착지</td>
+                                    <td>탑승인원</td>
+                                </tr>
+                                <tr>
+                                    <td>{{startName}}</td>
+                                    <td>{{endName}}</td>
+                                    <td>{{}}</td>
+                                </tr>
+                            </table>
+                        </v-card>
 
-                <v-flex class="desination" xs12 sm12 md12 lg12 xl12>
-                    <v-list class="pa-0">
-                        <v-list-item>
-                            <v-list-item-content style="text-align: right;">
-                                <v-list-item-title class="desination-info-title">셔틀 번호</v-list-item-title>
-                                <v-list-item-subtitle class="desination-info-subtitle">SCN004</v-list-item-subtitle>
-                            </v-list-item-content>
+                        <v-divider class="ml-5 mr-5"></v-divider>
 
-                            <v-list-item-avatar class="ma-4">
-                                <v-img src="../../assets/profile.png"></v-img>
-                            </v-list-item-avatar>
+                        <v-flex class="d-flex flex-column justify-start text-center pa-0 desination" xs12 sm12 md12>
+                            <v-card class="arrive-wrap">
+                                <v-list class="pa-0">
+                                    <v-list-item>
+                                        <v-list-item-content style="text-align: right;">
+                                            <v-list-item-title class="desination-info-title">셔틀 번호</v-list-item-title>
+                                            <v-list-item-subtitle class="desination-info-subtitle">SCN004</v-list-item-subtitle>
+                                        </v-list-item-content>
 
-                            <v-list-item-content style="text-align: left;">
-                                <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
-                                <v-list-item-subtitle class="desination-info-subtitle">주장혁</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
+                                        <v-list-item-avatar class="ma-4">
+                                            <v-img src="../../assets/profile.png"></v-img>
+                                        </v-list-item-avatar>
 
-                    <p class="arrive-wrap">
-                        <span class="arrive-time">약 {{minutes}}분 후</span>
-                        셔틀이 출발지에 도착합니다.
-                    </p>
-                </v-flex>
+                                        <v-list-item-content style="text-align: left;">
+                                            <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
+                                            <v-list-item-subtitle class="desination-info-subtitle">주장혁</v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list>
 
-                <v-flex class="pa-0 call-cancel-btn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출 취소하기</v-btn>
-                </v-flex>
-            </v-flex>
-        </v-layout>
-    </v-container>
-</div>
+                                <span class="arrive-time">약 {{minutes}}분 후</span>
+                                셔틀이 출발지에 도착합니다.
+                            </v-card>
+                        </v-flex>
+
+                        <v-flex class="d-flex flex-column justify-start pa-0 call-cancel-btn" xs12 sm12 md12>
+                            <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancelBtn">호출 취소하기</v-btn>
+                        </v-flex>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -105,7 +134,7 @@ export default {
                             }
                         }
                         // Map View Center Load
-                        this.map.setView([this.stationList[0].lat, this.stationList[0].lon], 15)
+                        this.map.setView([this.stationList[1].lat, this.stationList[1].lon], 15)
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -113,6 +142,9 @@ export default {
                     console.log(error)
                 })
         },
+        callCancelBtn() {
+            this.$router.push('/')
+        }
     }
 }
 </script>
@@ -121,7 +153,6 @@ export default {
 .call-infomation {
     position: fixed;
     width: 100%;
-    height: 230px;
     background: #FFF;
     box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 35px 35px 0px 0px;
