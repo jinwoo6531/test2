@@ -8,6 +8,7 @@ import AuthLayout from '@/views/Auth-layout'
 import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
+import CallFail from '@/views/Call-fail'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,11 @@ const routes = [
     path: '/calling',
     name: 'CallingLayout',
     component: CallingLayout
+  },
+  {
+    path: '/fail',
+    name: 'CallFail',
+    component: CallFail
   },
   {
     path: '/auth',

@@ -1,6 +1,16 @@
 <template>
 <v-container class="pa-0 gradient" fluid fill-height>
     <div class="circle"></div>
+    <div class="start-info">
+        <span class="info-title">출발지</span>
+        <br>
+        <span>선착작행</span>
+    </div>
+    <div class="end-info">
+        <span class="info-title">도착지</span>
+        <br>
+        <span>선착작행</span>
+    </div>
     <v-card class="d-flex justify-start call-cancel" color="transparent" flat>
         호출 취소하기
     </v-card>
@@ -12,7 +22,7 @@
     <v-row no-gutters>
         <v-col xs="12" sm="12" md="12">
             <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                타시오 자율주행 셔틀을 호출 중입니다.
+                {{message}}
             </v-card>
         </v-col>
     </v-row>
@@ -36,12 +46,19 @@
 export default {
     name: 'CallingLayout',
 
-    mounted() {
-        // setTimeout(() => {
-        //     this.$router.push('/map/callingshuttle')
-        // }, 3000)
-    },
+    data: () => ({
+        message: '타시오 자율주행 셔틀을 호출 중입니다.'
+    }),
 
+    mounted() {
+        setTimeout(() => {
+            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
+        }, 60000),
+
+        setTimeout(() => {
+            this.$router.push('/fail')
+        }, 180000)
+    },
     computed: {
         /* cardWidth() {
             switch (this.$vuetify.breakpoint.name) {
@@ -80,7 +97,7 @@ export default {
     width: 100%;
     position: absolute;
     top: 16px;
-    left: 25px;
+    padding-left: 25px;
 }
 
 .call-msg {
@@ -108,7 +125,7 @@ export default {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.user-select-info > span {
+.user-select-info>span {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
@@ -117,10 +134,42 @@ export default {
     padding-left: 12px;
 }
 
+.start-info,
+.end-info {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+.start-info {
+    top: 160px;
+}
+
+.start-info span, .end-info span {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.info-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    color: #FFFFFF;
+    opacity: 0.7;
+}
+
+.end-info {
+    bottom: 160px;
+}
+
 /* Circle */
 .circle {
-    height: 200px;
     width: 200px;
+    height: 200px;
     border-radius: 50%;
     position: absolute;
     top: 50%;
