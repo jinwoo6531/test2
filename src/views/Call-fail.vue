@@ -6,9 +6,9 @@
                 <img src="../assets/kiosk-icon.svg">
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center text-center">
+        <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center">
             <v-card class="text-center" color="transparent" flat tile>
-                <v-card-text class="cant-call">타시오를 호출할 수 없습니다.<br>불편을 드려 죄송합니다.</v-card-text>
+                <v-card-text class="cant-call pt-0">타시오를 호출할 수 없습니다.<br>불편을 드려 죄송합니다.</v-card-text>
                 <v-card-text class="cant-call-sub">응답 가능한 타시오를 확인할 수 없습니다.<br>더 좋은 서비스 제공을 위해 노력하는<br>타시오 팀이 되겠습니다.</v-card-text>
             </v-card>
         </v-flex>
