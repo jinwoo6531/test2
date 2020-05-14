@@ -22,7 +22,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + user.uid)
             .then(response => {
                 if (response.data.level == 1) {
-                    router.push('/')
+                    router.push('/calling')
                 } else {
                     router.push('/auth/register')
                 }
