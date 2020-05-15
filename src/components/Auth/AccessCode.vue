@@ -25,9 +25,8 @@
         <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
             <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                 <v-card class="text-left pa-0" color="transparent" flat tile>
-                    <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" v-if="this.minutes <= 0 && this.seconds <= 0">다음</v-btn>
-                    <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" v-else-if="this.otp.length == 6">다음</v-btn>
-                    <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" v-else>다음</v-btn>
+                    <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-if="this.otp.length == 6">다음</v-btn>
+                    <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                 </v-card>
             </v-flex>
         </v-flex>
