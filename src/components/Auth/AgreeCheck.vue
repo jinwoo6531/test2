@@ -1,32 +1,30 @@
 <template>
-<v-container class="map-container" fluid grid-list-md>
+<v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <h3>추가 동의가 필요합니다.</h3>
-            <div>
-                <ul>
-                    <li>전체동의는 필수 및 선택정보에 대한 동의도 포함되어 있으며, 개별적으로도 동의를 선택할 수 있습니다.</li>
-                    <li>선택항목에 대한 동의를 거부하는 경우에도 서비스 이용이 가능합니다.</li>
-                </ul>
-            </div>
-        </v-flex>
-    </v-layout>
-    <v-layout row wrap>
-        <v-flex class="pa-0" xs12 sm12 md12 lg12 xl2>
-            <v-form @submit.prevent="handleSubmit">
-                <input type="checkbox" @click="selectAll" v-model="allSelected" /> 전체동의
-                
-                <div v-for="agree1 in agreeList1" :key="agree1.id">
-                    <input type="checkbox" id="necessary" name="necessary" v-validate="'required'" v-model="selectIds1" @click="select" :value="agree1.id"> {{ agree1.name }}
-                    <span class="help is-danger" v-show="errors.has('necessary')">{{ errors.first('necessary') }}</span>
-                </div>
+        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
+            <v-card class="agree-wrap pa-0" color="transparent" flat tile>
+                <v-card-title class="pa-0 pb-4 agree-title">약관에 동의해주세요.</v-card-title>
+                <v-card-text class="pa-0 agree-content"><span style="text-decoration-line: underline; color: #E61773;">서비스 이용약관, 개인정보 처리방침, 위치기반서비스 이용약관, 마케팅 정보 수신 동의</span>에 동의하시겠습니까?</v-card-text>
 
-                <div v-for="agree2 in agreeList2" :key="agree2.id">
-                    <input type="checkbox" v-model="selectIds2" @click="select" :value="agree2.id"> {{ agree2.name }}
-                </div>
-                <button>동의하고 가입하기</button>
-                <!-- <v-btn cols="12" style="width: 100%;" @click="next">다음</v-btn> -->
-            </v-form>
+                <v-card-text class="pa-0 pt-9 agree-content" style="float: left;">
+                    <span style="float: left;">약관을 확인하였으며, 모두 동의합니다.</span>
+                    <v-checkbox v-model="agree" class="pa-0 ma-0" color="#E61773" style="display: inline-block; float: right;"></v-checkbox>
+                </v-card-text>
+            </v-card>
+        </v-flex>
+        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-end align-top text-left">
+
+        </v-flex>
+        <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
+            <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
+                <v-card class="text-left pa-0" color="transparent" flat tile>
+                    <v-card-text class="check-ok-info pb-6">
+                        서비스 이용약관에 동의함으로써 이벤트, 혜택 등을 알려드리는 마케팅 정보 수신에 동의하게 됩니다.
+                    </v-card-text>
+                </v-card>
+                <v-btn depressed tile color="#E61773" width="100%" height="50px" class="check-next" @click="goToWelcome" v-if="agree == true">다음</v-btn>
+                <v-btn depressed disabled tile color="#E0E0E0" width="100%" height="50px" class="check-next" @click="goToWelcome" v-else>다음</v-btn>
+            </v-flex>
         </v-flex>
     </v-layout>
 </v-container>
@@ -34,75 +32,51 @@
 
 <script>
 export default {
-    data() {
-        return {
-            agreeList1: [{
-                    "id": "1",
-                    "name": "(필수) 개인정보 수집 및 이용에 대한 동의"
-                },
-                {
-                    "id": "2",
-                    "name": "(필수) 위치기반서비스 이용약관"
-                },
-                {
-                    "id": "3",
-                    "name": "(필수) 위치정보 탑승위치 제공 동의"
-                }
-            ],
-            agreeList2: [{
-                    "id": "4",
-                    "name": "(선택) 이벤트 및 마케팅 활용 동의"
-                },
-                {
-                    "id": "5",
-                    "name": "(선택) 이벤트 알림 수신 동의"
-                }
-            ],
-
-            allSelected: false,
-            selectIds1: [],
-            selectIds2: [],
-            submitted: false
-        }
-
-    },
+    data: () => ({
+        agree: false
+    }),
 
     methods: {
-        handleSubmit() {
-            this.submitted = true;
-            this.$validator.validate().then(valid => {
-                if (valid) {
-                    alert("SUCCESS!! :-)\n\n" + JSON.stringify(this.user));
-                }
-            });
-        },
-
-        selectAll() {
-            this.selectIds1 = []
-            this.selectIds2 = []
-
-            if (!this.allSelected) {
-                for (let i = 0; i < this.agreeList1.length; i++) {
-                    this.selectIds1.push(this.agreeList1[i].id.toString())
-                }
-                for (let j = 0; j < this.agreeList2.length; j++) {
-                    this.selectIds2.push(this.agreeList2[j].id.toString())
-                }
-            }
-        },
-
-        select() {
-            this.allSelected = false
-        },
-
-        next() {
-            this.$router.replace('SignUp')
+        goToWelcome() {
+            this.$router.push('/welcome')
         }
     }
-
 }
 </script>
 
-<style>
+<style scoped>
+.agree-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color: #262626;
+}
 
+.agree-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #828282;
+}
+
+.check-ok-info {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    letter-spacing: -0.035em;
+    color: #A7A7A7;
+}
+
+.check-next {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 2px !important;
+    color: #FFFFFF !important;
+}
 </style>

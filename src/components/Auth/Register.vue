@@ -103,7 +103,7 @@ export default {
             this.form.gender = ''
             this.form.birth = ''
             
-            this.$router.push('/welcome')
+            this.$router.push('/auth/agreecheck')
             this.get()
         },
 
