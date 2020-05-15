@@ -1,20 +1,25 @@
 <template>
-<v-container style="height: 100%;" fluid>
+<v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
-        <v-flex class="pa-3" d-flex xs12 sm12>
-            <p class="AccessPhoneTitle mb-0">휴대폰 번호를 입력해주세요.</p>
+        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
+            <v-card class="auth-phone-wrap pa-0" color="transparent" flat tile>
+                <v-card-title class="pa-0 pb-4 auth-phone-title">휴대폰 번호를 입력해주세요.</v-card-title>
+                <v-card-text class="pa-0 auth-phone-content">SMS로 인증번호를 보냅니다.</v-card-text>
+                <v-card-actions class="pa-0 pt-9">
+                    <!-- +82 -->
+                    <input class="PhoneField d-flex pa-2" type="text" v-model="phNo" placeholder="'-' 없이 번호만 입력해주세요." />
+                </v-card-actions>
+            </v-card>
         </v-flex>
-        <v-flex class="pa-3" d-flex xs12 sm12>
-            <p class="AccessPhoneSMS mb-0">SMS로 인증번호를 보냅니다.</p>
+        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
+            
         </v-flex>
-        <v-flex class="pa-3" d-flex xs12 sm12>
-            <!-- +82 -->
-            <input class="PhoneField d-flex pa-2" type="text" v-model="phNo" placeholder="'-' 없이 번호만 입력해주세요." />
-        </v-flex>
-        <v-flex class="pa-0" d-flex xs12 sm12>
-            <v-footer absolute style="margin-bottom: 24px; background: transparent;">
-                <v-btn depressed color="#E61773" id="sign-in-button" class="RequestAccessCode white--text" block @click="sendOtp">인증번호 받기</v-btn>
-            </v-footer>
+        <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
+            <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
+                <v-card class="text-left pa-0" color="transparent" flat tile>
+                    <v-btn depressed tile color="#E61773" id="sign-in-button" width="100%" height="50px" class="phone-next" @click="sendOtp">인증번호 받기</v-btn>
+                </v-card>
+            </v-flex>
         </v-flex>
         <div style="display: none;" id="recaptcha-container"></div>
     </v-layout>
@@ -65,13 +70,21 @@ export default {
 </script>
 
 <style>
-.AccessPhoneTitle {
+.auth-phone-wrap {
+    width: 100%;
+}
+
+.auth-phone-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
     font-weight: bold;
     font-size: 20px;
     color: #262626;
 }
 
-.AccessPhoneSMS {
+.auth-phone-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
     font-weight: normal;
     font-size: 14px;
     color: #828282;
@@ -88,14 +101,13 @@ export default {
     padding: 20px 18px 0 16px;
 }
 
-.RequestAccessCode {
+.phone-next {
+    font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
-    height: 50px;
-    border-radius: 2px;
-    padding-top: 16px;
-    padding-bottom: 14px;
+    border-radius: 2px !important;
+    color: #FFFFFF !important;
 }
 </style>

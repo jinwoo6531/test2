@@ -55,10 +55,16 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item class="boldMenu">
+            <v-list-item class="boldMenu pa-0">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626; margin-bottom: 15px;">
-                        전체 노선
+                        <v-list-item link to="/" class="pa-0">
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                                    전체 노선
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list-item-title>
 
                     <v-list-item link to="/map/gunsan">

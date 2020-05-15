@@ -1,35 +1,35 @@
 <template>
-<v-container style="height: 100%;" fluid>
+<v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
-        <v-flex class="pa-3" d-flex xs12 sm12>
-            <p class="AccessCodeTitle mb-0">인증번호를 입력해주세요.</p>
+        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
+            <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
+                <v-card-title class="pa-0 pb-4 auth-code-title">인증번호를 입력해주세요.</v-card-title>
+                <v-card-text class="pa-0 auth-code-content">인증번호가 수신되지 않는 경우 스팸메시지 차단 기능을 확인하시기 바랍니다.</v-card-text>
+            </v-card>
         </v-flex>
-        <v-flex class="pa-3" d-flex xs12 sm12>
-            <p class="AccessCodeSMS mb-0">인증번호가 수신되지 않는 경우 스팸메시지 차단 기능을 확인하시기 바랍니다.</p>
+        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
+            <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
+                <v-card-actions class="pa-0">
+                    <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" />
+                </v-card-actions>
+                <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
+                    <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
+                    <p class="RemainTime">{{ remainTime }}</p>
+                </v-flex>
+                <v-flex class="pa-0 pt-5 d-flex justify-space-between" xs12 sm12 md12>
+                    <p class="DoneTime">{{ this.doneTime }}</p>
+                    <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
+                </v-flex>
+            </v-card>
         </v-flex>
-        <v-flex class="pa-3" d-flex xs12 sm12>
-            <input type="text" v-model="otp" autofocus class="AccessCode" placeholder="인증번호" />
-        </v-flex>
-        <v-flex class="pa-3 pt-0" d-flex xs12 sm12>
-            <v-flex class="pa-0" justify-start d-flex xs8 sm8>
-                <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
+        <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
+            <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
+                <v-card class="text-left pa-0" color="transparent" flat tile>
+                    <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" v-if="this.minutes <= 0 && this.seconds <= 0">다음</v-btn>
+                    <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" v-else-if="this.otp.length == 6">다음</v-btn>
+                    <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" v-else>다음</v-btn>
+                </v-card>
             </v-flex>
-            <v-flex class="pa-0" justify-end d-flex xs4 sm4>
-                <p class="RemainTime">{{ remainTime }}</p>
-            </v-flex>
-        </v-flex>
-        <v-flex class="pa-3 pt-0" d-flex xs12 sm12>
-            <v-flex class="pa-0" justify-start d-flex xs8 sm8>
-                <p class="DoneTime">{{ this.doneTime }}</p>
-            </v-flex>
-            <v-flex class="pa-0" justify-end d-flex xs4 sm4>
-                <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
-            </v-flex>
-        </v-flex>
-        <v-flex class="pa-0" d-flex xs12 sm12>
-            <v-footer absolute style="margin-bottom: 24px; background: transparent;">
-                <v-btn depressed color="#E0E0E0" @click="verifyOtp" class="NextPageBtn black--text" block>다음</v-btn>
-            </v-footer>
         </v-flex>
         <div style="display: none;" id="recaptcha-container"></div>
     </v-layout>
@@ -112,14 +112,21 @@ export default {
 </script>
 
 <style scoped>
-.AccessCodeTitle {
+.auth-code-wrap {
+    width: 100%;
+}
+
+.auth-code-title {
+    font-family: Noto Sans KR;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
     color: #262626;
 }
 
-.AccessCodeSMS {
+.auth-code-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
     font-weight: normal;
     font-size: 14px;
     color: #828282;
@@ -163,11 +170,13 @@ export default {
     font-size: 13px;
 }
 
-.NextPageBtn {
+.auth-next {
+    font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 2px !important;
+    color: #FFFFFF !important;
 }
 </style>
