@@ -5,18 +5,18 @@
             <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
         </v-flex>
         <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
-            <v-card flat tile>
+            <v-card flat tile color="transparent">
                 <table class="desination">
                     <tr class="arrive-wrap">
-                        <td>출발지</td>
-                        <td rowspan="2"><img src="../../assets/arrow-icon2.svg" class="display: inline-block;"></td>
-                        <td>도착지</td>
-                        <td>탑승인원</td>
+                        <td style="width: 25%; padding-bottom: 3px;">출발지</td>
+                        <td style="width: 20%; padding-bottom: 3px;" rowspan="2"><img src="../../assets/arrow-icon2.svg" class="display: inline-block;"></td>
+                        <td style="width: 25%; padding-bottom: 3px;">도착지</td>
+                        <td style="width: 35%; padding-bottom: 3px;">탑승인원</td>
                     </tr>
                     <tr>
                         <td>{{ startName }}</td>
                         <td>{{ endName }}</td>
-                        <td>{{}}</td>
+                        <td style="font-weight: 500; font-size: 18px;">{{ count }}명</td>
                     </tr>
                 </table>
                 <v-divider class="ml-5 mr-5"></v-divider>
@@ -59,8 +59,11 @@ export default {
         map: null,
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         stationList: [],
-        setLat: "",
-        setLng: ""
+        start_icon: {},
+        end_icon: {},
+        setLat: '',
+        setLon: '',
+        waypoints: []
     }),
 
     mounted() {
@@ -69,6 +72,7 @@ export default {
         this.end = this.$route.params.end
         this.startName = this.$route.params.startName
         this.endName = this.$route.params.endName
+        this.count = this.$route.params.count
         this.minutes = this.$route.params.minutes
 
         this.getStation()
@@ -99,8 +103,19 @@ export default {
                                 })
                             }
                         }
+
                         // Map View Center Load
-                        this.map.setView([this.stationList[1].lat, this.stationList[1].lon], 15)
+                        if (this.site == 1) {
+                            this.map.setView([35.836673, 128.686520], 15)
+                        } else if (this.site == 2) {
+                            this.map.setView([35.836673, 128.686520], 15)
+                        } else if (this.site == 3) {
+                            this.map.setView([35.836673, 128.686520], 15)
+                        } else if (this.site == 4) {
+                            this.map.setView([35.836673, 128.686520], 15)
+                        }
+
+                        this.getRouting()
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -108,10 +123,189 @@ export default {
                     console.log(error)
                 })
         },
+
+        getRouting() {
+            if (this.start >= 1 && this.end >= 1) {
+                if (this.start < this.end) {
+                    for (let i = this.start; i <= this.end; i++) {
+                        this.waypoints.push({
+                            lat: this.stationList[i - 1].lat,
+                            lng: this.stationList[i - 1].lon
+                        })
+                    }
+                } else if (this.start > this.end) {
+                    this.waypoints.push({
+                        lat: this.stationList[this.start - 1].lat,
+                        lng: this.stationList[this.start - 1].lon
+                    })
+                    for (let i = this.start;
+                        (i % 4) != this.end; i++) {
+                        this.waypoints.push({
+                            lat: this.stationList[i % 4].lat,
+                            lng: this.stationList[i % 4].lon
+                        })
+                    }
+                    // SAME Station Id
+                } else if (this.start == this.end) {
+                    switch (this.start) {
+                        case 1:
+                            this.waypoints.push({
+                                lat: this.stationList[0].lat,
+                                lng: this.stationList[0].lon
+                            }, {
+                                lat: this.stationList[1].lat,
+                                lng: this.stationList[1].lon
+                            }, {
+                                lat: this.stationList[2].lat,
+                                lng: this.stationList[2].lon
+                            }, {
+                                lat: this.stationList[3].lat,
+                                lng: this.stationList[3].lon
+                            }, {
+                                lat: this.stationList[0].lat,
+                                lng: this.stationList[0].lon
+                            })
+                            break
+                        case 2:
+                            this.waypoints.push({
+                                lat: this.stationList[1].lat,
+                                lng: this.stationList[1].lon
+                            }, {
+                                lat: this.stationList[2].lat,
+                                lng: this.stationList[2].lon
+                            }, {
+                                lat: this.stationList[3].lat,
+                                lng: this.stationList[3].lon
+                            }, {
+                                lat: this.stationList[0].lat,
+                                lng: this.stationList[0].lon
+                            }, {
+                                lat: this.stationList[1].lat,
+                                lng: this.stationList[1].lon
+                            })
+                            break
+                        case 3:
+                            this.waypoints.push({
+                                lat: this.stationList[2].lat,
+                                lng: this.stationList[2].lon
+                            }, {
+                                lat: this.stationList[3].lat,
+                                lng: this.stationList[3].lon
+                            }, {
+                                lat: this.stationList[0].lat,
+                                lng: this.stationList[0].lon
+                            }, {
+                                lat: this.stationList[1].lat,
+                                lng: this.stationList[1].lon
+                            }, {
+                                lat: this.stationList[2].lat,
+                                lng: this.stationList[2].lon
+                            })
+                            break
+                        default:
+                            this.waypoints.push({
+                                lat: this.stationList[3].lat,
+                                lng: this.stationList[3].lon
+                            }, {
+                                lat: this.stationList[0].lat,
+                                lng: this.stationList[0].lon
+                            }, {
+                                lat: this.stationList[1].lat,
+                                lng: this.stationList[1].lon
+                            }, {
+                                lat: this.stationList[2].lat,
+                                lng: this.stationList[2].lon
+                            }, {
+                                lat: this.stationList[3].lat,
+                                lng: this.stationList[3].lon
+                            })
+                    }
+                }
+
+                let startIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/start-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.start === 1) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 2) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 3) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === 4) {
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        icon: startIcon
+                    })
+                }
+
+                let endIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/end-icon.svg"),
+                    iconSize: [40, 40]
+                })
+
+                if (this.end === 1) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 2) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 3) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === 4) {
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        icon: endIcon
+                    })
+                }
+
+                this.map.removeLayer(endIcon)
+            }
+
+            this.$utils.map.createRouting(this.map, {
+                waypoints: this.waypoints,
+                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                lineOptions: {
+                    draggable: false,
+                    styles: [{
+                        color: '#E51973',
+                        weight: 5
+                    }]
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function () {
+                    return null;
+                }
+            })
+        },
+
         callCancelBtn() {
             this.$router.push('/')
         }
-    }
+    },
 }
 </script>
 
@@ -126,17 +320,27 @@ export default {
     z-index: 9;
 }
 
+.arrive-wrap {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    background: transparent !important;
+    border: none;
+    color: #BDBDBD;
+}
+
 .desination {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-    text-align: center;
-    color: #262626;
     width: 100%;
     padding: 17px;
     background: transparent !important;
     border: none;
+    text-align: center;
+    color: #262626;
 }
 
 .desination-info-title {
@@ -153,16 +357,6 @@ export default {
     font-weight: 500;
     font-size: 14px;
     color: #262626 !important;
-}
-
-.arrive-wrap {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    background: transparent !important;
-    border: none;
-    color: #828282;
 }
 
 .arrive-time {

@@ -18,8 +18,9 @@
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
                             <v-btn class="person-modal" color="#fff" v-on="on">
-                                <v-icon left>mdi-account-outline</v-icon> 탑승인원 선택
-                                <!-- <v-icon left>mdi-account-outline</v-icon> 탑승인원 {{count}}명 -->
+                                <v-icon left>mdi-account-outline</v-icon> 
+                                <span v-if="count >= 1">탑승인원 {{ count }}명</span>
+                                <span v-else @click="selectPerson">탑승인원 선택</span>
                             </v-btn>
                         </template>
                         <v-card style="position: absolute; width: 100%; height: 100%;">
@@ -28,7 +29,8 @@
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                            <v-container fluid class="fill-height" style="position: absolute; background: transparent;">
+
+                            <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="position: absolute; background: transparent;">
                                 <v-row align="center" justify="center">
                                     <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
                                     <v-card class="d-flex justify-space-around" flat>
@@ -168,7 +170,7 @@ export default {
         daeguList: [],
         callBtn: false,
         dialog: false,
-        count: 1,
+        count: 0,
         isDisabled1: true,
         isDisabled2: false,
         overlay1: false,
@@ -236,6 +238,15 @@ export default {
             } else {
                 this.isDisabled2 = false
             }
+        },
+
+        selectPerson() {
+            this.count = 1
+        },
+
+        rideCount() {
+            console.log(this.count)
+            this.dialog = false
         },
 
         addMarker() {
@@ -574,14 +585,10 @@ export default {
                     end: this.end,
                     startName: this.options[this.start - 1].name,
                     endName: this.options[this.end - 1].name,
+                    count: this.count,
                     minutes: this.minutes
                 }
             })
-        },
-
-        rideCount() {
-            this.count 
-            this.dialog = false
         }
     }
 }

@@ -4,12 +4,12 @@
     <div class="start-info">
         <span class="info-title">출발지</span>
         <br>
-        <span>{{startName}}</span>
+        <span>{{ startName }}</span>
     </div>
     <div class="end-info">
         <span class="info-title">도착지</span>
         <br>
-        <span>{{endName}}</span>
+        <span>{{ endName }}</span>
     </div>
     <v-card class="d-flex justify-start call-cancel" color="transparent" flat>
         호출 취소하기
@@ -22,7 +22,7 @@
     <v-row no-gutters>
         <v-col xs="12" sm="12" md="12">
             <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                {{message}}
+                {{ message }}
             </v-card>
         </v-col>
     </v-row>
@@ -34,8 +34,8 @@
     <v-row no-gutters class="start-end-table">
         <v-col xs="12" sm="12" md="12">
             <v-card class="pa-2" color="transparent" flat>
-                <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>2명</span></v-card-text>
-                <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{minutes}}분</span></v-card-text>
+                <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
+                <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
             </v-card>
         </v-col>
     </v-row>
@@ -57,6 +57,7 @@ export default {
         this.end = this.$route.params.end
         this.startName = this.$route.params.startName
         this.endName = this.$route.params.endName
+        this.count = this.$route.params.count
         this.minutes = this.$route.params.minutes
         this.ready = true
 
@@ -69,6 +70,7 @@ export default {
                         end: this.end,
                         startName: this.startName,
                         endName: this.endName,
+                        count: this.count,
                         minutes: this.minutes
                     }
                 })
