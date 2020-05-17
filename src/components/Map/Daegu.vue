@@ -9,8 +9,8 @@
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat>
-                            <img style="diplay: inline-block;" src="../../assets/location-btn.svg">
+                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                            <img style="diplay: inline-block;" src="../../assets/location-btn.svg" />
                         </v-card>
                     </v-card>
                 </div>
@@ -18,7 +18,7 @@
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
                             <v-btn class="person-modal" color="#fff" v-on="on">
-                                <v-icon left>mdi-account-outline</v-icon> 
+                                <v-icon left>mdi-account-outline</v-icon>
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
                             </v-btn>
@@ -58,8 +58,11 @@
                     <v-flex v-if="callBtn" class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
                         <p class="ma-0" style="color: #828282; height: 30px;">
                             <span style="display: inline-block; height: 100%;">
-                                <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
+                                <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg" />
+                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">
+                                    총 소요시간:
+                                    <span style="color: #E61773; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span>
+                                </span>
                             </span>
                         </p>
                     </v-flex>
@@ -70,9 +73,7 @@
                                 <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
                             </v-card-text>
                             <v-card-actions class="pa-0">
-                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
-                                    출발지 적용하기
-                                </v-btn>
+                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">출발지 적용하기</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-overlay>
@@ -82,9 +83,7 @@
                                 <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
                             </v-card-text>
                             <v-card-actions class="pa-0">
-                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
-                                    도착지 적용하기
-                                </v-btn>
+                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">도착지 적용하기</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-overlay>
@@ -92,7 +91,7 @@
                     <v-flex class="selectStationWrap" xs12 sm12 md12 lg12 xl12>
                         <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
                             <v-flex class="pa-0" xs2 sm2 md2>
-                                <img src="../../assets/arrow-icon.svg">
+                                <img src="../../assets/arrow-icon.svg" />
                             </v-flex>
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
@@ -108,7 +107,7 @@
                                 </div>
                             </v-flex>
                             <v-flex class="pa-0" xs2 sm2 md2>
-                                <img src="../../assets/switch-icon.svg">
+                                <img src="../../assets/switch-icon.svg" />
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -124,44 +123,45 @@
 </template>
 
 <script>
-import axios from 'axios'
-var control
+import axios from "axios";
+var control;
 
 export default {
-    name: 'Daegu',
+    name: "Daegu",
 
     data: () => ({
+        res:true,
         pageId: 2,
         map: null,
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [{
-                lat: 35.8363080000000000,
-                lng: 128.6815470000000000
+                lat: 35.836308,
+                lng: 128.681547
             },
             {
-                lat: 35.8386730000000000,
-                lng: 128.6878920000000000
+                lat: 35.838673,
+                lng: 128.687892
             },
             {
-                lat: 35.8370500000000000,
-                lng: 128.6900440000000000
+                lat: 35.83705,
+                lng: 128.690044
             },
             {
-                lat: 35.8345900000000000,
-                lng: 128.6865200000000000
+                lat: 35.83459,
+                lng: 128.68652
             },
             {
-                lat: 35.8363080000000000,
-                lng: 128.6815470000000000
+                lat: 35.836308,
+                lng: 128.681547
             }
         ],
         data: null,
         options: [],
         station_arr: [],
-        start: '출발지 선택',
-        end: '도착지 선택 ',
+        start: "출발지 선택",
+        end: "도착지 선택 ",
         startId: [],
         endId: [],
         vehicle: [],
@@ -182,97 +182,132 @@ export default {
     }),
 
     created() {
-        this.getStation()
-        this.getVehicle()
+        this.getStation();
+        this.getVehicle();
     },
 
     mounted() {
-        this.map = this.$utils.map.createMap('map-container', {
+        this.map = this.$utils.map.createMap("map-container", {
             zoomControl: false,
             routeWhileDragging: false,
             attributionControl: false
-        })
+        });
 
         // Open Street Map Layer Service Load
-        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
 
         // Map View Center Load
-        this.map.setView([35.836673, 128.686520], 15)
+        this.map.setView([35.836673, 128.68652], 15);
 
-        this.addMarker()
-        this.addRouting(this.waypoints)
+        this.addMarker();
+        this.addRouting(this.waypoints);
     },
 
     methods: {
+        getLocation() {
+            console.log("GET!");
+
+            this.$utils.map.getLocation(this.map, {
+                setView: true,
+                watch: true,
+                setZoom: 25,
+                drawMarker: true
+            })
+        //     .on("locationfound", function (e) {
+        //      let gifIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/station_icon.svg"),
+        //         iconSize: [12, 12]
+        //     })
+
+        //     this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+        //         icon: gifIcon
+        //     })
+        // })
+        // .on("locationerror", function (e) {
+        //     console.log(e);
+        //     alert("Location access denied.");
+        // })
+
+            this.res = false
+        },
+
+        stopLocation() {
+            this.map.stopLocate()
+            console.log('stop', this.map.stopLocate())
+            this.map.setView([35.836673, 128.68652], 15)
+
+            this.res = true
+        },
+
         increment() {
-            this.count += 1
+            this.count += 1;
 
             if (this.count >= 14) {
-                this.isDisabled2 = true
-                this.count = 14
+                this.isDisabled2 = true;
+                this.count = 14;
             } else {
-                this.isDisabled2 = false
+                this.isDisabled2 = false;
             }
 
             if (this.count <= 1) {
-                this.isDisabled1 = true
-                this.count = 1
+                this.isDisabled1 = true;
+                this.count = 1;
             } else {
-                this.isDisabled1 = false
+                this.isDisabled1 = false;
             }
         },
 
         decrement() {
-            this.count -= 1
+            this.count -= 1;
 
             if (this.count <= 1) {
-                this.isDisabled1 = true
-                this.count = 1
+                this.isDisabled1 = true;
+                this.count = 1;
             } else {
-                this.isDisabled1 = false
+                this.isDisabled1 = false;
             }
 
             if (this.count >= 14) {
-                this.isDisabled2 = true
-                this.count = 14
+                this.isDisabled2 = true;
+                this.count = 14;
             } else {
-                this.isDisabled2 = false
+                this.isDisabled2 = false;
             }
         },
 
         selectPerson() {
-            this.count = 1
+            this.count = 1;
         },
 
         rideCount() {
-            console.log(this.count)
-            this.dialog = false
+            console.log(this.count);
+            this.dialog = false;
         },
 
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12]
-            })
+            });
 
-            this.$utils.map.createMakerByXY(this.map, [35.8363080000000000, 128.6815470000000000], {
+            this.$utils.map.createMakerByXY(this.map, [35.836308, 128.681547], {
                 icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8386730000000000, 128.6878920000000000], {
+            });
+            this.$utils.map.createMakerByXY(this.map, [35.838673, 128.687892], {
                 icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8370500000000000, 128.6900440000000000], {
+            });
+            this.$utils.map.createMakerByXY(this.map, [35.83705, 128.690044], {
                 icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8345900000000000, 128.6865200000000000], {
+            });
+            this.$utils.map.createMakerByXY(this.map, [35.83459, 128.68652], {
                 icon: gifIcon
-            })
+            });
         },
 
         addRouting(waypoints) {
             control = this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                serviceUrl: "http://115.93.143.2:8104/route/v1",
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
@@ -280,7 +315,7 @@ export default {
                 lineOptions: {
                     draggable: false,
                     styles: [{
-                        color: '#E51973',
+                        color: "#E51973",
                         weight: 5
                     }]
                 },
@@ -290,21 +325,22 @@ export default {
                 createMarker: function () {
                     return null;
                 }
-            })
+            });
         },
 
         getStation() {
-            axios.get('/api/stations/')
+            axios
+                .get("/api/stations/")
                 .then(response => {
                     if (response.status == 200) {
-                        let station_result = response.data
-                        let station_count = Object.keys(station_result).length
+                        let station_result = response.data;
+                        let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
-                                this.daeguList.push(station_result[i])
+                                this.daeguList.push(station_result[i]);
                                 this.daeguList = this.daeguList.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1
-                                })
+                                    return a.id < b.id ? -1 : 1;
+                                });
                             }
                         }
                     }
@@ -313,19 +349,20 @@ export default {
                         this.options.push({
                             name: arr.name,
                             value: arr.id
-                        })
+                        });
                     }
-                }).catch(error => {
-                    console.log('station (GET) error: ')
-                    this.error = error
-                    console.log(error)
                 })
+                .catch(error => {
+                    console.log("station (GET) error: ");
+                    this.error = error;
+                    console.log(error);
+                });
         },
 
         onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6)
-            this.waypoints = []
+            control.spliceWaypoints(0, 6);
+            this.waypoints = [];
 
             if (this.start >= 1 && this.end >= 1) {
                 // ADD Between Station
@@ -334,20 +371,18 @@ export default {
                         this.waypoints.push({
                             lat: this.daeguList[i - 1].lat,
                             lng: this.daeguList[i - 1].lon
-                        })
+                        });
                     }
-
                 } else if (this.start > this.end) {
                     this.waypoints.push({
                         lat: this.daeguList[this.start - 1].lat,
                         lng: this.daeguList[this.start - 1].lon
-                    })
-                    for (let i = this.start;
-                        (i % 4) != this.end; i++) {
+                    });
+                    for (let i = this.start; i % 4 != this.end; i++) {
                         this.waypoints.push({
                             lat: this.daeguList[i % 4].lat,
                             lng: this.daeguList[i % 4].lon
-                        })
+                        });
                     }
                     // SAME Station Id
                 } else if (this.start == this.end) {
@@ -368,8 +403,8 @@ export default {
                             }, {
                                 lat: this.daeguList[0].lat,
                                 lng: this.daeguList[0].lon
-                            })
-                            break
+                            });
+                            break;
                         case 2:
                             this.waypoints.push({
                                 lat: this.daeguList[1].lat,
@@ -386,8 +421,8 @@ export default {
                             }, {
                                 lat: this.daeguList[1].lat,
                                 lng: this.daeguList[1].lon
-                            })
-                            break
+                            });
+                            break;
                         case 3:
                             this.waypoints.push({
                                 lat: this.daeguList[2].lat,
@@ -404,8 +439,8 @@ export default {
                             }, {
                                 lat: this.daeguList[2].lat,
                                 lng: this.daeguList[2].lon
-                            })
-                            break
+                            });
+                            break;
                         default:
                             this.waypoints.push({
                                 lat: this.daeguList[3].lat,
@@ -422,158 +457,196 @@ export default {
                             }, {
                                 lat: this.daeguList[3].lat,
                                 lng: this.daeguList[3].lon
-                            })
+                            });
                     }
-
                 }
 
                 let startIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40]
-                })
+                });
 
                 if (this.start === 1) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
-                        icon: startIcon
-                    })
+                    this.map.removeLayer(this.start_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[0].lat, this.daeguList[0].lon], {
+                            icon: startIcon
+                        }
+                    );
                 } else if (this.start === 2) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
-                        icon: startIcon
-                    })
+                    this.map.removeLayer(this.start_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[1].lat, this.daeguList[1].lon], {
+                            icon: startIcon
+                        }
+                    );
                 } else if (this.start === 3) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
-                        icon: startIcon
-                    })
+                    this.map.removeLayer(this.start_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[2].lat, this.daeguList[2].lon], {
+                            icon: startIcon
+                        }
+                    );
                 } else if (this.start === 4) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
-                        icon: startIcon
-                    })
+                    this.map.removeLayer(this.start_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[3].lat, this.daeguList[3].lon], {
+                            icon: startIcon
+                        }
+                    );
                 }
 
                 let endIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/end-icon.svg"),
                     iconSize: [40, 40]
-                })
+                });
 
                 if (this.end === 1) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
-                        icon: endIcon
-                    })
+                    this.map.removeLayer(this.end_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[0].lat, this.daeguList[0].lon], {
+                            icon: endIcon
+                        }
+                    );
                 } else if (this.end === 2) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
-                        icon: endIcon
-                    })
+                    this.map.removeLayer(this.end_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[1].lat, this.daeguList[1].lon], {
+                            icon: endIcon
+                        }
+                    );
                 } else if (this.end === 3) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
-                        icon: endIcon
-                    })
+                    this.map.removeLayer(this.end_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[2].lat, this.daeguList[2].lon], {
+                            icon: endIcon
+                        }
+                    );
                 } else if (this.end === 4) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
-                        icon: endIcon
-                    })
+                    this.map.removeLayer(this.end_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map,
+                        [this.daeguList[3].lat, this.daeguList[3].lon], {
+                            icon: endIcon
+                        }
+                    );
                 }
 
-                this.map.removeLayer(endIcon)
+                this.map.removeLayer(endIcon);
 
                 // SET New Routing
-                this.addRouting(this.waypoints)
-                this.totalDistance()
+                this.addRouting(this.waypoints);
+                this.totalDistance();
             }
         },
 
         totalDistance() {
-            control.on('routesfound', (e) => {
-                // 출발지와 도착지의 totalDistance
-                this.km = e.routes[0].summary.totalDistance / 1000
-                this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
-            }).addTo(this.map)
+            control
+                .on("routesfound", e => {
+                    // 출발지와 도착지의 totalDistance
+                    this.km = e.routes[0].summary.totalDistance / 1000;
+                    this.minutes = Math.round(
+                        (e.routes[0].summary.totalTime % 3600) / 60
+                    );
+                })
+                .addTo(this.map);
 
-            this.callBtn = true
+            this.callBtn = true;
         },
 
         /* async getVehicle() {
-            // vehicle Icon 생성
-            let vehicleIcon = this.$utils.map.createIcon({
-                iconUrl: require("../../assets/vehicle1.svg"),
-                iconSize: [32, 32]
-            })
-
-            await axios.get('/api/vehicles/')
-                .then(response => {
-                    this.$store.state.vehicleList = response.data.sort(function (a, b) {
-                        return a.id < b.id ? -1 : 1
-                    })
-
-                    this.vLat = this.$store.state.vehicleList[0].lat
-                    this.vLng = this.$store.state.vehicleList[0].lon
-                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.vLat, this.vLng], {
-                        draggable: false,
-                        icon: vehicleIcon
-                    })
-
-                    // update function
-                    setInterval(function () {
-                        axios.get('/api/vehicles/')
-                            .then((response) => {
-                                var ourVehicle = response.data.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1
-                                })
-
-                                // from the data 
-                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon])
-
-                            }).catch(error => {
-                                console.log(error)
-                            })
-                    }.bind(this), 1000)
-
-                }).catch(error => {
-                    console.log('Error on Authentication')
-                    this.error = error
-                    console.log(error)
+                // vehicle Icon 생성
+                let vehicleIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/vehicle1.svg"),
+                    iconSize: [32, 32]
                 })
-        } */
-        getVehicle() {
-            var request_count = 0
-            setInterval(function () {
-                request_count++
-                axios.get('/api/vehicles/')
+
+                await axios.get('/api/vehicles/')
                     .then(response => {
-                        var vehicle_data = response.data.sort(function (a, b) {
+                        this.$store.state.vehicleList = response.data.sort(function (a, b) {
                             return a.id < b.id ? -1 : 1
                         })
-                        var vehicleCount = Object.keys(vehicle_data).length;
-                        // var vehicle_arr = []
-                        for (let i = 0; i < vehicleCount; i++) {
-                            if (vehicle_data[i].site == 2) {
-                                //name of vehicle
-                                // console.log("vehicle_name: ", vehicle_data[i].name)
-                                if (request_count <= 1) {
-                                    var vehicleIcon = this.$utils.map.createIcon({
-                                        iconUrl: require("../../assets/vehicle1.svg"),
-                                        iconSize: [32, 32]
+
+                        this.vLat = this.$store.state.vehicleList[0].lat
+                        this.vLng = this.$store.state.vehicleList[0].lon
+                        this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.vLat, this.vLng], {
+                            draggable: false,
+                            icon: vehicleIcon
+                        })
+
+                        // update function
+                        setInterval(function () {
+                            axios.get('/api/vehicles/')
+                                .then((response) => {
+                                    var ourVehicle = response.data.sort(function (a, b) {
+                                        return a.id < b.id ? -1 : 1
                                     })
-                                    this.vehicle[i] = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
-                                        draggable: false,
-                                        icon: vehicleIcon
-                                    })
-                                } else {
-                                    this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
-                                }
-                            }
-                        }
+
+                                    // from the data 
+                                    this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon])
+
+                                }).catch(error => {
+                                    console.log(error)
+                                })
+                        }.bind(this), 1000)
+
                     }).catch(error => {
+                        console.log('Error on Authentication')
+                        this.error = error
                         console.log(error)
                     })
-            }.bind(this), 1000)
+            } */
+        getVehicle() {
+            var request_count = 0;
+            setInterval(
+                function () {
+                    request_count++;
+                    axios
+                        .get("/api/vehicles/")
+                        .then(response => {
+                            var vehicle_data = response.data.sort(function (a, b) {
+                                return a.id < b.id ? -1 : 1;
+                            });
+                            var vehicleCount = Object.keys(vehicle_data).length;
+                            // var vehicle_arr = []
+                            for (let i = 0; i < vehicleCount; i++) {
+                                if (vehicle_data[i].site == 2) {
+                                    //name of vehicle
+                                    // console.log("vehicle_name: ", vehicle_data[i].name)
+                                    if (request_count <= 1) {
+                                        var vehicleIcon = this.$utils.map.createIcon({
+                                            iconUrl: require("../../assets/vehicle1.svg"),
+                                            iconSize: [32, 32]
+                                        });
+                                        this.vehicle[i] = this.$utils.map.createMakerByXY(
+                                            this.map,
+                                            [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                                draggable: false,
+                                                icon: vehicleIcon
+                                            }
+                                        );
+                                    } else {
+                                        this.vehicle[i].setLatLng([
+                                            vehicle_data[i].lat,
+                                            vehicle_data[i].lon
+                                        ]);
+                                    }
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }.bind(this),
+                1000
+            );
         },
 
         requestCallBtn() {
@@ -588,18 +661,18 @@ export default {
                     count: this.count,
                     minutes: this.minutes
                 }
-            })
+            });
         }
     }
-}
+};
 </script>
 
 <style>
 .is-disabled1 {
-    color: #BDBDBD !important;
+    color: #bdbdbd !important;
 }
 
 .is-disabled2 {
-    color: #BDBDBD !important;
+    color: #bdbdbd !important;
 }
 </style>

@@ -92,7 +92,7 @@ export default {
                 gender: this.form.gender,
                 level: 1,
                 birth: this.form.birth
-            })
+            }).catch((e)=>console.log(e))
 
             this.user.data.displayName = this.form.name
 

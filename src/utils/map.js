@@ -52,11 +52,38 @@ const createRouting = (map, options = {}) => {
     return control
 }
 
+const getLocation = (map, options) => {
+    var marker, circle
+    var location =  map.locate(options)
+        .on("locationfound", function (e) {
+             marker = $L.marker($L.latLng(e.latitude, e.longitude))
+
+             circle = $L.circle([e.latitude, e.longitude], e.accuracy / 2, {
+                weight: 1,
+                color: "blue",
+                fillOpacity: 0.1
+            })
+            console.log('asdfasdfsd', circle)
+            marker.addTo(map)
+            circle.addTo(map)
+        })
+        .on("locationerror", function (e) {
+            console.log(e);
+            alert("Location access denied.");
+        })
+        
+        console.log("location", location)
+        console.log("marker", marker)
+        console.log("circle", circle)
+        return location
+}
+
 export default {
     createMap,
     createTileLayer,
     createIcon,
     createMakerByXY,
     createRouting,
-    updateMarkerByXY
+    updateMarkerByXY,
+    getLocation
 }

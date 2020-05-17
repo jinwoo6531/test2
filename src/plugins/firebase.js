@@ -24,7 +24,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
                 if (response.data.level == 1) {
                     router.push('/')
                 } else {
-                    router.push('/auth/agreecheck')
+                    router.push('/map/daegu')
                 }
             })
     } else {
