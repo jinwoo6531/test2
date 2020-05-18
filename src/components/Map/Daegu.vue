@@ -9,7 +9,7 @@
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat>
+                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
                             <img style="diplay: inline-block;" src="../../assets/location-btn.svg">
                         </v-card>
                     </v-card>
@@ -18,7 +18,7 @@
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
                             <v-btn class="person-modal" color="#fff" v-on="on">
-                                <v-icon left>mdi-account-outline</v-icon> 
+                                <v-icon left>mdi-account-outline</v-icon>
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
                             </v-btn>
@@ -131,6 +131,7 @@ export default {
     name: 'Daegu',
 
     data: () => ({
+        res: true,
         pageId: 2,
         map: null,
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -178,7 +179,9 @@ export default {
         zIndex: 0,
 
         start_icon: {},
-        end_icon: {}
+        end_icon: {},
+
+        marker: {}
     }),
 
     created() {
@@ -204,6 +207,37 @@ export default {
     },
 
     methods: {
+        getLocation() {
+            console.log("GET!");
+            this.$utils.map.getLocation(this.map, {
+                setView: true,
+                watch: true,
+                setZoom: 25,
+                drawMarker: true
+            }).then(response => {
+                this.marker = response
+                console.log('getLocation marker', this.marker)
+            })
+
+            this.res = false
+        },
+
+        stopLocation() {
+            this.map.removeLayer(this.marker)
+            this.map.stopLocate()
+            this.map.setView([35.836673, 128.68652], 15)
+
+            /*this.map.eachLayer(function (layer) {
+                if (layer._leaflet_id == "current") {
+                    this.map.removeLayer(layer)
+                } else {
+                    console.log("marker is not present")
+                }
+            })*/
+            
+            this.res = true
+        },
+
         increment() {
             this.count += 1
 

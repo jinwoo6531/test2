@@ -70,28 +70,41 @@
                     <v-list-item link to="/map/gunsan">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
-                                고군산관광벨트
+                                고군산 관광벨트
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item link to="/map/daegu">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
-                                대구수성알파시티
+                                대구 수성알파시티
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item link to="/map/sejong">
                         <v-list-item-content>
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
-                                세종호수공원
+                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2">
+                                    세종 호수공원
+                                </v-badge>
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item link to="/map/sejong">
+                        <v-list-item-content>
+                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2">
+                                    세종 산학연클러스터 4-2
+                                </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item link to="/map/sangam">
                         <v-list-item-content>
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
-                                상암DMC홍보관
+                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2">
+                                    상암DMC홍보관
+                                </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
@@ -148,7 +161,9 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import {
+    mapGetters
+} from "vuex"
 import axios from 'axios'
 
 export default {
@@ -197,6 +212,14 @@ export default {
 
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
+}
+
+.v-badge__badge {
+    border-radius: 7px !important;
+}
+
+.v-list-item {
+    padding-right: 0 !important;
 }
 
 .nav-icon {
