@@ -107,7 +107,7 @@
                                     </v-card>
                                 </div>
                             </v-flex>
-                            <v-flex class="pa-0" xs2 sm2 md2>
+                            <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
                                 <img src="../../assets/switch-icon.svg">
                             </v-flex>
                         </v-layout>
@@ -291,6 +291,26 @@ export default {
         rideCount() {
             console.log(this.count)
             this.dialog = false
+        },
+
+        switchDestination() {
+            console.log('switch')
+            console.log(this.daeguList)
+            if (this.start >= 1 && this.end >= 1) {
+                var start = this.daeguList[this.start - 1].name
+                var end = this.daeguList[this.end - 1].name
+                var temp
+                console.log('start: ', start)
+                console.log('end: ', end)
+                temp = end
+                end = start
+                start = temp
+
+                console.log('start Change: ', start)
+                console.log('end Change: ', end)
+
+            }
+            
         },
 
         addMarker() {
@@ -539,8 +559,6 @@ export default {
                 this.km = e.routes[0].summary.totalDistance / 1000
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
-
-            // this.callBtn = true
         },
 
         /* async getVehicle() {
@@ -587,9 +605,9 @@ export default {
         } */
         getVehicle() {
             var request_count = 0
-            setInterval(function () {
-                request_count++
-                axios.get('/api/vehicles/')
+            setInterval(async function () {
+                await request_count++
+                await axios.get('/api/vehicles/')
                     .then(response => {
                         var vehicle_data = response.data.sort(function (a, b) {
                             return a.id < b.id ? -1 : 1
