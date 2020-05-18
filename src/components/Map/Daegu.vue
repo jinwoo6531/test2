@@ -181,7 +181,12 @@ export default {
         start_icon: {},
         end_icon: {},
 
-        marker: {}
+        marker: {},
+        switch1: false,
+        originStart: '',
+        originEnd: '',
+        changeStart: '',
+        changeEnd: ''
     }),
 
     created() {
@@ -294,23 +299,10 @@ export default {
         },
 
         switchDestination() {
-            console.log('switch')
-            console.log(this.daeguList)
-            if (this.start >= 1 && this.end >= 1) {
-                var start = this.daeguList[this.start - 1].name
-                var end = this.daeguList[this.end - 1].name
-                var temp
-                console.log('start: ', start)
-                console.log('end: ', end)
-                temp = end
-                end = start
-                start = temp
-
-                console.log('start Change: ', start)
-                console.log('end Change: ', end)
-
-            }
-            
+            var change = this.start
+            this.start = this.end
+            this.end = change
+            this.onChange()
         },
 
         addMarker() {
