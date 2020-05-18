@@ -53,7 +53,7 @@ const createRouting = (map, options = {}) => {
 }
 
 const getLocation = (map, options) => {
-    var marker //, circle
+ 
     var location = new Promise(function (resolve, reject) {
             map.locate(options)
                 .on("locationfound", function (e) {
@@ -63,24 +63,22 @@ const getLocation = (map, options) => {
                             iconSize: [17, 17]
                         })
 
-                        //marker = createMakerByXY(map, [e.latitude, e.longitude], {
-                        //    icon: currentIcon
-                        //})
-            
-                        marker = $L.marker($L.latLng(e.latitude, e.longitude), {
+                        var marker = createMakerByXY(map, [e.latitude, e.longitude], {
                             icon: currentIcon
                         })
+            
+                        //var marker = $L.marker($L.latLng(e.latitude, e.longitude), {
+                        //    icon: currentIcon
+                        //});
                         
-                        // circle = $L.circle([e.latitude, e.longitude], e.accuracy / 2, {
-                        //     weight: 1,
-                        //     color: "blue",
-                        //     fillOpacity: 0.1
-                        // })
-
-                        marker._leaflet_id = "current"
+                        //var circle = $L.circle([e.latitude, e.longitude], e.accuracy / 2, {
+                        //    weight: 1,
+                        //    color: "orange",
+                        //    fillOpacity: 0.1
+                        //})
 
                         marker.addTo(map)
-                        // circle.addTo(map)
+                        //circle.addTo(map)
                         resolve(marker)
                     } else {
                         reject('위치 가져오기 실패')

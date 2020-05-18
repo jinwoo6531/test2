@@ -223,17 +223,21 @@ export default {
         },
 
         stopLocation() {
-            this.map.removeLayer(this.marker)
-            this.map.stopLocate()
-            this.map.setView([35.836673, 128.68652], 15)
+            // alert ("marker id: " + this.marker._leaflet_id)
 
-            /*this.map.eachLayer(function (layer) {
+            if (this.marker != null || this.marker != undefined ) {
+                this.map.removeLayer(this.marker)
+                this.map.stopLocate()
+                this.map.setView([35.836673, 128.68652], 15)
+            }
+
+            /* this.map.eachLayer(function (layer) {
                 if (layer._leaflet_id == "current") {
                     this.map.removeLayer(layer)
                 } else {
                     console.log("marker is not present")
                 }
-            })*/
+            }) */
             
             this.res = true
         },
