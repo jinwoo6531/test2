@@ -206,6 +206,12 @@ export default {
         this.addRouting(this.waypoints)
     },
 
+    updated() {
+        if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
+            this.callBtn = true
+        }
+    },
+
     methods: {
         getLocation() {
             console.log("GET!");
@@ -534,7 +540,7 @@ export default {
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
 
-            this.callBtn = true
+            // this.callBtn = true
         },
 
         /* async getVehicle() {
