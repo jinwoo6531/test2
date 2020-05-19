@@ -2,7 +2,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Splash from '@/views/Splash'
-import InfoStep from '@/views/InfoStep'
+import AccessAgree from '@/views/Access-agree'
+import Walkthrough from '@/views/Walkthrough'
 import Welcome from '@/views/Welcome'
 import AuthLayout from '@/views/Auth-layout'
 import MapLayout from '@/views/Map-layout'
@@ -19,14 +20,19 @@ const routes = [
     component: Splash
   },
   {
+    path: '/accessagree',
+    name: 'AccessAgree',
+    component: AccessAgree
+  },
+  {
     path: '/welcome',
     name: 'Welcome',
     component: Welcome,
   },
   {
-    path: '/infostep',
-    name: 'InfoStep',
-    component: InfoStep
+    path: '/walkthrough',
+    name: 'Walkthrough',
+    component: Walkthrough
   },
   {
     path: '/calling',

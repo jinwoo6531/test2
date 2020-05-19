@@ -28,6 +28,6 @@ firebase.auth().onAuthStateChanged(async (user) => {
                 }
             })
     } else {
-        router.push('/auth/accessphone')
+        router.push('/accessagree')
     }
 })
