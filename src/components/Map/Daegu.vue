@@ -55,11 +55,11 @@
                         </v-card>
                     </v-dialog>
 
-                    <v-flex v-if="callBtn" class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
-                        <p class="ma-0" style="color: #828282; height: 30px;">
+                    <v-flex v-if="callBtn" class="mb-3" style="background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
+                        <p class="ma-0" style="color: #FFF; height: 30px;">
                             <span style="display: inline-block; height: 100%;">
                                 <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px;color: #828282;">총 소요시간: <span style="color: #E61773; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
+                                <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
                             </span>
                         </p>
                     </v-flex>
@@ -134,7 +134,7 @@ export default {
         res: true,
         pageId: 2,
         map: null,
-        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [{
@@ -166,7 +166,7 @@ export default {
         startId: [],
         endId: [],
         vehicle: [],
-        km: 0,
+        distanceKm: 0,
         minutes: 0,
         daeguList: [],
         callBtn: false,
@@ -546,89 +546,57 @@ export default {
         },
 
         totalDistance() {
-            control.on('routesfound', (e) => {
-                // 출발지와 도착지의 totalDistance
-                this.km = e.routes[0].summary.totalDistance / 1000
-                this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
-            }).addTo(this.map)
+            /* control.on('routesfound', (e) => {
+                console.log(e)
+                var summary = e.routes[0].summary
+                // totalDistance: Meters -> Km
+                this.distanceKm = (summary.totalDistance) / 1000
+                // totalTime: seconds -> Minutes
+                this.minutes = Math.round(summary.totalTime % 3600 / 60)
+            }).addTo(this.map) */
+
+            if (this.start == 1) {
+                if (this.end == 2) {
+                    this.minutes = "5"
+                } else if (this.end == 3) {
+                    this.minutes = "8"
+                } else if (this.end == 4) {
+                    this.minutes = "12"
+                } else if (this.end == 1) {
+                    this.minutes = "17"
+                }
+            } else if (this.start == 2) {
+                if (this.end == 3) {
+                    this.minutes = "2"
+                } else if (this.end == 4) {
+                    this.minutes = "6"
+                } else if (this.end == 1) {
+                    this.minutes = "11"
+                } else if (this.end == 2) {
+                    this.minutes = "17"
+                }
+            } else if (this.start == 3) {
+                if (this.end == 4) {
+                    this.minutes = "4"
+                } else if (this.end == 1) {
+                    this.minutes = "8"
+                } else if (this.end == 2) {
+                    this.minutes = "14"
+                } else if (this.end == 3) {
+                    this.minutes = "17"
+                }
+            } else if (this.start == 4) {
+                if (this.end == 1) {
+                    this.minutes = "4"
+                } else if (this.end == 2) {
+                    this.minutes = "10"
+                } else if (this.end == 3) {
+                    this.minutes = "12"
+                } else if (this.end == 4) {
+                    this.minutes = "17"
+                }
+            }
         },
-
-        /* async getVehicle() {
-            // vehicle Icon 생성
-            let vehicleIcon = this.$utils.map.createIcon({
-                iconUrl: require("../../assets/vehicle1.svg"),
-                iconSize: [32, 32]
-            })
-
-            await axios.get('/api/vehicles/')
-                .then(response => {
-                    this.$store.state.vehicleList = response.data.sort(function (a, b) {
-                        return a.id < b.id ? -1 : 1
-                    })
-
-                    this.vLat = this.$store.state.vehicleList[0].lat
-                    this.vLng = this.$store.state.vehicleList[0].lon
-                    this.vehicle = this.$utils.map.createMakerByXY(this.map, [this.vLat, this.vLng], {
-                        draggable: false,
-                        icon: vehicleIcon
-                    })
-
-                    // update function
-                    setInterval(function () {
-                        axios.get('/api/vehicles/')
-                            .then((response) => {
-                                var ourVehicle = response.data.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1
-                                })
-
-                                // from the data 
-                                this.vehicle.setLatLng([ourVehicle[0].lat, ourVehicle[0].lon])
-
-                            }).catch(error => {
-                                console.log(error)
-                            })
-                    }.bind(this), 1000)
-
-                }).catch(error => {
-                    console.log('Error on Authentication')
-                    this.error = error
-                    console.log(error)
-                })
-        } 
-        getVehicle() {
-            var request_count = 0
-            setInterval(async function () {
-                await request_count++
-                await axios.get('/api/vehicles/')
-                    .then(response => {
-                        var vehicle_data = response.data.sort(function (a, b) {
-                            return a.id < b.id ? -1 : 1
-                        })
-                        var vehicleCount = Object.keys(vehicle_data).length;
-                        // var vehicle_arr = []
-                        for (let i = 0; i < vehicleCount; i++) {
-                            if (vehicle_data[i].site == 2) {
-                                //name of vehicle
-                                // console.log("vehicle_name: ", vehicle_data[i].name)
-                                if (request_count <= 1) {
-                                    var vehicleIcon = this.$utils.map.createIcon({
-                                        iconUrl: require("../../assets/vehicle1.svg"),
-                                        iconSize: [32, 32]
-                                    })
-                                    this.vehicle[i] = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
-                                        draggable: false,
-                                        icon: vehicleIcon
-                                    })
-                                } else {
-                                    this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
-                                }
-                            }
-                        }
-                    }).catch(error => {
-                        console.log(error)
-                    })
-            }.bind(this), 1000)
-        },*/
 
         getVehicle() {
             axios.get('/api/vehicles/')
@@ -636,8 +604,7 @@ export default {
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     })
-                    var vehicleCount = Object.keys(vehicle_data).length;
-                    // var vehicle_arr = []
+                    var vehicleCount = Object.keys(vehicle_data).length
                     for (let i = 0; i < vehicleCount; i++) {
                         if (vehicle_data[i].site == 2) {
                             var vehicleIcon = this.$utils.map.createIcon({
@@ -662,9 +629,8 @@ export default {
                         var vehicleCount = Object.keys(vehicle_data).length;
                         for (let i = 0; i < vehicleCount; i++) {
                             if (vehicle_data[i].site == 2) {
-                                //name of vehicle
-                                // console.log("vehicle_name: ", vehicle_data[i].name)
                                 this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                                // console.log(i, "번", this.vehicle[i]._latlng.lat, this.vehicle[i]._latlng.lng)
                             }
                         }
                     }).catch(error => {
