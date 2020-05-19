@@ -7,8 +7,25 @@ import axios from 'axios'
 
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/messaging'
 
 firebase.initializeApp(firebaseConfig)
+
+// const messaging = firebase.messaging();
+
+// //token값 알아내기
+// messaging.requestPermission()
+//     .then(function () {
+//         console.log("Have permission");
+//         return messaging.getToken();
+//     })
+//     .then(function (token) {
+//         console.log('token', token);
+//     })
+//     .catch(function (erorr) {
+//         console.log("Error Occured", erorr);
+//     });
+
 
 Vue.prototype.$firebase = firebase
 Vue.prototype.$isFirebaseAuth = false

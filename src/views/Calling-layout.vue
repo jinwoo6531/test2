@@ -37,6 +37,11 @@
                 <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
                 <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
             </v-card>
+            <!-- <div>{{ status }}</div>
+            <div>{{ message }}</div>
+            <input type="number" v-model="num" />
+            <button @click="sendMessage">보내기</button>
+            <button @click="disconnect">X</button> -->
         </v-col>
     </v-row>
 </v-container>
@@ -49,7 +54,21 @@ export default {
     data: () => ({
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
+        status: 'disconnected',
+        msg: ''
     }),
+
+    created() {
+        this.socket = new WebSocket("ws://115.93.143.2:9104/ws/vehicle")
+        this.socket.onopen = () => {
+            this.status = "connected"
+        }
+        this.socket.onmessage = ({
+            data
+        }) => {
+            this.msg = data
+        }
+    },
 
     mounted() {
         this.site = this.$route.params.site
@@ -80,9 +99,9 @@ export default {
                 this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
             }, 60000)
 
-            /*setTimeout(() => {
-                this.$router.push('/fail')
-            }, 180000)*/
+        /*setTimeout(() => {
+            this.$router.push('/fail')
+        }, 180000)*/
     },
     computed: {
         /* cardWidth() {
@@ -97,6 +116,19 @@ export default {
                     return '6800px'
             }
         } */
+    },
+
+    methods: {
+        sendMessage() {
+            this.socket.send(this.num)
+            this.num = 0
+        },
+
+        disconnect() {
+            this.socket.close();
+            console.log("socket close")
+            this.status = false;
+        },
     }
 }
 </script>

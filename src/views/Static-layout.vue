@@ -81,7 +81,7 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/map/sejong">
+                    <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
                                 <v-badge color="#E61773" content="준비중" offset-x="-2">
@@ -90,7 +90,7 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/map/sejong">
+                    <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
                                 <v-badge color="#E61773" content="준비중" offset-x="-2">
@@ -99,7 +99,7 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/map/sangam">
+                    <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
                                 <v-badge color="#E61773" content="준비중" offset-x="-2">
