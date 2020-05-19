@@ -141,7 +141,7 @@ export default {
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
 
         // Map View Center Load
-        this.map.setView([35.836673, 128.686520], 15)
+        this.map.setView([36.599351, 127.270606], 15)
 
         this.addMarker()
         this.addRouting(this.waypoints)

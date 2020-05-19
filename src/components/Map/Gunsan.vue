@@ -9,12 +9,52 @@
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat>
+                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
                             <img style="diplay: inline-block;" src="../../assets/location-btn.svg">
                         </v-card>
                     </v-card>
                 </div>
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
+                    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+                        <template v-slot:activator="{ on }">
+                            <v-btn class="person-modal" color="#fff" v-on="on">
+                                <v-icon left>mdi-account-outline</v-icon>
+                                <span v-if="count >= 1">탑승인원 {{ count }}명</span>
+                                <span v-else @click="selectPerson">탑승인원 선택</span>
+                            </v-btn>
+                        </template>
+                        <v-card style="position: absolute; width: 100%; height: 100%;">
+                            <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
+                                <v-btn icon @click="dialog = false">
+                                    <v-icon color="#262626">mdi-close</v-icon>
+                                </v-btn>
+                            </v-toolbar>
+
+                            <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="position: absolute; background: transparent;">
+                                <v-row align="center" justify="center">
+                                    <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
+                                    <v-card class="d-flex justify-space-around" flat>
+                                        <v-card flat tile>
+                                            <v-btn :class="{ 'is-disabled1': isDisabled1 }" @click="decrement" outlined color="#E61773" fab>
+                                                <v-icon dark>mdi-minus</v-icon>
+                                            </v-btn>
+                                        </v-card>
+                                        <v-card flat tile>
+                                            <v-card-text class="count">{{ count }}</v-card-text>
+                                        </v-card>
+                                        <v-card flat tile>
+                                            <v-btn :class="{ 'is-disabled2': isDisabled2 }" @click="increment" outlined color="#E61773" fab>
+                                                <v-icon dark>mdi-plus</v-icon>
+                                            </v-btn>
+                                        </v-card>
+                                    </v-card>
+                                </v-row>
+                            </v-container>
+
+                            <v-btn class="select-person-btn" @click="rideCount" depressed tile>선택완료</v-btn>
+                        </v-card>
+                    </v-dialog>
+
                     <v-flex v-if="callBtn" class="mb-3" style="background: #FFF; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
                         <p class="ma-0" style="color: #828282; height: 30px;">
                             <span style="display: inline-block; height: 100%;">
@@ -67,7 +107,7 @@
                                     </v-card>
                                 </div>
                             </v-flex>
-                            <v-flex class="pa-0" xs2 sm2 md2>
+                            <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
                                 <img src="../../assets/switch-icon.svg">
                             </v-flex>
                         </v-layout>
@@ -75,7 +115,7 @@
                 </v-flex>
 
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle">호출하기</v-btn>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="requestCallBtn">호출하기</v-btn>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -91,6 +131,7 @@ export default {
     name: 'Gunsan',
 
     data: () => ({
+        res: true,
         pageId: 1,
         map: null,
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -129,13 +170,23 @@ export default {
         minutes: 0,
         gunsanList: [],
         callBtn: false,
-
+        dialog: false,
+        count: 0,
+        isDisabled1: true,
+        isDisabled2: false,
         overlay1: false,
         overlay2: false,
         zIndex: 0,
 
         start_icon: {},
-        end_icon: {}
+        end_icon: {},
+
+        marker: {},
+        switch1: false,
+        originStart: '',
+        originEnd: '',
+        changeStart: '',
+        changeEnd: ''
     }),
 
     created() {
@@ -153,13 +204,106 @@ export default {
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
 
         // Map View Center Load
-        this.map.setView([35.836673, 128.686520], 15)
+        this.map.setView([35.812484, 126.4091], 15)
 
         this.addMarker()
         this.addRouting(this.waypoints)
     },
 
+    updated() {
+        if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
+            this.callBtn = true
+        }
+    },
+
     methods: {
+        getLocation() {
+            console.log("GET!");
+            this.$utils.map.getLocation(this.map, {
+                setView: true,
+                watch: true,
+                setZoom: 25,
+                drawMarker: true
+            }).then(response => {
+                this.marker = response
+                console.log('getLocation marker', this.marker)
+            })
+
+            this.res = false
+        },
+
+        stopLocation() {
+            // alert ("marker id: " + this.marker._leaflet_id)
+
+            if (this.marker != null || this.marker != undefined) {
+                this.map.removeLayer(this.marker)
+                this.map.stopLocate()
+                this.map.setView([35.836673, 128.686520], 15)
+            }
+
+            /* this.map.eachLayer(function (layer) {
+                if (layer._leaflet_id == "current") {
+                    this.map.removeLayer(layer)
+                } else {
+                    console.log("marker is not present")
+                }
+            }) */
+
+            this.res = true
+        },
+
+        increment() {
+            this.count += 1
+
+            if (this.count >= 14) {
+                this.isDisabled2 = true
+                this.count = 14
+            } else {
+                this.isDisabled2 = false
+            }
+
+            if (this.count <= 1) {
+                this.isDisabled1 = true
+                this.count = 1
+            } else {
+                this.isDisabled1 = false
+            }
+        },
+
+        decrement() {
+            this.count -= 1
+
+            if (this.count <= 1) {
+                this.isDisabled1 = true
+                this.count = 1
+            } else {
+                this.isDisabled1 = false
+            }
+
+            if (this.count >= 14) {
+                this.isDisabled2 = true
+                this.count = 14
+            } else {
+                this.isDisabled2 = false
+            }
+        },
+
+        selectPerson() {
+            this.count = 1
+        },
+
+        rideCount() {
+            console.log(this.count)
+            this.dialog = false
+        },
+
+        switchDestination() {
+            var change = this.start
+            this.start = this.end
+            this.end = change
+            this.onChange()
+        },
+
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
@@ -336,8 +480,21 @@ export default {
                 this.km = e.routes[0].summary.totalDistance / 1000
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
+        },
 
-            this.callBtn = true
+        requestCallBtn() {
+            this.$router.push({
+                name: "CallingLayout",
+                params: {
+                    site: this.pageId,
+                    start: this.start,
+                    end: this.end,
+                    startName: this.options[this.start - 9].name,
+                    endName: this.options[this.end - 9].name,
+                    count: this.count,
+                    minutes: this.minutes
+                }
+            })
         }
     }
 }

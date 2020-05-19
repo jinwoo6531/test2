@@ -106,13 +106,13 @@ export default {
 
                         // Map View Center Load
                         if (this.site == 1) {
-                            this.map.setView([35.836673, 128.686520], 15)
+                            this.map.setView([35.812484, 126.4091], 15)
                         } else if (this.site == 2) {
                             this.map.setView([35.836673, 128.686520], 15)
                         } else if (this.site == 3) {
-                            this.map.setView([35.836673, 128.686520], 15)
+                            this.map.setView([36.599351, 127.270606], 15)
                         } else if (this.site == 4) {
-                            this.map.setView([35.836673, 128.686520], 15)
+                            this.map.setView([37.579200, 126.888880], 15)
                         }
 
                         this.getRouting()
@@ -125,158 +125,248 @@ export default {
         },
 
         getRouting() {
-            if (this.start >= 1 && this.end >= 1) {
-                if (this.start < this.end) {
-                    for (let i = this.start; i <= this.end; i++) {
-                        this.waypoints.push({
-                            lat: this.stationList[i - 1].lat,
-                            lng: this.stationList[i - 1].lon
+            // Gunsan
+            if (this.site == 1) {
+                if (this.start >= 9 && this.end >= 9) {
+                    // ADD Between Station
+                    if (this.start < this.end) {
+                        for (let i = this.start; i <= this.end; i++) {
+                            this.waypoints.push({
+                                lat: this.stationList[i - 9].lat,
+                                lng: this.stationList[i - 9].lon
+                            })
+                        }
+                        console.log('waypoint', this.waypoints)
+
+                    } else if (this.start > this.end) {
+                        alert('이건 안된다.')
+                        // SAME Station Id
+                    } else if (this.start == this.end) {
+                        alert('같은 정류장 선택 불가')
+                    }
+
+                    let startIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/start-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+
+                    if (this.start === 9) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 10) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 11) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 12) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 13) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                            icon: startIcon
                         })
                     }
-                } else if (this.start > this.end) {
-                    this.waypoints.push({
-                        lat: this.stationList[this.start - 1].lat,
-                        lng: this.stationList[this.start - 1].lon
+
+                    let endIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/end-icon.svg"),
+                        iconSize: [40, 40]
                     })
-                    for (let i = this.start;
-                        (i % 4) != this.end; i++) {
-                        this.waypoints.push({
-                            lat: this.stationList[i % 4].lat,
-                            lng: this.stationList[i % 4].lon
+
+                    if (this.end === 9) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 10) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 11) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 12) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 13) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                            icon: endIcon
                         })
                     }
-                    // SAME Station Id
-                } else if (this.start == this.end) {
-                    switch (this.start) {
-                        case 1:
+
+                    this.map.removeLayer(endIcon)
+
+                }
+            } else if (this.site == 2) {
+                // Daegu
+                if (this.start >= 1 && this.end >= 1) {
+                    if (this.start < this.end) {
+                        for (let i = this.start; i <= this.end; i++) {
                             this.waypoints.push({
-                                lat: this.stationList[0].lat,
-                                lng: this.stationList[0].lon
-                            }, {
-                                lat: this.stationList[1].lat,
-                                lng: this.stationList[1].lon
-                            }, {
-                                lat: this.stationList[2].lat,
-                                lng: this.stationList[2].lon
-                            }, {
-                                lat: this.stationList[3].lat,
-                                lng: this.stationList[3].lon
-                            }, {
-                                lat: this.stationList[0].lat,
-                                lng: this.stationList[0].lon
+                                lat: this.stationList[i - 1].lat,
+                                lng: this.stationList[i - 1].lon
                             })
-                            break
-                        case 2:
+                        }
+                    } else if (this.start > this.end) {
+                        this.waypoints.push({
+                            lat: this.stationList[this.start - 1].lat,
+                            lng: this.stationList[this.start - 1].lon
+                        })
+                        for (let i = this.start;
+                            (i % 4) != this.end; i++) {
                             this.waypoints.push({
-                                lat: this.stationList[1].lat,
-                                lng: this.stationList[1].lon
-                            }, {
-                                lat: this.stationList[2].lat,
-                                lng: this.stationList[2].lon
-                            }, {
-                                lat: this.stationList[3].lat,
-                                lng: this.stationList[3].lon
-                            }, {
-                                lat: this.stationList[0].lat,
-                                lng: this.stationList[0].lon
-                            }, {
-                                lat: this.stationList[1].lat,
-                                lng: this.stationList[1].lon
+                                lat: this.stationList[i % 4].lat,
+                                lng: this.stationList[i % 4].lon
                             })
-                            break
-                        case 3:
-                            this.waypoints.push({
-                                lat: this.stationList[2].lat,
-                                lng: this.stationList[2].lon
-                            }, {
-                                lat: this.stationList[3].lat,
-                                lng: this.stationList[3].lon
-                            }, {
-                                lat: this.stationList[0].lat,
-                                lng: this.stationList[0].lon
-                            }, {
-                                lat: this.stationList[1].lat,
-                                lng: this.stationList[1].lon
-                            }, {
-                                lat: this.stationList[2].lat,
-                                lng: this.stationList[2].lon
-                            })
-                            break
-                        default:
-                            this.waypoints.push({
-                                lat: this.stationList[3].lat,
-                                lng: this.stationList[3].lon
-                            }, {
-                                lat: this.stationList[0].lat,
-                                lng: this.stationList[0].lon
-                            }, {
-                                lat: this.stationList[1].lat,
-                                lng: this.stationList[1].lon
-                            }, {
-                                lat: this.stationList[2].lat,
-                                lng: this.stationList[2].lon
-                            }, {
-                                lat: this.stationList[3].lat,
-                                lng: this.stationList[3].lon
-                            })
+                        }
+                        // SAME Station Id
+                    } else if (this.start == this.end) {
+                        switch (this.start) {
+                            case 1:
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon
+                                })
+                                break
+                            case 2:
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon
+                                })
+                                break
+                            case 3:
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon
+                                })
+                                break
+                            default:
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon
+                                })
+                        }
                     }
+
+                    let startIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/start-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+
+                    if (this.start === 1) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 2) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 3) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                            icon: startIcon
+                        })
+                    } else if (this.start === 4) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                            icon: startIcon
+                        })
+                    }
+
+                    let endIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/end-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+
+                    if (this.end === 1) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 2) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 3) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                            icon: endIcon
+                        })
+                    } else if (this.end === 4) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                            icon: endIcon
+                        })
+                    }
+
+                    this.map.removeLayer(endIcon)
                 }
-
-                let startIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/start-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
-                if (this.start === 1) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 2) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 3) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 4) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
-                        icon: startIcon
-                    })
-                }
-
-                let endIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/end-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
-                if (this.end === 1) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 2) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 3) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 4) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
-                        icon: endIcon
-                    })
-                }
-
-                this.map.removeLayer(endIcon)
             }
 
             this.$utils.map.createRouting(this.map, {
