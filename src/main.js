@@ -9,7 +9,7 @@ import 'leaflet-routing-machine'
 import axios from 'axios'
 import VeeValidate from 'vee-validate'
 import VueScrollPicker from "vue-scroll-picker"
-import "vue-scroll-picker/dist/style.css";
+import "vue-scroll-picker/dist/style.css"
 
 Vue.use(VeeValidate)
 Vue.use(VueScrollPicker)

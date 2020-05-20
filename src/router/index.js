@@ -10,10 +10,16 @@ import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
 import CallFail from '@/views/Call-fail'
+import Import from '@/views/im-port'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/import',
+    name: 'Import',
+    component: Import
+  },
   {
     path: '/splash',
     name: 'Splash',
