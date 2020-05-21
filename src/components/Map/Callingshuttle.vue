@@ -41,6 +41,34 @@
                 <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
                     <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancelBtn">호출 취소하기</v-btn>
+                    <v-dialog v-model="callcanceldialog" max-width="280">
+                        <v-card style="width: 280px; height: 242px; background-color: transparent;">
+                            <v-card flat class="dialog-background" style="background-color: transparent;">
+                                <v-card-text class="pa-3 text-center">
+                                    <v-card-text class="pa-0 call-dialog-title">호출을 취소하세요?</v-card-text>
+                                    <v-card-text class="pa-0 pt-2 call-dialog-subtitle">취소 위약금</v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">1,000<span style="font-size: 14px !important;">원</span></v-card-text>
+                                </v-card-text>
+
+                                <v-card-text class="pa-6 text-center">
+                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 2,000원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
+                                </v-card-text>
+
+                                <v-card flat class="pa-0 d-flex align-self-end">
+                                    <v-container class="pa-0">
+                                        <v-row no-gutters>
+                                            <v-col>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="callcanceldialog = false">호출 유지하기</v-btn>
+                                            </v-col>
+                                            <v-col>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" @click="callCancleBtn">호출 취소하기</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card>
+                            </v-card>
+                        </v-card>
+                    </v-dialog>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -63,7 +91,8 @@ export default {
         end_icon: {},
         setLat: '',
         setLon: '',
-        waypoints: []
+        waypoints: [],
+        callcanceldialog: false
     }),
 
     mounted() {
@@ -393,6 +422,10 @@ export default {
         },
 
         callCancelBtn() {
+            this.callcanceldialog = true
+        },
+
+        callCancleBtn() {
             this.$router.push('/')
         }
     },
@@ -459,5 +492,74 @@ export default {
 
 .call-cancel-btn {
     width: 100%;
+}
+
+.v-dialog {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.dialog-background {
+    width: 2801px;
+    height:  242px;
+    background-image: url('~@/assets/call-cancel-dialog.png');
+}
+
+.call-dialog-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #4F4F4F !important;
+}
+
+.call-dialog-subtitle {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px !important;
+    color: #BDBDBD !important;
+}
+
+.call-dialog-paymony {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px !important;
+    color: #EB5757 !important;
+}
+
+.call-dialog-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 19px;
+    color: #262626 !important;
+}
+
+.call-dialog-subcontent {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 19px;
+    color: #828282 !important;
+}
+
+.call-cancel-dialog-btn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #262626 !important;
+}
+
+.call-dialog-btn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
 }
 </style>

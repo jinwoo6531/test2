@@ -700,7 +700,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .is-disabled1 {
     color: #BDBDBD !important;
 }
