@@ -11,7 +11,7 @@
         <br>
         <span>{{ endName }}</span>
     </div>
-    <v-card class="d-flex justify-start call-cancel" color="transparent" flat>
+    <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="goToMain">
         호출 취소하기
     </v-card>
     <v-row no-gutters>
@@ -125,6 +125,10 @@ export default {
     },
 
     methods: {
+        goToMain() {
+            this.$router.push('/')
+        },
+
         sendMessage() {
             this.socket.send(this.num)
             this.num = 0

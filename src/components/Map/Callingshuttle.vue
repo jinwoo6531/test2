@@ -6,19 +6,22 @@
         </v-flex>
         <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
             <v-card flat tile color="transparent">
-                <table class="desination">
-                    <tr class="arrive-wrap">
-                        <td style="width: 25%; padding-bottom: 3px;">출발지</td>
-                        <td style="width: 20%; padding-bottom: 3px;" rowspan="2"><img src="../../assets/arrow-icon2.svg" class="display: inline-block;"></td>
-                        <td style="width: 25%; padding-bottom: 3px;">도착지</td>
-                        <td style="width: 35%; padding-bottom: 3px;">탑승인원</td>
-                    </tr>
-                    <tr>
-                        <td>{{ startName }}</td>
-                        <td>{{ endName }}</td>
-                        <td style="font-weight: 500; font-size: 18px;">{{ count }}명</td>
-                    </tr>
-                </table>
+                <v-card-text class="pa-6 pr-3">
+                    <v-row no-gutters>
+                        <v-col cols="9">
+                            <v-card class="pa-0 text-left" tile flat>
+                                <v-card-text class="pa-0 pl-1 pb-3 desination"><span style="padding-right: 15px; font-size: 13px; color: #27AE60;">출발지</span>{{ startName }}</v-card-text>
+                                <v-card-text class="pa-0 pl-1 pb-2 desination"><span style="padding-right: 15px; font-size: 13px; color: #EB5757;">도착지</span>{{ endName }}</v-card-text>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="3">
+                            <v-card class="pa-0 text-center" tile flat>
+                                <v-card-text class="pa-0 pb-3 arrive-wrap">탑승인원</v-card-text>
+                                <v-card-text class="pa-0 desination" style="font-size: 18px !important;">{{ count }}명</v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
                 <v-divider class="ml-5 mr-5"></v-divider>
                 <v-list class="pa-0" color="transparent">
                     <v-list-item color="transparent">
@@ -448,7 +451,6 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
-    background: transparent !important;
     border: none;
     color: #BDBDBD;
 }
@@ -457,13 +459,8 @@ export default {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
-    font-size: 14px;
-    width: 100%;
-    padding: 17px;
-    background: transparent !important;
-    border: none;
-    text-align: center;
-    color: #262626;
+    font-size: 14px !important;
+    color: #262626 !important;
 }
 
 .desination-info-title {
@@ -501,7 +498,7 @@ export default {
 
 .dialog-background {
     width: 2801px;
-    height:  242px;
+    height: 242px;
     background-image: url('~@/assets/call-cancel-dialog.png');
 }
 
