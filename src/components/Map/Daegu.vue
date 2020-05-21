@@ -115,7 +115,49 @@
                 </v-flex>
 
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="requestCallBtn">호출하기</v-btn>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
+                    <v-dialog v-model="calldialog" max-width="280">
+                        <v-card style="width: 280px; height: 330px; background-color: transparent;">
+                            <v-card flat class="dialog-background" style="background-color: transparent;">
+                                <v-card-text class="pa-3 text-center">
+                                    <v-card-text class="pa-0 pb-1 call-dialog-title">타시오를 호출할게요.</v-card-text>
+                                    <v-card-text class="pa-0 pt-2 call-dialog-subtitle">총 탑승요금</v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">2,000<span style="font-size: 14px !important;">원</span></v-card-text>
+                                </v-card-text>
+
+                                <v-card-text class="pa-3 text-center">
+                                    <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
+                                        <table style="width: 100%">
+                                            <tr>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1000원</p></td>
+                                                <td style="width: 20%;" rowspan="2"><img src="../../assets/x-icon.svg" class="display: inline-block;"></td>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">탑승인원<p style="margin: 0" class="price-people">2명</p></td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <td class="price-people">1,000원</td>
+                                                <td class="price-people">2명</td>
+                                            </tr> -->
+                                        </table>
+                                    </v-card-text>
+                                    <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
+                                    <v-card-text class="pa-0 pb-2 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
+                                </v-card-text>
+
+                                <v-card flat class="pa-0 pt-2 d-flex align-self-end">
+                                    <v-container class="pa-0">
+                                        <v-row no-gutters>
+                                            <v-col>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="52px" @click="calldialog = false">취소</v-btn>
+                                            </v-col>
+                                            <v-col>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="52px" @click="requestCallBtn">호출하기</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card>
+                            </v-card>
+                        </v-card>
+                    </v-dialog>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -171,6 +213,7 @@ export default {
         daeguList: [],
         callBtn: false,
         dialog: false,
+        calldialog: false,
         count: 0,
         isDisabled1: true,
         isDisabled2: false,
@@ -664,5 +707,82 @@ export default {
 
 .is-disabled2 {
     color: #BDBDBD !important;
+}
+
+.v-dialog {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.dialog-background {
+    width: 2801px;
+    height: 330px;
+    background-image: url('~@/assets/call-dialog.png');
+}
+
+.call-dialog-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #4F4F4F !important;
+}
+
+.call-dialog-subtitle {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px !important;
+    color: #BDBDBD !important;
+}
+
+.call-dialog-paymony {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px !important;
+    color: #EB5757 !important;
+}
+
+.price-people {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #262626;
+}
+
+.call-dialog-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 19px;
+    color: #4F4F4F !important;
+}
+
+.call-dialog-subcontent {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 19px;
+    color: #828282 !important;
+}
+
+.call-cancel-dialog-btn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #262626 !important;
+}
+
+.call-dialog-btn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
 }
 </style>

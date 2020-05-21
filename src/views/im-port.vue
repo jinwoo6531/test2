@@ -5,8 +5,6 @@
 </template>
 
 <script>
-// import IMP from 'vue-iamport'
-
 export default {
     data: () => ({
 
