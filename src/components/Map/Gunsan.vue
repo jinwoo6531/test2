@@ -48,6 +48,7 @@
                                             </v-btn>
                                         </v-card>
                                     </v-card>
+                                    <v-card-text class="select-max mt-9">탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text>
                                 </v-row>
                             </v-container>
 
@@ -502,5 +503,16 @@ export default {
 </script>
 
 <style scoped>
+.select-max {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #BDBDBD;
+}
 
+.select-person-btn {
+    height: 50px !important;
+}
 </style>

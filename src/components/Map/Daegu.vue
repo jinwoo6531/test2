@@ -48,6 +48,7 @@
                                             </v-btn>
                                         </v-card>
                                     </v-card>
+                                    <v-card-text class="select-max mt-9">탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text>
                                 </v-row>
                             </v-container>
 
@@ -129,9 +130,11 @@
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
                                         <table style="width: 100%">
                                             <tr>
-                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1000원</p></td>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1000원</p>
+                                                </td>
                                                 <td style="width: 20%;" rowspan="2"><img src="../../assets/x-icon.svg" class="display: inline-block;"></td>
-                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">탑승인원<p style="margin: 0" class="price-people">{{ count }}명</p></td>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">탑승인원<p style="margin: 0" class="price-people">{{ count }}명</p>
+                                                </td>
                                             </tr>
                                             <!-- <tr>
                                                 <td class="price-people">1,000원</td>
@@ -707,6 +710,19 @@ export default {
 
 .is-disabled2 {
     color: #BDBDBD !important;
+}
+
+.select-max {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #BDBDBD;
+}
+
+.select-person-btn {
+    height: 50px !important;
 }
 
 .v-dialog {

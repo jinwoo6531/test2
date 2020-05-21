@@ -37,11 +37,6 @@
                 <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
                 <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
             </v-card>
-            <!-- <div>{{ status }}</div>
-            <div>{{ message }}</div>
-            <input type="number" v-model="num" />
-            <button @click="sendMessage">보내기</button>
-            <button @click="disconnect">X</button> -->
         </v-col>
     </v-row>
 </v-container>
@@ -63,11 +58,12 @@ export default {
         this.socket = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
         this.socket.onopen = () => {
             this.status = "connected"
+            console.log(this.status)
         }
-        this.socket.onmessage = ({
-            data
-        }) => {
+
+        this.socket.onmessage = ({ data }) => {
             this.msg = data
+            console.log(this.msg)
         }
 
         // this.constructor()
@@ -99,7 +95,7 @@ export default {
                         minutes: this.minutes
                     }
                 })
-            }, 3000),
+            }, 300000),
 
             setTimeout(() => {
                 this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'

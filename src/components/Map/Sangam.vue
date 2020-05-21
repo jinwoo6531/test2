@@ -349,5 +349,16 @@ export default {
 </script>
 
 <style scoped>
+.select-max {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #BDBDBD;
+}
 
+.select-person-btn {
+    height: 50px !important;
+}
 </style>
