@@ -10,7 +10,13 @@
         <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
             <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
                 <v-card-actions class="pa-0">
-                    <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" />
+                    <!-- <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" /> -->
+                    <input type="text" v-model="otp1" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp2" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp3" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp4" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp5" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp6" class="AccessCode" maxlength="1" autofocus>
                 </v-card-actions>
                 <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
                     <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
@@ -25,7 +31,7 @@
         <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
             <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                 <v-card class="text-left pa-0" color="transparent" flat tile>
-                    <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-if="this.otp.length == 6">다음</v-btn>
+                    <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-if="this.otp1.length >= 1 && this.otp2.length >= 1 && this.otp3.length >= 1 && this.otp4.length >= 1 && this.otp5.length >= 1 && this.otp6.length >= 1">다음</v-btn>
                     <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                 </v-card>
             </v-flex>
@@ -38,7 +44,13 @@
 <script>
 export default {
     data: () => ({
-        otp: '',
+        otp: [],
+        otp1: '',
+        otp2: '',
+        otp3: '',
+        otp4: '',
+        otp5: '',
+        otp6: '',
         phoneN: '',
         remainTime: 0,
         doneTime: ''
@@ -88,6 +100,11 @@ export default {
         },
 
         verifyOtp() {
+            this.otp = []
+            this.otp.push(this.otp1, this.otp2, this.otp3, this.otp4, this.otp5, this.otp6)
+            this.otp = this.otp.join("")
+            console.log(this.otp)
+
             if (this.otp.length == 6) {
                 this.$store.dispatch("verifyOtp", {
                     otp: this.otp
@@ -132,12 +149,18 @@ export default {
 }
 
 .AccessCode {
-    width: 100%;
+    width: 47px;
     height: 47px;
     background: #FFFFFF;
     border: 0.5px solid #C4C4C4;
     box-sizing: border-box;
     border-radius: 2px;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    color: #262626;
 }
 
 .SendInfo {

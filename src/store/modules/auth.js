@@ -64,7 +64,7 @@ const actions = {
       .then(result => {
         axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
         .then(response => {
-          console.log(response.data)
+          console.log('rere', response.data)
         }).catch(error => {
           console.log('User read: ', error)
         })

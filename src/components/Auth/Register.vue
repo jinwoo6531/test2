@@ -22,7 +22,7 @@
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">생년월일</p>
-                    <input type="number" id="birth" name="birth" maxlength="6" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
+                    <input type="text" id="birth" name="birth" maxlength="6" minlength="6" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
                 <p class="error-message" style="margin-top: 22px;">{{ error }}</p>
                 <v-footer absolute style="margin-bottom: 24px; background: transparent;">
