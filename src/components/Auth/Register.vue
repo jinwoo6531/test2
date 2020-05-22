@@ -35,7 +35,9 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -100,8 +102,13 @@ export default {
             this.form.email = ''
             this.form.gender = ''
             this.form.birth = ''
-            
-            this.$router.push('/welcome')
+
+            this.$router.push({
+                name: "Welcome",
+                params: {
+                    displayName: this.user.data.displayName
+                }
+            })
             this.get()
         },
 

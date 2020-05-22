@@ -2,7 +2,7 @@
 <v-container class="pa-0 gradient" fluid fill-height>
     <v-row no-gutters>
         <v-col xs="12" sm="12" md="12">
-            <v-card color="transparent" v-if="ready" flat>
+            <v-card color="transparent" flat>
                 <v-card-title class="mb-3">{{ displayName }} 님 환영합니다!</v-card-title>
                 <v-card-subtitle>이제 모든 준비가 끝났어요. </v-card-subtitle>
             </v-card>
@@ -36,36 +36,19 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
-import axios from 'axios'
-
 export default {
     data: () => ({
         drawer: null,
-        ready: false
+        displayName: ''
     }),
 
-    created() {
-        this.get()
-    },
-
-    computed: {
-        ...mapGetters({
-            user: "user"
-        })
+    mounted() {
+         this.displayName = this.$route.params.displayName
     },
 
     methods: {
         startTasio() {
             this.$router.replace('/')
-        },
-
-        async get() {
-            await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.displayName = response.data.displayName
-                this.ready = true
-            })
         }
     }
 
@@ -74,6 +57,7 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
 .welcome-msg {
     font-family: Noto Sans KR;
     font-style: normal;
