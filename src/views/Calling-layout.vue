@@ -49,8 +49,8 @@ export default {
     data: () => ({
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
+        logs: [],
         status: 'disconnected',
-        msg: ''
     }),
 
     created() {
@@ -59,17 +59,18 @@ export default {
         this.socket.onopen = () => {
             this.status = "connected"
             console.log(this.status)
-        }
 
-        this.socket.onmessage = ({ data }) => {
-            this.msg = data
-            console.log(this.msg)
-        }
+            this.logs.push({
+                event: "연결 완료",
+                data: "ws://115.93.143.2:9103/ws/vehicle"
+            })
 
-        // this.constructor()
-        // this.requestPermissionAsync()
-        // this.getTokenAsync()
-        // this.deleteTokenAsync()
+            this.socket.onmessage = ({ data }) => {
+                this.logs.push({ event: "셔틀 호출 요청", data })
+            }
+
+            console.log(this.logs)
+        }
     },
 
     mounted() {
@@ -101,10 +102,11 @@ export default {
                 this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
             }, 60000)
 
-        /*setTimeout(() => {
+        setTimeout(() => {
             this.$router.push('/fail')
-        }, 180000)*/
+        }, 180000)
     },
+
     computed: {
         /* cardWidth() {
             switch (this.$vuetify.breakpoint.name) {
@@ -125,104 +127,10 @@ export default {
             this.$router.push('/')
         },
 
-        sendMessage() {
-            this.socket.send(this.num)
-            this.num = 0
-        },
-
         disconnect() {
             this.socket.close();
             console.log("socket close")
             this.status = false;
-        },
-
-        constructor() {
-            this.messaging = this.$firebase.messaging()
-            this.messaging.usePublicVapidKey(
-                "BMDA-TOlV1YaznH_mtbe-KLRMz2iCkoHBRJ2u44xu9IMjvai4jYW30OrNl_lNO0YD1J-duf0EnUzxl3E4E6TeF8"
-            );
-
-            // Token refresh event
-            this.messaging.onTokenRefresh(function () {
-                console.log('Token refreshed.');
-                this.messaging.getToken().then(function (refreshedToken) {
-                    this.setTokenSentToServerFlg(false);
-                    this.sendTokenToServer(refreshedToken);
-                }).catch(function (err) {
-                    console.log('Unable to retrieve refreshed token ', err);
-                });
-            });
-
-            // Receiving message event
-              this.messaging.onMessage(function(payload) {
-                console.log('Message received. ', payload);
-              });
-        },
-
-        /* Request user's permission */
-        async requestPermissionAsync() {
-            try {
-                await this.messaging.requestPermission();
-                console.log('Notification permission granted.');
-            } catch (err) {
-                console.log('Unable to get permission to notify.', err);
-            }
-        },
-
-        /* Get messaging token */
-        async getTokenAsync() {
-            try {
-                let currentToken = await this.messaging.getToken();
-                if (currentToken) {
-                    await this.sendTokenToServerAsync(currentToken);
-                    return currentToken;
-                } else {
-                    // Show permission request.
-                    console.log('No Instance ID token available. Request permission to generate one.');
-                    // Show permission UI.
-                    this.setTokenSentToServerFlg(false);
-                    return false;
-                }
-            } catch (err) {
-                console.log('An error occurred while retrieving token. ', err);
-                this.setTokenSentToServerFlg(false);
-                return false;
-            }
-        },
-
-        /* Delete Instance ID token */
-        async deleteTokenAsync() {
-            try {
-                let currentToken = await this.messaging.getToken();
-                await this.messaging.deleteToken(currentToken);
-                this.setTokenSentToServerFlg(false);
-                console.log('Token deleted: ' + currentToken);
-            } catch (err) {
-                console.log('Unable to delete token. ', err);
-            }
-        },
-
-        // eslint-disable-next-line no-unused-vars
-        async sendTokenToServerAsync(currentToken) {
-            try {
-                if (!this.isTokenSentToServer()) {
-                    console.log('Sending token to server...');
-                    // TODO: Send the current token to your server.
-                    this.setTokenSentToServerFlg(true);
-                } else {
-                    console.log('Token already sent to server so won\'t send it again unless it changes');
-                }
-            } catch (err) {
-                console.log('Unable to send token to server', err);
-            }
-        },
-
-        isTokenSentToServer() {
-            return window.localStorage.getItem('sentToServer') === '1';
-        },
-
-        setTokenSentToServerFlg(sent) {
-            window.localStorage.setItem('sentToServer', sent ? '1' : '0');
         }
     }
 }

@@ -7,18 +7,18 @@
             </v-flex>
             <v-flex>
                 <v-container fluid>
-                    <v-row dense>
-                        <v-col v-for="card in cards" :key="card.title" cols="6" class="mb-5">
-                            <v-badge color="#E61773" content="준비중" left offset-x="50px" offset-y="20px" style="z-index: 10" :hidden="card.hidden"></v-badge>
-                            <v-card link :to="card.to" flat width="128px" height="128px" :disabled="card.disabled" :color="card.color" style="margin: 0 auto; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;">
+                    <v-row dense no-gutters align="center" justify="center">
+                        <v-col v-for="card in cards" :key="card.title" cols="6" class="mb-5" align="center" justify="center">
+                            <v-badge color="#E61773" content="준비중" left  offset-x="-30px" offset-y="20px" style="z-index: 10; padding: 1px 5px 3px 5px;" :hidden="card.hidden"></v-badge>
+                            <v-card link :to="card.to" flat width="128px" height="128px" :disabled="card.disabled" :color="card.color" style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;">
                                 <v-img :src="card.src" :gradient="card.gradient" class="align-center">
                                     <v-card-text v-html="card.title" class="site-btn pa-0" style="padding: 3px;"></v-card-text>
                                 </v-img>
                             </v-card>
                         </v-col>
-                        <v-col cols="6" class="mb-5">
+                        <v-col cols="6" class="mb-5" align="center" justify="center">
                             <v-badge color="transparent"></v-badge>
-                            <v-card flat width="128px" height="128px" color="#F2F2F2" style="margin: 0 auto; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;">
+                            <v-card flat width="128px" height="128px" color="#F2F2F2" style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;">
                                 <v-avatar class="ma-0 pa-0 mt-5" size="50" tile>
                                     <img class="align-center" width="100%" src="../../assets/next-site.svg">
                                 </v-avatar>

@@ -84,7 +84,7 @@
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
                                     세종 호수공원
                                 </v-badge>
                             </v-list-item-title>
@@ -93,7 +93,7 @@
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
                                     세종 산학연클러스터 4-2
                                 </v-badge>
                             </v-list-item-title>
@@ -102,7 +102,7 @@
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
                                     상암DMC홍보관
                                 </v-badge>
                             </v-list-item-title>
@@ -218,6 +218,10 @@ export default {
 
 .v-badge__badge {
     border-radius: 7px !important;
+}
+
+.v-navigation-drawer__content::-webkit-scrollbar {
+    display: none;
 }
 
 .v-list-item {

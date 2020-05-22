@@ -1,3 +1,5 @@
+/*
+
 // eslint-disable-next-line no-undef
 importScripts ( 'https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js' );
 // eslint-disable-next-line no-undef
@@ -23,3 +25,5 @@ messaging.setBackgroundMessageHandler((payload) => {
     // Promise를 return 한다.
     return self.registration.showNotification(title, options)
 })
+
+*/
