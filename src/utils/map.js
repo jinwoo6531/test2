@@ -52,60 +52,11 @@ const createRouting = (map, options = {}) => {
     return control
 }
 
-const getLocation = (map, options) => {
- 
-    var location = new Promise(function (resolve, reject) {
-            map.locate(options)
-                .on("locationfound", function (e) {
-                    if (e) {
-                        let currentIcon = createIcon({
-                            iconUrl: require("../assets/current.svg"),
-                            iconSize: [17, 17]
-                        })
-
-                        var marker = createMakerByXY(map, [e.latitude, e.longitude], {
-                            icon: currentIcon
-                        })
-            
-                        //var marker = $L.marker($L.latLng(e.latitude, e.longitude), {
-                        //    icon: currentIcon
-                        //});
-                        
-                        //var circle = $L.circle([e.latitude, e.longitude], e.accuracy / 2, {
-                        //    weight: 1,
-                        //    color: "orange",
-                        //    fillOpacity: 0.1
-                        //})
-
-                        marker.addTo(map)
-                        //circle.addTo(map)
-                        resolve(marker)
-                    } else {
-                        reject('위치 가져오기 실패')
-                    }
-                })
-                .on("locationerror", function (e) {
-                    console.log(e);
-                    alert("Location access denied.");
-                })
-        })
-        .then(function (currentMarker) {
-            console.log('currentMarker', currentMarker)
-            return currentMarker
-        }, function (error) {
-            console.error(error)
-        })
-
-    console.log("location", location)
-    return location
-}
-
 export default {
     createMap,
     createTileLayer,
     createIcon,
     createMakerByXY,
     createRouting,
-    updateMarkerByXY,
-    getLocation
+    updateMarkerByXY
 }

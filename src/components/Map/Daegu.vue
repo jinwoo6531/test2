@@ -171,6 +171,7 @@
 <script>
 import axios from 'axios'
 var control
+// import L from "leaflet"
 
 export default {
     name: 'Daegu',
@@ -227,12 +228,13 @@ export default {
         start_icon: {},
         end_icon: {},
 
-        marker: {},
         switch1: false,
         originStart: '',
         originEnd: '',
         changeStart: '',
-        changeEnd: ''
+        changeEnd: '',
+
+        usermarker: ''
     }),
 
     created() {
@@ -265,36 +267,47 @@ export default {
 
     methods: {
         getLocation() {
-            console.log("GET!");
-            this.$utils.map.getLocation(this.map, {
+            this.map.locate({
                 setView: true,
+                maxZoom: 18,
                 watch: true,
-                setZoom: 25,
-                drawMarker: true
-            }).then(response => {
-                this.marker = response
-                console.log('getLocation marker', this.marker)
+                enableHighAccuracy: true
+            }).on("locationfound", e => {
+                console.log('Location found: ' + e.latitude + e.longitude)
+                if (!this.usermarker) {
+
+                    let currentUser = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/current.svg"),
+                        iconSize: [17, 17]
+                    })
+
+                    this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                        icon: currentUser
+                    })
+
+                } else {
+                    this.usermarker.setLatLng(e.latlng)
+                }
+            }).on("locationerror", error => {
+                console.log('Location error:')
+                console.log(error);
+                if (this.usermarker) {
+                    this.map.removeLayer(this.usermarker)
+                    this.usermarker = null
+                }
             })
 
             this.res = false
         },
 
         stopLocation() {
-            // alert ("marker id: " + this.marker._leaflet_id)
-
-            if (this.marker != null || this.marker != undefined) {
-                this.map.removeLayer(this.marker)
+            if (this.usermarker != null || this.usermarker != undefined) {
+                this.map.removeLayer(this.usermarker)
+                this.usermarker = null
                 this.map.stopLocate()
-                this.map.setView([35.836673, 128.68652], 15)
+                this.map.setView([35.836673, 128.686520], 15)
+                console.log('stopLocation usermarker', this.usermarker)
             }
-
-            /* this.map.eachLayer(function (layer) {
-                if (layer._leaflet_id == "current") {
-                    this.map.removeLayer(layer)
-                } else {
-                    console.log("marker is not present")
-                }
-            }) */
 
             this.res = true
         },
