@@ -11,12 +11,12 @@
             <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
                 <v-card-actions class="pa-0">
                     <!-- <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" /> -->
-                    <input type="text" v-model="otp1" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp2" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp3" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp4" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp5" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp6" class="AccessCode" maxlength="1" autofocus>
+                    <input type="text" v-model="otp1" class="AccessCode" maxlength="1" ref="authcode1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp2" class="AccessCode" maxlength="1" ref="authcode2" style="margin-right: 6px;">
+                    <input type="text" v-model="otp3" class="AccessCode" maxlength="1" ref="authcode3" style="margin-right: 6px;">
+                    <input type="text" v-model="otp4" class="AccessCode" maxlength="1" ref="authcode4" style="margin-right: 6px;">
+                    <input type="text" v-model="otp5" class="AccessCode" maxlength="1" ref="authcode5" style="margin-right: 6px;">
+                    <input type="text" v-model="otp6" class="AccessCode" maxlength="1" ref="authcode6">
                 </v-card-actions>
                 <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
                     <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
@@ -56,6 +56,34 @@ export default {
         doneTime: ''
     }),
 
+    updated() {
+        if (this.otp1.length == 1) {
+            this.$nextTick(function () {
+                this.$refs.authcode2.focus()
+            })
+        }
+        if (this.otp2.length == 1) {
+            this.$nextTick(function () {
+                this.$refs.authcode3.focus()
+            })
+        }
+        if (this.otp3.length == 1) {
+            this.$nextTick(function () {
+                this.$refs.authcode4.focus()
+            })
+        }
+        if (this.otp4.length == 1) {
+            this.$nextTick(function () {
+                this.$refs.authcode5.focus()
+            })
+        }
+        if (this.otp5.length == 1) {
+            this.$nextTick(function () {
+                this.$refs.authcode6.focus()
+            })
+        }
+    },
+
     mounted() {
         console.log(this.$route.params.phoneNumber)
         let start = this.$route.params.phoneNumber.substring(3, 6)
@@ -64,6 +92,8 @@ export default {
         this.phoneN = start + '-' + mid + '-' + end
 
         this.timeOut()
+
+        this.$refs.authcode1.focus()
     },
 
     created() {
@@ -108,10 +138,17 @@ export default {
             if (this.otp.length == 6) {
                 this.$store.dispatch("verifyOtp", {
                     otp: this.otp
-                });
+                })
             } else {
                 alert("잘못된 인증코드 형식 입니다.")
             }
+
+            this.otp1 = ''
+            this.otp2 = ''
+            this.otp3 = ''
+            this.otp4 = ''
+            this.otp5 = ''
+            this.otp6 = ''
         },
 
         async sendOtp() {

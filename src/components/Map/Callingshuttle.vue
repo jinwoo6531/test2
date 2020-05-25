@@ -43,7 +43,7 @@
 
                 <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancelBtn">호출 취소하기</v-btn>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
                     <v-dialog v-model="callcanceldialog" max-width="280">
                         <v-card style="width: 280px; height: 242px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
@@ -424,11 +424,12 @@ export default {
             })
         },
 
-        callCancelBtn() {
+        callCancel() {
             this.callcanceldialog = true
         },
 
         callCancleBtn() {
+            // 여기에 아임포트 결제 취소 부분 삽입
             this.$router.push('/')
         }
     },

@@ -12,7 +12,7 @@
         <span>{{ endName }}</span>
     </div>
     <!-- <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="goToMain"> -->
-    <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="sendMessage('Calling')">
+    <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
         호출 취소하기
     </v-card>
     <v-row no-gutters>
@@ -58,7 +58,7 @@ export default {
     created() {
         // Web Socket
         this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
-        
+
         // 연결이 성공적으로 열릴 때
         this.connection.onopen = (event) => {
             console.log('connection onopen: ', event)
@@ -68,7 +68,11 @@ export default {
         // 설정한 WebSocket 연결이 메시지를 받을 때마다
         this.connection.onmessage = (event) => {
             console.log('connection onmessage: ', event)
+            // 여기에 배차 정보 로직을 구현한다.
+            // alive check를 해주는 것이 중요하다.
+            // -> 핑을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
         }
+
     },
 
     mounted() {
@@ -121,14 +125,15 @@ export default {
     },
 
     methods: {
-        goToMain() {
+        callCancelModal() {
+            alert('호출을 정말로 취소하세요?')
             this.$router.push('/')
         },
 
         sendMessage(message) {
             // 우리가 보내고 싶은 메세지
             console.log('sendMessage connection: ', this.connection)
-            // 이거는 왜 안먹을까?
+            // 아직 서버에서 보내만주지 send를 하지는 않기 때문에 작동하지 않는다!
             this.connection.send(message)
         },
 

@@ -1,10 +1,13 @@
 <template>
 <div>
     <button @click="requestPay">결제하기</button>
+    <button @click="cancelPay">결제취소하기</button>
 </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data: () => ({
 
@@ -29,7 +32,7 @@ export default {
                 buyer_tel: '010-1234-5678', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
                 buyer_addr: '경기기업성장센터 523~524호', // 주문자 주소 (선택 항목)
                 buyer_postcode: '123-456', // 주문자 우편 번호 (선택 항목)
-                // m_redirect_url: 'https://www.yourdomain.com/payments/complete' // 모바일 결제시, 결제가 끝나고 랜딩되는 URL을 지정 (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
+                m_redirect_url: 'https://www.yourdomain.com/payments/complete' // 모바일 결제시, 결제가 끝나고 랜딩되는 URL을 지정 (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
             }, rsp => { // callback
                 console.log('rsp', rsp)
                 var msg = '';
@@ -48,6 +51,31 @@ export default {
                     alert(msg)
                 }
             });
+
+        },
+
+        cancelPay() {
+            console.log('cancelPay')
+            axios({
+                url: "http://www.myservice.com/payments/cancel",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: {
+                    merchant_uid: "mid_" + new Date().getTime(), // 주문번호 *
+                    cancel_request_amount: 2000, // 환불금액 *
+                    reason: "타시오 결제 환불", // 환불사유 *
+                    // 가상 계좌 환불 시
+                    refund_holder: "현유진", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
+                    refund_bank: "88", // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
+                    refund_account: "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
+                }
+            }).then(response => {
+                alert('환불이 완료되었습니다.', response)
+            }).catch(error => {
+                alert('환불을 실패하였습니다.', error)
+            })
 
         }
     }
