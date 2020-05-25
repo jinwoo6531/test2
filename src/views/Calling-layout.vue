@@ -11,7 +11,8 @@
         <br>
         <span>{{ endName }}</span>
     </div>
-    <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="goToMain">
+    <!-- <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="goToMain"> -->
+    <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="sendMessage('Calling')">
         호출 취소하기
     </v-card>
     <v-row no-gutters>
@@ -51,25 +52,22 @@ export default {
         ready: false,
         logs: [],
         status: 'disconnected',
+        connection: null
     }),
 
     created() {
         // Web Socket
-        this.socket = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
-        this.socket.onopen = () => {
-            this.status = "connected"
+        this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
+        
+        // 연결이 성공적으로 열릴 때
+        this.connection.onopen = (event) => {
+            console.log('connection onopen: ', event)
+            this.status = "Successfully connected to 9103 WebSocket Server"
             console.log(this.status)
-
-            this.logs.push({
-                event: "연결 완료",
-                data: "ws://115.93.143.2:9103/ws/vehicle"
-            })
-
-            this.socket.onmessage = ({ data }) => {
-                this.logs.push({ event: "셔틀 호출 요청", data })
-            }
-
-            console.log(this.logs)
+        }
+        // 설정한 WebSocket 연결이 메시지를 받을 때마다
+        this.connection.onmessage = (event) => {
+            console.log('connection onmessage: ', event)
         }
     },
 
@@ -127,10 +125,17 @@ export default {
             this.$router.push('/')
         },
 
+        sendMessage(message) {
+            // 우리가 보내고 싶은 메세지
+            console.log('sendMessage connection: ', this.connection)
+            // 이거는 왜 안먹을까?
+            this.connection.send(message)
+        },
+
         disconnect() {
-            this.socket.close();
+            this.connection.close()
             console.log("socket close")
-            this.status = false;
+            this.status = false
         }
     }
 }
