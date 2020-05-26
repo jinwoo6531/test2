@@ -5,10 +5,9 @@ module.exports = {
 
   configureWebpack: {
     devServer: {
-      host: 'http://service.tasio.io/',
-      port: '9772'
+      host: '0.0.0.0',
+      port: '9772',
+      disableHostCheck : true
     }
   }
 }
-
-'use strict'

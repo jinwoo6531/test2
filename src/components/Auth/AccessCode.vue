@@ -11,12 +11,12 @@
             <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
                 <v-card-actions class="pa-0">
                     <!-- <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" /> -->
-                    <input type="text" v-model="otp1" v-on:keyup.delete="deleteCode" class="AccessCode" maxlength="1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp2" v-on:keyup.delete="deleteCode" class="AccessCode" maxlength="1" style="margin-right: 6px;">
-                    <input type="text" v-model="otp3" v-on:keyup.delete="deleteCode" class="AccessCode" maxlength="1" style="margin-right: 6px;">
-                    <input type="text" v-model="otp4" class="AccessCode" maxlength="1" style="margin-right: 6px;">
-                    <input type="text" v-model="otp5" class="AccessCode" maxlength="1" style="margin-right: 6px;">
-                    <input type="text" v-model="otp6" class="AccessCode" maxlength="1">
+                    <input type="text" v-model="otp1" v-on:keydown.delete="deleteCode1" class="AccessCode" maxlength="1" ref="authcode1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp2" v-on:keydown.delete="deleteCode2" class="AccessCode" maxlength="1" ref="authcode2" style="margin-right: 6px;">
+                    <input type="text" v-model="otp3" v-on:keydown.delete="deleteCode3" class="AccessCode" maxlength="1" ref="authcode3" style="margin-right: 6px;">
+                    <input type="text" v-model="otp4" v-on:keydown.delete="deleteCode4" class="AccessCode" maxlength="1" ref="authcode4" style="margin-right: 6px;">
+                    <input type="text" v-model="otp5" v-on:keydown.delete="deleteCode5" class="AccessCode" maxlength="1" ref="authcode5" style="margin-right: 6px;">
+                    <input type="text" v-model="otp6" v-on:keydown.delete="deleteCode6" class="AccessCode" maxlength="1" ref="authcode6">
                 </v-card-actions>
                 <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
                     <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
@@ -92,8 +92,6 @@ export default {
         this.phoneN = start + '-' + mid + '-' + end
 
         this.timeOut()
-
-        this.$refs.authcode1.focus()
     },
 
     created() {
@@ -106,6 +104,61 @@ export default {
     },
 
     methods: {
+        deleteCode1() {
+            this.$refs.authcode1.focus()
+            this.otp1 = ''
+        },
+
+        deleteCode2() {
+            if (this.$refs.authcode2.focus()) {
+                this.otp2 = ''
+            }
+            if (this.otp2 == '') {
+                this.$refs.authcode1.focus()
+                this.otp1 = ''
+            }
+        },
+
+        deleteCode3() {
+            if (this.$refs.authcode3.focus()) {
+                this.otp3 = ''
+            }
+            if (this.otp3 == '') {
+                this.$refs.authcode2.focus()
+                this.otp2 = ''
+            }
+        },
+
+        deleteCode4() {
+            if (this.$refs.authcode4.focus()) {
+                this.otp4 = ''
+            }
+            if (this.otp4 == '') {
+                this.$refs.authcode3.focus()
+                this.otp3 = ''
+            }
+        },
+
+        deleteCode5() {
+            if (this.$refs.authcode5.focus()) {
+                this.otp5 = ''
+            }
+            if (this.otp5 == '') {
+                this.$refs.authcode4.focus()
+                this.otp4 = ''
+            }
+        },
+
+        deleteCode6() {
+            if (this.$refs.authcode6.focus()) {
+                this.otp6 = ''
+            }
+            if (this.otp6 == '') {
+                this.$refs.authcode5.focus()
+                this.otp5 = ''
+            }
+        },
+
         timeStart() {
             this.polling = setInterval(() => {
                 this.timeOut()

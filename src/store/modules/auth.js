@@ -71,7 +71,8 @@ const actions = {
         })
       })
       .catch(error => {
-        alert(error + "인증코드가 잘못되었습니다.")
+        alert("인증코드가 잘못되었습니다.")
+        console.log(error)
       })
   },
 
