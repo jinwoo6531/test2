@@ -11,18 +11,18 @@
             <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
                 <v-card-actions class="pa-0">
                     <!-- <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" /> -->
-                    <input type="text" v-model="otp1" v-on:keydown.delete="deleteCode1" class="AccessCode" maxlength="1" ref="authcode1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp2" v-on:keydown.delete="deleteCode2" class="AccessCode" maxlength="1" ref="authcode2" style="margin-right: 6px;">
-                    <input type="text" v-model="otp3" v-on:keydown.delete="deleteCode3" class="AccessCode" maxlength="1" ref="authcode3" style="margin-right: 6px;">
-                    <input type="text" v-model="otp4" v-on:keydown.delete="deleteCode4" class="AccessCode" maxlength="1" ref="authcode4" style="margin-right: 6px;">
-                    <input type="text" v-model="otp5" v-on:keydown.delete="deleteCode5" class="AccessCode" maxlength="1" ref="authcode5" style="margin-right: 6px;">
-                    <input type="text" v-model="otp6" v-on:keydown.delete="deleteCode6" class="AccessCode" maxlength="1" ref="authcode6">
+                    <input type="text" v-model="otp1" v-on:keyup="enterCode1" v-on:keydown.delete="deleteCode1" class="AccessCode" maxlength="1" ref="authcode1" autofocus style="margin-right: 6px;">
+                    <input type="text" v-model="otp2" v-on:keyup="enterCode2" v-on:keydown.delete="deleteCode2" class="AccessCode" maxlength="1" ref="authcode2" style="margin-right: 6px;">
+                    <input type="text" v-model="otp3" v-on:keyup="enterCode3" v-on:keydown.delete="deleteCode3" class="AccessCode" maxlength="1" ref="authcode3" style="margin-right: 6px;">
+                    <input type="text" v-model="otp4" v-on:keyup="enterCode4" v-on:keydown.delete="deleteCode4" class="AccessCode" maxlength="1" ref="authcode4" style="margin-right: 6px;">
+                    <input type="text" v-model="otp5" v-on:keyup="enterCode5" v-on:keydown.delete="deleteCode5" class="AccessCode" maxlength="1" ref="authcode5" style="margin-right: 6px;">
+                    <input type="text" v-model="otp6" v-on:keyup="enterCode6" v-on:keydown.delete="deleteCode6" class="AccessCode" maxlength="1" ref="authcode6">
                 </v-card-actions>
                 <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
                     <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
                     <p class="RemainTime">{{ remainTime }}</p>
                 </v-flex>
-                <v-flex class="pa-0 pt-5 d-flex justify-space-between" xs12 sm12 md12>
+                <v-flex class="pa-0 pt-1 d-flex justify-space-between" xs12 sm12 md12>
                     <p class="DoneTime">{{ this.doneTime }}</p>
                     <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
                 </v-flex>
@@ -56,34 +56,6 @@ export default {
         doneTime: ''
     }),
 
-    updated() {
-        if (this.otp1.length == 1) {
-            this.$nextTick(function () {
-                this.$refs.authcode2.focus()
-            })
-        }
-        if (this.otp2.length == 1) {
-            this.$nextTick(function () {
-                this.$refs.authcode3.focus()
-            })
-        }
-        if (this.otp3.length == 1) {
-            this.$nextTick(function () {
-                this.$refs.authcode4.focus()
-            })
-        }
-        if (this.otp4.length == 1) {
-            this.$nextTick(function () {
-                this.$refs.authcode5.focus()
-            })
-        }
-        if (this.otp5.length == 1) {
-            this.$nextTick(function () {
-                this.$refs.authcode6.focus()
-            })
-        }
-    },
-
     mounted() {
         console.log(this.$route.params.phoneNumber)
         let start = this.$route.params.phoneNumber.substring(3, 6)
@@ -104,6 +76,52 @@ export default {
     },
 
     methods: {
+        enterCode1() {
+            if (this.otp1.length == 1) {
+                this.$nextTick(function () {
+                    this.$refs.authcode2.focus()
+                })
+            }
+        },
+
+        enterCode2() {
+            if (this.otp2.length == 1) {
+                this.$nextTick(function () {
+                    this.$refs.authcode3.focus()
+                })
+            }
+        },
+
+        enterCode3() {
+            if (this.otp3.length == 1) {
+                this.$nextTick(function () {
+                    this.$refs.authcode4.focus()
+                })
+            }
+        },
+
+        enterCode4() {
+            if (this.otp4.length == 1) {
+                this.$nextTick(function () {
+                    this.$refs.authcode5.focus()
+                })
+            }
+        },
+
+        enterCode5() {
+            if (this.otp5.length == 1) {
+                this.$nextTick(function () {
+                    this.$refs.authcode6.focus()
+                })
+            }
+        },
+
+        enterCode6() {
+            if (this.otp6.length == 1) {
+                this.$refs.authcode6.focus()
+            }
+        },
+
         deleteCode1() {
             this.$refs.authcode1.focus()
             this.otp1 = ''
