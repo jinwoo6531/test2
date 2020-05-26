@@ -14,7 +14,6 @@
             </v-list-item>
 
             <template v-if="user.loggedIn">
-                <!-- <v-list-item link @click.prevent="signOut" class="pa-0"> -->
                 <v-list-item class="pa-0">
                     <v-list-item-content v-if="ready">
                         <v-row class="ma-0" style="height: 30px;">
