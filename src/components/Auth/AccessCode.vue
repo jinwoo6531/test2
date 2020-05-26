@@ -9,15 +9,16 @@
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
             <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
-                <v-card-actions class="pa-0">
-                    <!-- <input type="text" v-model="otp" autofocus maxlength="6" class="AccessCode" placeholder="인증번호" /> -->
-                    <input type="text" v-model="otp1" v-on:keyup="enterCode1" v-on:keydown.delete="deleteCode1" class="AccessCode" maxlength="1" ref="authcode1" autofocus style="margin-right: 6px;">
-                    <input type="text" v-model="otp2" v-on:keyup="enterCode2" v-on:keydown.delete="deleteCode2" class="AccessCode" maxlength="1" ref="authcode2" style="margin-right: 6px;">
-                    <input type="text" v-model="otp3" v-on:keyup="enterCode3" v-on:keydown.delete="deleteCode3" class="AccessCode" maxlength="1" ref="authcode3" style="margin-right: 6px;">
-                    <input type="text" v-model="otp4" v-on:keyup="enterCode4" v-on:keydown.delete="deleteCode4" class="AccessCode" maxlength="1" ref="authcode4" style="margin-right: 6px;">
-                    <input type="text" v-model="otp5" v-on:keyup="enterCode5" v-on:keydown.delete="deleteCode5" class="AccessCode" maxlength="1" ref="authcode5" style="margin-right: 6px;">
-                    <input type="text" v-model="otp6" v-on:keyup="enterCode6" v-on:keydown.delete="deleteCode6" class="AccessCode" maxlength="1" ref="authcode6">
-                </v-card-actions>
+                <v-card class="pa-0 d-flex flex-column justify-center align-center" width="100%" color="transparent" flat tile>
+                    <v-card class="pa-0" color="transparent" flat tile>
+                        <input type="text" v-model="otp1" v-on:keyup="enterCode1" v-on:keydown.delete="deleteCode1" class="AccessCode" maxlength="1" ref="authcode1" autofocus style="margin-right: 6px;">
+                        <input type="text" v-model="otp2" v-on:keyup="enterCode2" v-on:keydown.delete="deleteCode2" class="AccessCode" maxlength="1" ref="authcode2" style="margin-right: 6px;">
+                        <input type="text" v-model="otp3" v-on:keyup="enterCode3" v-on:keydown.delete="deleteCode3" class="AccessCode" maxlength="1" ref="authcode3" style="margin-right: 6px;">
+                        <input type="text" v-model="otp4" v-on:keyup="enterCode4" v-on:keydown.delete="deleteCode4" class="AccessCode" maxlength="1" ref="authcode4" style="margin-right: 6px;">
+                        <input type="text" v-model="otp5" v-on:keyup="enterCode5" v-on:keydown.delete="deleteCode5" class="AccessCode" maxlength="1" ref="authcode5" style="margin-right: 6px;">
+                        <input type="text" v-model="otp6" v-on:keyup="enterCode6" v-on:keydown.delete="deleteCode6" class="AccessCode" maxlength="1" ref="authcode6">
+                    </v-card>
+                </v-card>
                 <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
                     <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
                     <p class="RemainTime">{{ remainTime }}</p>
@@ -257,7 +258,7 @@ export default {
 }
 
 .AccessCode {
-    width: 47px;
+    width: 15%;
     height: 47px;
     background: #FFFFFF;
     border: 0.5px solid #C4C4C4;
