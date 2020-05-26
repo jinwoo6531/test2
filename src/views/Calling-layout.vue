@@ -98,15 +98,15 @@ export default {
                         minutes: this.minutes
                     }
                 })
-            }, 300000),
+            }, 3000)
 
-            setTimeout(() => {
-                this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
-            }, 60000)
+        //     setTimeout(() => {
+        //         this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
+        //     }, 60000)
 
-        setTimeout(() => {
-            this.$router.push('/fail')
-        }, 180000)
+        // setTimeout(() => {
+        //     this.$router.push('/fail')
+        // }, 180000)
     },
 
     computed: {

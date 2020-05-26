@@ -171,7 +171,6 @@
 <script>
 import axios from 'axios'
 var control
-// import L from "leaflet"
 
 export default {
     name: 'Daegu',
