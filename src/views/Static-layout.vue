@@ -14,10 +14,11 @@
             </v-list-item>
 
             <template v-if="user.loggedIn">
-                <v-list-item link @click.prevent="signOut" class="pa-0">
+                <!-- <v-list-item link @click.prevent="signOut" class="pa-0"> -->
+                <v-list-item class="pa-0">
                     <v-list-item-content v-if="ready">
                         <v-row class="ma-0" style="height: 30px;">
-                            <v-col class="pa-0" cols="10">
+                            <v-col link @click.prevent="signOut" class="pa-0" cols="10">
                                 <v-row class="ma-0">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                                         {{ displayName }}님
@@ -30,7 +31,9 @@
                                 </v-row>
                             </v-col>
                             <v-col class="pa-0" cols="2" style="width: 100%; height: 100%; line-height: 34px; text-align: center;">
-                                <img src="../assets/setting.svg" />
+                                <router-link to="/userinfo">
+                                    <img src="../assets/setting.svg" />
+                                </router-link>
                             </v-col>
                         </v-row>
                     </v-list-item-content>
@@ -149,6 +152,7 @@
                         <span flat v-if="this.$route.fullPath == '/introduction'" class="pa-0 static-title">타시오 소개</span>
                         <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
                         <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
+                        <span flat v-if="this.$route.fullPath == '/userinfo'" class="pa-0 static-title">내정보</span>
                     </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">

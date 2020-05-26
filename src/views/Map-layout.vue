@@ -14,10 +14,11 @@
             </v-list-item>
 
             <template v-if="user.loggedIn">
-                <v-list-item link @click.prevent="signOut">
+                <!-- <v-list-item link @click.prevent="signOut" class="pa-0"> -->
+                <v-list-item class="pa-0">
                     <v-list-item-content v-if="ready">
                         <v-row class="ma-0" style="height: 30px;">
-                            <v-col class="pa-0" cols="9">
+                            <v-col link @click.prevent="signOut" class="pa-0" cols="10">
                                 <v-row class="ma-0">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                                         {{ displayName }}님
@@ -29,8 +30,10 @@
                                     </v-col>
                                 </v-row>
                             </v-col>
-                            <v-col class="pa-0" cols="3" style="width: 100%; height: 100%; line-height: 34px; text-align: center;">
-                                <img src="../assets/setting.svg" />
+                            <v-col class="pa-0" cols="2" style="width: 100%; height: 100%; line-height: 34px; text-align: center;">
+                                <router-link to="/userinfo">
+                                    <img src="../assets/setting.svg" />
+                                </router-link>
                             </v-col>
                         </v-row>
                     </v-list-item-content>

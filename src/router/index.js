@@ -130,6 +130,11 @@ const routes = [
       path: 'faq',
       name: 'FAQ',
       component: () => import('@/components/Static/FAQ')
+    },
+    {
+      path: 'userinfo',
+      name: 'Userinfo',
+      component: () => import('@/components/Static/Userinfo')
     }]
   }
 ]
