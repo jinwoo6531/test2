@@ -10,11 +10,31 @@
                             이름
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            현유진
+                            {{ displayName }}
                         </v-col>
-                        <v-col cols="2" height="100%" style="text-align: center;">
-                            <img src="../../assets/modify-icon.svg" width="14px" height="14px">
+                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
+                            <img src="../../assets/modify-icon.svg" @click="dialog = true" width="14px" height="14px">
                         </v-col>
+                        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+                            <v-card flat tile>
+                                <v-toolbar flat tile dense color="transparent">
+                                    <v-btn icon @click="dialog = false" color="#262626">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                    <v-spacer></v-spacer>
+                                    <v-toolbar-items>
+                                        <v-btn text class="pa-0" @click="dialog = false" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                    </v-toolbar-items>
+                                </v-toolbar>
+                                <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="position: absolute; background: transparent;">
+                                    <v-row align="center" justify="center">
+                                        <v-card class="d-flex justify-space-around" flat>
+                                            <v-text-field filled="filled" clearable="clearable" dense="dense"></v-text-field>
+                                        </v-card>
+                                    </v-row>
+                                </v-container>
+                            </v-card>
+                        </v-dialog>
                     </v-row>
                     <v-divider color="#BDBDBD"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6">
@@ -22,9 +42,9 @@
                             이메일
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            yjhyeon@aspringcloud.com
+                            {{ email }}
                         </v-col>
-                        <v-col cols="2" height="100%" style="text-align: center;">
+                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
                             <img src="../../assets/modify-icon.svg" width="14px" height="14px">
                         </v-col>
                     </v-row>
@@ -34,9 +54,9 @@
                             성별
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            여자
+                            {{ gender }}
                         </v-col>
-                        <v-col cols="2" height="100%" style="text-align: center;">
+                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
                             <img src="../../assets/modify-icon.svg" width="14px" height="14px">
                         </v-col>
                     </v-row>
@@ -46,9 +66,9 @@
                             생일
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            970702
+                            {{ birth }}
                         </v-col>
-                        <v-col cols="2" height="100%" style="text-align: center;">
+                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
                             <img src="../../assets/modify-icon.svg" width="14px" height="14px">
                         </v-col>
                     </v-row>
@@ -58,7 +78,7 @@
                             전화번호
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            010-1234-5678
+                            {{ this.phoneNumber }}
                         </v-col>
                     </v-row>
                 </v-card>
@@ -82,7 +102,46 @@
 </template>
 
 <script>
+import {
+    mapGetters
+} from 'vuex'
+import axios from 'axios'
+
 export default {
+    name: 'Userinfo',
+
+    data: () => ({
+        dialog: false,
+        displayName: '',
+        email: '',
+        gender: '',
+        birth: '',
+        phoneNumber: ''
+    }),
+
+    created() {
+        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            .then(response => {
+                console.log('userinfo', response.data)
+                this.displayName = response.data.displayName
+                this.email = response.data.email
+                this.gender = response.data.gender
+                this.birth = response.data.birth
+                var start = "0" + response.data.phoneNumber.substring(3, 5)
+                var mid = response.data.phoneNumber.substring(5, 9)
+                var end = response.data.phoneNumber.substring(9, 13)
+                this.phoneNumber = start + "-" + mid + "-" + end
+            }).catch(error => {
+                console.log('User read: ', error)
+            })
+    },
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        })
+    },
+
     methods: {
         signOut() {
             this.$firebase.auth().signOut()
