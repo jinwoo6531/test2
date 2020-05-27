@@ -397,7 +397,7 @@ export default {
                     }
 
                 } else if (this.start > this.end) {
-                    alert('이건 안된다.')
+                    alert('지원하지 않습니다.')
                     // SAME Station Id
                 } else if (this.start == this.end) {
                     alert('같은 정류장 선택 불가')
