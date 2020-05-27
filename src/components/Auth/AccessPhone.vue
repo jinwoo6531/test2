@@ -3,11 +3,11 @@
     <v-layout row wrap>
         <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
             <v-card class="auth-phone-wrap pa-0" color="transparent" flat tile>
-                <v-card-title class="pa-0 pb-4 auth-phone-title">휴대폰 번호를 입력해주세요.</v-card-title>
+                <v-card-title class="pa-0 pb-2 auth-phone-title">휴대폰 번호를 입력해주세요.</v-card-title>
                 <v-card-text class="pa-0 auth-phone-content">SMS로 인증번호를 보냅니다.</v-card-text>
                 <v-card-actions class="pa-0 pt-9">
                     <!-- +82 -->
-                    <input class="PhoneField d-flex pa-2" type="text" v-model="phNo" placeholder="'-' 없이 번호만 입력해주세요." />
+                    <input class="PhoneField d-flex pa-2 pl-4" type="text" v-model="phNo" placeholder="'-' 없이 번호만 입력해주세요." />
                 </v-card-actions>
             </v-card>
         </v-flex>

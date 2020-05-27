@@ -20,7 +20,7 @@
                             </v-row>
                         </v-sheet>
                         <v-sheet height="10%" tile>
-                            <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
+                            <v-row class="fill-height pt-10" align="end" justify="center" style="background: #FFF">
                                 <img :src="require(`../assets/walk-dot${i + 1}.svg`)" />
                             </v-row>
                         </v-sheet>
@@ -28,12 +28,12 @@
                 </v-carousel>
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center">
-            <v-card class="text-center" color="transparent" flat tile>
+        <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center" style="display: none !important;">
+            <v-card class="text-center" color="transparent" flat tile style="display: none;">
                 <v-card-text style="display: none;">{{ isLargerThanTen }}</v-card-text>
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0">
+        <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0 pt-0">
             <v-btn block depressed tile color="#E61773" height="50px" class="next-btn" @click="model++">다음</v-btn>
         </v-flex>
     </v-layout>

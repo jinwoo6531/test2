@@ -41,9 +41,9 @@
                         </v-list-item>
                     </v-list>
                 </v-card>
-                <v-card-text class="pa-0 auth-access-message">
-                    해당 기능 이용 시 동의를 받고 있으며, <br>
-                    허용하지 않아도 해당 기능 외 서비스 이용이 가능합니다.
+                <v-card-text class="pa-0">
+                    <v-card-text class="pa-0 auth-access-message">해당 기능 이용 시 동의를 받고 있으며,</v-card-text>
+                    <v-card-text class="pa-0 pt-1 auth-access-message">허용하지 않아도 해당 기능 외 서비스 이용이 가능합니다.</v-card-text>
                 </v-card-text>
             </v-card>
         </v-flex>
