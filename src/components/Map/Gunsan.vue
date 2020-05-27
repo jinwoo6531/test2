@@ -135,8 +135,7 @@ export default {
         res: true,
         pageId: 1,
         map: null,
-        // OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-        OSMUrl: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
+        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [{
