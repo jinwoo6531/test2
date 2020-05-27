@@ -179,7 +179,7 @@ export default {
         res: true,
         pageId: 2,
         map: null,
-        OSMUrl: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
+        OSMUrl: "http://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [{
