@@ -17,7 +17,7 @@
                 <v-list-item class="pa-0">
                     <v-list-item-content v-if="ready">
                         <v-row class="ma-0" style="height: 30px;">
-                            <v-col link @click.prevent="signOut" class="pa-0" cols="10">
+                            <v-col class="pa-0" cols="10">
                                 <v-row class="ma-0">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                                         {{ displayName }}님
@@ -198,16 +198,6 @@ export default {
 
         getHeight() {
             return this.$vuetify.breakpoint.xs ? 57 : '70'
-        }
-    },
-
-    methods: {
-        signOut() {
-            this.$firebase.auth().signOut()
-                .then(() => {
-                    alert('로그아웃 되었습니다.')
-                    this.$router.replace('AccessPhone')
-                });
         }
     }
 

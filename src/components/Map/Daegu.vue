@@ -121,12 +121,12 @@
                         <v-card style="width: 280px; height: 330px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
-                                    <v-card-text class="pa-0 pb-1 call-dialog-title">타시오를 호출할게요.</v-card-text>
-                                    <v-card-text class="pa-0 pt-2 call-dialog-subtitle">총 탑승요금</v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
+                                    <v-card-text class="pa-0 pt-1 call-dialog-subtitle">총 탑승요금</v-card-text>
                                     <v-card-text class="pa-0 call-dialog-paymony">2,000<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
-                                <v-card-text class="pa-3 text-center">
+                                <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
                                         <table style="width: 100%">
                                             <tr>
@@ -136,14 +136,10 @@
                                                 <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">탑승인원<p style="margin: 0" class="price-people">{{ count }}명</p>
                                                 </td>
                                             </tr>
-                                            <!-- <tr>
-                                                <td class="price-people">1,000원</td>
-                                                <td class="price-people">2명</td>
-                                            </tr> -->
                                         </table>
                                     </v-card-text>
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
-                                    <v-card-text class="pa-0 pb-2 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
+                                    <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                 </v-card-text>
 
                                 <v-card flat class="pa-0 pt-2 d-flex align-self-end">

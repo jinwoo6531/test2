@@ -80,6 +80,7 @@ export default {
     font-weight: normal;
     font-size: 14px;
     color: #E61773;
+    height: min-content;
 }
 
 .carousel-content-title {

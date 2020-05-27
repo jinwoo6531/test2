@@ -48,12 +48,12 @@
                         <v-card style="width: 280px; height: 242px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
-                                    <v-card-text class="pa-0 call-dialog-title">호출을 취소하세요?</v-card-text>
-                                    <v-card-text class="pa-0 pt-2 call-dialog-subtitle">취소 위약금</v-card-text>
+                                    <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
+                                    <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
                                     <v-card-text class="pa-0 call-dialog-paymony">1,000<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
-                                <v-card-text class="pa-6 text-center">
+                                <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
                                     <v-card-text class="pa-0 call-dialog-content">탑승요금 2,000원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
                                 </v-card-text>
 
