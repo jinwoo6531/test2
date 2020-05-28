@@ -285,7 +285,7 @@ export default {
                 }
             }).on("locationerror", error => {
                 console.log('Location error:')
-                console.log(error);
+                console.log(error)
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker)
                     this.usermarker = null

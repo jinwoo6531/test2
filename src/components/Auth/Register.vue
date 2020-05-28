@@ -16,8 +16,8 @@
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">성별</p>
                     <v-radio-group v-model="form.gender" row>
-                        <v-radio label="남성" color="#E61773" value="man"></v-radio>
-                        <v-radio label="여성" color="#E61773" value="woman"></v-radio>
+                        <v-radio label="남성" color="#E61773" value="남자"></v-radio>
+                        <v-radio label="여성" color="#E61773" value="여자"></v-radio>
                     </v-radio-group>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
