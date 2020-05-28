@@ -336,7 +336,12 @@ export default {
         },
 
         deleteUser() {
-            console.log('삭제')
+            axios.get('http://service.tasio.io:1994/tasio-fcef3/us-central1/app/api/delete/' + this.user.data.uid)
+                .then(() => {
+                    alert('회원 탈퇴 완료!')
+                    this.$router.push('/accessagree')
+
+                })
         }
     }
 }
