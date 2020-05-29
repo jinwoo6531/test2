@@ -128,6 +128,14 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            
+            <v-list-item class="boldMenu" link to="/serviceinfo">
+                <v-list-item-content class="pa-0">
+                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                        서비스 정보
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
         </v-list>
 
         <v-footer class="nav-footer justify-left" style="background: transparent; margin-top: 65px;">

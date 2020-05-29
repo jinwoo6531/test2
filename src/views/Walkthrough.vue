@@ -1,6 +1,6 @@
 <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" style="background-color: #FFF;" fluid grid-list-md fill-height>
-    <v-layout row wrap class="pa-6">
+    <v-layout wrap class="pa-6 ma-0">
         <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
             <v-card class="jump-btn" flat @click="jump">건너뛰기</v-card>
         </v-flex>

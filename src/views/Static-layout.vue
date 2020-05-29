@@ -128,6 +128,14 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+            
+            <v-list-item class="boldMenu pa-0" link to="/serviceinfo">
+                <v-list-item-content class="pa-0">
+                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                        서비스 정보
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
         </v-list>
 
         <v-footer class="nav-footer justify-left pa-0" style="background: transparent; margin-top: 65px;">
@@ -138,7 +146,7 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-card style="background: transparent;" :height="getHeight" class="pa-0" flat>
+        <v-card style="background: transparent; border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);" :height="getHeight" class="pa-0" tile flat>
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%;">
@@ -152,6 +160,7 @@
                         <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
                         <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
                         <span flat v-if="this.$route.fullPath == '/userinfo'" class="pa-0 static-title">내정보</span>
+                        <span flat v-if="this.$route.fullPath == '/serviceinfo'" class="pa-0 static-title">서비스 정보</span>
                     </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">

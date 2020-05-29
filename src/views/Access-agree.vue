@@ -1,6 +1,6 @@
 <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" style="background-color: #FFF;" fluid grid-list-md fill-height>
-    <v-layout row wrap class="pa-6">
+    <v-layout wrap class="pa-6 ma-0">
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center">
             <v-card xs12 sm12 md12 color="transparent" width="100%" flat tile>
                 <img src="../assets/access-logo.svg">

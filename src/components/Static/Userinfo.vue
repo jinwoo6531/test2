@@ -250,6 +250,7 @@ export default {
         gender: '',
         birth: '',
         phoneNumber: '',
+        phone: '',
         rules: '',
 
         signoutdialog: false,
@@ -305,6 +306,7 @@ export default {
                 var mid = response.data.phoneNumber.substring(5, 9)
                 var end = response.data.phoneNumber.substring(9, 13)
                 this.phoneNumber = start + "-" + mid + "-" + end
+                this.phone = start + mid + end
             }).catch(error => {
                 console.log('User read: ', error)
             })
@@ -448,11 +450,15 @@ export default {
         },
 
         deleteUser() {
-            axios.get('http://service.tasio.io:5000/tasio-fcef3/us-central1/app/api/delete/' + this.user.data.uid)
-                .then(() => {
-                    alert('회원 탈퇴 완료!')
-                    this.$router.push('/accessagree')
-                })
+            if (this.inputPhoneNumber == this.phone) {
+                axios.get('http://service.tasio.io:5000/tasio-fcef3/us-central1/app/api/delete/' + this.user.data.uid)
+                    .then(() => {
+                        alert('회원 탈퇴 완료!')
+                        this.$router.push('/goodbye')
+                    })
+            } else {
+                alert('휴대폰 번호를 확인해주세요!')
+            }
         }
     }
 }

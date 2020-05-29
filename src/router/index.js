@@ -10,6 +10,7 @@ import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
 import CallFail from '@/views/Call-fail'
+import GoodBye from '@/views/Good-bye'
 import Import from '@/views/im-port'
 
 Vue.use(VueRouter)
@@ -49,6 +50,11 @@ const routes = [
     path: '/fail',
     name: 'CallFail',
     component: CallFail
+  },
+  {
+    path: '/goodbye',
+    name: 'GoodBye',
+    component: GoodBye
   },
   {
     path: '/auth',
@@ -130,6 +136,11 @@ const routes = [
       path: 'faq',
       name: 'FAQ',
       component: () => import('@/components/Static/FAQ')
+    },
+    {
+      path: 'serviceinfo',
+      name: 'Serviceinfo',
+      component: () => import('@/components/Static/Serviceinfo')
     },
     {
       path: 'userinfo',

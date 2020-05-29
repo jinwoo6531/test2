@@ -1,6 +1,6 @@
 <template>
 <v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
-    <v-layout row wrap>
+    <v-layout wrap class="ma-0">
         <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
             <v-card class="auth-phone-wrap pa-0" color="transparent" flat tile>
                 <v-card-title class="pa-0 pb-2 auth-phone-title">휴대폰 번호를 입력해주세요.</v-card-title>
