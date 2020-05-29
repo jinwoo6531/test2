@@ -2,7 +2,7 @@
 <v-app class="static">
     <v-navigation-drawer temporary class="pa-5" style="z-index: 999" v-model="drawer" app>
         <v-list dense>
-            <v-list-item>
+            <v-list-item class="pl-0">
                 <v-list-item-content>
                     <v-list-item-title class="title">
                         <img src="../assets/side-logo.svg">
@@ -146,7 +146,7 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-card style="background: transparent; border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);" :height="getHeight" class="pa-0" tile flat>
+        <v-card style="background: transparent;" :height="getHeight" class="pa-0" tile flat>
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%;">
@@ -170,6 +170,11 @@
                 </v-col>
             </v-row>
         </v-card>
+        <v-divider v-if="this.$route.fullPath == '/introduction'"></v-divider>
+        <v-divider v-if="this.$route.fullPath == '/schedule'"></v-divider>
+        <v-divider v-if="this.$route.fullPath == '/faq'"></v-divider>
+        <v-divider v-if="this.$route.fullPath == '/userinfo'"></v-divider>
+        <v-divider v-if="this.$route.fullPath == '/serviceinfo'"></v-divider>
 
         <router-view></router-view>
     </v-content>

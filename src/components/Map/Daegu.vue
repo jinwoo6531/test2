@@ -31,7 +31,7 @@
                             </v-toolbar>
 
                             <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="position: absolute; background: transparent;">
-                                <v-row align="center" justify="center">
+                                <v-row align="center" justify="center" class="ma-0">
                                     <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
                                     <v-card class="d-flex justify-space-around" flat>
                                         <v-card flat tile>
@@ -128,7 +128,7 @@
 
                                 <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
-                                        <table style="width: 100%">
+                                        <table style="width: 100%; border: none !important;">
                                             <tr>
                                                 <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1000원</p>
                                                 </td>
@@ -146,10 +146,10 @@
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="52px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="55.5px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="52px" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="55.5px" @click="requestCallBtn">호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>

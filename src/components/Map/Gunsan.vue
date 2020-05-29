@@ -31,7 +31,7 @@
                             </v-toolbar>
 
                             <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="position: absolute; background: transparent;">
-                                <v-row align="center" justify="center">
+                                <v-row align="center" justify="center" class="ma-0">
                                     <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
                                     <v-card class="d-flex justify-space-around" flat>
                                         <v-card flat tile>

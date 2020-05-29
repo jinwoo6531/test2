@@ -2,7 +2,7 @@
 <v-app class="map">
     <v-navigation-drawer temporary class="pa-5" style="z-index: 999" v-model="drawer" app>
         <v-list dense>
-            <v-list-item>
+            <v-list-item class="pl-0">
                 <v-list-item-content>
                     <v-list-item-title class="title">
                         <img src="../assets/side-logo.svg">
