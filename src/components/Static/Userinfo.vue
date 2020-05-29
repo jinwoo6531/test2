@@ -186,21 +186,41 @@
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </v-toolbar>
-                    <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="background: transparent;">
-                        <v-layout row wrap>
-                            <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
-                                <v-card color="transparent" flat tile>
-                                    탈퇴
+                    <v-container class="pa-0 ma-0" fluid fill-height style="background: transparent;">
+                        <v-layout wrap class="pa-6">
+                            <v-flex xs12 sm12 md12 class="d-flex justify-left align-start">
+                                <v-card color="transparent" flat tile class="pb-6 bye-title">
+                                    타시오와 작별인가요...?
                                 </v-card>
                             </v-flex>
-                            <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center">
-                                <v-card class="text-center" color="transparent" flat tile>
-                                    <v-card-text class="cant-call pt-0">타시오를 호출할 수 없습니다.<br>불편을 드려 죄송합니다.</v-card-text>
-                                    <v-card-text class="cant-call-sub">응답 가능한 타시오를 확인할 수 없습니다.<br>더 좋은 서비스 제공을 위해 노력하는<br>타시오 팀이 되겠습니다.</v-card-text>
+                            <v-flex xs12 sm12 md12 class="d-flex justify-left align-center">
+                                <v-card class="text-left" color="transparent" flat tile>
+                                    <v-card-text class="pa-0 bye-content">
+                                        이렇게 떠나시다니 너무 슬프네요. <br>
+                                        왜 떠나는지 알려주신다면 <br>
+                                        서비스 개선을 위해 더욱 힘쓸게요!
+                                    </v-card-text>
                                 </v-card>
                             </v-flex>
-                            <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
-                                <v-btn color="#E0E0E0" block depressed tile height="50px" class="pa-0" @click="deleteUser">탈퇴하기</v-btn>
+                            <v-flex xs12 sm12 md12 class="d-flex justify-left align-top">
+                                <v-card class="text-left" color="transparent" flat tile width="100%">
+                                    <v-card-text class="pa-0 pt-8 pb-2 bye-subcontent">
+                                        본인 확인을 위해 <br>
+                                        회원가입 시 사용한 휴대전화번호를 입력해주세요.
+                                    </v-card-text>
+                                    <v-text-field v-model="inputPhoneNumber" label="휴대전화 번호를 입력해주세요" color="#828282" class="pb-2 bye-check-field" single-line outlined flat full-width hide-details></v-text-field>
+                                    <v-card-text class="pa-0 pb-4 error-rule" v-if="errorRule1 == true">휴대전화번호를 입력해주세요.</v-card-text>
+                                    <v-select v-model="byeReason" :items="secession" item-text="title" item-value="value" label="탈퇴 사유를 선택해주세요" color="#828282" class="bye-check-field" item-color="#828282" return-object single-line outlined flat full-width hide-details></v-select>
+                                    <v-text-field v-model="byeEtcReason" label="기타 사유를 입력해주세요." color="#828282" class="bye-check-field pt-2" v-if="etc == true" single-line outlined flat full-width hide-details></v-text-field>
+                                    <v-card-text class="pa-0 pt-2 error-rule" v-if="errorRule2 == true">탈퇴 사유를 선택해주세요.</v-card-text>
+                                    <v-card-text class="pa-0 pt-2 error-rule" v-if="errorRule3 == true">기타 사유를 입력해주세요.</v-card-text>
+                                </v-card>
+                            </v-flex>
+                            <v-flex xs12 sm12 md12 class="d-flex justify-center align-end">
+                                <v-footer padless absolute>
+                                    <v-btn color="#E0E0E0" block depressed tile height="50px" class="pa-0" v-if="inputPhoneNumber.length == 0 || byeReason.value == undefined">탈퇴하기</v-btn>
+                                    <v-btn color="#E61773" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click="deleteUser" v-else>탈퇴하기</v-btn>
+                                </v-footer>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -233,10 +253,47 @@ export default {
         rules: '',
 
         signoutdialog: false,
-        deleteUserdialog: false
+        deleteUserdialog: false,
+        etc: false,
+        secession: [{
+                title: '사용 빈도가 낮습니다.',
+                value: '1'
+            },
+            {
+                title: '이용이 불편하고 장애가 많습니다.',
+                value: '2'
+            },
+            {
+                title: '휴대전화번호가 변경됩니다.',
+                value: '3'
+            },
+            {
+                title: '걷는 것을 선호합니다.',
+                value: '4'
+            },
+            {
+                title: '자율주행 셔틀 속도가 너무 느립니다.',
+                value: '5'
+            },
+            {
+                title: '특별한 이유가 없습니다.',
+                value: '6'
+            },
+            {
+                title: '기타',
+                value: '7'
+            }
+        ],
+        inputPhoneNumber: '',
+        byeReason: {},
+        byeEtcReason: '',
+        errorRule1: true,
+        errorRule2: true,
+        errorRule3: false
     }),
 
     created() {
+        console.log(this.byeReason.length)
         axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 console.log('userinfo', response.data)
@@ -257,6 +314,32 @@ export default {
         ...mapGetters({
             user: "user"
         })
+    },
+
+    updated() {
+        if (this.byeReason.value == 7) { // 기타 사유를 선택한 경우
+            this.etc = true
+            this.errorRule2 = false
+            if (this.byeEtcReason.length == 0) {
+                this.errorRule3 = true
+            } else {
+                this.errorRule3 = false
+            }
+        } else if (this.byeReason.value == undefined) {
+            this.etc = false
+            this.errorRule2 = true
+            this.errorRule3 = false
+        } else {
+            this.etc = false
+            this.errorRule2 = false
+            this.errorRule3 = false
+        }
+
+        if (this.inputPhoneNumber.length >= 1) {
+            this.errorRule1 = false
+        } else {
+            this.errorRule1 = true
+        }
     },
 
     methods: {
@@ -365,7 +448,7 @@ export default {
         },
 
         deleteUser() {
-            axios.get('http://service.tasio.io:1994/tasio-fcef3/us-central1/app/api/delete/' + this.user.data.uid)
+            axios.get('http://service.tasio.io:5000/tasio-fcef3/us-central1/app/api/delete/' + this.user.data.uid)
                 .then(() => {
                     alert('회원 탈퇴 완료!')
                     this.$router.push('/accessagree')
@@ -447,5 +530,47 @@ export default {
     font-weight: 500;
     font-size: 18px !important;
     color: #333333 !important;
+}
+
+/* Bye tasio */
+.bye-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px !important;
+    color: #262626 !important;
+}
+
+.bye-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px !important;
+    color: #555555 !important;
+}
+
+.bye-subcontent {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 23px !important;
+    color: #262626 !important;
+}
+
+.bye-check-field {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px !important;
+    color: #BDBDBD !important;
+}
+
+.error-rule {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    color: #EB5757 !important;
 }
 </style>
