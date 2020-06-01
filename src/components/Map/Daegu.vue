@@ -10,7 +10,9 @@
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
                         <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
-                            <img style="diplay: inline-block;" src="../../assets/location-btn.svg">
+                            <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
+                                <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
+                            </v-btn>
                         </v-card>
                     </v-card>
                 </div>
@@ -109,10 +111,7 @@
                                 </div>
                             </v-flex>
                             <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
-                                <!-- <img src="../../assets/switch-icon.svg"> -->
-                                <v-btn class="my-2" fab small color="#FFF">
-                                    <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
-                                </v-btn>
+                                <img src="../../assets/switch-icon.svg">
                             </v-flex>
                         </v-layout>
                     </v-flex>

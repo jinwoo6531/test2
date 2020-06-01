@@ -9,8 +9,10 @@
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat>
-                            <img style="diplay: inline-block;" src="../../assets/location-btn.svg">
+                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                            <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
+                                <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
+                            </v-btn>
                         </v-card>
                     </v-card>
                 </div>
