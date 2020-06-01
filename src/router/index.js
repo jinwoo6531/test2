@@ -10,6 +10,7 @@ import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
 import CallFail from '@/views/Call-fail'
+import Thanks from '@/views/Thanks'
 import GoodBye from '@/views/Good-bye'
 import Import from '@/views/im-port'
 
@@ -55,6 +56,11 @@ const routes = [
     path: '/goodbye',
     name: 'GoodBye',
     component: GoodBye
+  },
+  {
+    path: '/thanks',
+    name: 'Thanks',
+    component: Thanks
   },
   {
     path: '/auth',

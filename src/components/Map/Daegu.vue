@@ -270,9 +270,15 @@ export default {
                 watch: true,
                 enableHighAccuracy: true
             }).on("locationfound", e => {
+                var current_lat = 35.836673
+                var current_lng = 128.686520
+                console.log(e.latitude - current_lat)
+                console.log(e.longitude - current_lng)
                 console.log('Location found: ' + e.latitude + e.longitude)
+                if (e.latitude - current_lat > 1 && e.longitude - current_lng < 1) {
+                    alert('거리가 멀어서 호출 불가!')
+                }
                 if (!this.usermarker) {
-
                     let currentUser = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/current.svg"),
                         iconSize: [17, 17]

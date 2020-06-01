@@ -56,7 +56,7 @@ export default {
                             imp_uid: rsp.imp_uid,
                             merchant_uid: rsp.merchant_uid,
                             amount: rsp.paid_amount,
-                            userid: this.user.data.uid
+                            // userid: this.user.data.uid
                         }
                     }).then(function (data) {
                     // 가맹점 서버 결제 API 성공시 로직
