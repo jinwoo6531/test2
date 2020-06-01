@@ -11,7 +11,7 @@
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
-                    <input type="text" id="email" name="email" autofocus v-model="form.email" placeholder="이메일 주소를 입력하세요." />
+                    <input type="email" id="email" name="email" autofocus v-model="form.email" placeholder="이메일 주소를 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">성별</p>
