@@ -5,8 +5,8 @@
             <v-flex class="pa-0 pt-8 pb-5" xs12 sm12 md12 style="width: 100%; height: 100%;">
                 <v-card class="pa-0 userwrap" flat tile>
                     <v-divider color="#BDBDBD"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6">
-                        <v-col cols="2" height="100%" class="usertitle">
+                    <v-row no-gutters class="pa-3 pl-6" width="100%">
+                        <v-col cols="2" width="100%" height="100%" class="usertitle">
                             이름
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
@@ -28,8 +28,8 @@
                                 </v-toolbar>
 
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0">
-                                        <v-card flat tile>
+                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
+                                        <v-card flat tile width="100%" class="pa-6">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
                                             <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -40,8 +40,8 @@
                         </v-dialog>
                     </v-row>
                     <v-divider color="#BDBDBD"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6">
-                        <v-col cols="2" height="100%" class="usertitle">
+                    <v-row no-gutters class="pa-3 pl-6" width="100%">
+                        <v-col cols="2" width="100%" height="100%" class="usertitle">
                             이메일
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
@@ -61,9 +61,9 @@
                                         <v-btn text class="pa-0" @click="showEmailDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
-                                <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0">
-                                        <v-card flat tile>
+                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
+                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
+                                        <v-card flat tile width="100%" class="pa-6">
                                             <v-card-title class="pl-0 modify-title">이메일</v-card-title>
                                             <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -74,8 +74,8 @@
                         </v-dialog>
                     </v-row>
                     <v-divider color="#BDBDBD"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6">
-                        <v-col cols="2" height="100%" class="usertitle">
+                    <v-row no-gutters class="pa-3 pl-6" width="100%">
+                        <v-col cols="2" width="100%" height="100%" class="usertitle">
                             성별
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
@@ -95,14 +95,20 @@
                                         <v-btn text class="pa-0" @click="showGenderDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
-                                <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0">
-                                        <v-card flat tile>
-                                            <v-card-title class="pl-0 modify-title">성별</v-card-title>
-                                            <v-radio-group v-model="gender">
-                                                <v-radio label="남자" value="남자" color="#E61773"></v-radio>
-                                                <v-radio label="여자" value="여자" color="#E61773"></v-radio>
-                                            </v-radio-group>
+                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
+                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
+                                        <v-card flat tile width="100%" class="pa-6">
+                                            <v-card-title class="pl-0 modify-title" style="padding-bottom: 52px !important;">성별</v-card-title>
+                                            <div style="width: 100%">
+                                                <label class="box-radio-input">
+                                                    <input type="radio" name="gender" value="남자" v-model="gender">
+                                                    <span>남자</span>
+                                                </label>
+                                                <label class="box-radio-input">
+                                                    <input type="radio" name="gender" value="여자" v-model="gender">
+                                                    <span>여자</span>
+                                                </label>
+                                            </div>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -110,8 +116,8 @@
                         </v-dialog>
                     </v-row>
                     <v-divider color="#BDBDBD"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6">
-                        <v-col cols="2" height="100%" class="usertitle">
+                    <v-row no-gutters class="pa-3 pl-6" width="100%">
+                        <v-col cols="2" width="100%" height="100%" class="usertitle">
                             생일
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
@@ -131,9 +137,9 @@
                                         <v-btn text class="pa-0" @click="showBirthdialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
-                                <v-container class="pa-0 ma-0 flex-wrap" fluid fill-height style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0">
-                                        <v-card flat tile>
+                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
+                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
+                                        <v-card flat tile width="100%" class="pa-6">
                                             <v-card-title class="pl-0 modify-title">생일</v-card-title>
                                             <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -144,8 +150,8 @@
                         </v-dialog>
                     </v-row>
                     <v-divider color="#BDBDBD"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6">
-                        <v-col cols="2" height="100%" class="usertitle">
+                    <v-row no-gutters class="pa-3 pl-6" width="100%">
+                        <v-col cols="2" width="100%" height="100%" class="usertitle">
                             전화번호
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
@@ -578,5 +584,36 @@ export default {
     font-weight: normal;
     font-size: 13px !important;
     color: #EB5757 !important;
+}
+
+/* radio */
+.box-radio-input {
+    display: inline-block;
+    width: 50%;
+}
+
+.box-radio-input input[type="radio"] {
+    display: none;
+}
+
+.box-radio-input input[type="radio"]+span {
+    display: inline-block;
+    background: none;
+    border: 1px solid #FDE8F1;
+    text-align: center;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.box-radio-input input[type="radio"]:checked+span {
+    border: 1px solid #E61773;
+    background: #E61773;
+    color: #fff;
 }
 </style>

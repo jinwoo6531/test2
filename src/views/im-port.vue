@@ -16,6 +16,10 @@ export default {
 
     }),
 
+    created() {
+        console.log('User uid: ', this.user.data.uid);
+    },
+
     computed: {
         ...mapGetters({
             user: "user"
@@ -42,22 +46,11 @@ export default {
                 buyer_addr: '경기기업성장센터 523~524호', // 주문자 주소 (선택 항목)
                 buyer_postcode: '123-456', // 주문자 우편 번호 (선택 항목)
             }, rsp => { // callback
-                console.log('rsp', rsp)
-                var msg = ''
-                msg = '결제가 완료되었습니다.'
-                msg += '고유ID : ' + rsp.imp_uid
-                msg += '상점 거래ID : ' + rsp.merchant_uid
-                msg += '결제 금액 : ' + rsp.paid_amount
-                msg += '카드 승인번호 : ' + rsp.apply_num
-                alert(msg)
                 // 결제 성공 시 로직
                 if (rsp.success) {
-                    console.log('adfasdfasd', rsp.success)
-                    axios({
-                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
-                        method: "PUT",
+                    axios.put('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, {
                         headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         },
                         data: {
                             imp_uid: rsp.imp_uid,
@@ -65,15 +58,30 @@ export default {
                             amount: rsp.paid_amount,
                             userid: this.user.data.uid
                         }
-                    }).done(function (data) {
-                        // 가맹점 서버 결제 API 성공시 로직
-                        console.log('가맹점 서버 결제 API 성공!', data)
+                    }).then(response => {
+                        if (response.status == 200) {
+                            console.log('response: ', response)
+                        }
                     })
+                    // axios({
+                    //     url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
+                    //     method: "PUT",
+                    //     headers: {
+                    //         'Content-Type': 'application/x-www-form-urlencoded'
+                    //     },
+                    //     data: {
+                    //         imp_uid: rsp.imp_uid,
+                    //         merchant_uid: rsp.merchant_uid,
+                    //         amount: rsp.paid_amount,
+                    //         userid: this.user.data.uid
+                    //     }
+                    // }).done(function (data) {
+                    //     // 가맹점 서버 결제 API 성공시 로직
+                    //     console.log('가맹점 서버 결제 API 성공!', data)
+                    // })
                 } else {
-                    // 결제 실패 시 로직,
-                    msg = '결제에 실패하였습니다.'
-                    msg += '에러내용 : ' + rsp.error_msg
-                    alert(msg)
+                    // 결제 실패 시 로직
+                    alert('rsp.error_msg: ', rsp.error_msg)
                 }
             });
 
