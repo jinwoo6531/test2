@@ -53,7 +53,7 @@ export default {
                 // 결제 성공 시 로직
                 if (rsp.success) {
                     axios({
-                        url: '/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
+                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded"
