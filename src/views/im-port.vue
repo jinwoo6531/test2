@@ -44,7 +44,10 @@ export default {
             }, rsp => { // callback
                 // 결제 성공 시 로직
                 if (rsp.success) {
-                    axios.put('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, {
+                    console.log('결제 성공 시 로직 ', rsp.success)
+                    axios({
+                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, // 가맹점 서버
+                        method: "post",
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
@@ -52,13 +55,13 @@ export default {
                             imp_uid: rsp.imp_uid,
                             merchant_uid: rsp.merchant_uid,
                             amount: rsp.paid_amount,
-                            userid: this.user.data.uid
+                            // userid: this.user.data.uid
                         }
-                    }).then(response => {
-                        if (response.status == 200) {
-                            console.log('response: ', response)
-                        }
+                    }).then((data) => {
+                        // 가맹점 서버 결제 API 성공시 로직
+                        console.log('가맹점 서버 결제 API 성공시 로직 ', data)
                     })
+                    
                     // axios({
                     //     url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
                     //     method: "PUT",

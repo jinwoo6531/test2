@@ -154,7 +154,7 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-card style="width: 100%; position: fixed; z-index: 9; background: #F4F4F4;" :height="getHeight" class="pa-0" tile flat>
+        <v-card style="width: 100%; position: fixed; z-index: 9; background: #FAFAFA;" :height="getHeight" class="pa-0" tile flat>
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%;">
