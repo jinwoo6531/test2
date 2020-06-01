@@ -31,7 +31,7 @@ export default {
 
             // IMP.request_pay(param, callback) 호출
             IMP.request_pay({ // param
-                pg: 'mobilians', // PG사명
+                pg: 'inicis', // PG사명
                 pay_method: 'card', // 결제수단
                 merchant_uid: 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '주문명: 타시오 결제', // 주문명
@@ -43,6 +43,7 @@ export default {
                 buyer_postcode: '123-456', // 주문자 우편 번호 (선택 항목)
             }, rsp => { // callback
                 // 결제 성공 시 로직
+                alert(rsp)
                 if (rsp.success) {
                     alert('결제 성공 시 로직 ', rsp.success)
                     axios({
