@@ -136,6 +136,14 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+
+            <v-list-item class="boldMenu pa-0" link to="/import">
+                <v-list-item-content class="pa-0">
+                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                        아임포트 테스트
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
         </v-list>
 
         <v-footer class="nav-footer justify-left pa-0" style="background: transparent; margin-top: 65px;">
