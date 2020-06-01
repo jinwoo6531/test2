@@ -110,7 +110,7 @@
                             </v-flex>
                             <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
                                 <!-- <img src="../../assets/switch-icon.svg"> -->
-                                <v-btn fab small color="#FFF">
+                                <v-btn class="my-2" fab small color="#FFF">
                                     <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
                                 </v-btn>
                             </v-flex>
