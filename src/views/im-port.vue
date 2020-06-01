@@ -41,13 +41,13 @@ export default {
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
                 buyer_addr: '경기기업성장센터 523~524호', // 주문자 주소 (선택 항목)
                 buyer_postcode: '123-456', // 주문자 우편 번호 (선택 항목)
-            }, rsp => { // callback
+            }, function(rsp) { // callback
                 // 결제 성공 시 로직
-                alert(rsp)
+                console.log('rsp', rsp)
                 if (rsp.success) {
-                    alert('결제 성공 시 로직 ', rsp.success)
+                    console.log('결제 성공 시 로직 ', rsp.success)
                     axios({
-                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, // 가맹점 서버
+                        url: `http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/${this.user.data.uid}`, // 가맹점 서버
                         method: "post",
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -58,7 +58,7 @@ export default {
                             amount: rsp.paid_amount,
                             userid: this.user.data.uid
                         }
-                    }).done(function (data) {
+                    }).then(function (data) {
                     // 가맹점 서버 결제 API 성공시 로직
                         console.log('가맹점 서버 결제 API 성공!', data)
                         switch(data.status) {
@@ -66,20 +66,6 @@ export default {
                             break;
                         }
                     })
-                    
-                    // axios({
-                    //     url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
-                    //     method: "PUT",
-                    //     headers: {
-                    //         'Content-Type': 'application/x-www-form-urlencoded'
-                    //     },
-                    //     data: {
-                    //         imp_uid: rsp.imp_uid,
-                    //         merchant_uid: rsp.merchant_uid,
-                    //         amount: rsp.paid_amount,
-                    //         userid: this.user.data.uid
-                    //     }
-                    // })
                 } else {
                     // 결제 실패 시 로직
                     alert('rsp.error_msg: ', rsp.error_msg)
