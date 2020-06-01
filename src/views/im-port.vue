@@ -58,9 +58,9 @@ export default {
                             amount: rsp.paid_amount,
                             userid: this.user.data.uid
                         }
-                    }).then((data) => {
-                        // 가맹점 서버 결제 API 성공시 로직
-                        alert('가맹점 서버 결제 API 성공시 로직 ', data)
+                    }).done(function (data) {
+                    // 가맹점 서버 결제 API 성공시 로직
+                        console.log('가맹점 서버 결제 API 성공!', data)
                     })
                     
                     // axios({
@@ -75,9 +75,6 @@ export default {
                     //         amount: rsp.paid_amount,
                     //         userid: this.user.data.uid
                     //     }
-                    // }).done(function (data) {
-                    //     // 가맹점 서버 결제 API 성공시 로직
-                    //     console.log('가맹점 서버 결제 API 성공!', data)
                     // })
                 } else {
                     // 결제 실패 시 로직
