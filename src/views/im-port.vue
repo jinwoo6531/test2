@@ -35,7 +35,7 @@ export default {
                 pay_method: 'card', // 결제수단
                 merchant_uid: 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '주문명: 타시오 결제', // 주문명
-                amount: 1000, // 결제할 금액 (필수 항목)
+                amount: 100, // 결제할 금액 (필수 항목)
                 buyer_email: 'yjhyeon@aspringcloud.com', // 주문자 ID (선택 항목)
                 buyer_name: '현유진', // 주문자명 (선택항목)
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
@@ -52,6 +52,7 @@ export default {
                 alert(msg)
                 // 결제 성공 시 로직
                 if (rsp.success) {
+                    console.log('adfasdfasd', rsp.success)
                     axios({
                         url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid,
                         method: "PUT",
