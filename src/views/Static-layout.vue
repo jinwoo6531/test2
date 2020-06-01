@@ -128,7 +128,7 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            
+
             <v-list-item class="boldMenu pa-0" link to="/serviceinfo">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
@@ -140,7 +140,7 @@
             <v-list-item class="boldMenu pa-0" link to="/import">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
-                        아임포트 테스트
+                        아임포트
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
@@ -154,7 +154,7 @@
     </v-navigation-drawer>
 
     <v-content>
-        <v-card style="background: transparent;" :height="getHeight" class="pa-0" tile flat>
+        <v-card style="width: 100%; position: fixed; z-index: 9; background: #F4F4F4;" :height="getHeight" class="pa-0" tile flat>
             <v-row style="height: 100%;" no-gutters justify="start" xs12 sm12 md12>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%;">
@@ -177,14 +177,15 @@
                     </div>
                 </v-col>
             </v-row>
-        </v-card>
-        <v-divider v-if="this.$route.fullPath == '/introduction'"></v-divider>
-        <v-divider v-if="this.$route.fullPath == '/schedule'"></v-divider>
-        <v-divider v-if="this.$route.fullPath == '/faq'"></v-divider>
-        <v-divider v-if="this.$route.fullPath == '/userinfo'"></v-divider>
-        <v-divider v-if="this.$route.fullPath == '/serviceinfo'"></v-divider>
 
-        <router-view></router-view>
+            <v-divider v-if="this.$route.fullPath == '/introduction'"></v-divider>
+            <v-divider v-if="this.$route.fullPath == '/schedule'"></v-divider>
+            <v-divider v-if="this.$route.fullPath == '/faq'"></v-divider>
+            <v-divider v-if="this.$route.fullPath == '/userinfo'"></v-divider>
+            <v-divider v-if="this.$route.fullPath == '/serviceinfo'"></v-divider>
+        </v-card>
+
+        <router-view style="margin-top: 57px;"></router-view>
     </v-content>
 </v-app>
 </template>

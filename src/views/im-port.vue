@@ -17,7 +17,15 @@ export default {
     }),
 
     created() {
-        console.log('User uid: ', this.user.data.uid);
+        axios.put('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            if (response.status == 200) {
+                console.log('response: ', response)
+            }
+        })
     },
 
     computed: {
@@ -51,12 +59,6 @@ export default {
                     axios.put('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        data: {
-                            imp_uid: rsp.imp_uid,
-                            merchant_uid: rsp.merchant_uid,
-                            amount: rsp.paid_amount,
-                            userid: this.user.data.uid
                         }
                     }).then(response => {
                         if (response.status == 200) {
