@@ -44,7 +44,7 @@ export default {
             }, rsp => { // callback
                 // 결제 성공 시 로직
                 if (rsp.success) {
-                    console.log('결제 성공 시 로직 ', rsp.success)
+                    alert('결제 성공 시 로직 ', rsp.success)
                     axios({
                         url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/' + this.user.data.uid, // 가맹점 서버
                         method: "post",
@@ -59,7 +59,7 @@ export default {
                         }
                     }).then((data) => {
                         // 가맹점 서버 결제 API 성공시 로직
-                        console.log('가맹점 서버 결제 API 성공시 로직 ', data)
+                        alert('가맹점 서버 결제 API 성공시 로직 ', data)
                     })
                     
                     // axios({
