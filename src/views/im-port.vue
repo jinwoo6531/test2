@@ -7,9 +7,8 @@
 
 <script>
 import axios from 'axios'
-import {
-    mapGetters
-} from 'vuex'
+import {mapGetters} from 'vuex'
+var qs = require('qs')
 
 export default {
     data: () => ({
@@ -43,33 +42,37 @@ export default {
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
             }, rsp => { // callback
-                // 결제 성공 시 로직
-                console.log('결제 성공 시 로직 ', rsp.success)
                 if (rsp.success) {
-                    console.log('결제 성공!!! success @@@@@@@@@@@@@@@@@@@@@@@@@@@@@SGDGFSADFWEAWVERASFDC!!!!!!!!!!!!!!!!!!: ', rsp.success)
+                    console.log('결제 성공 success!!: ', rsp.success)
                     axios({
-                        url: `http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/${this.user.data.uid}`, // 가맹점 서버
+                        url: 'http://34.64.137.217:1994/tasio-fcef3/us-central1/app/api/payment/put', // 가맹점 서버
                         method: "post",
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
+                            'content-type': 'application/x-www-form-urlencoded'
                         },
-                        data: {
+                        data: qs.stringify({
                             imp_uid: rsp.imp_uid,
                             merchant_uid: rsp.merchant_uid,
                             amount: rsp.paid_amount,
-                            // userid: this.user.data.uid
-                        }
-                    }).done(data => {
+                            userid: this.user.data.uid
+                        })
+                    }).then(data => {
                         // 가맹점 서버 결제 API 성공시 로직
-                        console.log('가맹점 서버 결제 API 성공! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@SGDGFSADFWEAWVERASFDC!!!!!!!!!!!', data)
+                        console.log('가맹점 서버 결제 API 성공!', data)
                         switch (data.status) {
                             case 'success':
                                 break;
+                            case 'forgery':
+                                break;
                         }
+                    }).catch(error => {
+                        // 가맹점 서버 결제 API 실패시 로직
+                        console.log('가맹점 서버 결제 API 실패ㅠㅠ: ', error)
                     })
                 } else {
                     // 결제 실패 시 로직
-                    alert('rsp.error_msg: ', rsp.error_msg)
+                    // 돈이 안맞을 때?
+                    console.log('rsp.error_msg: ', rsp.error_msg)
                 }
             });
 
