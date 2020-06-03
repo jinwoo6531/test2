@@ -143,8 +143,8 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" @click="paymentButton('card')">신용카드 결제</v-btn>
-                                        <v-btn tile depressed class="paymentMethod pa-0" @click="paymentButton('phone')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" @click="requestPay('phone')">휴대폰 결제</v-btn>
                                     </v-card>
                                 </v-card-text>
 
@@ -173,6 +173,9 @@
 <script>
 import axios from 'axios'
 var control
+import {
+    mapGetters
+} from 'vuex'
 var qs = require('qs')
 
 export default {
@@ -236,8 +239,17 @@ export default {
         changeStart: '',
         changeEnd: '',
 
-        usermarker: ''
+        usermarker: '',
+
+        isRed1: false,
+        isRed2: false
     }),
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        })
+    },
 
     created() {
         this.getStation()
@@ -707,25 +719,7 @@ export default {
             }.bind(this), 1000)
         },
 
-        requestCallBtn() {
-            this.$router.push({
-                name: "CallingLayout",
-                params: {
-                    site: this.pageId,
-                    start: this.start,
-                    end: this.end,
-                    startName: this.options[this.start - 1].name,
-                    endName: this.options[this.end - 1].name,
-                    count: this.count,
-                    minutes: this.minutes
-                }
-            })
-        },
-
-        paymentButton(meth) {
-            this.isActive = !this.isActive;
-
-            // 아임포트 객체
+        requestCallBtn(meth) {
             const IMP = window.IMP
 
             // 가맹점 식별코드
@@ -735,7 +729,7 @@ export default {
             IMP.request_pay({ // param
                 pg: 'inicis', // PG사명
                 pay_method: meth, // 결제수단
-                merchant_uid: 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
+                merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: 100, // 결제할 금액 (필수 항목)
                 buyer_email: '', // 주문자 ID (선택 항목)
@@ -778,7 +772,33 @@ export default {
                     console.log('rsp.error_msg: ', rsp.error_msg)
                 }
             });
-        }
+
+            /* this.$router.push({
+                name: "CallingLayout",
+                params: {
+                    site: this.pageId,
+                    start: this.start,
+                    end: this.end,
+                    startName: this.options[this.start - 1].name,
+                    endName: this.options[this.end - 1].name,
+                    count: this.count,
+                    minutes: this.minutes
+                }
+            }) */
+        },
+
+        requestPay() {
+            if (this.isRed1) {
+                this.isRed1 = true
+                this.isRed2 = false
+            } else if (!this.isRed1) {
+                this.isRed1 = false
+                this.isRed2 = true
+            }
+
+            this.isRed1 = !this.isRed1
+            this.isRed2 = !this.isRed2
+        },
     }
 }
 </script>
@@ -896,5 +916,9 @@ export default {
     font-size: 14px !important;
     color: #262626 !important;
     letter-spacing: -0.1px;
+}
+
+.red {
+    border: 1px solid #E61773 !important;
 }
 </style>
