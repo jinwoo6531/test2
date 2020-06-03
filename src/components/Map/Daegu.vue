@@ -120,7 +120,7 @@
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
                     <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
                     <v-dialog v-model="calldialog" max-width="280">
-                        <v-card style="width: 280px; height: 330px; background-color: transparent;">
+                        <v-card style="width: 280px; height: 404px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
@@ -251,7 +251,7 @@ export default {
 
         // Map View Center Load
         this.map.setView([35.836673, 128.686520], 15)
-
+ 
         this.addMarker()
         this.addRouting(this.waypoints)
     },
@@ -270,14 +270,14 @@ export default {
                 watch: true,
                 enableHighAccuracy: true
             }).on("locationfound", e => {
-                var current_lat = 35.836673
-                var current_lng = 128.686520
-                console.log(e.latitude - current_lat)
-                console.log(e.longitude - current_lng)
+                // var current_lat = 35.836673
+                // var current_lng = 128.686520
                 console.log('Location found: ' + e.latitude + e.longitude)
-                if (e.latitude - current_lat > 1 && e.longitude - current_lng < 1) {
-                    alert('거리가 멀어서 호출 불가!')
-                }
+                // console.log(e.latitude - current_lat)
+                // console.log(e.longitude - current_lng)
+                // if (e.latitude - current_lat > 1 && e.longitude - current_lng < 1) {
+                //     alert('거리가 멀어서 호출 불가!')
+                // }
                 if (!this.usermarker) {
                     let currentUser = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/current.svg"),
@@ -292,6 +292,7 @@ export default {
                     this.usermarker.setLatLng(e.latlng)
                 }
             }).on("locationerror", error => {
+                alert('사용자의 위치를 받아올 수 없습니다.')
                 console.log('Location error:')
                 console.log(error)
                 if (this.usermarker) {

@@ -32,20 +32,21 @@ export default {
             // IMP.request_pay(param, callback) 호출
             IMP.request_pay({ // param
                 pg: 'inicis', // PG사명
-                pay_method: 'card', // 결제수단
+                pay_method: 'phone', // 결제수단
                 merchant_uid: 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
-                name: '주문명: 타시오 결제', // 주문명
+                name: '타시오 결제', // 주문명
                 amount: 100, // 결제할 금액 (필수 항목)
                 buyer_email: '', // 주문자 ID (선택 항목)
-                buyer_name: '현유진', // 주문자명 (선택항목)
+                buyer_name: '', // 주문자명 (선택항목)
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-                buyer_addr: '경기기업성장센터 523~524호', // 주문자 주소 (선택 항목)
-                buyer_postcode: '123-456', // 주문자 우편 번호 (선택 항목)
-            }, function(rsp) { // callback
+                buyer_addr: '', // 주문자 주소 (선택 항목)
+                buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+            }, rsp => { // callback
                 // 결제 성공 시 로직
-                console.log('rsp', rsp)
+                console.log('결제 성공 시 로직 ', rsp.success)
+
                 if (rsp.success) {
-                    console.log('결제 성공 시 로직 ', rsp.success)
                     axios({
                         url: `http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put/${this.user.data.uid}`, // 가맹점 서버
                         method: "post",
@@ -58,12 +59,12 @@ export default {
                             amount: rsp.paid_amount,
                             // userid: this.user.data.uid
                         }
-                    }).then(function (data) {
-                    // 가맹점 서버 결제 API 성공시 로직
+                    }).done(data => {
+                        // 가맹점 서버 결제 API 성공시 로직
                         console.log('가맹점 서버 결제 API 성공!', data)
-                        switch(data.status) {
+                        switch (data.status) {
                             case 'success':
-                            break;
+                                break;
                         }
                     })
                 } else {

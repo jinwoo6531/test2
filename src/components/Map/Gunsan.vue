@@ -397,12 +397,17 @@ export default {
                             lng: this.gunsanList[i - 9].lon
                         })
                     }
-
                 } else if (this.start > this.end) {
                     alert('지원하지 않습니다.')
+                    // this.map.removeLayer(this.start_icon)
+                    // this.map.removeLayer(this.end_icon)
+                    // this.map.removeLayer(endIcon)
                     // SAME Station Id
                 } else if (this.start == this.end) {
                     alert('같은 정류장 선택 불가')
+                    // this.map.removeLayer(this.start_icon)
+                    // this.map.removeLayer(this.end_icon)
+                    // this.map.removeLayer(endIcon)
                 }
 
                 let startIcon = this.$utils.map.createIcon({
