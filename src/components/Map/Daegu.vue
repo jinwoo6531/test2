@@ -749,7 +749,7 @@ export default {
 
 .dialog-background {
     width: 2801px;
-    height: 330px;
+    height: 404px;
     background-image: url('~@/assets/call-dialog.png');
 }
 
