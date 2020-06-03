@@ -142,16 +142,20 @@
                                     </v-card-text>
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
+                                    <v-card flat tile class="pa-0 ma-0 mt-6">
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" @click="paymentButton('card')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0" @click="paymentButton('phone')">휴대폰 결제</v-btn>
+                                    </v-card>
                                 </v-card-text>
 
                                 <v-card flat class="pa-0 pt-2 d-flex align-self-end">
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="55.5px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="55.5px" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" @click="requestCallBtn">호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -169,6 +173,7 @@
 <script>
 import axios from 'axios'
 var control
+var qs = require('qs')
 
 export default {
     name: 'Daegu',
@@ -251,7 +256,7 @@ export default {
 
         // Map View Center Load
         this.map.setView([35.836673, 128.686520], 15)
- 
+
         this.addMarker()
         this.addRouting(this.waypoints)
     },
@@ -715,6 +720,64 @@ export default {
                     minutes: this.minutes
                 }
             })
+        },
+
+        paymentButton(meth) {
+            this.isActive = !this.isActive;
+
+            // 아임포트 객체
+            const IMP = window.IMP
+
+            // 가맹점 식별코드
+            IMP.init("imp19092456")
+
+            // 결제창 호출 코드
+            IMP.request_pay({ // param
+                pg: 'inicis', // PG사명
+                pay_method: meth, // 결제수단
+                merchant_uid: 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
+                name: '타시오 결제', // 주문명
+                amount: 100, // 결제할 금액 (필수 항목)
+                buyer_email: '', // 주문자 ID (선택 항목)
+                buyer_name: '', // 주문자명 (선택항목)
+                buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+                buyer_addr: '', // 주문자 주소 (선택 항목)
+                buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+            }, rsp => { // callback
+                if (rsp.success) {
+                    console.log('결제 성공 success!!: ', rsp.success)
+                    axios({
+                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put', // 가맹점 서버
+                        method: "post",
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded'
+                        },
+                        data: qs.stringify({
+                            imp_uid: rsp.imp_uid,
+                            merchant_uid: rsp.merchant_uid,
+                            amount: rsp.paid_amount,
+                            userid: this.user.data.uid
+                        })
+                    }).then(data => {
+                        // 가맹점 서버 결제 API 성공시 로직
+                        console.log('가맹점 서버 결제 API 성공!', data)
+                        switch (data.status) {
+                            case 'success':
+                                break;
+                            case 'forgery':
+                                break;
+                        }
+                    }).catch(error => {
+                        // 가맹점 서버 결제 API 실패시 로직
+                        console.log('가맹점 서버 결제 API 실패ㅠㅠ: ', error)
+                    })
+                } else {
+                    // 결제 실패 시 로직
+                    // 돈이 안맞을 때?
+                    console.log('rsp.error_msg: ', rsp.error_msg)
+                }
+            });
         }
     }
 }
@@ -817,5 +880,21 @@ export default {
     font-weight: 500;
     font-size: 16px !important;
     color: #FFFFFF !important;
+}
+
+.paymentMethod {
+    width: 116px !important;
+    height: 49px !important;
+    border: 1px solid #BDBDBD !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border-radius: 8px !important;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px !important;
+    color: #262626 !important;
+    letter-spacing: -0.1px;
 }
 </style>

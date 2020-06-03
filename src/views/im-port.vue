@@ -23,15 +23,16 @@ export default {
 
     methods: {
         requestPay() {
+            // 아임포트 객체
             const IMP = window.IMP
 
             // 가맹점 식별코드
             IMP.init("imp19092456")
 
-            // IMP.request_pay(param, callback) 호출
+            // 결제창 호출 코드
             IMP.request_pay({ // param
                 pg: 'inicis', // PG사명
-                pay_method: 'card', // 결제수단
+                pay_method: 'phone', // 결제수단
                 merchant_uid: 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: 100, // 결제할 금액 (필수 항목)
