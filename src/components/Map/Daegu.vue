@@ -241,6 +241,7 @@ export default {
 
         usermarker: '',
 
+        meth: '',
         isRed1: false,
         isRed2: false
     }),
@@ -719,7 +720,8 @@ export default {
             }.bind(this), 1000)
         },
 
-        requestCallBtn(meth) {
+        requestCallBtn() {
+            console.log(this.meth)
             const IMP = window.IMP
 
             // 가맹점 식별코드
@@ -728,7 +730,7 @@ export default {
             // 결제창 호출 코드
             IMP.request_pay({ // param
                 pg: 'inicis', // PG사명
-                pay_method: meth, // 결제수단
+                pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: 100, // 결제할 금액 (필수 항목)
@@ -787,17 +789,18 @@ export default {
             }) */
         },
 
-        requestPay() {
-            if (this.isRed1) {
+        requestPay(meth) {
+            console.log(meth)
+            if (meth == 'card') {
                 this.isRed1 = true
                 this.isRed2 = false
-            } else if (!this.isRed1) {
+                console.log(this.isRed1)
+                this.meth = meth
+            } else {
                 this.isRed1 = false
                 this.isRed2 = true
+                this.meth = meth
             }
-
-            this.isRed1 = !this.isRed1
-            this.isRed2 = !this.isRed2
         },
     }
 }
@@ -920,5 +923,6 @@ export default {
 
 .red {
     border: 1px solid #E61773 !important;
+    background: #FFF;
 }
 </style>
