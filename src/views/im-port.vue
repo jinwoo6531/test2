@@ -45,7 +45,7 @@ export default {
                 if (rsp.success) {
                     console.log('결제 성공 success!!: ', rsp.success)
                     axios({
-                        url: 'http://34.64.137.217:1994/tasio-fcef3/us-central1/app/api/payment/put', // 가맹점 서버
+                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put', // 가맹점 서버
                         method: "post",
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'
