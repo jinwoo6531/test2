@@ -125,7 +125,7 @@
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
                                     <v-card-text class="pa-0 pt-1 call-dialog-subtitle">총 탑승요금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">2,000<span style="font-size: 14px !important;">원</span></v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">1,000<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
                                 <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
@@ -155,7 +155,8 @@
                                                 <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone' " @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="56px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -255,6 +256,7 @@ export default {
     created() {
         this.getStation()
         this.getVehicle()
+
     },
 
     mounted() {
@@ -288,14 +290,7 @@ export default {
                 watch: true,
                 enableHighAccuracy: true
             }).on("locationfound", e => {
-                // var current_lat = 35.836673
-                // var current_lng = 128.686520
                 console.log('Location found: ' + e.latitude + e.longitude)
-                // console.log(e.latitude - current_lat)
-                // console.log(e.longitude - current_lng)
-                // if (e.latitude - current_lat > 1 && e.longitude - current_lng < 1) {
-                //     alert('거리가 멀어서 호출 불가!')
-                // }
                 if (!this.usermarker) {
                     let currentUser = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/current.svg"),
@@ -721,7 +716,7 @@ export default {
         },
 
         requestCallBtn() {
-            console.log(this.meth)
+            console.log('meth', this.meth)
             const IMP = window.IMP
 
             // 가맹점 식별코드
@@ -742,6 +737,7 @@ export default {
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
             }, rsp => { // callback
                 if (rsp.success) {
+                    alert('결제 성공 success!!: ', rsp.success)
                     console.log('결제 성공 success!!: ', rsp.success)
                     axios({
                         url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put', // 가맹점 서버
@@ -757,9 +753,22 @@ export default {
                         })
                     }).then(data => {
                         // 가맹점 서버 결제 API 성공시 로직
+                        alert('가맹점 서버 결제 API 성공!', data)
                         console.log('가맹점 서버 결제 API 성공!', data)
                         switch (data.status) {
                             case 'success':
+                                this.$router.push({
+                                    name: "CallingLayout",
+                                    params: {
+                                        site: this.pageId,
+                                        start: this.start,
+                                        end: this.end,
+                                        startName: this.options[this.start - 1].name,
+                                        endName: this.options[this.end - 1].name,
+                                        count: this.count,
+                                        minutes: this.minutes
+                                    }
+                                })
                                 break;
                             case 'forgery':
                                 break;
