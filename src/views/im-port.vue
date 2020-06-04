@@ -7,7 +7,9 @@
 
 <script>
 import axios from 'axios'
-import {mapGetters} from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 var qs = require('qs')
 
 export default {
@@ -42,6 +44,7 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                m_redirect_url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put"
             }, rsp => { // callback
                 if (rsp.success) {
                     console.log('결제 성공 success!!: ', rsp.success)
@@ -82,20 +85,24 @@ export default {
         cancelPay() {
             console.log('cancelPay')
             axios({
-                url: "http://www.myservice.com/payments/cancel",
+                url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/cancel",
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    'content-type': 'application/x-www-form-urlencoded'
                 },
-                data: {
-                    merchant_uid: "mid_" + new Date().getTime(), // 주문번호 *
-                    cancel_request_amount: 2000, // 환불금액 *
-                    reason: "타시오 결제 환불", // 환불사유 *
-                    // 가상 계좌 환불 시
-                    refund_holder: "현유진", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
-                    refund_bank: "88", // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
-                    refund_account: "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
-                }
+                data: qs.stringify({
+                    merchant_uid: 'mid_1591253908376Vmwpnr1okQUxAvuAz3cTobr',
+                    reason: '육동완 때문에',
+                    cancel_request_amount: 50
+
+                })
+                // merchant_uid: "mid_" + new Date().getTime(), // 주문번호 *
+                // cancel_request_amount: 2000, // 환불금액 *
+                // reason: "타시오 결제 환불", // 환불사유 *
+                // // 가상 계좌 환불 시
+                // refund_holder: "현유진", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
+                // refund_bank: "88", // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
+                // refund_account: "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
             }).then(response => {
                 alert('환불이 완료되었습니다.', response)
             }).catch(error => {
