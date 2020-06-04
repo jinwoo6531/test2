@@ -125,7 +125,7 @@
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
                                     <v-card-text class="pa-0 pt-1 call-dialog-subtitle">총 탑승요금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">1,000<span style="font-size: 14px !important;">원</span></v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">{{ totalPayment }}<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
                                 <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
@@ -252,13 +252,16 @@ export default {
     computed: {
         ...mapGetters({
             user: "user"
-        })
+        }),
+
+        totalPayment() {
+             return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+        }
     },
 
     created() {
         this.getStation()
         this.getVehicle()
-
     },
 
     mounted() {
@@ -718,6 +721,9 @@ export default {
         },
 
         requestCallBtn() {
+            var totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+            console.log(totalPayment)
+
             console.log('meth', this.meth)
             const IMP = window.IMP
 
@@ -730,7 +736,7 @@ export default {
                 pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
-                amount: 100, // 결제할 금액 (필수 항목)
+                amount: totalPayment, // 결제할 금액 (필수 항목)
                 buyer_email: '', // 주문자 ID (선택 항목)
                 buyer_name: '', // 주문자명 (선택항목)
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
