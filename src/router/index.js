@@ -11,6 +11,7 @@ import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
 import CallFail from '@/views/Call-fail'
 import Thanks from '@/views/Thanks'
+import AutoCancel from '@/views/Auto-cancel'
 import GoodBye from '@/views/Good-bye'
 import Import from '@/views/im-port'
 
@@ -61,6 +62,11 @@ const routes = [
     path: '/thanks',
     name: 'Thanks',
     component: Thanks
+  },
+  {
+    path: '/autocancel',
+    name: 'AutoCancel',
+    component: AutoCancel
   },
   {
     path: '/auth',

@@ -19,7 +19,7 @@
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
-                            <v-btn class="person-modal" color="#fff" v-on="on">
+                            <v-btn class="person-modal" color="#fff" v-on="on" :ripple="false">
                                 <v-icon left>mdi-account-outline</v-icon>
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
@@ -99,12 +99,12 @@
                             </v-flex>
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
-                                    <v-card style="text-align: left;" class="pl-2" color="transparent" @click="overlay1 = !overlay1" flat>
+                                    <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
                                         <span v-if="start >= 1">{{ options[start - 1].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ start }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
-                                    <v-card style="text-align: left;" class="pl-2" color="transparent" @click="overlay2 = !overlay2" flat>
+                                    <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
                                         <span v-if="end >= 1">{{ options[end - 1].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ end }}</span>
                                     </v-card>
@@ -143,8 +143,10 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" @click="requestPay('card')">신용카드 결제</v-btn>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" @click="requestPay('phone')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('phone')">휴대폰 결제</v-btn>
+                                        <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
                                     </v-card>
                                 </v-card-text>
 
@@ -155,7 +157,7 @@
                                                 <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone' " @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
                                                 <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="56px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
@@ -735,6 +737,7 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                m_redirect_url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put"
             }, rsp => { // callback
                 if (rsp.success) {
                     alert('결제 성공 success!!: ', rsp.success)
@@ -915,6 +918,8 @@ export default {
 }
 
 .paymentMethod {
+    position: relative;
+
     width: 116px !important;
     height: 49px !important;
     border: 1px solid #BDBDBD !important;
@@ -933,5 +938,19 @@ export default {
 .red {
     border: 1px solid #E61773 !important;
     background: #FFF;
+}
+
+.check-state {
+    position: absolute;
+    right: 140px;
+}
+
+.check-state2 {
+    position: absolute;
+    right: 0;
+}
+
+.v-btn:before {
+    background-color: transparent !important;
 }
 </style>
