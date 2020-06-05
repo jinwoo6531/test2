@@ -83,6 +83,8 @@ export default {
         },
 
         cancelPay() {
+            // Firestore에서 회원정보를 조회하고 isRefund가 0이면 환불을 진행할 수 있게 1이면 이미 환불이 된 상태라 불가능하게하기
+            // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
             console.log('cancelPay')
             axios({
                 url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/cancel",

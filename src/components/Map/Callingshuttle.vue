@@ -50,11 +50,11 @@
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
                                     <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">1,000<span style="font-size: 14px !important;">원</span></v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">500<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
                                 <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
-                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 2,000원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 1,000원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
                                 </v-card-text>
 
                                 <v-card flat class="pa-0 d-flex align-self-end">
@@ -80,6 +80,9 @@
 </template>
 
 <script>
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -95,8 +98,27 @@ export default {
         setLat: '',
         setLon: '',
         waypoints: [],
-        callcanceldialog: false
+        callcanceldialog: false,
+
+        isrefund: '',
+        last_mid: ''
     }),
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        }),
+    },
+
+    created() {
+        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            .then(response => {
+                this.isrefund = response.data.isrefund
+                this.last_mid = response.data.last_mid
+            }).catch(error => {
+                console.log('User read: ', error)
+            })
+    },
 
     mounted() {
         this.site = this.$route.params.site
@@ -429,8 +451,30 @@ export default {
         },
 
         callCancleBtn() {
-            // 여기에 아임포트 결제 취소 부분 삽입
-            this.$router.push('/')
+            // Firestore에서 회원정보를 조회하고 isRefund가 0이면 환불을 진행할 수 있게 1이면 이미 환불이 된 상태라 불가능하게하기
+            // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
+            if (this.isrefund == '0') {
+                axios({
+                    url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/cancel",
+                    method: "post",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        merchant_uid: this.last_mid, // 주문번호 *
+                        reason: "타시오 호출 취소", // 환불 사유 *
+                    }
+                }).then(response => {
+                    alert('환불이 완료되었습니다.', response)
+                }).catch(error => {
+                    alert('환불을 실패하였습니다.', error)
+                })
+
+                this.$router.push('/')
+            } else {
+                alert('결제하신 내역이 없습니다.')
+            }
+
         }
     },
 }
