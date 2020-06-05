@@ -176,9 +176,7 @@
 <script>
 import axios from 'axios'
 var control
-import {
-    mapGetters
-} from 'vuex'
+import {mapGetters} from 'vuex'
 var qs = require('qs')
 
 export default {
@@ -783,7 +781,7 @@ export default {
                         }
                     }).catch(error => {
                         // 가맹점 서버 결제 API 실패시 로직
-                        console.log('가맹점 서버 결제 API 실패ㅠㅠ: ', error)
+                        console.log('가맹점 서버 결제 API 실패: ', error)
                     })
                 } else {
                     // 결제 실패 시 로직
