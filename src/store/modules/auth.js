@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import router from '../../router'
 
 const state = {
   info: {
@@ -66,6 +67,11 @@ const actions = {
         .then(response => {
           console.log('rere', response.data)
           alert('인증이 완료되었습니다.')
+          if (response.data.level == 1) {
+            router.push('/')
+          } else {
+            router.push('/auth/agreecheck')
+          }
         }).catch(error => {
           console.log('User read: ', error)
         })

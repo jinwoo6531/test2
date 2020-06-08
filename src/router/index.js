@@ -95,9 +95,6 @@ const routes = [
   {
     path: '/map',
     component: MapLayout,
-    beforeEnter: (to, from, next) => {
-      next()
-    },
     children: [{
       path: 'gunsan',
       name: 'Gunsan',
@@ -127,9 +124,6 @@ const routes = [
   {
     path: '/',
     component: StaticLayout,
-    beforeEnter: (to, from, next) => {
-      next()
-    },
     children: [{
       path: '',
       name: 'Main',
