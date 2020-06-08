@@ -168,8 +168,4 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (Vue.prototype.$isFirebaseAuth) next()
-})
-
 export default router

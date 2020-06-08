@@ -15,17 +15,17 @@
 
             <template v-if="user.loggedIn">
                 <v-list-item class="pa-0">
-                    <v-list-item-content v-if="ready">
+                    <v-list-item-content>
                         <v-row class="ma-0" style="height: 30px;">
                             <v-col class="pa-0" cols="10">
-                                <v-row class="ma-0">
+                                <v-row class="ma-0" v-if="ready">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                                         {{ displayName }}님
                                     </v-col>
                                 </v-row>
                                 <v-row class="ma-0">
                                     <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
-                                        {{ phoneNumber }}
+                                        {{ getPhoneNumber }}
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -202,14 +202,10 @@ export default {
         ready: false
     }),
 
-    created() {
+    mounted() {
         axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.displayName = response.data.displayName
-                let start = this.user.data.phoneNumber.substring(3, 5)
-                let mid = this.user.data.phoneNumber.substring(5, 9)
-                let end = this.user.data.phoneNumber.substring(9, 13)
-                this.phoneNumber = '0' + start + '-' + mid + '-' + end
+            .then(async response => {
+                this.displayName = await response.data.displayName
                 this.ready = true
             })
     },
@@ -221,6 +217,13 @@ export default {
 
         getHeight() {
             return this.$vuetify.breakpoint.xs ? 57 : '70'
+        },
+
+        getPhoneNumber() {
+            let start = this.user.data.phoneNumber.substring(3, 5)
+            let mid = this.user.data.phoneNumber.substring(5, 9)
+            let end = this.user.data.phoneNumber.substring(9, 13)
+            return '0' + start + '-' + mid + '-' + end
         }
     }
 
