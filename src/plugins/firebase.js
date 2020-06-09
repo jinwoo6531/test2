@@ -4,18 +4,34 @@ import firebaseConfig from '../../firebaseConfig'
 import store from '../store'
 import 'firebase/auth'
 import 'firebase/firestore'
+import axios from 'axios'
+import router from '../router'
 
 
 firebase.initializeApp(firebaseConfig)
 
 Vue.prototype.$firebase = firebase
 
-firebase.auth().onAuthStateChanged((user) => {
-  store.dispatch("fetchUser", user)
+firebase.auth().onAuthStateChanged(async (user) => {
+  await store.dispatch("fetchUser", user)
   if (user) {
-    store.getters.user.loggedIn = true
-  }
-  else {
-    store.getters.user.loggedIn = false
+    axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + user.uid)
+      .then(response => {
+        if (response.data.level == 2) {
+          router.push({
+            name: 'AgreeCheck'
+          }).catch((err) => {
+            if (err.name == 'NavigationDuplicated')
+              return
+          })
+        }
+      })
+  } else {
+    router.push({
+      name: 'Walkthrough'
+    }).catch((err) => {
+      if (err.name == 'NavigationDuplicated')
+        return
+    })
   }
 })

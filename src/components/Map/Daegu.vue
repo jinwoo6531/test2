@@ -176,7 +176,9 @@
 <script>
 import axios from 'axios'
 var control
-import {mapGetters} from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 var qs = require('qs')
 
 export default {
@@ -253,7 +255,7 @@ export default {
         }),
 
         totalPayment() {
-             return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+            return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
         }
     },
 
@@ -755,7 +757,15 @@ export default {
                             imp_uid: rsp.imp_uid,
                             merchant_uid: rsp.merchant_uid,
                             amount: rsp.paid_amount,
-                            userid: this.user.data.uid
+                            userid: this.user.data.uid,
+
+                            site: this.pageId,
+                            start: this.start,
+                            end: this.end,
+                            startName: this.options[this.start - 1].name,
+                            endName: this.options[this.end - 1].name,
+                            count: this.count,
+                            minutes: this.minutes
                         })
                     }).then(data => {
                         // 가맹점 서버 결제 API 성공시 로직
@@ -765,15 +775,15 @@ export default {
                             case 'success':
                                 this.$router.push({
                                     name: "CallingLayout",
-                                        params: {
-                                            site: this.pageId,
-                                            start: this.start,
-                                            end: this.end,
-                                            startName: this.options[this.start - 1].name,
-                                            endName: this.options[this.end - 1].name,
-                                            count: this.count,
-                                            minutes: this.minutes
-                                        }
+                                    params: {
+                                        site: this.pageId,
+                                        start: this.start,
+                                        end: this.end,
+                                        startName: this.options[this.start - 1].name,
+                                        endName: this.options[this.end - 1].name,
+                                        count: this.count,
+                                        minutes: this.minutes
+                                    }
                                 })
                                 break;
                             case 'forgery':

@@ -1,4 +1,3 @@
-// import firebase from 'firebase/app'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Splash from '@/views/Splash'
@@ -14,10 +13,15 @@ import Thanks from '@/views/Thanks'
 import AutoCancel from '@/views/Auto-cancel'
 import GoodBye from '@/views/Good-bye'
 import Import from '@/views/im-port'
+import Webview from '@/views/Webview'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes = [{
+    path: '/webview',
+    name: 'Webview',
+    component: Webview
+  },
   {
     path: '/import',
     name: 'Import',
@@ -72,94 +76,99 @@ const routes = [
     path: '/auth',
     component: AuthLayout,
     children: [{
-      path: 'accessphone',
-      name: 'AccessPhone',
-      component: () => import('@/components/Auth/AccessPhone.vue')
-    },
-    {
-      path: 'accesscode',
-      name: 'AccessCode',
-      component: () => import('@/components/Auth/AccessCode.vue')
-    },
-    {
-      path: 'agreecheck',
-      name: 'AgreeCheck',
-      component: () => import('@/components/Auth/AgreeCheck.vue')
-    },
-    {
-      path: 'register',
-      name: 'Register',
-      component: () => import('@/components/Auth/Register.vue')
-    }]
+        path: 'accessphone',
+        name: 'AccessPhone',
+        component: () => import('@/components/Auth/AccessPhone.vue')
+      },
+      {
+        path: 'accesscode',
+        name: 'AccessCode',
+        component: () => import('@/components/Auth/AccessCode.vue')
+      },
+      {
+        path: 'agreecheck',
+        name: 'AgreeCheck',
+        component: () => import('@/components/Auth/AgreeCheck.vue')
+      },
+      {
+        path: 'register',
+        name: 'Register',
+        component: () => import('@/components/Auth/Register.vue')
+      }
+    ]
   },
   {
     path: '/map',
     component: MapLayout,
     children: [{
-      path: 'gunsan',
-      name: 'Gunsan',
-      component: () => import('@/components/Map/Gunsan.vue')
-    },
-    {
-      path: 'daegu',
-      name: 'Daegu',
-      component: () => import('@/components/Map/Daegu.vue')
-    },
-    {
-      path: 'sejong',
-      name: 'Sejong',
-      component: () => import('@/components/Map/Sejong.vue')
-    },
-    {
-      path: 'sangam',
-      name: 'Sangam',
-      component: () => import('@/components/Map/Sangam.vue')
-    },
-    {
-      path: 'callingshuttle',
-      name: 'CallingShuttle',
-      component: () => import('@/components/Map/Callingshuttle.vue')
-    }]
+        path: 'gunsan',
+        name: 'Gunsan',
+        component: () => import('@/components/Map/Gunsan.vue')
+      },
+      {
+        path: 'daegu',
+        name: 'Daegu',
+        component: () => import('@/components/Map/Daegu.vue')
+      },
+      {
+        path: 'sejong',
+        name: 'Sejong',
+        component: () => import('@/components/Map/Sejong.vue')
+      },
+      {
+        path: 'sangam',
+        name: 'Sangam',
+        component: () => import('@/components/Map/Sangam.vue')
+      },
+      {
+        path: 'callingshuttle',
+        name: 'CallingShuttle',
+        component: () => import('@/components/Map/Callingshuttle.vue')
+      }
+    ]
   },
   {
     path: '/',
     component: StaticLayout,
     children: [{
-      path: '',
-      name: 'Main',
-      component: () => import('@/components/Static/Main')
-    },{
-      path: 'introduction',
-      name: 'Introduction',
-      component: () => import('@/components/Static/Introduction')
-    },
-    {
-      path: 'schedule',
-      name: 'Schedule',
-      component: () => import('@/components/Static/Schedule')
-    },
-    {
-      path: 'faq',
-      name: 'FAQ',
-      component: () => import('@/components/Static/FAQ')
-    },
-    {
-      path: 'serviceinfo',
-      name: 'Serviceinfo',
-      component: () => import('@/components/Static/Serviceinfo')
-    },
-    {
-      path: 'userinfo',
-      name: 'Userinfo',
-      component: () => import('@/components/Static/Userinfo')
-    }]
+        path: '',
+        name: 'Main',
+        component: () => import('@/components/Static/Main')
+      }, {
+        path: 'introduction',
+        name: 'Introduction',
+        component: () => import('@/components/Static/Introduction')
+      },
+      {
+        path: 'schedule',
+        name: 'Schedule',
+        component: () => import('@/components/Static/Schedule')
+      },
+      {
+        path: 'faq',
+        name: 'FAQ',
+        component: () => import('@/components/Static/FAQ')
+      },
+      {
+        path: 'serviceinfo',
+        name: 'Serviceinfo',
+        component: () => import('@/components/Static/Serviceinfo')
+      },
+      {
+        path: 'userinfo',
+        name: 'Userinfo',
+        component: () => import('@/components/Static/Userinfo')
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
+  duplicateNavigationPolicy: 'ignore',
   base: process.env.BASE_URL,
   routes
 })
+
 
 export default router
