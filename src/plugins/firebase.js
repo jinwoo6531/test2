@@ -12,4 +12,10 @@ Vue.prototype.$firebase = firebase
 
 firebase.auth().onAuthStateChanged((user) => {
   store.dispatch("fetchUser", user)
+  if (user) {
+    store.getters.user.loggedIn = true
+  }
+  else {
+    store.getters.user.loggedIn = false
+  }
 })

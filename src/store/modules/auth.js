@@ -13,7 +13,8 @@ const state = {
     data: {}
   },
 
-  timer: 180
+  timer: 180,
+  uid: ''
 }
 
 const getters = {
