@@ -38,12 +38,15 @@ const mutations = {
   SET_USER(state, data) {
     state.user.data = data
   },
-  SET_TIMER(state, payload){
+  SET_TIMER(state, payload) {
     state.timer = payload
   }
 }
 const actions = {
-  async sendOtp({state, commit}, payload) {
+  async sendOtp({
+    state,
+    commit
+  }, payload) {
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -59,22 +62,23 @@ const actions = {
       })
   },
 
-  verifyOtp(_, {otp}) {
+  verifyOtp(_, {
+    otp
+  }) {
     window.confirmationResult
       .confirm(otp)
       .then(result => {
         axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
-        .then(response => {
-          console.log('rere', response.data)
-          alert('인증이 완료되었습니다.')
-          if (response.data.level == 1) {
-            router.push('/')
-          } else {
-            router.push('/auth/agreecheck')
-          }
-        }).catch(error => {
-          console.log('User read: ', error)
-        })
+          .then(response => {
+            alert('인증이 완료되었습니다.')
+            if (response.data.level == 1) {
+              router.push('/')
+            } else {
+              router.push('/auth/agreecheck')
+            }
+          }).catch(error => {
+            console.log('User read: ', error)
+          })
       })
       .catch(error => {
         alert("인증코드가 잘못되었습니다.")
@@ -82,32 +86,42 @@ const actions = {
       })
   },
 
-  fetchUser({commit}, user) {
+  fetchUser({
+    commit
+  }, user) {
     commit("SET_LOGGED_IN", user !== null)
-        if (user) {
-            commit("SET_USER", {
-              uid: user.uid,
-              phoneNumber: user.phoneNumber,
-              displayName: user.displayName
-            })
-        } else {
-            commit("SET_USER", null);
-        }
+    if (user) {
+      axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + user.uid)
+        .then(response => {
+          commit("SET_USER", {
+            uid: user.uid,
+            phoneNumber: user.phoneNumber,
+            displayName: response.data.displayName,
+            email: response.data.email,
+            level: response.data.level,
+            birth: response.data.birth,
+            gender: response.data.gender
+          })
+        })
+    } else {
+      commit("SET_USER", null);
+    }
   },
 
-  initReCaptcha({commit}) {
+  initReCaptcha({
+    commit
+  }) {
     setTimeout(() => {
       window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier("recaptcha-container", {
-          size: "invisible",
-          callback: function (response) {
-            console.log(response)
-            // dispatch('sendOtp')
-          },
-          "expired-callback": function () {
-            console.log('Recaptcha Error')
-          }
+        size: "invisible",
+        callback: function (response) {
+          console.log(response)
+          // dispatch('sendOtp')
+        },
+        "expired-callback": function () {
+          console.log('Recaptcha Error')
         }
-      );
+      });
       commit("SET_DATA", {
         appVerifier: window.recaptchaVerifier
       })

@@ -18,9 +18,9 @@
                     <v-list-item-content>
                         <v-row class="ma-0" style="height: 30px;">
                             <v-col class="pa-0" cols="10">
-                                <v-row class="ma-0" v-if="ready">
+                                <v-row class="ma-0">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                        {{ displayName }}님
+                                        {{ user.data.displayName }}님
                                     </v-col>
                                 </v-row>
                                 <v-row class="ma-0">
@@ -191,24 +191,12 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from "vuex"
-import axios from 'axios'
+import { mapGetters } from "vuex"
 
 export default {
     data: () => ({
-        drawer: null,
-        ready: false
+        drawer: null
     }),
-
-    mounted() {
-        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
-            .then(async response => {
-                this.displayName = await response.data.displayName
-                this.ready = true
-            })
-    },
 
     computed: {
         ...mapGetters({
@@ -220,9 +208,9 @@ export default {
         },
 
         getPhoneNumber() {
-            let start = this.user.data.phoneNumber.substring(3, 5)
-            let mid = this.user.data.phoneNumber.substring(5, 9)
-            let end = this.user.data.phoneNumber.substring(9, 13)
+            let start = String(this.user.data.phoneNumber).substring(3, 5)
+            let mid = String(this.user.data.phoneNumber).substring(5, 9)
+            let end = String(this.user.data.phoneNumber).substring(9, 13)
             return '0' + start + '-' + mid + '-' + end
         }
     }
