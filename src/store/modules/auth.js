@@ -93,8 +93,8 @@ const actions = {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
       axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + user.uid)
-        .then(response => {
-          commit("SET_USER", {
+        .then(async response => {
+          await commit("SET_USER", {
             uid: user.uid,
             phoneNumber: user.phoneNumber,
             displayName: response.data.displayName,
