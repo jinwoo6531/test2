@@ -155,7 +155,7 @@
                             전화번호
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            {{ this.phoneNumber }}
+                            {{ getPhoneNumber }}
                         </v-col>
                     </v-row>
                 </v-card>
@@ -255,7 +255,6 @@ export default {
         email: '',
         gender: '',
         birth: '',
-        phoneNumber: '',
         phone: '',
         rules: '',
 
@@ -300,19 +299,12 @@ export default {
     }),
 
     created() {
-        console.log(this.byeReason.length)
         axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
-                console.log('userinfo', response.data)
                 this.displayName = response.data.displayName
                 this.email = response.data.email
                 this.gender = response.data.gender
                 this.birth = response.data.birth
-                var start = "0" + response.data.phoneNumber.substring(3, 5)
-                var mid = response.data.phoneNumber.substring(5, 9)
-                var end = response.data.phoneNumber.substring(9, 13)
-                this.phoneNumber = start + "-" + mid + "-" + end
-                this.phone = start + mid + end
             }).catch(error => {
                 console.log('User read: ', error)
             })
@@ -321,7 +313,14 @@ export default {
     computed: {
         ...mapGetters({
             user: "user"
-        })
+        }),
+
+        getPhoneNumber() {
+            let start = String(this.user.data.phoneNumber).substring(3, 5)
+            let mid = String(this.user.data.phoneNumber).substring(5, 9)
+            let end = String(this.user.data.phoneNumber).substring(9, 13)
+            return '0' + start + '-' + mid + '-' + end
+        }
     },
 
     updated() {
@@ -451,7 +450,7 @@ export default {
             this.$firebase.auth().signOut()
                 .then(() => {
                     alert('로그아웃 되었습니다.')
-                    this.$router.replace('AccessPhone')
+                    this.$router.push('/auth/accessphone')
                 });
         },
 

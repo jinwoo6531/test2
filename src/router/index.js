@@ -95,9 +95,6 @@ const routes = [
   {
     path: '/map',
     component: MapLayout,
-    beforeEnter: (to, from, next) => {
-      next()
-    },
     children: [{
       path: 'gunsan',
       name: 'Gunsan',
@@ -127,9 +124,6 @@ const routes = [
   {
     path: '/',
     component: StaticLayout,
-    beforeEnter: (to, from, next) => {
-      next()
-    },
     children: [{
       path: '',
       name: 'Main',
@@ -166,10 +160,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
-
-router.beforeEach((to, from, next) => {
-  if (Vue.prototype.$isFirebaseAuth) next()
 })
 
 export default router
