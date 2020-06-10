@@ -111,7 +111,7 @@ export default {
     },
 
     created() {
-        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund
                 this.last_mid = response.data.last_mid
@@ -455,7 +455,7 @@ export default {
             // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
             if (this.isrefund == '0') {
                 axios({
-                    url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/cancel",
+                    url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
                     method: "post",
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded'
