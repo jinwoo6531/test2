@@ -15,7 +15,7 @@ Vue.prototype.$firebase = firebase
 firebase.auth().onAuthStateChanged(async (user) => {
   await store.dispatch("fetchUser", user)
   if (user) {
-    axios.get('http://34.64.137.217:1994/tasio-288c5/us-central1/app/api/read/' + user.uid)
+    axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
       .then(response => {
         if (response.data.level == 2) {
           router.push({

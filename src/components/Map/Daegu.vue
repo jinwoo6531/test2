@@ -741,14 +741,13 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                // m_redirect_url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put"
-                m_redirect_url: "http://service.tasio.io:9772/calling"
+                m_redirect_url: "http://service.tasio.io:9772/calling" // 결제 성공인지 실패인지를 담고있는 url 
             }, rsp => { // callback
                 if (rsp.success) {
                     alert('결제 성공 success!!: ', rsp.success)
                     console.log('결제 성공 success!!: ', rsp.success)
                     axios({
-                        url: 'http://34.64.137.217:1994/tasio-288c5/us-central1/app/api/payment/put', // 가맹점 서버
+                        url: 'http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put', // 가맹점 서버
                         method: "post",
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'

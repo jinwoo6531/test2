@@ -111,7 +111,7 @@ export default {
     },
 
     created() {
-        axios.get('http://34.64.137.217:1994/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund
                 this.last_mid = response.data.last_mid
