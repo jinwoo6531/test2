@@ -12,6 +12,7 @@ import CallFail from '@/views/Call-fail'
 import Thanks from '@/views/Thanks'
 import AutoCancel from '@/views/Auto-cancel'
 import GoodBye from '@/views/Good-bye'
+import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
 
@@ -71,6 +72,11 @@ const routes = [{
     path: '/autocancel',
     name: 'AutoCancel',
     component: AutoCancel
+  },
+  {
+    path: '*',
+    name: 'NotFoundComponent',
+    component: NotFoundComponent 
   },
   {
     path: '/auth',

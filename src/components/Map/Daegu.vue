@@ -773,6 +773,7 @@ export default {
                         console.log('가맹점 서버 결제 API 성공!', data)
                         switch (data.status) {
                             case 'success':
+                                alert('data status success')
                                 this.$router.push({
                                     name: "CallingLayout",
                                     params: {
