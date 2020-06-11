@@ -9,7 +9,7 @@
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                        <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
                             <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
                                 <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
                             </v-btn>
@@ -299,17 +299,16 @@ export default {
                         iconSize: [17, 17]
                     })
 
-                    this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                    return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
                         icon: currentUser
                     })
 
                 } else {
-                    this.usermarker.setLatLng(e.latlng)
+                    return this.usermarker.setLatLng(e.latlng)
                 }
             }).on("locationerror", error => {
-                alert('사용자의 위치를 받아올 수 없습니다.')
-                console.log('Location error:')
-                console.log(error)
+                // alert('사용자의 위치를 받아올 수 없습니다.')
+                console.log('Location error:', error)
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker)
                     this.usermarker = null
