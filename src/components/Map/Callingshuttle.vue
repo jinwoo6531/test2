@@ -101,7 +101,7 @@ export default {
         callcanceldialog: false,
 
         isrefund: '',
-        lastest_mid: ''
+        latest_mid: ''
     }),
 
     computed: {
@@ -114,10 +114,10 @@ export default {
         axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund
-                this.lastest_mid = response.data.lastest_mid
+                this.latest_mid = response.data.latest_mid
 
                 console.log('sdfsdf', response)
-                console.log('adfdfsfsdfsd', this.lastest_mid)
+                console.log('adfdfsfsdfsd', this.latest_mid)
             }).catch(error => {
                 console.log('User read: ', error)
             })
@@ -464,13 +464,13 @@ export default {
                         'content-type': 'application/x-www-form-urlencoded'
                     },
                     data: {
-                        merchant_uid: this.lastest_mid, // 주문번호 *
+                        merchant_uid: this.latest_mid, // 주문번호 *
                         reason: "타시오 호출 취소", // 환불 사유 *,
                         cancel_request_amount: 500
                     }
                 }).then(response => {
                     console.log(response)
-                    alert('환불이 완료되었습니다.', this.lastest_mid)
+                    alert('환불이 완료되었습니다.', this.latest_mid)
                 }).catch(error => {
                     alert('환불을 실패하였습니다.', error)
                 })
