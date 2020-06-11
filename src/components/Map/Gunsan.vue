@@ -7,15 +7,6 @@
             </v-flex>
 
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
-                <div>
-                    <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
-                            <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
-                                <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
-                            </v-btn>
-                        </v-card>
-                    </v-card>
-                </div>
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
@@ -24,6 +15,14 @@
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
                             </v-btn>
+
+                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: 0px;">
+                                <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                                    <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
+                                        <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
+                                    </v-btn>
+                                </v-card>
+                            </v-card>
                         </template>
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
@@ -475,7 +474,6 @@ export default {
                     }
                 } else if (this.start > this.end) { // end -> start No!!
                     alert('지원하지 않습니다.')
-                    
 
                 } else if (this.start == this.end) { // SAME Station Id
                     alert('같은 정류장 선택 불가')
