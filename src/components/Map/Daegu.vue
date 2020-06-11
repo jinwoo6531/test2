@@ -118,8 +118,7 @@
                 </v-flex>
 
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">결제하기</v-btn>
-                    <!-- <v-btn style="height: 50px;" color="#E61773" class="callShuttle" v-if="imp_success == true" @click="responseCall">호출하기</v-btn> -->
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
                     <v-dialog v-model="calldialog" max-width="280">
                         <v-card style="width: 280px; height: 404px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">

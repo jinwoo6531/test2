@@ -11,7 +11,6 @@
         <br>
         <span>{{ endName }}</span>
     </div>
-    <!-- <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="goToMain"> -->
     <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
         호출 취소하기
     </v-card>
