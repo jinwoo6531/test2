@@ -7,7 +7,9 @@
 
 <script>
 import axios from 'axios'
-import {mapGetters} from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 var qs = require('qs')
 
 export default {
@@ -82,28 +84,28 @@ export default {
         cancelPay() {
             // Firestore에서 회원정보를 조회하고 isRefund가 0이면 환불을 진행할 수 있게 1이면 이미 환불이 된 상태라 불가능하게하기
             // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
-            console.log('cancelPay')
-            axios({
-                url: "http://www.myservice.com/payments/cancel",
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                data: {
-                    merchant_uid: "mid_" + new Date().getTime(), // 주문번호 *
-                    cancel_request_amount: 2000, // 환불금액 *
-                    reason: "타시오 결제 환불", // 환불사유 *
-                    // 가상 계좌 환불 시
-                    refund_holder: "현유진", // [가상계좌 환불시 필수입력] 환불 가상계좌 예금주
-                    refund_bank: "88", // [가상계좌 환불시 필수입력] 환불 가상계좌 은행코드(ex. KG이니시스의 경우 신한은행은 88번)
-                    refund_account: "56211105948400" // [가상계좌 환불시 필수입력] 환불 가상계좌 번호
-                }
-            }).then(response => {
-                alert('환불이 완료되었습니다.', response)
-            }).catch(error => {
-                alert('환불을 실패하였습니다.', error)
-            })
+            if (this.isrefund == '0') {
+                axios({
+                    url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
+                    method: "post",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        merchant_uid: this.last_mid, // 주문번호 *
+                        reason: "타시오 호출 취소", // 환불 사유 *
+                        cancel_request_amount: 500
+                    }
+                }).then(response => {
+                    alert('환불이 완료되었습니다.', response)
+                }).catch(error => {
+                    alert('환불을 실패하였습니다.', error)
+                })
 
+                this.$router.push('/')
+            } else {
+                alert('결제하신 내역이 없습니다.')
+            }
         }
     }
 }
