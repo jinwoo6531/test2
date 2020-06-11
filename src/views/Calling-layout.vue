@@ -99,7 +99,7 @@ export default {
                         minutes: this.minutes
                     }
                 })
-            }, 6000000)
+            }, 3000)
 
         //     setTimeout(() => {
         //         this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
