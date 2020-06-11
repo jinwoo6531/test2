@@ -111,10 +111,13 @@ export default {
     },
 
     created() {
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund
                 this.last_mid = response.data.last_mid
+
+                console.log('sdfsdf', response)
+                console.log('adfdfsfsdfsd', this.last_mid)
             }).catch(error => {
                 console.log('User read: ', error)
             })
@@ -466,12 +469,13 @@ export default {
                         cancel_request_amount: 500
                     }
                 }).then(response => {
-                    alert('환불이 완료되었습니다.', response)
+                    console.log(response)
+                    alert('환불이 완료되었습니다.', this.last_mid)
                 }).catch(error => {
                     alert('환불을 실패하였습니다.', error)
                 })
 
-                this.$router.push('/')
+                // this.$router.push('/')
             } else {
                 alert('결제하신 내역이 없습니다.')
             }

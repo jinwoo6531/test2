@@ -260,6 +260,7 @@ export default {
 
     created() {
         this.getStation()
+        // this.getVehicle()
     },
 
     mounted() {
@@ -308,7 +309,7 @@ export default {
                     return this.usermarker.setLatLng(e.latlng)
                 }
             }).on("locationerror", error => {
-                // alert('사용자의 위치를 받아올 수 없습니다.')
+                alert('사용자의 위치를 받아올 수 없습니다.')
                 console.log('Location error:', error)
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker)
@@ -472,11 +473,13 @@ export default {
                             lng: this.gunsanList[i - 9].lon
                         })
                     }
-                } else if (this.start > this.end) {
+                } else if (this.start > this.end) { // end -> start No!!
                     alert('지원하지 않습니다.')
-                    // SAME Station Id
-                } else if (this.start == this.end) {
+                    
+
+                } else if (this.start == this.end) { // SAME Station Id
                     alert('같은 정류장 선택 불가')
+
                 }
 
                 let startIcon = this.$utils.map.createIcon({
@@ -557,6 +560,46 @@ export default {
                 this.distanceKm = e.routes[0].summary.totalDistance / 1000
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
+        },
+
+        getVehicle() {
+            axios.get('/api/vehicles/')
+                .then(response => {
+                    var vehicle_data = response.data.sort(function (a, b) {
+                        return a.id < b.id ? -1 : 1
+                    })
+                    var vehicleCount = Object.keys(vehicle_data).length
+                    for (let i = 0; i < vehicleCount; i++) {
+                        if (vehicle_data[i].site == 1) {
+                            var vehicleIcon = this.$utils.map.createIcon({
+                                iconUrl: require("../../assets/vehicle1.svg"),
+                                iconSize: [32, 32]
+                            })
+                            this.vehicle[i] = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                draggable: false,
+                                icon: vehicleIcon
+                            })
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            setInterval(async function () {
+                axios.get('/api/vehicles/')
+                    .then(response => {
+                        var vehicle_data = response.data.sort(function (a, b) {
+                            return a.id < b.id ? -1 : 1
+                        })
+                        var vehicleCount = Object.keys(vehicle_data).length;
+                        for (let i = 0; i < vehicleCount; i++) {
+                            if (vehicle_data[i].site == 2) {
+                                this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                            }
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    })
+            }.bind(this), 1000)
         },
 
         requestCallBtn() {
