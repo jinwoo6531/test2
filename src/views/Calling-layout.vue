@@ -11,7 +11,6 @@
         <br>
         <span>{{ endName }}</span>
     </div>
-    <!-- <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="goToMain"> -->
     <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
         호출 취소하기
     </v-card>
@@ -55,36 +54,36 @@ export default {
         connection: null
     }),
 
-    created() {
-        // Web Socket
-        this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
+    // created() {
+    //     // Web Socket
+    //     this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
 
-        // 연결이 성공적으로 열릴 때
-        this.connection.onopen = (event) => {
-            console.log('connection onopen: ', event)
-            this.status = "Successfully connected to 9103 WebSocket Server"
-            console.log(this.status)
-        }
-        // 설정한 WebSocket 연결이 메시지를 받을 때마다
-        this.connection.onmessage = (event) => {
-            console.log('connection onmessage: ', event)
-            // 여기에 배차 정보 로직을 구현한다.
-            // alive check를 해주는 것이 중요하다.
-            // -> 핑을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
-        }
+    //     // 연결이 성공적으로 열릴 때
+    //     this.connection.onopen = (event) => {
+    //         console.log('connection onopen: ', event)
+    //         this.status = "Successfully connected to 9103 WebSocket Server"
+    //         console.log(this.status)
+    //     }
+    //     // 설정한 WebSocket 연결이 메시지를 받을 때마다
+    //     this.connection.onmessage = (event) => {
+    //         console.log('connection onmessage: ', event)
+    //         // 여기에 배차 정보 로직을 구현한다.
+    //         // alive check를 해주는 것이 중요하다.
+    //         // -> 핑을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
+    //     }
 
-        // ☆만약에 ping이 안들어올 때, 연결이 끊어질 때 다시 연결될 수 있게하기!!★
+    //     // ☆만약에 ping이 안들어올 때, 연결이 끊어질 때 다시 연결될 수 있게하기!!★
 
-    },
+    // },
 
     mounted() {
-        this.site = this.$route.params.site
-        this.start = this.$route.params.start
-        this.end = this.$route.params.end
-        this.startName = this.$route.params.startName
-        this.endName = this.$route.params.endName
-        this.count = this.$route.params.count
-        this.minutes = this.$route.params.minutes
+        this.site = this.$route.query.site
+        this.start = this.$route.query.start
+        this.end = this.$route.query.end
+        this.startName = this.$route.query.startName
+        this.endName = this.$route.query.endName
+        this.count = this.$route.query.count
+        this.minutes = this.$route.query.minutes
         this.ready = true
 
         setTimeout(() => {

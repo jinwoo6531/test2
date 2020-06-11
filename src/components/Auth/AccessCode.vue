@@ -98,6 +98,9 @@ export default {
             this.minutes = parseInt(second / 60);
             this.seconds = second % 60;
 
+            if (this.minutes < 10) this.minutes = '0' + this.minutes
+            if (this.seconds < 10) this.seconds = '0' + this.seconds
+
             this.remainTime = this.minutes + ":" + this.seconds;
             if (this.minutes <= 0 && this.seconds <= 0) {
                 this.timeStop();

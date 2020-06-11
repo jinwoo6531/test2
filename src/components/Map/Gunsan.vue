@@ -9,7 +9,7 @@
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
                 <div>
                     <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                        <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
                             <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
                                 <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
                             </v-btn>
@@ -19,7 +19,7 @@
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
-                            <v-btn class="person-modal" color="#fff" v-on="on">
+                            <v-btn class="person-modal" color="#fff" v-on="on" :ripple="false">
                                 <v-icon left>mdi-account-outline</v-icon>
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
@@ -99,12 +99,12 @@
                             </v-flex>
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
-                                    <v-card style="text-align: left;" class="pl-2" color="transparent" @click="overlay1 = !overlay1" flat>
+                                    <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
                                         <span v-if="start >= 9">{{ options[start - 9].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ start }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
-                                    <v-card style="text-align: left;" class="pl-2" color="transparent" @click="overlay2 = !overlay2" flat>
+                                    <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
                                         <span v-if="end >= 9">{{ options[end - 9].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ end }}</span>
                                     </v-card>
@@ -118,7 +118,54 @@
                 </v-flex>
 
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="requestCallBtn">호출하기</v-btn>
+                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
+                    <v-dialog v-model="calldialog" max-width="280">
+                        <v-card style="width: 280px; height: 404px; background-color: transparent;">
+                            <v-card flat class="dialog-background" style="background-color: transparent;">
+                                <v-card-text class="pa-3 text-center">
+                                    <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
+                                    <v-card-text class="pa-0 pt-1 call-dialog-subtitle">총 탑승요금</v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">{{ totalPayment }}<span style="font-size: 14px !important;">원</span></v-card-text>
+                                </v-card-text>
+
+                                <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
+                                    <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
+                                        <table style="width: 100%; border: none !important;">
+                                            <tr>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1000원</p>
+                                                </td>
+                                                <td style="width: 20%;" rowspan="2"><img src="../../assets/x-icon.svg" class="display: inline-block;"></td>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">탑승인원<p style="margin: 0" class="price-people">{{ count }}명</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </v-card-text>
+                                    <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
+                                    <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
+                                    <v-card flat tile class="pa-0 ma-0 mt-6">
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('phone')">휴대폰 결제</v-btn>
+                                        <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
+                                    </v-card>
+                                </v-card-text>
+
+                                <v-card flat class="pa-0 pt-2 d-flex align-self-end">
+                                    <v-container class="pa-0">
+                                        <v-row no-gutters>
+                                            <v-col>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
+                                            </v-col>
+                                            <v-col>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="56px" v-else>호출하기</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card>
+                            </v-card>
+                        </v-card>
+                    </v-dialog>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -129,6 +176,9 @@
 <script>
 import axios from 'axios'
 var control
+import {
+    mapGetters
+} from 'vuex'
 
 export default {
     name: 'Gunsan',
@@ -168,12 +218,13 @@ export default {
         end: '도착지 선택 ',
         startId: [],
         endId: [],
-        vehicle: 0,
-        km: 0,
+        vehicle: [],
+        distanceKm: 0,
         minutes: 0,
         gunsanList: [],
         callBtn: false,
         dialog: false,
+        calldialog: false,
         count: 0,
         isDisabled1: true,
         isDisabled2: false,
@@ -184,13 +235,28 @@ export default {
         start_icon: {},
         end_icon: {},
 
-        marker: {},
         switch1: false,
         originStart: '',
         originEnd: '',
         changeStart: '',
-        changeEnd: ''
+        changeEnd: '',
+
+        usermarker: '',
+
+        meth: '',
+        isRed1: false,
+        isRed2: false
     }),
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        }),
+
+        totalPayment() {
+            return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+        }
+    },
 
     created() {
         this.getStation()
@@ -221,36 +287,45 @@ export default {
 
     methods: {
         getLocation() {
-            console.log("GET!");
-            this.$utils.map.getLocation(this.map, {
+            this.map.locate({
                 setView: true,
+                maxZoom: 18,
                 watch: true,
-                setZoom: 25,
-                drawMarker: true
-            }).then(response => {
-                this.marker = response
-                console.log('getLocation marker', this.marker)
-            })
+                enableHighAccuracy: true
+            }).on("locationfound", e => {
+                console.log('Location found: ' + e.latitude + e.longitude)
+                if (!this.usermarker) {
+                    let currentUser = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/current.svg"),
+                        iconSize: [17, 17]
+                    })
 
+                    return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                        icon: currentUser
+                    })
+
+                } else {
+                    return this.usermarker.setLatLng(e.latlng)
+                }
+            }).on("locationerror", error => {
+                // alert('사용자의 위치를 받아올 수 없습니다.')
+                console.log('Location error:', error)
+                if (this.usermarker) {
+                    this.map.removeLayer(this.usermarker)
+                    this.usermarker = null
+                }
+            })
             this.res = false
         },
 
         stopLocation() {
-            // alert ("marker id: " + this.marker._leaflet_id)
-
-            if (this.marker != null || this.marker != undefined) {
-                this.map.removeLayer(this.marker)
+            if (this.usermarker != null || this.usermarker != undefined) {
+                this.map.removeLayer(this.usermarker)
+                this.usermarker = null
                 this.map.stopLocate()
-                this.map.setView([35.836673, 128.686520], 15)
+                this.map.setView([35.812484, 126.4091], 15)
+                console.log('stopLocation usermarker', this.usermarker)
             }
-
-            /* this.map.eachLayer(function (layer) {
-                if (layer._leaflet_id == "current") {
-                    this.map.removeLayer(layer)
-                } else {
-                    console.log("marker is not present")
-                }
-            }) */
 
             this.res = true
         },
@@ -399,15 +474,9 @@ export default {
                     }
                 } else if (this.start > this.end) {
                     alert('지원하지 않습니다.')
-                    // this.map.removeLayer(this.start_icon)
-                    // this.map.removeLayer(this.end_icon)
-                    // this.map.removeLayer(endIcon)
                     // SAME Station Id
                 } else if (this.start == this.end) {
                     alert('같은 정류장 선택 불가')
-                    // this.map.removeLayer(this.start_icon)
-                    // this.map.removeLayer(this.end_icon)
-                    // this.map.removeLayer(endIcon)
                 }
 
                 let startIcon = this.$utils.map.createIcon({
@@ -485,30 +554,62 @@ export default {
         totalDistance() {
             control.on('routesfound', (e) => {
                 // 출발지와 도착지의 totalDistance
-                this.km = e.routes[0].summary.totalDistance / 1000
+                this.distanceKm = e.routes[0].summary.totalDistance / 1000
                 this.minutes = Math.round(e.routes[0].summary.totalTime % 3600 / 60)
             }).addTo(this.map)
         },
 
         requestCallBtn() {
-            this.$router.push({
-                name: "CallingLayout",
-                params: {
-                    site: this.pageId,
-                    start: this.start,
-                    end: this.end,
-                    startName: this.options[this.start - 9].name,
-                    endName: this.options[this.end - 9].name,
-                    count: this.count,
-                    minutes: this.minutes
-                }
-            })
-        }
+            var totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+
+            const IMP = window.IMP
+
+            // 가맹점 식별코드
+            IMP.init("imp19092456")
+
+            // 결제창 호출 코드
+            IMP.request_pay({ // param
+                pg: 'inicis', // PG사명
+                pay_method: this.meth, // 결제수단
+                merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
+                name: '타시오 결제', // 주문명
+                amount: totalPayment, // 결제할 금액 (필수 항목)
+                buyer_email: '', // 주문자 ID (선택 항목)
+                buyer_name: '', // 주문자명 (선택항목)
+                buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+                buyer_addr: '', // 주문자 주소 (선택 항목)
+                buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                m_redirect_url: `http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 9].name}&endName=${this.options[this.end - 9].name}&count=${this.count}&minutes=${this.minutes}`
+            });
+        },
+
+        requestPay(meth) {
+            console.log(meth)
+            if (meth == 'card') {
+                this.isRed1 = true
+                this.isRed2 = false
+                console.log(this.isRed1)
+                this.meth = meth
+            } else {
+                this.isRed1 = false
+                this.isRed2 = true
+                this.meth = meth
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
+.is-disabled1 {
+    color: #BDBDBD !important;
+}
+
+.is-disabled2 {
+    color: #BDBDBD !important;
+}
+
 .select-max {
     font-family: Noto Sans KR;
     font-style: normal;
@@ -520,5 +621,119 @@ export default {
 
 .select-person-btn {
     height: 50px !important;
+}
+
+.v-dialog {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.dialog-background {
+    width: 2801px;
+    height: 404px;
+    background-image: url('~@/assets/call-dialog.png');
+}
+
+.call-dialog-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #4F4F4F !important;
+}
+
+.call-dialog-subtitle {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px !important;
+    color: #BDBDBD !important;
+}
+
+.call-dialog-paymony {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px !important;
+    color: #EB5757 !important;
+}
+
+.price-people {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #262626;
+}
+
+.call-dialog-content {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 19px;
+    color: #4F4F4F !important;
+}
+
+.call-dialog-subcontent {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px !important;
+    line-height: 19px;
+    color: #828282 !important;
+}
+
+.call-cancel-dialog-btn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #262626 !important;
+}
+
+.call-dialog-btn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
+}
+
+.paymentMethod {
+    position: relative;
+
+    width: 116px !important;
+    height: 49px !important;
+    border: 1px solid #BDBDBD !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border-radius: 8px !important;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px !important;
+    color: #262626 !important;
+    letter-spacing: -0.1px;
+}
+
+.red {
+    border: 1px solid #E61773 !important;
+    background: #FFF;
+}
+
+.check-state {
+    position: absolute;
+    right: 140px;
+}
+
+.check-state2 {
+    position: absolute;
+    right: 0;
+}
+
+.v-btn:before {
+    background-color: transparent !important;
 }
 </style>
