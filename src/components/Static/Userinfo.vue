@@ -316,9 +316,9 @@ export default {
         }),
 
         getPhoneNumber() {
-            let start = (this.user.data.phoneNumber).substring(3, 5)
-            let mid = (this.user.data.phoneNumber).substring(5, 9)
-            let end = (this.user.data.phoneNumber).substring(9, 13)
+            let start = String(this.user.data.phoneNumber).substring(3, 5)
+            let mid = String(this.user.data.phoneNumber).substring(5, 9)
+            let end = String(this.user.data.phoneNumber).substring(9, 13)
             return '0' + start + '-' + mid + '-' + end
         }
     },
