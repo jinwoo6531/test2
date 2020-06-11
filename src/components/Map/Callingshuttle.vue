@@ -115,9 +115,6 @@ export default {
             .then(response => {
                 this.isrefund = response.data.isrefund
                 this.latest_mid = response.data.latest_mid
-
-                console.log('sdfsdf', response)
-                console.log('adfdfsfsdfsd', this.latest_mid)
             }).catch(error => {
                 console.log('User read: ', error)
             })
@@ -469,13 +466,13 @@ export default {
                         cancel_request_amount: 500
                     }
                 }).then(response => {
-                    console.log(response)
-                    alert('환불이 완료되었습니다.', this.latest_mid)
+                    console.log('환불 완료: ', response)
+                    console.log('latest_mid: ', this.latest_mid)
                 }).catch(error => {
                     alert('환불을 실패하였습니다.', error)
                 })
 
-                // this.$router.push('/')
+                this.$router.push('/')
             } else {
                 alert('결제하신 내역이 없습니다.')
             }
