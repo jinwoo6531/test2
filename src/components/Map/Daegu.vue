@@ -286,14 +286,6 @@ export default {
         if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
             this.callBtn = true
         }
-
-
-        console.log('site: ', this.$route.query.site)
-        console.log('start: ', this.$route.query.start)
-        console.log('end: ', this.$route.query.end)
-        console.log('startName: ', this.$route.query.startName)
-        console.log('endName: ', this.$route.query.endName)
-        console.log('count: ', this.$route.query.count)
     },
 
     methods: {
