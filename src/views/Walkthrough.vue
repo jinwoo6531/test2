@@ -60,7 +60,7 @@ export default {
     }),
 
     mounted() {
-        window.callJsFunction = this.callJsFunction
+        // window.callJsFunction = this.callJsFunction
     },
 
     computed: {
@@ -71,15 +71,15 @@ export default {
 
     methods: {
         jump() {
-            // this.$router.replace('/auth/accessphone')
-            window.androidinfo.showInfoFromJs("name0")
+            this.$router.replace('/auth/accessphone')
+            // window.androidinfo.showInfoFromJs("name0")
             // this.$toasted.show(gh)
         },
 
-        callJsFunction(str) {
-            this.$toasted.show(str)
-            return "tasio call succeeded"
-        },
+        // callJsFunction(str) {
+        //     this.$toasted.show(str)
+        //     return "tasio call succeeded"
+        // },
     }
 }
 </script>
