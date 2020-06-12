@@ -72,7 +72,8 @@ export default {
     methods: {
         jump() {
             // this.$router.replace('/auth/accessphone')
-            window.androidinfo.showInfoFromJs("name0")
+            var gh = window.androidinfo.showInfoFromJs("name0")
+            this.$toasted.show(gh)
         },
 
         callJsFunction(str) {
