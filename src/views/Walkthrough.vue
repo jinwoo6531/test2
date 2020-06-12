@@ -76,7 +76,7 @@ export default {
         },
 
         callJsFunction(str) {
-            this.$toast('이것을 받아왔습니다: ', str)
+            alert('이것을 받아왔습니다: ', str)
             return "tasio call succeeded"
         },
     }
