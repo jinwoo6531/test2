@@ -46,7 +46,7 @@ export default {
                 hidden: true,
             },
             {
-                title: '<span style="width: 100%; text-align: center;">대구<br>수성알파시티</span>',
+                title: '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
                 src: require('../../assets/daegu-btn.png'),
                 to: '/map/daegu',
                 disabled: false,

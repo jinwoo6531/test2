@@ -52,17 +52,17 @@
 
             <v-list-item link to="/introduction" class="pa-0">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         타시오 소개
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item class="boldMenu pa-0">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626; margin-bottom: 15px;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626; margin-bottom: 15px;">
                         <v-list-item link to="/" class="pa-0">
                             <v-list-item-content class="pa-0">
-                                <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                                <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                                     전체 노선
                                 </v-list-item-title>
                             </v-list-item-content>
@@ -115,7 +115,7 @@
 
             <v-list-item class="boldMenu" link to="/schedule">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         운행 시간표
                     </v-list-item-title>
                 </v-list-item-content>
@@ -123,7 +123,7 @@
 
             <v-list-item class="boldMenu" link to="/faq">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         자주 묻는 질문
                     </v-list-item-title>
                 </v-list-item-content>
@@ -131,7 +131,7 @@
             
             <v-list-item class="boldMenu" link to="/serviceinfo">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         서비스 정보
                     </v-list-item-title>
                 </v-list-item-content>

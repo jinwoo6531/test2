@@ -16,7 +16,7 @@
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
                             </v-btn>
 
-                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: 0px;">
+                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: -3px;">
                                 <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
                                     <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
                                         <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
@@ -473,13 +473,43 @@ export default {
                         })
                     }
                 } else if (this.start > this.end) { // end -> start No!!
-                    alert('지원하지 않습니다.')
+                    console.log('지원하지 않습니다.')
 
+                    this.waypoints.push({
+                        lat: 35.8118970000000000,
+                        lng: 126.4048860000000000
+                    }, {
+                        lat: 35.8141840000000000,
+                        lng: 126.4098450000000000
+                    }, {
+                        lat: 35.8138460000000000,
+                        lng: 126.4132000000000000
+                    }, {
+                        lat: 35.8136980000000000,
+                        lng: 126.4137440000000000
+                    }, {
+                        lat: 35.8114720000000000,
+                        lng: 126.4164430000000000
+                    })
                 } else if (this.start == this.end) { // SAME Station Id
-                    alert('같은 정류장 선택 불가')
-
+                    console.log('같은 정류장 선택 불가')
+                    this.waypoints.push({
+                        lat: 35.8118970000000000,
+                        lng: 126.4048860000000000
+                    }, {
+                        lat: 35.8141840000000000,
+                        lng: 126.4098450000000000
+                    }, {
+                        lat: 35.8138460000000000,
+                        lng: 126.4132000000000000
+                    }, {
+                        lat: 35.8136980000000000,
+                        lng: 126.4137440000000000
+                    }, {
+                        lat: 35.8114720000000000,
+                        lng: 126.4164430000000000
+                    })
                 }
-
                 let startIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40]

@@ -450,11 +450,11 @@ export default {
             this.callcanceldialog = true
         },
 
-        async callCancleBtn() {
+        callCancleBtn() {
             // Firestore에서 회원정보를 조회하고 isRefund가 0이면 환불을 진행할 수 있게 1이면 이미 환불이 된 상태라 불가능하게하기
             // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
             if (this.isrefund == '0') {
-                await axios({
+                axios({
                     url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
                     method: "post",
                     headers: {

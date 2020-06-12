@@ -16,7 +16,7 @@
                                 <span v-else @click="selectPerson">탑승인원 선택</span>
                             </v-btn>
 
-                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: 0px;">
+                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: -3px;">
                                 <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
                                     <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
                                         <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
