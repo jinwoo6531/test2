@@ -72,12 +72,12 @@ export default {
     methods: {
         jump() {
             // this.$router.replace('/auth/accessphone')
-            var gh = window.androidinfo.showInfoFromJs("name0")
-            this.$toasted.show(gh)
+            window.androidinfo.showInfoFromJs("name0")
+            // this.$toasted.show(gh)
         },
 
         callJsFunction(str) {
-            alert('이것을 받아왔습니다: ', str)
+            this.$toasted.show(str)
             return "tasio call succeeded"
         },
     }
