@@ -67,7 +67,8 @@ export default {
 
     methods: {
         jump() {
-            this.$router.replace('/auth/accessphone')
+            // this.$router.replace('/auth/accessphone')
+            window.AndroidWebView.showInfoFromJs('name')
         }
     }
 }
