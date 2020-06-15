@@ -101,7 +101,7 @@ export default {
             this.form.gender = ''
             this.form.birth = ''
 
-            this.$router.push('/welcome')
+            this.$router.replace('/welcome')
             this.get()
         },
 

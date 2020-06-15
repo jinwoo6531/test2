@@ -29,7 +29,7 @@ export default {
 
     methods: {
         goToAccessphone() {
-            this.$router.push('/accessagree')
+            this.$router.replace('/accessagree')
         }
     }
 

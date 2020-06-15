@@ -450,7 +450,7 @@ export default {
             this.$firebase.auth().signOut()
                 .then(() => {
                     alert('로그아웃 되었습니다.')
-                    this.$router.push('/auth/accessphone')
+                    this.$router.replace('/auth/accessphone')
                 });
         },
 
@@ -459,7 +459,7 @@ export default {
                 axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         alert('회원 탈퇴 완료!')
-                        this.$router.push('/goodbye')
+                        this.$router.replace('/goodbye')
                     })
             } else {
                 alert('휴대폰 번호를 확인해주세요!')

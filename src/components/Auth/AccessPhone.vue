@@ -7,7 +7,7 @@
                 <v-card-text class="pa-0 auth-phone-content">SMS로 인증번호를 보냅니다.</v-card-text>
                 <v-card-actions class="pa-0 pt-9">
                     <!-- +82 -->
-                    <input class="PhoneField d-flex pa-2 pl-4" type="text" v-model="phNo" placeholder="'-' 없이 번호만 입력해주세요." />
+                    <input class="PhoneField d-flex pa-2 pl-4" type="number" v-model="phNo" placeholder="'-' 없이 번호만 입력해주세요." />
                 </v-card-actions>
             </v-card>
         </v-flex>
