@@ -10,10 +10,10 @@
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
-                            <v-btn class="person-modal" color="#fff" v-on="on" :ripple="false">
-                                <v-icon left>mdi-account-outline</v-icon>
+                            <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
+                                <img src="../../assets/person-count.svg">
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
-                                <span v-else @click="selectPerson">탑승인원 선택</span>
+                                <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                             </v-btn>
 
                             <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: -3px;">
@@ -894,5 +894,15 @@ export default {
 
 .v-btn:before {
     background-color: transparent !important;
+}
+
+.person-modal {
+    font-family: Noto Sans KR !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 13px !important;
+    line-height: 19px;
+    padding-left: 12px !important;
+    padding-right: 14px !important;
 }
 </style>
