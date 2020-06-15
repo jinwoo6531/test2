@@ -10,7 +10,10 @@ import axios from 'axios'
 import VeeValidate from 'vee-validate'
 import VueScrollPicker from "vue-scroll-picker"
 import "vue-scroll-picker/dist/style.css"
-import OtpInput from "@bachdgvn/vue-otp-input";
+import OtpInput from "@bachdgvn/vue-otp-input"
+import Toasted from 'vue-toasted'
+ 
+Vue.use(Toasted)
  
 Vue.component("v-otp-input", OtpInput);
 

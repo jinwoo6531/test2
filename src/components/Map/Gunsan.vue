@@ -10,19 +10,11 @@
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
-                            <v-btn class="person-modal" color="#fff" v-on="on" :ripple="false">
-                                <v-icon left>mdi-account-outline</v-icon>
+                            <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
+                                <img src="../../assets/person-count.svg">
                                 <span v-if="count >= 1">탑승인원 {{ count }}명</span>
-                                <span v-else @click="selectPerson">탑승인원 선택</span>
+                                <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                             </v-btn>
-
-                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: 0px;">
-                                <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
-                                    <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
-                                        <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
-                                    </v-btn>
-                                </v-card>
-                            </v-card>
                         </template>
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
@@ -57,13 +49,18 @@
                         </v-card>
                     </v-dialog>
 
-                    <v-flex v-if="callBtn" class="mb-3" style="background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 sm8 md8>
-                        <p class="ma-0" style="color: #FFF; height: 30px;">
+                    <v-flex class="pa-0 mb-3" style="position: relative; height: 40px;">
+                        <v-card v-if="callBtn" style="position: absolute; left: 0; width: 173px; height: 40px; background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px;" xs8 md8>
                             <span style="display: inline-block; height: 100%;">
-                                <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
+                                <img style="vertical-align: middle; margin-left: 12px; margin-right: 8px; line-height: 11px;" src="../../assets/time-icon.svg">
                                 <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
                             </span>
-                        </p>
+                        </v-card>
+                        <v-card color="transparent" flat xs4 md4 @click="res ? getLocation() : stopLocation()" style="position: absolute; right: 0;">
+                            <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
+                                <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
+                            </v-btn>
+                        </v-card>
                     </v-flex>
 
                     <v-overlay :z-index="zIndex" :value="overlay1">
@@ -473,13 +470,44 @@ export default {
                         })
                     }
                 } else if (this.start > this.end) { // end -> start No!!
-                    alert('지원하지 않습니다.')
+                    console.log('지원하지 않습니다.')
+                    alert('현재 waypoints: ' + this.waypoints)
 
+                    // this.waypoints.push({
+                    //     lat: 35.8118970000000000,
+                    //     lng: 126.4048860000000000
+                    // }, {
+                    //     lat: 35.8141840000000000,
+                    //     lng: 126.4098450000000000
+                    // }, {
+                    //     lat: 35.8138460000000000,
+                    //     lng: 126.4132000000000000
+                    // }, {
+                    //     lat: 35.8136980000000000,
+                    //     lng: 126.4137440000000000
+                    // }, {
+                    //     lat: 35.8114720000000000,
+                    //     lng: 126.4164430000000000
+                    // })
                 } else if (this.start == this.end) { // SAME Station Id
-                    alert('같은 정류장 선택 불가')
-
+                    console.log('같은 정류장 선택 불가')
+                    this.waypoints.push({
+                        lat: 35.8118970000000000,
+                        lng: 126.4048860000000000
+                    }, {
+                        lat: 35.8141840000000000,
+                        lng: 126.4098450000000000
+                    }, {
+                        lat: 35.8138460000000000,
+                        lng: 126.4132000000000000
+                    }, {
+                        lat: 35.8136980000000000,
+                        lng: 126.4137440000000000
+                    }, {
+                        lat: 35.8114720000000000,
+                        lng: 126.4164430000000000
+                    })
                 }
-
                 let startIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40]
@@ -776,5 +804,15 @@ export default {
 
 .v-btn:before {
     background-color: transparent !important;
+}
+
+.person-modal {
+    font-family: Noto Sans KR !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 13px !important;
+    line-height: 19px;
+    padding-left: 12px !important;
+    padding-right: 14px !important;
 }
 </style>
