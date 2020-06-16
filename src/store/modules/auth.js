@@ -73,9 +73,9 @@ const actions = {
           .then(response => {
             alert('인증이 완료되었습니다.')
             if (response.data.level == 1) {
-              router.push('/')
+              router.replace('/')
             } else {
-              router.push('/auth/agreecheck')
+              router.replace('/auth/agreecheck')
             }
           }).catch(error => {
             console.log('User read: ', error)

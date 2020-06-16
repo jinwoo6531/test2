@@ -170,7 +170,7 @@
                         <v-card-actions class="pa-0" style="height: 50px">
                             <v-row no-gutters style="height: 100%;">
                                 <v-col style="height: 100%;">
-                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소하기</v-btn>
+                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소</v-btn>
                                 </v-col>
                                 <v-col style="height: 100%;">
                                     <v-btn color="#E61773" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
@@ -450,7 +450,7 @@ export default {
             this.$firebase.auth().signOut()
                 .then(() => {
                     alert('로그아웃 되었습니다.')
-                    this.$router.push('/auth/accessphone')
+                    this.$router.replace('/auth/accessphone')
                 });
         },
 
@@ -459,7 +459,7 @@ export default {
                 axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         alert('회원 탈퇴 완료!')
-                        this.$router.push('/goodbye')
+                        this.$router.replace('/goodbye')
                     })
             } else {
                 alert('휴대폰 번호를 확인해주세요!')
@@ -503,7 +503,7 @@ export default {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px !important;
+    font-size: 16px !important;
     color: #262626 !important;
 
 }

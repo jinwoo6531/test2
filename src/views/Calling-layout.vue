@@ -128,7 +128,7 @@ export default {
     methods: {
         callCancelModal() {
             alert('호출을 정말로 취소하세요?')
-            this.$router.push('/')
+            this.$router.replace('/')
         },
 
         sendMessage(message) {

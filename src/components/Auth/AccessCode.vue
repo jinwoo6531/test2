@@ -74,7 +74,7 @@ export default {
 
     methods: {
         goToBack() {
-            this.$router.push('/auth/accessphone')
+            this.$router.replace('/auth/accessphone')
         },
 
         handleOnComplete(value) {
