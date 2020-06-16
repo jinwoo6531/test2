@@ -1,6 +1,6 @@
 <template>
 <v-app class="static">
-    <v-navigation-drawer temporary class="pa-5" style="z-index: 999" v-model="drawer" app>
+    <v-navigation-drawer temporary class="pa-5" style="z-index: 10" v-model="drawer" app>
         <v-list dense>
             <v-list-item class="pl-0">
                 <v-list-item-content>
