@@ -14,7 +14,8 @@ const state = {
   },
 
   timer: 180,
-  uid: ''
+  uid: '',
+  isLoading: false
 }
 
 const getters = {
@@ -26,6 +27,9 @@ const getters = {
   },
   timer(state) {
     return state.timer
+  },
+  isLoading(state) {
+    return state.isLoading
   }
 }
 
@@ -41,6 +45,13 @@ const mutations = {
   },
   SET_TIMER(state, payload) {
     state.timer = payload
+  },
+  loading(state, isLoading) {
+    if (isLoading) {
+      return state.isLoading = true
+    } else {
+      return state.isLoading = false
+    }
   }
 }
 const actions = {
@@ -48,6 +59,7 @@ const actions = {
     state,
     commit
   }, payload) {
+    commit('loading', true)
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -55,17 +67,20 @@ const actions = {
         // SMS 전송
         window.confirmationResult = confirmationResult
         alert("메세지를 전송하였습니다!")
+        commit('loading', false)
         commit('SET_TIMER', new Date())
       })
       .catch(error => {
         // SMS 전송 실패
         console.error(error.message)
+        commit('loading', false)
       })
   },
 
-  verifyOtp(_, {
+  verifyOtp({ commit }, {
     otp
   }) {
+    commit('loading', true)
     window.confirmationResult
       .confirm(otp)
       .then(result => {
@@ -84,6 +99,7 @@ const actions = {
       .catch(error => {
         alert("인증코드가 잘못되었습니다.")
         console.log(error)
+        commit('loading', false)
       })
   },
 
