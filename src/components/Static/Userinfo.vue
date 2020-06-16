@@ -503,7 +503,7 @@ export default {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px !important;
+    font-size: 16px !important;
     color: #262626 !important;
 
 }
