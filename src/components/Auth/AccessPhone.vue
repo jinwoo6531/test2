@@ -1,6 +1,18 @@
 <template>
 <v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
-    <v-layout wrap class="ma-0">
+    <v-layout wrap class="ma-0" style="position: relative;">
+        <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; z-index: 20;">
+            <v-row align="center" justify="center">
+                <v-card color="transparent" flat>
+                    <v-card-text class="text-center">
+                        <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                    </v-card-text>
+                    <v-card-text class="text-center" style="color: #FFF;">
+                        인증 상태를 기다리는 중입니다.
+                    </v-card-text>
+                </v-card>
+            </v-row>
+        </v-container>
         <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
             <v-card class="auth-phone-wrap pa-0" color="transparent" flat tile>
                 <v-card-title class="pa-0 pb-2 auth-phone-title">휴대폰 번호를 입력해주세요.</v-card-title>
@@ -12,7 +24,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex flex-column justify-center align-center text-left">
-            
+
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
             <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
@@ -31,6 +43,7 @@ export default {
     name: "AccessPhone",
 
     data: () => ({
+        loading: false,
         phoneNumber: "",
         phNo: "",
         appVerifier: "",
@@ -40,8 +53,11 @@ export default {
 
     methods: {
         sendOtp() {
+            this.loading = true
+            
             if (this.phNo.length != 11) {
-                alert("전화번호 형식을 지켜주세요!");
+                alert("전화번호 형식을 지켜주세요!")
+                this.loading = false
             } else {
                 let countryCode = "+82"; // Korea
                 this.phoneNumber = countryCode + this.phNo
