@@ -14,7 +14,8 @@ const state = {
   },
 
   timer: 180,
-  uid: ''
+  uid: '',
+  isLoading: false
 }
 
 const getters = {
@@ -26,6 +27,9 @@ const getters = {
   },
   timer(state) {
     return state.timer
+  },
+  isLoading(state) {
+    return state.isLoading
   }
 }
 
@@ -41,6 +45,13 @@ const mutations = {
   },
   SET_TIMER(state, payload) {
     state.timer = payload
+  },
+  loading(state, isLoading) {
+    if (isLoading) {
+      return state.isLoading = true
+    } else {
+      return state.isLoading = false
+    }
   }
 }
 const actions = {
@@ -63,9 +74,10 @@ const actions = {
       })
   },
 
-  verifyOtp(_, {
+  verifyOtp({ commit }, {
     otp
   }) {
+    commit('loading', true)
     window.confirmationResult
       .confirm(otp)
       .then(result => {
@@ -84,6 +96,7 @@ const actions = {
       .catch(error => {
         alert("인증코드가 잘못되었습니다.")
         console.log(error)
+        commit('loading', false)
       })
   },
 

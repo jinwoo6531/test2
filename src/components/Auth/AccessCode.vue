@@ -1,46 +1,64 @@
 <template>
-<v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
-    <v-layout row wrap>
-        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-start align-center text-left">
-            <div class="back-to-auth-code pb-6 pt-10" @click="goToBack">
-                <img src="../../assets/back-icon.svg">
-            </div>
-            <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
-                <v-card-title class="pa-0 pb-2 auth-code-title">인증번호를 입력해주세요.</v-card-title>
-                <v-card-text class="pa-0 auth-code-content">인증번호가 수신되지 않는 경우 스팸메시지 차단 기능을 확인하시기 바랍니다.</v-card-text>
+<v-app style="position: relative;">
+    <v-container fluid v-if="isLoading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    인증 상태를 기다리는 중입니다.
+                </v-card-text>
             </v-card>
-        </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex flex-column justify-start align-center text-left">
-            <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
-                <v-card class="pa-0 d-flex flex-column justify-center align-center" width="100%" color="transparent" flat tile>
-                    <v-card class="pa-0" color="transparent" flat tile>
-                        <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :should-auto-focus="true" :is-input-num="true" @on-change="handleOnChange" @on-complete="handleOnComplete" />
-                    </v-card>
-                </v-card>
-                <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
-                    <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
-                    <p class="RemainTime">{{ remainTime }}</p>
-                </v-flex>
-                <v-flex class="pa-0 d-flex justify-space-between" xs12 sm12 md12>
-                    <p class="DoneTime">{{ this.doneTime }}</p>
-                    <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
-                </v-flex>
-            </v-card>
-        </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
-            <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
-                <v-card class="text-left pa-0" color="transparent" flat tile>
-                    <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-if="ready">다음</v-btn>
-                    <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
+        </v-row>
+    </v-container>
+
+    <v-container class="pt-0 pb-6 pl-5 pr-5 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
+        <v-layout row wrap>
+            <v-flex xs12 sm12 md12 class="d-flex flex-column justify-start align-center text-left">
+                <div class="back-to-auth-code pb-6 pt-10" @click="goToBack">
+                    <img src="../../assets/back-icon.svg">
+                </div>
+                <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
+                    <v-card-title class="pa-0 pb-2 auth-code-title">인증번호를 입력해주세요.</v-card-title>
+                    <v-card-text class="pa-0 auth-code-content">인증번호가 수신되지 않는 경우 스팸메시지 차단 기능을 확인하시기 바랍니다.</v-card-text>
                 </v-card>
             </v-flex>
-        </v-flex>
-        <div style="display: none;" id="recaptcha-container"></div>
-    </v-layout>
-</v-container>
+            <v-flex xs12 sm12 md12 class="d-flex flex-column justify-start align-center text-left">
+                <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
+                    <v-card class="pa-0 d-flex flex-column justify-center align-center" width="100%" color="transparent" flat tile>
+                        <v-card class="pa-0" color="transparent" flat tile>
+                            <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :should-auto-focus="true" :is-input-num="true" @on-change="handleOnChange" @on-complete="handleOnComplete" />
+                        </v-card>
+                    </v-card>
+                    <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
+                        <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
+                        <p class="RemainTime">{{ remainTime }}</p>
+                    </v-flex>
+                    <v-flex class="pa-0 d-flex justify-space-between" xs12 sm12 md12>
+                        <p class="DoneTime">{{ this.doneTime }}</p>
+                        <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
+                    </v-flex>
+                </v-card>
+            </v-flex>
+            <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
+                <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
+                    <v-card class="text-left pa-0" color="transparent" flat tile>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-if="ready">다음</v-btn>
+                        <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
+                    </v-card>
+                </v-flex>
+            </v-flex>
+            <div style="display: none;" id="recaptcha-container"></div>
+        </v-layout>
+    </v-container>
+</v-app>
 </template>
 
 <script>
+import {
+    mapGetters
+} from 'vuex'
 export default {
     data: () => ({
         otp: null,
@@ -52,6 +70,10 @@ export default {
         ready: 0,
         doneTime: ""
     }),
+
+    computed: {
+        ...mapGetters(['isLoading'])
+    },
 
     mounted() {
         console.log(this.$route.params.phoneNumber);
@@ -113,13 +135,10 @@ export default {
         },
 
         verifyOtp() {
-            if (this.ready) {
-                this.$store.dispatch("verifyOtp", {
-                    otp: this.ready
-                });
-            } else {
-                alert("잘못된 인증코드 형식 입니다.");
-            }
+            console.log(this.isLoading)
+            this.$store.dispatch("verifyOtp", {
+                otp: this.ready
+            });
         },
 
         async sendOtp() {
