@@ -28,7 +28,8 @@
                 <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
                     <v-card class="pa-0 d-flex flex-column justify-center align-center" width="100%" color="transparent" flat tile>
                         <v-card class="pa-0" color="transparent" flat tile>
-                            <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :should-auto-focus="true" :is-input-num="true" @on-change="handleOnChange" @on-complete="handleOnComplete" />
+                            <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :is-input-num="false" v-if="isLoading == true" />
+                            <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :should-auto-focus="true" :is-input-num="true" @on-change="handleOnChange" @on-complete="handleOnComplete" v-else />
                         </v-card>
                     </v-card>
                     <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
@@ -37,15 +38,16 @@
                     </v-flex>
                     <v-flex class="pa-0 d-flex justify-space-between" xs12 sm12 md12>
                         <p class="DoneTime">{{ this.doneTime }}</p>
-                        <p class="AgainBtn" text @click="sendOtp">인증번호 다시 받기</p>
+                        <p class="AgainBtn" text @click="sendOtp" v-if="isLoading == false">인증번호 다시 받기</p>
+                        <p class="AgainBtn" text v-else>인증번호 다시 받기</p>
                     </v-flex>
                 </v-card>
             </v-flex>
             <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
-                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-if="ready">다음</v-btn>
-                        <v-btn depressed tile color="#E0E0E0" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true">다음</v-btn>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                     </v-card>
                 </v-flex>
             </v-flex>
