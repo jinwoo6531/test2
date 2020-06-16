@@ -57,54 +57,54 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item class="boldMenu pa-0">
+            <v-list-item class="boldMenu pa-0 mt-4">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626; margin-bottom: 15px;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         <v-list-item link to="/" class="pa-0">
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                    전체 노선
+                                    전체 지역보기
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list-item-title>
 
-                    <v-list-item link to="/map/gunsan">
-                        <v-list-item-content>
+                    <v-list-item link to="/map/gunsan" class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산 관광벨트
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/map/daegu">
+                    <v-list-item link to="/map/daegu" class="ma-0">
                         <v-list-item-content>
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 대구 수성알파시티
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
+                    <v-list-item class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
                                     세종 호수공원
                                 </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
+                    <v-list-item class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
                                     세종 산학연클러스터 4-2
                                 </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
+                    <v-list-item class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
                                     상암DMC홍보관
                                 </v-badge>
                             </v-list-item-title>
@@ -113,7 +113,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu" link to="/schedule">
+            <v-list-item class="boldMenu pa-0 mt-4" link to="/schedule">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         운행 시간표
@@ -121,7 +121,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu" link to="/faq">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         자주 묻는 질문
@@ -129,7 +129,7 @@
                 </v-list-item-content>
             </v-list-item>
             
-            <v-list-item class="boldMenu" link to="/serviceinfo">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         서비스 정보

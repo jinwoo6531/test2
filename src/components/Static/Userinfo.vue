@@ -170,7 +170,7 @@
                         <v-card-actions class="pa-0" style="height: 50px">
                             <v-row no-gutters style="height: 100%;">
                                 <v-col style="height: 100%;">
-                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소하기</v-btn>
+                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소</v-btn>
                                 </v-col>
                                 <v-col style="height: 100%;">
                                     <v-btn color="#E61773" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
