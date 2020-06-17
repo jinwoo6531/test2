@@ -56,6 +56,16 @@ export default {
         coderesult: 0
     }),
 
+    created() {
+        this.$store.dispatch('initReCaptcha');
+
+        history.pushState(null, null, location.href);
+        window.onpopstate = function (event) {
+            console.log('event: ', event)
+            history.go(event.currentTarget.length);
+        };
+    },
+
     methods: {
         sendOtp() {
             this.loading = true
@@ -83,10 +93,6 @@ export default {
                     }
                 })
         }
-    },
-
-    created() {
-        this.$store.dispatch('initReCaptcha');
     }
 };
 </script>

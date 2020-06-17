@@ -82,7 +82,15 @@ export default {
                 hidden: false,
             }
         ],
-    })
+    }),
+
+    created() {
+        history.pushState(null, null, location.href);
+        window.onpopstate = function (event) {
+            console.log('event: ', event)
+            history.go(event.currentTarget.length);
+        };
+    },
 }
 </script>
 

@@ -28,7 +28,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
       })
   } else {
     router.replace({
-      name: 'Walkthrough'
+      name: 'AccessPhone'
     }).catch((err) => {
       if (err.name == 'NavigationDuplicated')
         return
