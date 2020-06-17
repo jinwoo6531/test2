@@ -38,7 +38,7 @@ export default {
 
     methods: {
         goToWelcome() {
-            this.$router.push('/auth/register')
+            this.$router.replace('/auth/register')
         }
     }
 }

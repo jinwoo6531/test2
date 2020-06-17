@@ -450,7 +450,6 @@ export default {
             this.$firebase.auth().signOut()
                 .then(() => {
                     alert('로그아웃 되었습니다.')
-                    this.$router.replace('/auth/accessphone')
                 });
         },
 

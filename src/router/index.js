@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Splash from '@/views/Splash'
 import AccessAgree from '@/views/Access-agree'
 import Walkthrough from '@/views/Walkthrough'
 import Welcome from '@/views/Welcome'
@@ -15,8 +14,16 @@ import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
+import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
+
+/* const requireAuth = () => (to, from, next) => {
+  if (store.state.uid !== " ") {
+    return next()
+  } 
+  next('/walkthrough')
+} */
 
 const routes = [{
     path: '/webview',
@@ -29,11 +36,6 @@ const routes = [{
     component: Import
   },
   {
-    path: '/splash',
-    name: 'Splash',
-    component: Splash
-  },
-  {
     path: '/accessagree',
     name: 'AccessAgree',
     component: AccessAgree
@@ -42,6 +44,7 @@ const routes = [{
     path: '/welcome',
     name: 'Welcome',
     component: Welcome,
+    // beforeEnter: requireAuth()
   },
   {
     path: '/walkthrough',
@@ -51,12 +54,12 @@ const routes = [{
   {
     path: '/calling',
     name: 'CallingLayout',
-    component: CallingLayout
+    component: CallingLayout,
   },
   {
     path: '/fail',
     name: 'CallFail',
-    component: CallFail
+    component: CallFail,
   },
   {
     path: '/goodbye',
@@ -66,17 +69,17 @@ const routes = [{
   {
     path: '/thanks',
     name: 'Thanks',
-    component: Thanks
+    component: Thanks,
   },
   {
     path: '/autocancel',
     name: 'AutoCancel',
-    component: AutoCancel
+    component: AutoCancel,
   },
   {
     path: '*',
     name: 'NotFoundComponent',
-    component: NotFoundComponent 
+    component: NotFoundComponent
   },
   {
     path: '/auth',
@@ -94,18 +97,19 @@ const routes = [{
       {
         path: 'agreecheck',
         name: 'AgreeCheck',
-        component: () => import('@/components/Auth/AgreeCheck.vue')
+        component: () => import('@/components/Auth/AgreeCheck.vue'),
       },
       {
         path: 'register',
         name: 'Register',
-        component: () => import('@/components/Auth/Register.vue')
+        component: () => import('@/components/Auth/Register.vue'),
       }
     ]
   },
   {
     path: '/map',
     component: MapLayout,
+    meta: { requireAuth: true },
     children: [{
         path: 'gunsan',
         name: 'Gunsan',
@@ -136,6 +140,7 @@ const routes = [{
   {
     path: '/',
     component: StaticLayout,
+    meta: { requireAuth: true },
     children: [{
         path: '',
         name: 'Main',
@@ -176,5 +181,24 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  // 상위 라우트를 포함해 인증이 필요한 라우트인지를 확인
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    // 인증상태 확인하기
+    if (store.state.uid == " ") {
+      // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
+      next({
+        path: '/walkthrough',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 인증이 필요하지 않은 라우트라면 next()로 이동
+  }
+})
 
 export default router

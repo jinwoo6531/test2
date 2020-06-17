@@ -472,7 +472,7 @@ export default {
                     alert('환불을 실패하였습니다.', error)
                 })
 
-                this.$router.push('/')
+                this.$router.replace('/')
             } else {
                 alert('결제하신 내역이 없습니다.')
             }

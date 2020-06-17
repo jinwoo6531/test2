@@ -87,7 +87,7 @@ export default {
         this.ready = true
 
         setTimeout(() => {
-                this.$router.push({
+                this.$router.replace({
                     name: "CallingShuttle",
                     params: {
                         site: this.site,
@@ -106,7 +106,7 @@ export default {
         //     }, 60000)
 
         // setTimeout(() => {
-        //     this.$router.push('/fail')
+        //     this.$router.replace('/fail')
         // }, 180000)
     },
 
