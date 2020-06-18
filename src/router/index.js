@@ -15,7 +15,7 @@ import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
-// import store from '../store/modules/auth'
+import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
 
@@ -188,6 +188,13 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log("next page", store.state.loading);
+  store.state.loading = true;
+  setTimeout(() => {
+    store.state.loading = false;
+  }, 3000);
+  next();
+
   // 상위 라우트를 포함해 인증이 필요한 라우트인지를 확인
   const currentUser = firebase.auth().currentUser;
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);

@@ -1,14 +1,17 @@
 <template>
 <v-app id="tasio" style="width: 100%; height: 100%; background: #FAFAFA;">
     <v-content>
-        <router-view></router-view>
+        <router-view v-if="!$store.state.loading"></router-view>
+        <v-progress-circular :size="70" :width="7" v-else color="purple" indeterminate></v-progress-circular>
     </v-content>
 </v-app>
 </template>
 
 <script>
 export default {
-    name: 'App'
+    name: 'App',
+    
+    
 };
 </script>
 
