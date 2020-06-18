@@ -12,7 +12,7 @@
                         <template v-slot:activator="{ on }">
                             <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
                                 <img src="../../assets/person-count.svg">
-                                <span v-if="count >= 1">탑승인원 {{ count }}명</span>
+                                <span v-if="count >= 1" style="padding-left: 12px;">탑승인원 {{ count }}명</span>
                                 <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                             </v-btn>
 
