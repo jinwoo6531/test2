@@ -454,7 +454,9 @@ export default {
         },
 
         deleteUser() {
-            if (this.inputPhoneNumber == this.phone) {
+            console.log(this.inputPhoneNumber)
+            console.log(this.getPhoneNumber)
+            if (this.inputPhoneNumber == this.getPhoneNumber) {
                 axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         alert('회원 탈퇴 완료!')
