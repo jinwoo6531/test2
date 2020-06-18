@@ -15,8 +15,7 @@ const state = {
 
   timer: 180,
   uid: '',
-  isLoading: false,
-  loading: false
+  isLoading: false
 }
 
 const getters = {

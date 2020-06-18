@@ -188,12 +188,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log("next page", store.state.loading);
-  store.state.loading = true;
+  store.state.isLoading = true;
   setTimeout(() => {
-    store.state.loading = false;
+    store.state.isLoading = false;
   }, 3000);
   next();
+  console.log("next page", store.state.isLoading);
 
   // 상위 라우트를 포함해 인증이 필요한 라우트인지를 확인
   const currentUser = firebase.auth().currentUser;

@@ -1,17 +1,37 @@
 <template>
 <v-app id="tasio" style="width: 100%; height: 100%; background: #FAFAFA;">
     <v-content>
-        <router-view v-if="!$store.state.loading"></router-view>
-        <v-progress-circular :size="70" :width="7" v-else color="purple" indeterminate></v-progress-circular>
+        <router-view v-if="isLoading == false"></router-view>
+        <v-container fluid v-else style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    Loading..
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
     </v-content>
 </v-app>
 </template>
 
 <script>
+import {
+    mapGetters
+} from 'vuex'
 export default {
     name: 'App',
+
+    computed: {
+        ...mapGetters(['isLoading'])
+    },
     
-    
+    mounted() {
+        console.log('asdasd', this.isLoading)
+    }
 };
 </script>
 
