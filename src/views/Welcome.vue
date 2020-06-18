@@ -3,7 +3,7 @@
     <v-row no-gutters>
         <v-col xs="12" sm="12" md="12">
             <v-card color="transparent" flat>
-                <v-card-title class="mb-3">{{ displayName }} 님 환영합니다!</v-card-title>
+                <v-card-title class="mb-3">{{ user.data.displayName }} 님 환영합니다!</v-card-title>
                 <v-card-subtitle>이제 모든 준비가 끝났어요. </v-card-subtitle>
             </v-card>
         </v-col>
@@ -36,14 +36,17 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
     data: () => ({
-        drawer: null,
-        displayName: ''
+        drawer: null
     }),
 
-    mounted() {
-         this.displayName = this.$route.params.displayName
+    computed: {
+        ...mapGetters({
+            user: "user"
+        })
     },
 
     methods: {

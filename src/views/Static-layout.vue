@@ -1,6 +1,6 @@
 <template>
 <v-app class="static">
-    <v-navigation-drawer temporary class="pa-5" style="z-index: 999" v-model="drawer" app>
+    <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
         <v-list dense>
             <v-list-item class="pl-0">
                 <v-list-item-content>
@@ -15,17 +15,17 @@
 
             <template v-if="user.loggedIn">
                 <v-list-item class="pa-0">
-                    <v-list-item-content v-if="ready">
+                    <v-list-item-content>
                         <v-row class="ma-0" style="height: 30px;">
                             <v-col class="pa-0" cols="10">
                                 <v-row class="ma-0">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                        {{ displayName }}님
+                                        {{ user.data.displayName }}님
                                     </v-col>
                                 </v-row>
                                 <v-row class="ma-0">
                                     <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
-                                        {{ phoneNumber }}
+                                        {{ getPhoneNumber }}
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -52,59 +52,59 @@
 
             <v-list-item link to="/introduction" class="pa-0">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         타시오 소개
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item class="boldMenu pa-0">
+            <v-list-item class="boldMenu pa-0 mt-4">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626; margin-bottom: 15px;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         <v-list-item link to="/" class="pa-0">
                             <v-list-item-content class="pa-0">
-                                <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
-                                    전체 노선
+                                <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
+                                    전체 지역보기
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list-item-title>
 
-                    <v-list-item link to="/map/gunsan">
-                        <v-list-item-content>
+                    <v-list-item link to="/map/gunsan" class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산 관광벨트
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/map/daegu">
-                        <v-list-item-content>
+                    <v-list-item link to="/map/daegu" class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 대구 수성알파시티
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
+                    <v-list-item class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
                                     세종 호수공원
                                 </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
+                    <v-list-item class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
                                     세종 산학연클러스터 4-2
                                 </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
+                    <v-list-item class="ma-0">
+                        <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
                                     상암DMC홍보관
                                 </v-badge>
                             </v-list-item-title>
@@ -113,33 +113,33 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu pa-0" link to="/schedule">
+            <v-list-item class="boldMenu pa-0 mt-4" link to="/schedule">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         운행 시간표
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu pa-0" link to="/faq">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         자주 묻는 질문
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu pa-0" link to="/serviceinfo">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         서비스 정보
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item class="boldMenu pa-0" link to="/import">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/import">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: bold; font-size: 16px; color: #262626;">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         아임포트
                     </v-list-item-title>
                 </v-list-item-content>
@@ -191,28 +191,12 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from "vuex"
-import axios from 'axios'
+import { mapGetters } from "vuex"
 
 export default {
     data: () => ({
-        drawer: null,
-        ready: false
+        drawer: null
     }),
-
-    created() {
-        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.displayName = response.data.displayName
-                let start = this.user.data.phoneNumber.substring(3, 5)
-                let mid = this.user.data.phoneNumber.substring(5, 9)
-                let end = this.user.data.phoneNumber.substring(9, 13)
-                this.phoneNumber = '0' + start + '-' + mid + '-' + end
-                this.ready = true
-            })
-    },
 
     computed: {
         ...mapGetters({
@@ -221,6 +205,13 @@ export default {
 
         getHeight() {
             return this.$vuetify.breakpoint.xs ? 57 : '70'
+        },
+
+        getPhoneNumber() {
+            let start = String(this.user.data.phoneNumber).substring(3, 5)
+            let mid = String(this.user.data.phoneNumber).substring(5, 9)
+            let end = String(this.user.data.phoneNumber).substring(9, 13)
+            return '0' + start + '-' + mid + '-' + end
         }
     }
 

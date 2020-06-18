@@ -59,6 +59,10 @@ export default {
         cycle: false,
     }),
 
+    mounted() {
+        // window.callJsFunction = this.callJsFunction
+    },
+
     computed: {
         isLargerThanTen: function () {
             return this.model > 2 ? this.$router.replace('/auth/accessphone') : `${this.model}번째 페이지 입니다.`
@@ -68,7 +72,14 @@ export default {
     methods: {
         jump() {
             this.$router.replace('/auth/accessphone')
-        }
+            // window.androidinfo.showInfoFromJs("name0")
+            // this.$toasted.show(gh)
+        },
+
+        // callJsFunction(str) {
+        //     this.$toasted.show(str)
+        //     return "tasio call succeeded"
+        // },
     }
 }
 </script>

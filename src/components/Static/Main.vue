@@ -9,10 +9,10 @@
                 <v-container fluid>
                     <v-row dense no-gutters align="center" justify="center">
                         <v-col v-for="card in cards" :key="card.title" cols="6" class="mb-5" align="center" justify="center">
-                            <v-badge color="#E61773" content="준비중" left  offset-x="-30px" offset-y="20px" style="z-index: 10; padding: 1px 5px 3px 5px;" :hidden="card.hidden"></v-badge>
+                            <v-badge color="#E61773" content="준비중" left offset-x="-30px" offset-y="20px" style="z-index: 10; padding: 1px 5px 3px 5px;" :hidden="card.hidden"></v-badge>
                             <v-card link :to="card.to" flat width="128px" height="128px" :disabled="card.disabled" :color="card.color" style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;">
                                 <v-img :src="card.src" :gradient="card.gradient" class="align-center">
-                                    <v-card-text v-html="card.title" class="site-btn pa-0" style="padding: 3px;"></v-card-text>
+                                    <v-card-text v-html="card.title" class="site-btn pa-0 mb-9" style="padding: 3px;"></v-card-text>
                                 </v-img>
                             </v-card>
                         </v-col>
@@ -46,7 +46,7 @@ export default {
                 hidden: true,
             },
             {
-                title: '<span style="width: 100%; text-align: center;">대구<br>수성알파시티</span>',
+                title: '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
                 src: require('../../assets/daegu-btn.png'),
                 to: '/map/daegu',
                 disabled: false,

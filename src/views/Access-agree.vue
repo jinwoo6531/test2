@@ -58,10 +58,9 @@
 export default {
     methods: {
         agreeOk() {
-            this.$router.push('/walkthrough')
+            this.$router.replace('/walkthrough')
         }
     }
-
 }
 </script>
 

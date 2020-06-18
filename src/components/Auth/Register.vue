@@ -35,9 +35,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -103,17 +101,12 @@ export default {
             this.form.gender = ''
             this.form.birth = ''
 
-            this.$router.push({
-                name: "Welcome",
-                params: {
-                    displayName: this.user.data.displayName
-                }
-            })
+            this.$router.replace('/welcome')
             this.get()
         },
 
         async get() {
-            await axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            await axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
         }
     }
 };

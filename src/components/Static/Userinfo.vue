@@ -155,7 +155,7 @@
                             전화번호
                         </v-col>
                         <v-col cols="8" height="100%" class="pl-4">
-                            {{ this.phoneNumber }}
+                            {{ getPhoneNumber }}
                         </v-col>
                     </v-row>
                 </v-card>
@@ -170,7 +170,7 @@
                         <v-card-actions class="pa-0" style="height: 50px">
                             <v-row no-gutters style="height: 100%;">
                                 <v-col style="height: 100%;">
-                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소하기</v-btn>
+                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소</v-btn>
                                 </v-col>
                                 <v-col style="height: 100%;">
                                     <v-btn color="#E61773" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
@@ -255,7 +255,6 @@ export default {
         email: '',
         gender: '',
         birth: '',
-        phoneNumber: '',
         phone: '',
         rules: '',
 
@@ -300,19 +299,12 @@ export default {
     }),
 
     created() {
-        console.log(this.byeReason.length)
-        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
-                console.log('userinfo', response.data)
                 this.displayName = response.data.displayName
                 this.email = response.data.email
                 this.gender = response.data.gender
                 this.birth = response.data.birth
-                var start = "0" + response.data.phoneNumber.substring(3, 5)
-                var mid = response.data.phoneNumber.substring(5, 9)
-                var end = response.data.phoneNumber.substring(9, 13)
-                this.phoneNumber = start + "-" + mid + "-" + end
-                this.phone = start + mid + end
             }).catch(error => {
                 console.log('User read: ', error)
             })
@@ -321,7 +313,14 @@ export default {
     computed: {
         ...mapGetters({
             user: "user"
-        })
+        }),
+
+        getPhoneNumber() {
+            let start = String(this.user.data.phoneNumber).substring(3, 5)
+            let mid = String(this.user.data.phoneNumber).substring(5, 9)
+            let end = String(this.user.data.phoneNumber).substring(9, 13)
+            return '0' + start + '-' + mid + '-' + end
+        }
     },
 
     updated() {
@@ -416,7 +415,7 @@ export default {
         },
 
         nochangeDisplayName() {
-            axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.displayName = response.data.displayName
                     this.namedialog = false
@@ -424,7 +423,7 @@ export default {
         },
 
         nochangeEmail() {
-            axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.email = response.data.email
                     this.emaildialog = false
@@ -432,7 +431,7 @@ export default {
         },
 
         nochangeGender() {
-            axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.gender = response.data.gender
                     this.genderdialog = false
@@ -440,7 +439,7 @@ export default {
         },
 
         nochangeBirth() {
-            axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.birth = response.data.birth
                     this.birthdialog = false
@@ -451,16 +450,17 @@ export default {
             this.$firebase.auth().signOut()
                 .then(() => {
                     alert('로그아웃 되었습니다.')
-                    this.$router.replace('AccessPhone')
                 });
         },
 
         deleteUser() {
-            if (this.inputPhoneNumber == this.phone) {
-                axios.get('http://service.tasio.io:5000/tasio-fcef3/us-central1/app/api/delete/' + this.user.data.uid)
+            console.log(this.inputPhoneNumber)
+            console.log(this.getPhoneNumber)
+            if (this.inputPhoneNumber == this.getPhoneNumber) {
+                axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         alert('회원 탈퇴 완료!')
-                        this.$router.push('/goodbye')
+                        this.$router.replace('/goodbye')
                     })
             } else {
                 alert('휴대폰 번호를 확인해주세요!')
@@ -504,7 +504,7 @@ export default {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px !important;
+    font-size: 16px !important;
     color: #262626 !important;
 
 }

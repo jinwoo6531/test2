@@ -7,24 +7,24 @@
             </v-flex>
 
             <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
-                <div>
-                    <v-card class="d-flex justify-end" color="transparent" flat>
-                        <v-card class="pr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
-                            <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
-                                <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
-                            </v-btn>
-                        </v-card>
-                    </v-card>
-                </div>
                 <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
                     <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                         <template v-slot:activator="{ on }">
-                            <v-btn class="person-modal" color="#fff" v-on="on" :ripple="false">
-                                <v-icon left>mdi-account-outline</v-icon>
-                                <span v-if="count >= 1">탑승인원 {{ count }}명</span>
-                                <span v-else @click="selectPerson">탑승인원 선택</span>
+                            <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
+                                <img src="../../assets/person-count.svg">
+                                <span v-if="count >= 1" style="padding-left: 12px;">탑승인원 {{ count }}명</span>
+                                <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                             </v-btn>
+
+                            <v-card class="d-flex justify-end" color="transparent" flat style="position: absolute; right: 0; top: -3px;">
+                                <v-card class="mr-4" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                                    <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
+                                        <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
+                                    </v-btn>
+                                </v-card>
+                            </v-card>
                         </template>
+
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
                                 <v-btn icon @click="dialog = false">
@@ -176,8 +176,9 @@
 <script>
 import axios from 'axios'
 var control
-import {mapGetters} from 'vuex'
-var qs = require('qs')
+import {
+    mapGetters
+} from 'vuex'
 
 export default {
     name: 'Daegu',
@@ -253,7 +254,7 @@ export default {
         }),
 
         totalPayment() {
-             return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+            return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
         }
     },
 
@@ -300,17 +301,16 @@ export default {
                         iconSize: [17, 17]
                     })
 
-                    this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                    return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
                         icon: currentUser
                     })
 
                 } else {
-                    this.usermarker.setLatLng(e.latlng)
+                    return this.usermarker.setLatLng(e.latlng)
                 }
             }).on("locationerror", error => {
-                alert('사용자의 위치를 받아올 수 없습니다.')
-                console.log('Location error:')
-                console.log(error)
+                // alert('사용자의 위치를 받아올 수 없습니다.')
+                console.log('Location error:', error)
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker)
                     this.usermarker = null
@@ -739,69 +739,9 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                // m_redirect_url: "http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put"
-                m_redirect_url: "http://service.tasio.io:9772/calling"
-            }, rsp => { // callback
-                if (rsp.success) {
-                    alert('결제 성공 success!!: ', rsp.success)
-                    console.log('결제 성공 success!!: ', rsp.success)
-                    axios({
-                        url: 'http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/payment/put', // 가맹점 서버
-                        method: "post",
-                        headers: {
-                            'content-type': 'application/x-www-form-urlencoded'
-                        },
-                        data: qs.stringify({
-                            imp_uid: rsp.imp_uid,
-                            merchant_uid: rsp.merchant_uid,
-                            amount: rsp.paid_amount,
-                            userid: this.user.data.uid
-                        })
-                    }).then(data => {
-                        // 가맹점 서버 결제 API 성공시 로직
-                        alert('가맹점 서버 결제 API 성공!', data)
-                        console.log('가맹점 서버 결제 API 성공!', data)
-                        switch (data.status) {
-                            case 'success':
-                                this.$router.push({
-                                    name: "CallingLayout",
-                                        params: {
-                                            site: this.pageId,
-                                            start: this.start,
-                                            end: this.end,
-                                            startName: this.options[this.start - 1].name,
-                                            endName: this.options[this.end - 1].name,
-                                            count: this.count,
-                                            minutes: this.minutes
-                                        }
-                                })
-                                break;
-                            case 'forgery':
-                                break;
-                        }
-                    }).catch(error => {
-                        // 가맹점 서버 결제 API 실패시 로직
-                        console.log('가맹점 서버 결제 API 실패: ', error)
-                    })
-                } else {
-                    // 결제 실패 시 로직
-                    // 돈이 안맞을 때?
-                    console.log('rsp.error_msg: ', rsp.error_msg)
-                }
+                m_redirect_url: `http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`,
+                app_scheme: 'importspringcloud'
             });
-
-            /* this.$router.push({
-                name: "CallingLayout",
-                params: {
-                    site: this.pageId,
-                    start: this.start,
-                    end: this.end,
-                    startName: this.options[this.start - 1].name,
-                    endName: this.options[this.end - 1].name,
-                    count: this.count,
-                    minutes: this.minutes
-                }
-            }) */
         },
 
         requestPay(meth) {
@@ -955,5 +895,15 @@ export default {
 
 .v-btn:before {
     background-color: transparent !important;
+}
+
+.person-modal {
+    font-family: Noto Sans KR !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 13px !important;
+    line-height: 19px;
+    padding-left: 12px !important;
+    padding-right: 14px !important;
 }
 </style>

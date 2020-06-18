@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import router from '../../router'
 
 const state = {
   info: {
@@ -12,7 +13,9 @@ const state = {
     data: {}
   },
 
-  timer: 180
+  timer: 180,
+  uid: '',
+  isLoading: false
 }
 
 const getters = {
@@ -24,6 +27,9 @@ const getters = {
   },
   timer(state) {
     return state.timer
+  },
+  isLoading(state) {
+    return state.isLoading
   }
 }
 
@@ -37,12 +43,23 @@ const mutations = {
   SET_USER(state, data) {
     state.user.data = data
   },
-  SET_TIMER(state, payload){
+  SET_TIMER(state, payload) {
     state.timer = payload
+  },
+  loading(state, isLoading) {
+    if (isLoading) {
+      return state.isLoading = true
+    } else {
+      return state.isLoading = false
+    }
   }
 }
 const actions = {
-  async sendOtp({state, commit}, payload) {
+  async sendOtp({
+    state,
+    commit
+  }, payload) {
+    commit('loading', true)
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -50,58 +67,79 @@ const actions = {
         // SMS 전송
         window.confirmationResult = confirmationResult
         alert("메세지를 전송하였습니다!")
+        commit('loading', false)
         commit('SET_TIMER', new Date())
       })
       .catch(error => {
         // SMS 전송 실패
         console.error(error.message)
+        commit('loading', false)
       })
   },
 
-  verifyOtp(_, {otp}) {
+  verifyOtp({ commit }, {
+    otp
+  }) {
+    commit('loading', true)
     window.confirmationResult
       .confirm(otp)
       .then(result => {
-        axios.get('http://34.64.137.217:5000/tasio-fcef3/us-central1/app/api/read/' + result.user.uid)
-        .then(response => {
-          console.log('rere', response.data)
-          alert('인증이 완료되었습니다.')
-        }).catch(error => {
-          console.log('User read: ', error)
-        })
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
+          .then(response => {
+            alert('인증이 완료되었습니다.')
+            if (response.data.level == 1) {
+              router.replace('/')
+            } else {
+              router.replace('/auth/agreecheck')
+            }
+          }).catch(error => {
+            console.log('User read: ', error)
+          })
       })
       .catch(error => {
         alert("인증코드가 잘못되었습니다.")
         console.log(error)
+        commit('loading', false)
       })
   },
 
-  fetchUser({commit}, user) {
+  fetchUser({
+    commit
+  }, user) {
     commit("SET_LOGGED_IN", user !== null)
-        if (user) {
-            commit("SET_USER", {
-              uid: user.uid,
-              phoneNumber: user.phoneNumber,
-              displayName: user.displayName
-            })
-        } else {
-            commit("SET_USER", null);
-        }
+    if (user) {
+      axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
+        .then(async response => {
+          await commit("SET_USER", {
+            uid: user.uid,
+            phoneNumber: user.phoneNumber,
+            displayName: response.data.displayName,
+            email: response.data.email,
+            level: response.data.level,
+            birth: response.data.birth,
+            gender: response.data.gender
+          })
+        })
+    } else {
+      commit("SET_USER", null);
+    }
   },
 
-  initReCaptcha({commit}) {
+  initReCaptcha({
+    commit
+  }) {
     setTimeout(() => {
       window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier("recaptcha-container", {
-          size: "invisible",
-          callback: function (response) {
-            console.log(response)
-            // dispatch('sendOtp')
-          },
-          "expired-callback": function () {
-            console.log('Recaptcha Error')
-          }
+        size: "invisible",
+        callback: function (response) {
+          console.log(response)
+          self.sendSMS()
+          // dispatch('sendOtp')
+        },
+        "expired-callback": function () {
+          console.log('Recaptcha Error')
         }
-      );
+      });
       commit("SET_DATA", {
         appVerifier: window.recaptchaVerifier
       })

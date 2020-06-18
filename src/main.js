@@ -1,16 +1,19 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import './plugins/firebase'
+import store from './store'
+import router from './router'
 import vuetify from './plugins/vuetify'
 import utils from './utils'
-import store from './store'
 import 'leaflet-routing-machine'
 import axios from 'axios'
 import VeeValidate from 'vee-validate'
 import VueScrollPicker from "vue-scroll-picker"
 import "vue-scroll-picker/dist/style.css"
-import OtpInput from "@bachdgvn/vue-otp-input";
+import OtpInput from "@bachdgvn/vue-otp-input"
+import Toasted from 'vue-toasted'
+ 
+Vue.use(Toasted)
  
 Vue.component("v-otp-input", OtpInput);
 
