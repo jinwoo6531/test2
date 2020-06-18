@@ -1,3 +1,4 @@
+import * as firebase from 'firebase/app'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AccessAgree from '@/views/Access-agree'
@@ -14,7 +15,7 @@ import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
-import store from '../store/modules/auth'
+// import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
 
@@ -109,7 +110,9 @@ const routes = [{
   {
     path: '/map',
     component: MapLayout,
-    meta: { requireAuth: true },
+    meta: {
+      requireAuth: true
+    },
     children: [{
         path: 'gunsan',
         name: 'Gunsan',
@@ -140,7 +143,9 @@ const routes = [{
   {
     path: '/',
     component: StaticLayout,
-    meta: { requireAuth: true },
+    meta: {
+      requireAuth: true
+    },
     children: [{
         path: '',
         name: 'Main',
@@ -183,22 +188,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   // 상위 라우트를 포함해 인증이 필요한 라우트인지를 확인
-  if (to.matched.some(record => record.meta.requireAuth)) {
-    // 인증상태 확인하기
-    if (store.state.uid == " ") {
-      // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
-      next({
-        path: '/walkthrough',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-    } else {
-      next()
-    }
+  const currentUser = firebase.auth().currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  console.log('currentUser', currentUser)
+  // 인증상태 확인하기
+  if (requiresAuth && !currentUser) {
+    // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
+    next('/auth/accessphone')
+  } else if (requiresAuth && currentUser) {
+    next()
   } else {
     next() // 인증이 필요하지 않은 라우트라면 next()로 이동
   }
-})
+});
 
 export default router
