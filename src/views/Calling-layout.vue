@@ -62,7 +62,7 @@ export default {
     name: 'CallingLayout',
 
     data: () => ({
-        loading: false,
+        loading: true,
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
         logs: [],
@@ -101,8 +101,8 @@ export default {
         this.count = this.$route.query.count
         this.minutes = this.$route.query.minutes
         this.ready = true
-        
-        this.loading = true
+
+        this.loading = false
 
         setTimeout(() => {
             this.$router.replace({
