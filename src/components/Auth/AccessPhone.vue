@@ -75,7 +75,10 @@ export default {
             this.loading = true
 
             if (this.phNo.length != 11) {
-                this.$toasted.show("전화번호 형식을 지켜주세요!").goAway(2000);
+                this.$toasted.show("전화번호 형식을 지켜주세요!", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
                 // alert("전화번호 형식을 지켜주세요!")
                 this.loading = false
             } else {

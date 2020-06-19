@@ -449,7 +449,10 @@ export default {
         signOut() {
             this.$firebase.auth().signOut()
                 .then(() => {
-                    alert('로그아웃 되었습니다.')
+                    this.$toasted.show("로그아웃 되었습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
                 });
         },
 
@@ -459,11 +462,17 @@ export default {
             if (this.inputPhoneNumber == this.getPhoneNumber) {
                 axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
-                        alert('회원 탈퇴 완료!')
+                        this.$toasted.show("회원 탈퇴 완료!", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(2000);
                         this.$router.replace('/goodbye')
                     })
             } else {
-                alert('휴대폰 번호를 확인해주세요!')
+                this.$toasted.show("휴대폰 번호를 확인해주세요!", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
             }
         }
     }
