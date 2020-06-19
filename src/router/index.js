@@ -19,12 +19,22 @@ import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
 
-/* const requireAuth = () => (to, from, next) => {
-  if (store.state.uid !== " ") {
+const requireAuth = () => (to, from, next) => {
+  const currentUser = firebase.auth().currentUser;
+  console.log('current user', currentUser)
+  if (currentUser == null) {
+    // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
+    console.log('next access phone')
+    return next('/auth/accessphone')
+  } else {
+    console.log('next')
+    store.state.isLoading = true;
+    setTimeout(() => {
+      store.state.isLoading = false;
+    }, 2000);
     return next()
-  } 
-  next('/walkthrough')
-} */
+  }
+}
 
 const routes = [{
     path: '/webview',
@@ -44,8 +54,7 @@ const routes = [{
   {
     path: '/welcome',
     name: 'Welcome',
-    component: Welcome,
-    // beforeEnter: requireAuth()
+    component: Welcome
   },
   {
     path: '/walkthrough',
@@ -111,9 +120,7 @@ const routes = [{
   {
     path: '/map',
     component: MapLayout,
-    meta: {
-      requireAuth: true
-    },
+    beforeEnter: requireAuth(),
     children: [{
         path: 'gunsan',
         name: 'Gunsan',
@@ -144,9 +151,7 @@ const routes = [{
   {
     path: '/',
     component: StaticLayout,
-    meta: {
-      requireAuth: true
-    },
+    beforeEnter: requireAuth(),
     children: [{
         path: '',
         name: 'Main',
@@ -186,28 +191,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-router.beforeEach((to, from, next) => {
-  store.state.isLoading = true;
-  setTimeout(() => {
-    store.state.isLoading = false;
-  }, 2000);
-  next();
-  console.log("next page", store.state.isLoading);
-
-  // 상위 라우트를 포함해 인증이 필요한 라우트인지를 확인
-  const currentUser = firebase.auth().currentUser;
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  console.log('currentUser', currentUser)
-  // 인증상태 확인하기
-  if (requiresAuth && !currentUser) {
-    // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
-    next('/auth/accessphone')
-  } else if (requiresAuth && currentUser) {
-    next()
-  } else {
-    next() // 인증이 필요하지 않은 라우트라면 next()로 이동
-  }
-});
 
 export default router

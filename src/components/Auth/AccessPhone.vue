@@ -61,13 +61,13 @@ export default {
 
         // 페이지 진입시history.pushState 인터페이스를 통해 새로운 history state를 추가하여 바로 이전 페이지로 갈 수 없도록 한다.
         // history.pushState(state, title, url);
-        history.pushState(null, null, location.href);
+        // history.pushState(null, null, location.href);
 
-        // 이후 페이지가 뒤로가면서 생기는 history의 변경을 popstate 이벤트로 캐치하여 처리한다.
-        window.onpopstate = function (event) {
-            console.log('event: ', event)
-            history.go(event.currentTarget.length);
-        };
+        // // 이후 페이지가 뒤로가면서 생기는 history의 변경을 popstate 이벤트로 캐치하여 처리한다.
+        // window.onpopstate = function (event) {
+        //     console.log('event: ', event)
+        //     history.go(event.currentTarget.length);
+        // };
     },
 
     methods: {
@@ -75,7 +75,8 @@ export default {
             this.loading = true
 
             if (this.phNo.length != 11) {
-                alert("전화번호 형식을 지켜주세요!")
+                this.$toasted.show("전화번호 형식을 지켜주세요!").goAway(2000);
+                // alert("전화번호 형식을 지켜주세요!")
                 this.loading = false
             } else {
                 let countryCode = "+82"; // Korea

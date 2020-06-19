@@ -27,10 +27,6 @@ export default {
 
     computed: {
         ...mapGetters(['isLoading'])
-    },
-    
-    mounted() {
-        console.log('asdasd', this.isLoading)
     }
 };
 </script>
