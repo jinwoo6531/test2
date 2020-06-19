@@ -59,7 +59,7 @@ const actions = {
     state,
     commit
   }, payload) {
-    commit('loading', true)
+    //commit('loading', true)
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
@@ -67,8 +67,8 @@ const actions = {
         // SMS 전송
         window.confirmationResult = confirmationResult
         alert("메세지를 전송하였습니다!")
-        commit('loading', false)
         commit('SET_TIMER', new Date())
+        commit('loading', false)
       })
       .catch(error => {
         // SMS 전송 실패

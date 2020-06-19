@@ -191,7 +191,7 @@ router.beforeEach((to, from, next) => {
   store.state.isLoading = true;
   setTimeout(() => {
     store.state.isLoading = false;
-  }, 3000);
+  }, 2000);
   next();
   console.log("next page", store.state.isLoading);
 
