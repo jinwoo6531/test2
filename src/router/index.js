@@ -15,7 +15,7 @@ import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
-import store from '../store/modules/auth'
+// import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
 
@@ -28,10 +28,10 @@ const requireAuth = () => (to, from, next) => {
     return next('/auth/accessphone')
   } else {
     console.log('next')
-    store.state.isLoading = true;
-    setTimeout(() => {
-      store.state.isLoading = false;
-    }, 2000);
+    // store.state.isLoading = true;
+    // setTimeout(() => {
+    //   store.state.isLoading = false;
+    // }, 2000);
     return next()
   }
 }

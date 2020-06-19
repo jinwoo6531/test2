@@ -1,19 +1,23 @@
 <template>
 <v-app id="tasio" style="width: 100%; height: 100%; background: #FAFAFA;">
-    <v-content>
+    <!-- <v-content>
         <router-view v-if="isLoading == false"></router-view>
         <v-container fluid v-else style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
-        <v-row align="center" justify="center">
-            <v-card color="transparent" flat>
-                <v-card-text class="text-center">
-                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
-                </v-card-text>
-                <v-card-text class="text-center" style="color: #FFF;">
-                    Loading..
-                </v-card-text>
-            </v-card>
-        </v-row>
-    </v-container>
+            <v-row align="center" justify="center">
+                <v-card color="transparent" flat>
+                    <v-card-text class="text-center">
+                        <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                    </v-card-text>
+                    <v-card-text class="text-center" style="color: #FFF;">
+                        Loading..
+                    </v-card-text>
+                </v-card>
+            </v-row>
+        </v-container>
+    </v-content> -->
+
+    <v-content>
+        <router-view></router-view>
     </v-content>
 </v-app>
 </template>
