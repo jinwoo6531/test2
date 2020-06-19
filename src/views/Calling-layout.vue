@@ -102,7 +102,10 @@ export default {
         this.minutes = this.$route.query.minutes
         this.ready = true
 
-        this.loading = false
+
+        setTimeout(() => {
+            this.loading = false
+        }, 1500);
 
         setTimeout(() => {
             this.$router.replace({
