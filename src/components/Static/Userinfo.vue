@@ -29,7 +29,7 @@
 
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 80px;">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
                                             <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -63,7 +63,7 @@
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 80px;">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이메일</v-card-title>
                                             <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -97,7 +97,7 @@
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 80px;">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title" style="padding-bottom: 52px !important;">성별</v-card-title>
                                             <div style="width: 100%">
                                                 <label class="box-radio-input">
@@ -139,7 +139,7 @@
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 80px;">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">생일</v-card-title>
                                             <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
