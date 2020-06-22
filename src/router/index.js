@@ -20,7 +20,17 @@ import Webview from '@/views/Webview'
 Vue.use(VueRouter)
 
 const requireAuth = () => (to, from, next) => {
-  const currentUser = firebase.auth().currentUser;
+  firebase.auth().onAuthStateChanged((user) => {
+  console.log(user.uid)
+  if (user.uid == null) {
+    console.log('next access phone')
+    return next('/auth/accessphone')
+  } else {
+    console.log('next')
+    return next()
+  }
+})
+  /* const currentUser = firebase.auth().currentUser;
   console.log('current user', currentUser)
   if (currentUser == null) {
     // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
@@ -33,7 +43,7 @@ const requireAuth = () => (to, from, next) => {
     //   store.state.isLoading = false;
     // }, 2000);
     return next()
-  }
+  } */
 }
 
 const routes = [{
