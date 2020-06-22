@@ -151,7 +151,6 @@ const actions = {
         size: "invisible",
         callback: function (response) {
           console.log(response)
-          self.sendSMS()
           // dispatch('sendOtp')
         },
         "expired-callback": function () {

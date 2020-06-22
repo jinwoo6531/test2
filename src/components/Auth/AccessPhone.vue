@@ -71,7 +71,7 @@ export default {
     },
 
     methods: {
-        sendOtp() {
+        async sendOtp() {
             this.loading = true
 
             if (this.phNo.length != 11) {
@@ -83,23 +83,24 @@ export default {
                 this.loading = false
             } else {
                 let countryCode = "+82"; // Korea
-                this.phoneNumber = countryCode + this.phNo
+                this.phoneNumber = await countryCode + this.phNo
+
+                this.$store
+                    .dispatch("sendOtp", {
+                        phoneNumber: this.phoneNumber
+                    })
+                    .then(() => {
+                        if (this.phNo.length == 11) {
+                            this.$router.push({
+                                name: "AccessCode",
+                                params: {
+                                    phoneNumber: this.phoneNumber
+                                }
+                            })
+                            this.loading = false
+                        }
+                    })
             }
-            this.$store
-                .dispatch("sendOtp", {
-                    phoneNumber: this.phoneNumber
-                })
-                .then(() => {
-                    if (this.phNo.length == 11) {
-                        this.$router.push({
-                            name: "AccessCode",
-                            params: {
-                                phoneNumber: this.phoneNumber
-                            }
-                        })
-                        this.loading = false
-                    }
-                })
         }
     }
 };
