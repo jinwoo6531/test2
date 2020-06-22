@@ -33,7 +33,7 @@
                         </v-card>
                     </v-card>
                     <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
-                        <p class="SendInfo">{{ this.phoneN }} 로 SMS를 보냈습니다.</p>
+                        <p class="SendInfo">{{ phoneN }} 로 SMS를 보냈습니다.</p>
                         <p class="RemainTime">{{ remainTime }}</p>
                     </v-flex>
                     <v-flex class="pa-0 d-flex justify-space-between" xs12 sm12 md12>
@@ -61,6 +61,7 @@
 import {
     mapGetters
 } from 'vuex'
+
 export default {
     data: () => ({
         otp: null,
@@ -77,6 +78,15 @@ export default {
         ...mapGetters(['isLoading'])
     },
 
+    created() {
+        this.$store.dispatch("initReCaptcha");
+        this.timeStart();
+
+        if (this.$route.params.phoneNumber == undefined) {
+            this.$router.go(-1)
+        }
+    },
+
     mounted() {
         console.log(this.$route.params.phoneNumber);
         let start = this.$route.params.phoneNumber.substring(3, 6);
@@ -85,11 +95,6 @@ export default {
         this.phoneN = start + "-" + mid + "-" + end;
 
         this.timeOut();
-    },
-
-    created() {
-        this.$store.dispatch("initReCaptcha");
-        this.timeStart();
     },
 
     beforeDestroy() {
@@ -103,11 +108,10 @@ export default {
 
         handleOnComplete(value) {
             this.ready = value
-            console.log(this.ready)
         },
+
         handleOnChange() {
             this.ready = 0
-            console.log(this.ready)
         },
 
         timeStart() {
@@ -137,7 +141,6 @@ export default {
         },
 
         verifyOtp() {
-            console.log(this.isLoading)
             this.$store.dispatch("verifyOtp", {
                 otp: this.ready
             });
