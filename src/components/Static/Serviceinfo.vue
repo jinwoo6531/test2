@@ -12,10 +12,10 @@
             <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%;">
                 <v-card flat tile color="transparent">
                     <v-card-text class="pa-0 service-title pl-6 pr-6">서비스 정보</v-card-text>
-                    <v-card-text class="pa-0 pt-4 pb-3 service-content" style="border-bottom: 0.5px solid #F2F2F2;">
+                    <v-card-text class="pa-0 pt-4 pb-3 service-content" style="border-bottom: 0.5px solid #E0E0E0;">
                         <v-sheet class="pl-6 pr-6" color="transparent">서비스 이용약관</v-sheet>
                     </v-card-text>
-                    <v-card-text class="pa-0 pb-3 service-content" style="border-bottom: 0.5px solid #F2F2F2; padding-top: 10px !important;">
+                    <v-card-text class="pa-0 pb-3 service-content" style="border-bottom: 0.5px solid #E0E0E0; padding-top: 10px !important;">
                       <v-sheet class="pl-6 pr-6" color="transparent">개인정보 처리방침</v-sheet>
                     </v-card-text>
                     <v-card-text class="pa-0 pt-3 service-content" style="padding-bottom: 30px !important;">
@@ -26,7 +26,7 @@
             <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%;">
                 <v-card flat tile color="transparent">
                     <v-card-text class="pa-0 service-title pl-6 pr-6">회사 정보</v-card-text>
-                    <table style="width: 100%; border-bottom: 0.5px solid #F2F2F2;">
+                    <table style="width: 100%; border-bottom: 0.5px solid #E0E0E0;">
                         <tr class="service-table-title">
                             <td style="padding-top: 9px; padding-left: 24px;">회사명</td>
                             <td style="text-align: right; padding-right: 24px;">대표</td>
@@ -37,7 +37,7 @@
                         </tr>
                     </table>
 
-                    <table style="width: 100%; border-bottom: 0.5px solid #F2F2F2;">
+                    <table style="width: 100%; border-bottom: 0.5px solid #E0E0E0;">
                         <tr class="service-table-title">
                             <td style="padding-top: 9px; padding-left: 24px;">사업자등록번호</td>
                             <td style="text-align: right; padding-right: 24px;">통신판매업신고</td>
@@ -48,7 +48,7 @@
                         </tr>
                     </table>
 
-                    <table style="width: 100%; border-bottom: 0.5px solid #F2F2F2;">
+                    <table style="width: 100%; border-bottom: 0.5px solid #E0E0E0;">
                         <tr class="service-table-title">
                             <td style="padding-top: 9px; padding-left: 24px;">주소</td>
                         </tr>
