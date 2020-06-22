@@ -162,7 +162,7 @@
                 <v-divider color="#E0E0E0"></v-divider>
             </v-flex>
 
-            <v-flex xs12 sm12 md12 class="pa-0" style="border-top: 1px solid #E0E0E0; border-bottom: 0.5px solid #E0E0E0;">
+            <v-flex xs12 sm12 md12 class="pa-0" style="border-top: 0.5px solid #E0E0E0; border-bottom: 0.5px solid #E0E0E0;">
                 <v-btn class="pa-3 signout" color="#FFF" block tile depressed @click="signoutdialog = true">로그아웃</v-btn>
                 <v-dialog v-model="signoutdialog" width="268px" height="170px">
                     <v-card flat tile>
