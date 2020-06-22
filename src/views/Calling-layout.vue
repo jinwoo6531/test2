@@ -102,12 +102,11 @@ export default {
         this.minutes = this.$route.query.minutes
         this.ready = true
 
-
-        setTimeout(() => {
+        this.loadingTime = setTimeout(() => {
             this.loading = false
         }, 1500);
 
-        setTimeout(() => {
+        this.callingShuttle = setTimeout(() => {
             this.$router.replace({
                 name: "CallingShuttle",
                 params: {
@@ -129,6 +128,11 @@ export default {
         // setTimeout(() => {
         //     this.$router.replace('/fail')
         // }, 180000)
+    },
+
+    destroyed() {
+        clearTimeout(this.loadingTime)
+        clearTimeout(this.callingShuttle)
     },
 
     methods: {
