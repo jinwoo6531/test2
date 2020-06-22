@@ -85,21 +85,18 @@ export default {
                 let countryCode = "+82"; // Korea
                 this.phoneNumber = await countryCode + this.phNo
 
-                this.$store
-                    .dispatch("sendOtp", {
-                        phoneNumber: this.phoneNumber
-                    })
-                    .then(() => {
-                        if (this.phNo.length == 11) {
-                            this.$router.push({
-                                name: "AccessCode",
-                                params: {
-                                    phoneNumber: this.phoneNumber
-                                }
-                            })
-                            this.loading = false
-                        }
-                    })
+                this.$store.dispatch("sendOtp", { phoneNumber: this.phoneNumber })
+                .then(() => {
+                    if (this.phNo.length == 11) {
+                        this.$router.push({
+                            name: "AccessCode",
+                            params: {
+                                phoneNumber: this.phoneNumber
+                            }
+                        })
+                        this.loading = false
+                    }
+                })
             }
         }
     }

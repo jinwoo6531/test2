@@ -61,6 +61,7 @@
 import {
     mapGetters
 } from 'vuex'
+
 export default {
     data: () => ({
         otp: null,
@@ -108,6 +109,7 @@ export default {
         handleOnComplete(value) {
             this.ready = value
         },
+
         handleOnChange() {
             this.ready = 0
         },

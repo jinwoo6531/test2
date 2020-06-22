@@ -55,14 +55,9 @@ const mutations = {
   }
 }
 const actions = {
-  async sendOtp({
-    state,
-    commit
-  }, payload) {
+  async sendOtp({ state, commit }, payload) {
     //commit('loading', true)
-    await Vue.prototype.$firebase
-      .auth()
-      .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
+    await Vue.prototype.$firebase.auth().signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
       .then(confirmationResult => {
         // SMS 전송
         window.confirmationResult = confirmationResult
@@ -70,7 +65,7 @@ const actions = {
           theme: "bubble",
           position: "top-center"
         }).goAway(2000);
-        // alert("메세지를 전송하였습니다!")
+
         commit('SET_TIMER', new Date())
         commit('loading', false)
       })
@@ -81,18 +76,14 @@ const actions = {
           theme: "bubble",
           position: "top-center"
         }).goAway(2000);
+
         commit('loading', false)
       })
   },
 
-  verifyOtp({
-    commit
-  }, {
-    otp
-  }) {
+  verifyOtp({ commit }, { otp }) {
     commit('loading', true)
-    window.confirmationResult
-      .confirm(otp)
+    window.confirmationResult.confirm(otp)
       .then(result => {
         axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
           .then(response => {
@@ -115,15 +106,13 @@ const actions = {
           theme: "bubble",
           position: "top-center"
         }).goAway(2000);
-        // alert("인증코드가 잘못되었습니다.")
+        
         console.log(error)
         commit('loading', false)
       })
   },
 
-  fetchUser({
-    commit
-  }, user) {
+  fetchUser({ commit }, user) {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
       axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
@@ -143,9 +132,7 @@ const actions = {
     }
   },
 
-  initReCaptcha({
-    commit
-  }) {
+  initReCaptcha({ commit }) {
     setTimeout(() => {
       window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier("recaptcha-container", {
         size: "invisible",
