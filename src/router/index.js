@@ -21,12 +21,9 @@ Vue.use(VueRouter)
 
 const requireAuth = () => (to, from, next) => {
   firebase.auth().onAuthStateChanged((user) => {
-  console.log(user.uid)
   if (user.uid == null) {
-    console.log('next access phone')
     return next('/auth/accessphone')
   } else {
-    console.log('next')
     return next()
   }
 })
