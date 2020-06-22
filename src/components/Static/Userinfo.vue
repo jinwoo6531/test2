@@ -4,7 +4,7 @@
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0 pt-8 pb-5" xs12 sm12 md12 style="width: 100%; height: 100%;">
                 <v-card class="pa-0 userwrap" flat tile>
-                    <v-divider color="#BDBDBD"></v-divider>
+                    <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
                         <v-col cols="2" width="100%" height="100%" class="usertitle">
                             이름
@@ -29,7 +29,7 @@
 
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 45px;">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
                                             <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -39,7 +39,7 @@
                             </v-card>
                         </v-dialog>
                     </v-row>
-                    <v-divider color="#BDBDBD"></v-divider>
+                    <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
                         <v-col cols="2" width="100%" height="100%" class="usertitle">
                             이메일
@@ -63,7 +63,7 @@
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 45px;">
                                             <v-card-title class="pl-0 modify-title">이메일</v-card-title>
                                             <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -73,7 +73,7 @@
                             </v-card>
                         </v-dialog>
                     </v-row>
-                    <v-divider color="#BDBDBD"></v-divider>
+                    <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
                         <v-col cols="2" width="100%" height="100%" class="usertitle">
                             성별
@@ -97,7 +97,7 @@
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 45px;">
                                             <v-card-title class="pl-0 modify-title" style="padding-bottom: 52px !important;">성별</v-card-title>
                                             <div style="width: 100%">
                                                 <label class="box-radio-input">
@@ -115,7 +115,7 @@
                             </v-card>
                         </v-dialog>
                     </v-row>
-                    <v-divider color="#BDBDBD"></v-divider>
+                    <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
                         <v-col cols="2" width="100%" height="100%" class="usertitle">
                             생일
@@ -139,7 +139,7 @@
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6">
+                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 45px;">
                                             <v-card-title class="pl-0 modify-title">생일</v-card-title>
                                             <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
@@ -149,7 +149,7 @@
                             </v-card>
                         </v-dialog>
                     </v-row>
-                    <v-divider color="#BDBDBD"></v-divider>
+                    <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
                         <v-col cols="2" width="100%" height="100%" class="usertitle">
                             전화번호
@@ -159,10 +159,10 @@
                         </v-col>
                     </v-row>
                 </v-card>
-                <v-divider color="#BDBDBD"></v-divider>
+                <v-divider color="#E0E0E0"></v-divider>
             </v-flex>
 
-            <v-flex xs12 sm12 md12 class="pa-0" style="border-top: 1px solid #BDBDBD; border-bottom: 0.5px solid #BDBDBD;">
+            <v-flex xs12 sm12 md12 class="pa-0" style="border-top: 1px solid #E0E0E0; border-bottom: 0.5px solid #E0E0E0;">
                 <v-btn class="pa-3 signout" color="#FFF" block tile depressed @click="signoutdialog = true">로그아웃</v-btn>
                 <v-dialog v-model="signoutdialog" width="268px" height="170px">
                     <v-card flat tile>
