@@ -305,7 +305,11 @@ export default {
                     return this.usermarker.setLatLng(e.latlng)
                 }
             }).on("locationerror", error => {
-                alert('사용자의 위치를 받아올 수 없습니다.')
+                this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+
                 console.log('Location error:', error)
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker)
@@ -471,7 +475,7 @@ export default {
                     }
                 } else if (this.start > this.end) { // end -> start No!!
                     console.log('지원하지 않습니다.')
-                    alert('현재 waypoints: ' + this.waypoints)
+                    
 
                     // this.waypoints.push({
                     //     lat: 35.8118970000000000,

@@ -59,25 +59,35 @@ const actions = {
     state,
     commit
   }, payload) {
-    commit('loading', true)
+    //commit('loading', true)
     await Vue.prototype.$firebase
       .auth()
       .signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
       .then(confirmationResult => {
         // SMS 전송
         window.confirmationResult = confirmationResult
-        alert("메세지를 전송하였습니다!")
-        commit('loading', false)
+        Vue.toasted.show("메세지를 전송하였습니다.", {
+          theme: "bubble",
+          position: "top-center"
+        }).goAway(2000);
+        // alert("메세지를 전송하였습니다!")
         commit('SET_TIMER', new Date())
+        commit('loading', false)
       })
       .catch(error => {
         // SMS 전송 실패
         console.error(error.message)
+        Vue.toasted.show("메세지 전송에 실패하였습니다.", {
+          theme: "bubble",
+          position: "top-center"
+        }).goAway(2000);
         commit('loading', false)
       })
   },
 
-  verifyOtp({ commit }, {
+  verifyOtp({
+    commit
+  }, {
     otp
   }) {
     commit('loading', true)
@@ -86,7 +96,11 @@ const actions = {
       .then(result => {
         axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
           .then(response => {
-            alert('인증이 완료되었습니다.')
+            Vue.toasted.show("인증이 완료되었습니다.", {
+              theme: "bubble",
+              position: "top-center"
+            }).goAway(2000);
+            // alert('인증이 완료되었습니다.')
             if (response.data.level == 1) {
               router.replace('/')
             } else {
@@ -97,7 +111,11 @@ const actions = {
           })
       })
       .catch(error => {
-        alert("인증코드가 잘못되었습니다.")
+        Vue.toasted.show("인증코드가 잘못되었습니다.", {
+          theme: "bubble",
+          position: "top-center"
+        }).goAway(2000);
+        // alert("인증코드가 잘못되었습니다.")
         console.log(error)
         commit('loading', false)
       })

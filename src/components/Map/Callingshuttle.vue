@@ -193,10 +193,16 @@ export default {
                         console.log('waypoint', this.waypoints)
 
                     } else if (this.start > this.end) {
-                        alert('이건 안된다.')
+                        this.$toasted.show("이건 안된다.", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(2000);
                         // SAME Station Id
                     } else if (this.start == this.end) {
-                        alert('같은 정류장 선택 불가')
+                        this.$toasted.show("같은 정류장 선택 불가", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(2000);
                     }
 
                     let startIcon = this.$utils.map.createIcon({
@@ -469,12 +475,20 @@ export default {
                     console.log('환불 완료: ', response)
                     console.log('latest_mid: ', this.latest_mid)
                 }).catch(error => {
-                    alert('환불을 실패하였습니다.', error)
+                    this.$toasted.show("환불을 실패하였습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
+
+                    console.log('환불 실패', error)
                 })
 
-                this.$router.push('/')
+                this.$router.replace('/')
             } else {
-                alert('결제하신 내역이 없습니다.')
+                this.$toasted.show("결제하신 내역이 없습니다.", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
             }
 
         }

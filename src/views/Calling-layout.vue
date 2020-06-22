@@ -1,45 +1,60 @@
 <template>
-<v-container class="pa-0 gradient" fluid fill-height v-if="ready">
-    <div class="circle"></div>
-    <div class="start-info">
-        <span class="info-title">출발지</span>
-        <br>
-        <span>{{ startName }}</span>
-    </div>
-    <div class="end-info">
-        <span class="info-title">도착지</span>
-        <br>
-        <span>{{ endName }}</span>
-    </div>
-    <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
-        호출 취소하기
-    </v-card>
-    <v-row no-gutters>
-        <v-col xs="12" sm="12" md="12">
-            <v-card color="transparent" flat></v-card>
-        </v-col>
-    </v-row>
-    <v-row no-gutters>
-        <v-col xs="12" sm="12" md="12">
-            <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                {{ message }}
+<v-app style="position: relative;">
+    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    결제 정보를 처리하는 중입니다...
+                </v-card-text>
             </v-card>
-        </v-col>
-    </v-row>
-    <v-row no-gutters>
-        <v-col xs="12" sm="12" md="12">
-            <v-card color="transparent" flat></v-card>
-        </v-col>
-    </v-row>
-    <v-row no-gutters class="start-end-table">
-        <v-col xs="12" sm="12" md="12">
-            <v-card class="pa-2" color="transparent" flat>
-                <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
-                <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
-            </v-card>
-        </v-col>
-    </v-row>
-</v-container>
+        </v-row>
+    </v-container>
+
+    <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
+        <div class="circle"></div>
+        <div class="start-info">
+            <span class="info-title">출발지</span>
+            <br>
+            <span>{{ startName }}</span>
+        </div>
+        <div class="end-info">
+            <span class="info-title">도착지</span>
+            <br>
+            <span>{{ endName }}</span>
+        </div>
+        <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
+            호출 취소하기
+        </v-card>
+        <v-row no-gutters>
+            <v-col xs="12" sm="12" md="12">
+                <v-card color="transparent" flat></v-card>
+            </v-col>
+        </v-row>
+        <v-row no-gutters>
+            <v-col xs="12" sm="12" md="12">
+                <v-card class="pa-2 text-center call-msg" color="transparent" flat>
+                    {{ message }}
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row no-gutters>
+            <v-col xs="12" sm="12" md="12">
+                <v-card color="transparent" flat></v-card>
+            </v-col>
+        </v-row>
+        <v-row no-gutters class="start-end-table">
+            <v-col xs="12" sm="12" md="12">
+                <v-card class="pa-2" color="transparent" flat>
+                    <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
+                    <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+</v-app>
 </template>
 
 <script>
@@ -47,6 +62,7 @@ export default {
     name: 'CallingLayout',
 
     data: () => ({
+        loading: true,
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
         logs: [],
@@ -86,48 +102,42 @@ export default {
         this.minutes = this.$route.query.minutes
         this.ready = true
 
+
         setTimeout(() => {
-                this.$router.push({
-                    name: "CallingShuttle",
-                    params: {
-                        site: this.site,
-                        start: this.start,
-                        end: this.end,
-                        startName: this.startName,
-                        endName: this.endName,
-                        count: this.count,
-                        minutes: this.minutes
-                    }
-                })
-            }, 3000)
+            this.loading = false
+        }, 1500);
+
+        setTimeout(() => {
+            this.$router.replace({
+                name: "CallingShuttle",
+                params: {
+                    site: this.site,
+                    start: this.start,
+                    end: this.end,
+                    startName: this.startName,
+                    endName: this.endName,
+                    count: this.count,
+                    minutes: this.minutes
+                }
+            })
+        }, 3000)
 
         //     setTimeout(() => {
         //         this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
         //     }, 60000)
 
         // setTimeout(() => {
-        //     this.$router.push('/fail')
+        //     this.$router.replace('/fail')
         // }, 180000)
-    },
-
-    computed: {
-        /* cardWidth() {
-            switch (this.$vuetify.breakpoint.name) {
-                case "xs":
-                    return "232px"
-                case "sm":
-                    return "232px"
-                case "md":
-                    return '300px'
-                case "lg":
-                    return '6800px'
-            }
-        } */
     },
 
     methods: {
         callCancelModal() {
-            alert('호출을 정말로 취소하세요?')
+            this.$toasted.show("호출을 정말로 취소하세요?", {
+                theme: "bubble",
+                position: "top-center"
+            }).goAway(2000);
+
             this.$router.replace('/')
         },
 

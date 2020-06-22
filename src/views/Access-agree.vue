@@ -61,7 +61,6 @@ export default {
             this.$router.replace('/walkthrough')
         }
     }
-
 }
 </script>
 

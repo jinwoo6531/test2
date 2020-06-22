@@ -1,6 +1,6 @@
+import * as firebase from 'firebase/app'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Splash from '@/views/Splash'
 import AccessAgree from '@/views/Access-agree'
 import Walkthrough from '@/views/Walkthrough'
 import Welcome from '@/views/Welcome'
@@ -15,8 +15,36 @@ import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
+// import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
+
+const requireAuth = () => (to, from, next) => {
+  firebase.auth().onAuthStateChanged((user) => {
+  console.log(user.uid)
+  if (user.uid == null) {
+    console.log('next access phone')
+    return next('/auth/accessphone')
+  } else {
+    console.log('next')
+    return next()
+  }
+})
+  /* const currentUser = firebase.auth().currentUser;
+  console.log('current user', currentUser)
+  if (currentUser == null) {
+    // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
+    console.log('next access phone')
+    return next('/auth/accessphone')
+  } else {
+    console.log('next')
+    // store.state.isLoading = true;
+    // setTimeout(() => {
+    //   store.state.isLoading = false;
+    // }, 2000);
+    return next()
+  } */
+}
 
 const routes = [{
     path: '/webview',
@@ -29,11 +57,6 @@ const routes = [{
     component: Import
   },
   {
-    path: '/splash',
-    name: 'Splash',
-    component: Splash
-  },
-  {
     path: '/accessagree',
     name: 'AccessAgree',
     component: AccessAgree
@@ -41,22 +64,23 @@ const routes = [{
   {
     path: '/welcome',
     name: 'Welcome',
-    component: Welcome,
+    component: Welcome
   },
   {
     path: '/walkthrough',
     name: 'Walkthrough',
+    redirect: '/main',
     component: Walkthrough
   },
   {
     path: '/calling',
     name: 'CallingLayout',
-    component: CallingLayout
+    component: CallingLayout,
   },
   {
     path: '/fail',
     name: 'CallFail',
-    component: CallFail
+    component: CallFail,
   },
   {
     path: '/goodbye',
@@ -66,17 +90,17 @@ const routes = [{
   {
     path: '/thanks',
     name: 'Thanks',
-    component: Thanks
+    component: Thanks,
   },
   {
     path: '/autocancel',
     name: 'AutoCancel',
-    component: AutoCancel
+    component: AutoCancel,
   },
   {
     path: '*',
     name: 'NotFoundComponent',
-    component: NotFoundComponent 
+    component: NotFoundComponent
   },
   {
     path: '/auth',
@@ -94,18 +118,19 @@ const routes = [{
       {
         path: 'agreecheck',
         name: 'AgreeCheck',
-        component: () => import('@/components/Auth/AgreeCheck.vue')
+        component: () => import('@/components/Auth/AgreeCheck.vue'),
       },
       {
         path: 'register',
         name: 'Register',
-        component: () => import('@/components/Auth/Register.vue')
+        component: () => import('@/components/Auth/Register.vue'),
       }
     ]
   },
   {
     path: '/map',
     component: MapLayout,
+    beforeEnter: requireAuth(),
     children: [{
         path: 'gunsan',
         name: 'Gunsan',
@@ -136,6 +161,7 @@ const routes = [{
   {
     path: '/',
     component: StaticLayout,
+    beforeEnter: requireAuth(),
     children: [{
         path: '',
         name: 'Main',
@@ -175,6 +201,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
 
 export default router

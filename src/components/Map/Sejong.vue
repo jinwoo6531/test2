@@ -237,10 +237,16 @@ export default {
                     }
 
                 } else if (this.start > this.end) {
-                    alert('이건 안된다.')
+                    this.$toasted.show("이건 안된다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
                     // SAME Station Id
                 } else if (this.start == this.end) {
-                    alert('같은 정류장 선택 불가')
+                    this.$toasted.show("같은 정류장 선택 불가", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
                 }
 
                 let startIcon = this.$utils.map.createIcon({
