@@ -55,7 +55,10 @@ const mutations = {
   }
 }
 const actions = {
-  async sendOtp({ state, commit }, payload) {
+  async sendOtp({
+    state,
+    commit
+  }, payload) {
     //commit('loading', true)
     await Vue.prototype.$firebase.auth().signInWithPhoneNumber(payload.phoneNumber, state.info.appVerifier)
       .then(confirmationResult => {
@@ -81,7 +84,11 @@ const actions = {
       })
   },
 
-  verifyOtp({ commit }, { otp }) {
+  verifyOtp({
+    commit
+  }, {
+    otp
+  }) {
     commit('loading', true)
     window.confirmationResult.confirm(otp)
       .then(result => {
@@ -106,33 +113,52 @@ const actions = {
           theme: "bubble",
           position: "top-center"
         }).goAway(2000);
-        
+
         console.log(error)
         commit('loading', false)
       })
   },
 
-  fetchUser({ commit }, user) {
+  // fetchUser({ commit }, user) {
+  //   commit("SET_LOGGED_IN", user !== null)
+  //   if (user) {
+  //     // axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
+  //     //   .then(async response => {
+  //         // await commit("SET_USER", {
+  //         commit("SET_USER", {
+  //           uid: user.uid,
+  //           phoneNumber: user.phoneNumber,
+  //           displayName: user.displayName
+  //           // displayName: response.data.displayName,
+  //           // email: response.data.email,
+  //           // level: response.data.level,
+  //           // birth: response.data.birth,
+  //           // gender: response.data.gender
+  //         })
+  //       // })
+  //   } else {
+  //     commit("SET_USER", null);
+  //   }
+  // },
+
+  fetchUser({
+    commit
+  }, user) {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
-      axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
-        .then(async response => {
-          await commit("SET_USER", {
-            uid: user.uid,
-            phoneNumber: user.phoneNumber,
-            displayName: response.data.displayName,
-            email: response.data.email,
-            level: response.data.level,
-            birth: response.data.birth,
-            gender: response.data.gender
-          })
-        })
+      commit("SET_USER", {
+        uid: user.uid,
+        phoneNumber: user.phoneNumber,
+        displayName: user.displayName
+      })
     } else {
       commit("SET_USER", null);
     }
   },
 
-  initReCaptcha({ commit }) {
+  initReCaptcha({
+    commit
+  }) {
     setTimeout(() => {
       window.recaptchaVerifier = new Vue.prototype.$firebase.auth.RecaptchaVerifier("recaptcha-container", {
         size: "invisible",
