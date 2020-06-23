@@ -29,7 +29,10 @@ export default {
 
     methods: {
         goToAccessphone() {
-            this.$router.replace('/accessagree')
+            this.$firebase.auth().signOut()
+                .then(() => {
+                    this.$router.replace('/auth/accessphone')
+                });
         }
     }
 
