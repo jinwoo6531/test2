@@ -374,9 +374,6 @@ export default {
         },
 
         closePersonDialog() {
-            //if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
-            // this.callBtn = true
-            // 고정 this.count가 1이고 2로 바꿨는데 만약에 x를 누른 경우 1로 바꿔야하잖오....
             this.dialog = false
             this.count = this.temp
         },
