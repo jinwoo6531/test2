@@ -66,7 +66,6 @@ const routes = [{
   {
     path: '/walkthrough',
     name: 'Walkthrough',
-    redirect: '/main',
     component: Walkthrough
   },
   {
