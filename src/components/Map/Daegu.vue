@@ -12,7 +12,7 @@
                         <template v-slot:activator="{ on }">
                             <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
                                 <img src="../../assets/person-count.svg">
-                                <span v-if="count >= 1" style="padding-left: 12px;">탑승인원 {{ count }}명</span>
+                                <span v-if="count >= 1" style="padding-left: 12px;">탑승인원 {{ temp }}명</span>
                                 <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                             </v-btn>
 
@@ -27,7 +27,7 @@
 
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
-                                <v-btn icon @click="dialog = false">
+                                <v-btn icon @click="closePersonDialog">
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -226,6 +226,7 @@ export default {
         dialog: false,
         calldialog: false,
         count: 0,
+        temp: 0,
         isDisabled1: true,
         isDisabled2: false,
         overlay1: false,
@@ -372,8 +373,16 @@ export default {
             this.count = 1
         },
 
+        closePersonDialog() {
+            //if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
+            // this.callBtn = true
+            // 고정 this.count가 1이고 2로 바꿨는데 만약에 x를 누른 경우 1로 바꿔야하잖오....
+            this.dialog = false
+            this.count = this.temp
+        },
+
         rideCount() {
-            console.log(this.count)
+            this.temp = this.count
             this.dialog = false
         },
 
