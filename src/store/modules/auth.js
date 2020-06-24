@@ -94,18 +94,27 @@ const actions = {
       .then(result => {
         axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
           .then(response => {
-            Vue.toasted.show("인증이 완료되었습니다.", {
-              theme: "bubble",
-              position: "top-center"
-            }).goAway(2000);
             
-            if (response.data.level == 1) {
-              router.replace('/')
-            } else {
-              router.replace('/auth/agreecheck')
-            }
+              Vue.toasted.show("인증이 완료되었습니다.", {
+                theme: "bubble",
+                position: "top-center"
+              }).goAway(2000);
+              
+              if (response.data.level == 1) {
+                router.replace('/')
+              } else {
+                router.replace('/auth/agreecheck')
+              }
           }).catch(error => {
             console.log('User read: ', error)
+            
+            // if (error.response.data.status == 400) {
+            //   alert('400 Error')
+            //   router.replace({ name: '' })
+            // } else if (error.response.data.status == 500) {
+            //   alert('500 Error')
+            //   router.replace('*')
+            // }
           })
       })
       .catch(error => {
@@ -114,7 +123,7 @@ const actions = {
           position: "top-center"
         }).goAway(2000);
 
-        console.log(error)
+        console.log('인증코드가 잘못되었습니다. ', error)
         commit('loading', false)
       })
   },
@@ -164,7 +173,7 @@ const actions = {
         size: "invisible",
         callback: function (response) {
           console.log(response)
-          // dispatch('sendOtp')
+          this.dispatch('sendOtp')
         },
         "expired-callback": function () {
           console.log('Recaptcha Error')

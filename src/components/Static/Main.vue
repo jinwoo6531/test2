@@ -82,7 +82,7 @@ export default {
                 hidden: false,
             }
         ],
-    })
+    }),
 }
 </script>
 
