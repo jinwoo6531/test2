@@ -870,7 +870,6 @@ export default {
 
 .paymentMethod {
     position: relative;
-
     width: 116px !important;
     height: 49px !important;
     border: 1px solid #BDBDBD !important;

@@ -350,19 +350,21 @@ export default {
     },
 
     methods: {
-        showNameDialog() {
+        async showNameDialog() {
             if (this.displayName == null) {
                 this.rules = '이름은 필수 항목입니다.'
                 this.namedialog = true
             } else {
                 // 변경된 이름 저장
                 var uid = this.user.data.uid
-                this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(uid).update({
                     displayName: this.displayName
                 })
 
-                this.rules = ''
-                this.namedialog = false
+                this.rules = await ''
+                this.namedialog = await false
+
+                await location.reload(true)
             }
         },
 
