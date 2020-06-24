@@ -377,10 +377,12 @@ export default {
         },
 
         switchDestination() {
-            var change = this.start
-            this.start = this.end
-            this.end = change
-            this.onChange()
+            if (this.start >= 9 && this.end >= 9) {
+                var change = this.start
+                this.start = this.end
+                this.end = change
+                this.onChange()
+            }
         },
 
         addMarker() {
