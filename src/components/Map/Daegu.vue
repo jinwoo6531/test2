@@ -384,10 +384,12 @@ export default {
         },
 
         switchDestination() {
-            var change = this.start
-            this.start = this.end
-            this.end = change
-            this.onChange()
+            if (this.start >= 1 && this.end >= 1) {
+                var change = this.start
+                this.start = this.end
+                this.end = change
+                this.onChange()
+            }
         },
 
         addMarker() {

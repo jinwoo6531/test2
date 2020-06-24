@@ -18,9 +18,9 @@
                     <v-list-item-content>
                         <v-row class="ma-0" style="height: 30px;">
                             <v-col class="pa-0" cols="10">
-                                <v-row class="ma-0">
+                                <v-row class="ma-0" v-if="ready">
                                     <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                        {{ user.data.displayName }}님
+                                        {{ displayName }}님
                                     </v-col>
                                 </v-row>
                                 <v-row class="ma-0">
@@ -191,12 +191,24 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import {
+    mapGetters
+} from "vuex"
+import axios from 'axios'
 
 export default {
     data: () => ({
-        drawer: null
+        drawer: null,
+        ready: false
     }),
+
+    mounted() {
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            .then(async response => {
+                this.displayName = response.data.displayName
+                this.ready = true
+            })
+    },
 
     computed: {
         ...mapGetters({

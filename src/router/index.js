@@ -61,7 +61,8 @@ const routes = [{
   {
     path: '/welcome',
     name: 'Welcome',
-    component: Welcome
+    component: Welcome,
+    beforeEnter: requireAuth(),
   },
   {
     path: '/walkthrough',
@@ -72,11 +73,13 @@ const routes = [{
     path: '/calling',
     name: 'CallingLayout',
     component: CallingLayout,
+    beforeEnter: requireAuth(),
   },
   {
     path: '/fail',
     name: 'CallFail',
     component: CallFail,
+    beforeEnter: requireAuth(),
   },
   {
     path: '/goodbye',
@@ -87,11 +90,13 @@ const routes = [{
     path: '/thanks',
     name: 'Thanks',
     component: Thanks,
+    beforeEnter: requireAuth(),
   },
   {
     path: '/autocancel',
     name: 'AutoCancel',
     component: AutoCancel,
+    beforeEnter: requireAuth(),
   },
   {
     path: '*',
