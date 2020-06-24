@@ -48,7 +48,7 @@ export default {
                 if (rsp.success) {
                     console.log('결제 성공 success!!: ', rsp.success)
                     axios({
-                        url: 'http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put', // 가맹점 서버
+                        url: 'https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put', // 가맹점 서버
                         method: "post",
                         headers: {
                             'content-type': 'application/x-www-form-urlencoded'
@@ -86,7 +86,7 @@ export default {
             // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
             if (this.isrefund == '0') {
                 axios({
-                    url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
+                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
                     method: "post",
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded'

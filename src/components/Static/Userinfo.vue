@@ -299,7 +299,7 @@ export default {
     }),
 
     created() {
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.displayName = response.data.displayName
                 this.email = response.data.email
@@ -417,7 +417,7 @@ export default {
         },
 
         nochangeDisplayName() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.displayName = response.data.displayName
                     this.namedialog = false
@@ -425,7 +425,7 @@ export default {
         },
 
         nochangeEmail() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.email = response.data.email
                     this.emaildialog = false
@@ -433,7 +433,7 @@ export default {
         },
 
         nochangeGender() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.gender = response.data.gender
                     this.genderdialog = false
@@ -441,7 +441,7 @@ export default {
         },
 
         nochangeBirth() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.birth = response.data.birth
                     this.birthdialog = false
