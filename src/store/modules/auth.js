@@ -84,11 +84,7 @@ const actions = {
       })
   },
 
-  verifyOtp({
-    commit
-  }, {
-    otp
-  }) {
+  verifyOtp({ commit }, { otp }) {
     commit('loading', true)
     window.confirmationResult.confirm(otp)
       .then(result => {
@@ -98,7 +94,7 @@ const actions = {
               theme: "bubble",
               position: "top-center"
             }).goAway(2000);
-            
+            // alert('인증이 완료되었습니다.')
             if (response.data.level == 1) {
               router.replace('/')
             } else {
@@ -113,48 +109,46 @@ const actions = {
           theme: "bubble",
           position: "top-center"
         }).goAway(2000);
-
+        
         console.log(error)
         commit('loading', false)
       })
   },
 
-  // fetchUser({ commit }, user) {
-  //   commit("SET_LOGGED_IN", user !== null)
-  //   if (user) {
-  //     // axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
-  //     //   .then(async response => {
-  //         // await commit("SET_USER", {
-  //         commit("SET_USER", {
-  //           uid: user.uid,
-  //           phoneNumber: user.phoneNumber,
-  //           displayName: user.displayName
-  //           // displayName: response.data.displayName,
-  //           // email: response.data.email,
-  //           // level: response.data.level,
-  //           // birth: response.data.birth,
-  //           // gender: response.data.gender
-  //         })
-  //       // })
-  //   } else {
-  //     commit("SET_USER", null);
-  //   }
-  // },
-
-  fetchUser({
-    commit
-  }, user) {
+  fetchUser({ commit }, user) {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
-      commit("SET_USER", {
-        uid: user.uid,
-        phoneNumber: user.phoneNumber,
-        displayName: user.displayName
-      })
+      axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + user.uid)
+        .then(async response => {
+          await commit("SET_USER", {
+            uid: user.uid,
+            phoneNumber: user.phoneNumber,
+            displayName: response.data.displayName,
+            email: response.data.email,
+            level: response.data.level,
+            birth: response.data.birth,
+            gender: response.data.gender
+          })
+        })
     } else {
       commit("SET_USER", null);
     }
   },
+
+  // fetchUser({
+  //   commit
+  // }, user) {
+  //   commit("SET_LOGGED_IN", user !== null)
+  //   if (user) {
+  //     commit("SET_USER", {
+  //       uid: user.uid,
+  //       phoneNumber: user.phoneNumber,
+  //       displayName: user.displayName
+  //     })
+  //   } else {
+  //     commit("SET_USER", null);
+  //   }
+  // },
 
   initReCaptcha({
     commit
@@ -164,7 +158,7 @@ const actions = {
         size: "invisible",
         callback: function (response) {
           console.log(response)
-          // dispatch('sendOtp')
+          this.dispatch('sendOtp')
         },
         "expired-callback": function () {
           console.log('Recaptcha Error')

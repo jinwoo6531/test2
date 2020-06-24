@@ -176,7 +176,7 @@ export default {
                 })
         },
 
-        getRouting() {
+        async getRouting() {
             // Gunsan
             if (this.site == 1) {
                 if (this.start >= 9 && this.end >= 9) {
@@ -210,27 +210,27 @@ export default {
 
                     if (this.start === 9) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 10) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 11) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 12) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 13) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
                             icon: startIcon
                         })
                     }
@@ -242,27 +242,27 @@ export default {
 
                     if (this.end === 9) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 10) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 11) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 12) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 13) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
                             icon: endIcon
                         })
                     }
@@ -376,22 +376,22 @@ export default {
 
                     if (this.start === 1) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 2) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 3) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 4) {
                         this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: startIcon
                         })
                     }
@@ -403,22 +403,22 @@ export default {
 
                     if (this.end === 1) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 2) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 3) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 4) {
                         this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: endIcon
                         })
                     }
