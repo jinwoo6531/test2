@@ -290,6 +290,8 @@ export default {
     updated() {
         if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
             this.callBtn = true
+        } else {
+            this.callBtn = false
         }
     },
 
@@ -398,6 +400,8 @@ export default {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(800);
+
+                this.callBtn = false
             }
         },
 
