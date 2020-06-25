@@ -27,9 +27,9 @@
             <v-flex xs12 sm12 md12 class="d-flex flex-column justify-start align-center text-left">
                 <v-card class="auth-code-wrap pa-0" color="transparent" flat tile>
                     <v-card class="pa-0 d-flex flex-column justify-center align-center" width="100%" color="transparent" flat tile>
-                        <v-card class="pa-0" color="transparent" flat tile>
-                            <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :is-input-num="false" v-if="isLoading == true" />
-                            <v-otp-input ref="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :should-auto-focus="true" :is-input-num="true" @on-change="handleOnChange" @on-complete="handleOnComplete" v-else />
+                        <v-card class="pa-0" color="transparent" width="100%" flat tile>
+                            <v-otp-input ref="otpInput" id="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :is-input-num="false" v-if="isLoading == true" />
+                            <v-otp-input ref="otpInput" id="otpInput" input-classes="otp-input" separator=" " :num-inputs="6" :should-auto-focus="true" :is-input-num="true" @on-change="handleOnChange" @on-complete="handleOnComplete" v-else />
                         </v-card>
                     </v-card>
                     <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
@@ -164,8 +164,9 @@ export default {
     width: 47px;
     height: 47px;
     padding: 5px;
+    justify-content: space-around;
     margin-right: 8px;
-    font-size: 20px;
+    font-size: 20px !important;
     border-radius: 2px;
     background: #FFFFFF;
     border: 0.5px solid #C4C4C4;
@@ -181,7 +182,17 @@ export default {
         border: 1px solid red !important;
     }
 }
-</style><style scoped>
+
+.otp-input:last-child {
+    margin: 0;
+}
+</style>
+
+<style scoped>
+#otpInput {
+    justify-content: space-between;
+}
+
 .back-to-auth-code {
     width: 100%;
     text-align: left;
