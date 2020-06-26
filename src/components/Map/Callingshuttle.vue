@@ -178,7 +178,7 @@ export default {
                 })
         },
 
-        getRouting() {
+        async getRouting() {
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
                 iconSize: [40, 40]
@@ -194,7 +194,7 @@ export default {
                 if (this.start >= 9 && this.end >= 9) {
                     // ADD Between Station
                     for (let i = this.start; i <= this.end; i++) {
-                        this.waypoints.push({
+                        await this.waypoints.push({
                             lat: this.stationList[i - 9].lat,
                             lng: this.stationList[i - 9].lon
                         })
@@ -249,7 +249,7 @@ export default {
                 if (this.start >= 1 && this.end >= 1) {
                     if (this.start < this.end) {
                         for (let i = this.start; i <= this.end; i++) {
-                            this.waypoints.push({
+                            await this.waypoints.push({
                                 lat: this.stationList[i - 1].lat,
                                 lng: this.stationList[i - 1].lon
                             })
