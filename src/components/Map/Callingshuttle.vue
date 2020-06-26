@@ -127,8 +127,6 @@ export default {
         this.count = this.$route.params.count
         this.minutes = this.$route.params.minutes
 
-        this.getStation()
-        this.ready = true
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -138,12 +136,16 @@ export default {
 
         // Open Street Map Layer Service Load
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
+        
+        this.getStation()
+        this.getRouting()
+        this.ready = true
     },
 
     methods: {
-        async getStation() {
-            await axios.get('/api/stations/')
-                .then(async response => {
+        getStation() {
+            axios.get('/api/stations/')
+                .then(response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -166,8 +168,6 @@ export default {
                         } else if (this.site == 4) {
                             this.map.setView([37.579200, 126.888880], 15)
                         }
-
-                        await this.getRouting()
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -177,6 +177,28 @@ export default {
         },
 
         getRouting() {
+            this.$utils.map.createRouting(this.map, {
+                waypoints: this.waypoints,
+                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                lineOptions: {
+                    draggable: false,
+                    styles: [{
+                        color: '#E51973',
+                        weight: 5
+                    }]
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function () {
+                    return null;
+                }
+            })
+
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
                 iconSize: [40, 40]
@@ -191,7 +213,6 @@ export default {
             if (this.site == 1) {
                 if (this.start >= 9 && this.end >= 9 && this.start > this.end && this.start != this.end) {
                     // ADD Between Station
-
                     for (let i = this.start; i <= this.end; i++) {
                         this.waypoints.push({
                             lat: this.stationList[i - 9].lat,
@@ -242,7 +263,8 @@ export default {
                             icon: endIcon
                         })
                     }
-
+                    console.log('this.waypoints', this.waypoints)
+                    console.log('this.stationList', this.stationList)
                 } else {
                     this.$toasted.show("지원하지 않는 경로입니다...", {
                         theme: "bubble",
@@ -384,30 +406,10 @@ export default {
                         })
                     }
 
+                    console.log('this.waypoints', this.waypoints)
+                    console.log('this.stationList', this.stationList)
                 }
             }
-
-            this.$utils.map.createRouting(this.map, {
-                waypoints: this.waypoints,
-                serviceUrl: 'http://115.93.143.2:8104/route/v1',
-                addWaypoints: false,
-                draggableWaypoints: false,
-                showAlternatives: false,
-                routeWhileDragging: false,
-                lineOptions: {
-                    draggable: false,
-                    styles: [{
-                        color: '#E51973',
-                        weight: 5
-                    }]
-                },
-                draggable: false,
-                autoRoute: true,
-                show: false,
-                createMarker: function () {
-                    return null;
-                }
-            })
         },
 
         callCancel() {
