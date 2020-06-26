@@ -57,7 +57,7 @@
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
+                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
                                 </span>
                             </p>
                         </v-flex>
@@ -123,7 +123,7 @@
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
                     <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
                     <v-dialog v-model="calldialog" max-width="280">
-                        <v-card style="width: 280px; height: 404px; background-color: transparent;">
+                        <v-card style="width: 280px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
