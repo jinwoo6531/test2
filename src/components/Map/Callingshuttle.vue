@@ -419,6 +419,10 @@ export default {
             })
 
             console.log('waypoint', this.waypoints)
+            console.log('start', this.start)
+            console.log('start typeof', typeof(this.start))
+            console.log('end', this.end)
+            console.log('end typeof', typeof(this.end))
         },
 
         callCancel() {
