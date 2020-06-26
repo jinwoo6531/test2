@@ -462,9 +462,7 @@ export default {
                         })
                     }
                 }).catch(error => {
-                    console.log('station (GET) error: ')
-                    this.error = error
-                    console.log(error)
+                    console.log('station (GET) error: ', error)
                 })
         },
 
