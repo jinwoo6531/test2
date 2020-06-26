@@ -191,19 +191,58 @@ export default {
             if (this.site == 1) {
                 if (this.start >= 9 && this.end >= 9) {
                     // ADD Between Station
-                    if (this.start >= 9 && this.end >= 9 && this.start > this.end && this.start != this.end) {
+                    if (this.start < this.end) {
                         for (let i = this.start; i <= this.end; i++) {
                             this.waypoints.push({
                                 lat: this.stationList[i - 9].lat,
                                 lng: this.stationList[i - 9].lon
                             })
                         }
-
-                    } else {
+                    } else if (this.start > this.end) {
                         this.$toasted.show("지원하지 않는 경로입니다...", {
                             theme: "bubble",
                             position: "top-center"
                         }).goAway(800);
+
+                        this.waypoints.push({
+                            lat: 35.8118970000000000,
+                            lng: 126.4048860000000000
+                        }, {
+                            lat: 35.8141840000000000,
+                            lng: 126.4098450000000000
+                        }, {
+                            lat: 35.8138460000000000,
+                            lng: 126.4132000000000000
+                        }, {
+                            lat: 35.8136980000000000,
+                            lng: 126.4137440000000000
+                        }, {
+                            lat: 35.8114720000000000,
+                            lng: 126.4164430000000000
+                        })
+
+                    } else if (this.start == this.end) { // SAME Station Id
+                        this.$toasted.show("지원하지 않는 경로입니다...", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(800);
+
+                        this.waypoints.push({
+                            lat: 35.8118970000000000,
+                            lng: 126.4048860000000000
+                        }, {
+                            lat: 35.8141840000000000,
+                            lng: 126.4098450000000000
+                        }, {
+                            lat: 35.8138460000000000,
+                            lng: 126.4132000000000000
+                        }, {
+                            lat: 35.8136980000000000,
+                            lng: 126.4137440000000000
+                        }, {
+                            lat: 35.8114720000000000,
+                            lng: 126.4164430000000000
+                        })
                     }
 
                     if (this.start === '9') {
@@ -409,12 +448,6 @@ export default {
                     return null;
                 }
             })
-
-            console.log('waypoint', this.waypoints)
-            console.log('start', this.start)
-            console.log('start typeof', typeof (this.start))
-            console.log('end', this.end)
-            console.log('end typeof', typeof (this.end))
         },
 
         callCancel() {
