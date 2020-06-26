@@ -80,7 +80,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -189,71 +191,55 @@ export default {
 
             // Gunsan
             if (this.site == 1) {
-                if (this.start >= 9 && this.end >= 9) {
-                    // ADD Between Station
-                    if (this.start < this.end) {
-                        for (let i = this.start; i <= this.end; i++) {
-                            await this.waypoints.push({
-                                lat: this.stationList[i - 9].lat,
-                                lng: this.stationList[i - 9].lon
-                            })
-                        }
-                    } else if (this.start > this.end) {
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
+                for (let i = 9; i <= 13; i++) {
+                    await this.waypoints.push({
+                        lat: this.stationList[i - 9].lat,
+                        lng: this.stationList[i - 9].lon
+                    })
+                }
 
-                    } else if (this.start == this.end) { // SAME Station Id
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-                    }
+                if (this.start === '9') {
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === '10') {
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === '11') {
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === '12') {
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        icon: startIcon
+                    })
+                } else if (this.start === '13') {
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                        icon: startIcon
+                    })
+                }
 
-                    if (this.start === '9') {
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
-                            icon: startIcon
-                        })
-                    } else if (this.start === '10') {
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
-                            icon: startIcon
-                        })
-                    } else if (this.start === '11') {
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
-                            icon: startIcon
-                        })
-                    } else if (this.start === '12') {
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
-                            icon: startIcon
-                        })
-                    } else if (this.start === '13') {
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
-                            icon: startIcon
-                        })
-                    }
-
-                    if (this.end === '9') {
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
-                            icon: endIcon
-                        })
-                    } else if (this.end === '10') {
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
-                            icon: endIcon
-                        })
-                    } else if (this.end === '11') {
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
-                            icon: endIcon
-                        })
-                    } else if (this.end === '12') {
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
-                            icon: endIcon
-                        })
-                    } else if (this.end === '13') {
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
-                            icon: endIcon
-                        })
-                    }
+                if (this.end === '9') {
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === '10') {
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === '11') {
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === '12') {
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        icon: endIcon
+                    })
+                } else if (this.end === '13') {
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                        icon: endIcon
+                    })
                 }
             } else if (this.site == 2) {
                 // Daegu
