@@ -186,16 +186,14 @@ export default {
                 iconUrl: require("../../assets/end-icon.svg"),
                 iconSize: [40, 40]
             })
+            this.start = await parseInt(this.start)
+            this.end = await parseInt(this.end)
 
             // Gunsan
             if (this.site == 1) {
                 if (this.start >= 9 && this.end >= 9) {
                     // ADD Between Station
-                    this.start = await parseInt(this.start)
-                    this.end = await parseInt(this.end)
-                    console.log('start', this.start)
-                    console.log('end', this.end)
-                    
+
                     if (this.start < this.end) {
                         for (let i = this.start; i <= this.end; i++) {
                             this.waypoints.push({
@@ -216,45 +214,45 @@ export default {
                         }).goAway(800);
                     }
 
-                    if (this.start === '9') {
+                    if (this.start === 9) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '10') {
+                    } else if (this.start === 10) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '11') {
+                    } else if (this.start === 11) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '12') {
+                    } else if (this.start === 12) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '13') {
+                    } else if (this.start === 13) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
                             icon: startIcon
                         })
                     }
 
-                    if (this.end === '9') {
+                    if (this.end === 9) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '10') {
+                    } else if (this.end === 10) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '11') {
+                    } else if (this.end === 11) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '12') {
+                    } else if (this.end === 12) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '13') {
+                    } else if (this.end === 13) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
                             icon: endIcon
                         })
@@ -360,37 +358,37 @@ export default {
                         }
                     }
 
-                    if (this.start === '1') {
+                    if (this.start === 1) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '2') {
+                    } else if (this.start === 2) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '3') {
+                    } else if (this.start === 3) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: startIcon
                         })
-                    } else if (this.start === '4') {
+                    } else if (this.start === 4) {
                         this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: startIcon
                         })
                     }
 
-                    if (this.end === '1') {
+                    if (this.end === 1) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '2') {
+                    } else if (this.end === 2) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '3') {
+                    } else if (this.end === 3) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: endIcon
                         })
-                    } else if (this.end === '4') {
+                    } else if (this.end === 4) {
                         this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: endIcon
                         })
