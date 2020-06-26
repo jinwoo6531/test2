@@ -80,7 +80,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -127,6 +129,8 @@ export default {
         this.count = this.$route.params.count
         this.minutes = this.$route.params.minutes
 
+        this.getStation()
+        this.ready = true
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -136,23 +140,19 @@ export default {
 
         // Open Street Map Layer Service Load
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
-        
-        this.getStation()
-        this.getRouting()
-        this.ready = true
     },
 
     methods: {
         getStation() {
             axios.get('/api/stations/')
-                .then(response => {
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.site) {
-                                this.stationList.push(station_result[i])
-                                this.stationList = this.stationList.sort(function (a, b) {
+                                await this.stationList.push(station_result[i])
+                                this.stationList = await this.stationList.sort(function (a, b) {
                                     return a.id < b.id ? -1 : 1
                                 })
                             }
@@ -168,6 +168,8 @@ export default {
                         } else if (this.site == 4) {
                             this.map.setView([37.579200, 126.888880], 15)
                         }
+
+                        await this.getRouting()
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -176,29 +178,7 @@ export default {
                 })
         },
 
-        getRouting() {
-            this.$utils.map.createRouting(this.map, {
-                waypoints: this.waypoints,
-                serviceUrl: 'http://115.93.143.2:8104/route/v1',
-                addWaypoints: false,
-                draggableWaypoints: false,
-                showAlternatives: false,
-                routeWhileDragging: false,
-                lineOptions: {
-                    draggable: false,
-                    styles: [{
-                        color: '#E51973',
-                        weight: 5
-                    }]
-                },
-                draggable: false,
-                autoRoute: true,
-                show: false,
-                createMarker: function () {
-                    return null;
-                }
-            })
-
+        async getRouting() {
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
                 iconSize: [40, 40]
@@ -211,13 +191,27 @@ export default {
 
             // Gunsan
             if (this.site == 1) {
-                if (this.start >= 9 && this.end >= 9 && this.start > this.end && this.start != this.end) {
+                if (this.start >= 9 && this.end >= 9) {
                     // ADD Between Station
-                    for (let i = this.start; i <= this.end; i++) {
-                        this.waypoints.push({
-                            lat: this.stationList[i - 9].lat,
-                            lng: this.stationList[i - 9].lon
-                        })
+                    if (this.start < this.end) {
+                        for (let i = this.start; i <= this.end; i++) {
+                            await this.waypoints.push({
+                                lat: this.stationList[i - 9].lat,
+                                lng: this.stationList[i - 9].lon
+                            })
+                        }
+
+                    } else if (this.start > this.end) {
+                        this.$toasted.show("이건 안된다.", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(2000);
+                        // SAME Station Id
+                    } else if (this.start == this.end) {
+                        this.$toasted.show("같은 정류장 선택 불가", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(2000);
                     }
 
                     if (this.start === 9) {
@@ -263,32 +257,26 @@ export default {
                             icon: endIcon
                         })
                     }
-                    console.log('this.waypoints', this.waypoints)
-                    console.log('this.stationList', this.stationList)
-                } else {
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800)
                 }
             } else if (this.site == 2) {
                 // Daegu
                 if (this.start >= 1 && this.end >= 1) {
                     if (this.start < this.end) {
                         for (let i = this.start; i <= this.end; i++) {
-                            this.waypoints.push({
+                            await this.waypoints.push({
                                 lat: this.stationList[i - 1].lat,
                                 lng: this.stationList[i - 1].lon
                             })
                         }
+
                     } else if (this.start > this.end) {
-                        this.waypoints.push({
+                        await this.waypoints.push({
                             lat: this.stationList[this.start - 1].lat,
                             lng: this.stationList[this.start - 1].lon
                         })
                         for (let i = this.start;
                             (i % 4) != this.end; i++) {
-                            this.waypoints.push({
+                            await this.waypoints.push({
                                 lat: this.stationList[i % 4].lat,
                                 lng: this.stationList[i % 4].lon
                             })
@@ -297,7 +285,7 @@ export default {
                     } else if (this.start == this.end) {
                         switch (this.start) {
                             case 1:
-                                this.waypoints.push({
+                                await this.waypoints.push({
                                     lat: this.stationList[0].lat,
                                     lng: this.stationList[0].lon
                                 }, {
@@ -315,7 +303,7 @@ export default {
                                 })
                                 break
                             case 2:
-                                this.waypoints.push({
+                                await this.waypoints.push({
                                     lat: this.stationList[1].lat,
                                     lng: this.stationList[1].lon
                                 }, {
@@ -333,7 +321,7 @@ export default {
                                 })
                                 break
                             case 3:
-                                this.waypoints.push({
+                                await this.waypoints.push({
                                     lat: this.stationList[2].lat,
                                     lng: this.stationList[2].lon
                                 }, {
@@ -351,7 +339,7 @@ export default {
                                 })
                                 break
                             default:
-                                this.waypoints.push({
+                                await this.waypoints.push({
                                     lat: this.stationList[3].lat,
                                     lng: this.stationList[3].lon
                                 }, {
@@ -405,11 +393,32 @@ export default {
                             icon: endIcon
                         })
                     }
-
-                    console.log('this.waypoints', this.waypoints)
-                    console.log('this.stationList', this.stationList)
                 }
             }
+
+            this.$utils.map.createRouting(this.map, {
+                waypoints: this.waypoints,
+                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                lineOptions: {
+                    draggable: false,
+                    styles: [{
+                        color: '#E51973',
+                        weight: 5
+                    }]
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function () {
+                    return null;
+                }
+            })
+
+            console.log('waypoint', this.waypoints)
         },
 
         callCancel() {
