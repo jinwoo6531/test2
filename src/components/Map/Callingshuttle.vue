@@ -80,9 +80,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -145,7 +143,7 @@ export default {
     methods: {
         getStation() {
             axios.get('/api/stations/')
-                .then(async response => {
+                .then(response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -169,7 +167,7 @@ export default {
                             this.map.setView([37.579200, 126.888880], 15)
                         }
 
-                        await this.getRouting()
+                        this.getRouting()
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -193,11 +191,24 @@ export default {
             if (this.site == 1) {
                 if (this.start >= 9 && this.end >= 9) {
                     // ADD Between Station
-                    for (let i = this.start; i <= this.end; i++) {
-                        await this.waypoints.push({
-                            lat: this.stationList[i - 9].lat,
-                            lng: this.stationList[i - 9].lon
-                        })
+                    if (this.start < this.end) {
+                        for (let i = this.start; i <= this.end; i++) {
+                            await this.waypoints.push({
+                                lat: this.stationList[i - 9].lat,
+                                lng: this.stationList[i - 9].lon
+                            })
+                        }
+                    } else if (this.start > this.end) {
+                        this.$toasted.show("지원하지 않는 경로입니다...", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(800);
+
+                    } else if (this.start == this.end) { // SAME Station Id
+                        this.$toasted.show("지원하지 않는 경로입니다...", {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(800);
                     }
 
                     if (this.start === '9') {
@@ -249,7 +260,7 @@ export default {
                 if (this.start >= 1 && this.end >= 1) {
                     if (this.start < this.end) {
                         for (let i = this.start; i <= this.end; i++) {
-                            await this.waypoints.push({
+                            this.waypoints.push({
                                 lat: this.stationList[i - 1].lat,
                                 lng: this.stationList[i - 1].lon
                             })
