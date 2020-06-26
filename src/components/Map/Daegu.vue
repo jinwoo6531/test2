@@ -53,11 +53,11 @@
                     </v-dialog>
 
                     <span v-if="callBtn" style="display: inline-block; width: 70%;">
-                        <v-flex class="mb-3" style="width: 175px; background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
+                        <v-flex class="mb-3" style="background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
+                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
                                 </span>
                             </p>
                         </v-flex>
@@ -123,7 +123,7 @@
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
                     <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
                     <v-dialog v-model="calldialog" max-width="280">
-                        <v-card style="width: 280px; height: 404px; background-color: transparent;">
+                        <v-card style="width: 280px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
@@ -157,11 +157,11 @@
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
-                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="56px" v-else>호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -799,7 +799,6 @@ export default {
 
 .dialog-background {
     width: 2801px;
-    height: 404px;
     background-image: url('~@/assets/call-dialog.png');
 }
 
