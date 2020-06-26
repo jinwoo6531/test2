@@ -53,7 +53,7 @@
                     </v-dialog>
 
                     <span v-if="callBtn" style="display: inline-block; width: 70%;">
-                        <v-flex class="mb-3" style="width: 175px; background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
+                        <v-flex class="mb-3" style="width: 180px; background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
@@ -131,7 +131,7 @@
                                     <v-card-text class="pa-0 call-dialog-paymony">{{ totalPayment }}<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
-                                <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
+                                <v-card-text class="pa-3 text-center" style="padding-top: 10px !important;">
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
                                         <table style="width: 100%; border: none !important;">
                                             <tr>
