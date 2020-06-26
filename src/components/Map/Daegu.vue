@@ -157,11 +157,11 @@
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
-                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="56px" v-else>호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>
