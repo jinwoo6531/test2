@@ -145,7 +145,7 @@ export default {
     methods: {
         getStation() {
             axios.get('/api/stations/')
-                .then(response => {
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -169,7 +169,7 @@ export default {
                             this.map.setView([37.579200, 126.888880], 15)
                         }
 
-                        this.getRouting()
+                        await this.getRouting()
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
