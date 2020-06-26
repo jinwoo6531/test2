@@ -80,7 +80,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -191,13 +193,11 @@ export default {
             if (this.site == 1) {
                 if (this.start >= 9 && this.end >= 9) {
                     // ADD Between Station
-                    if (this.start < this.end) {
-                        for (let i = this.start; i <= this.end; i++) {
-                            this.waypoints.push({
-                                lat: this.stationList[i - 9].lat,
-                                lng: this.stationList[i - 9].lon
-                            })
-                        }
+                    for (let i = this.start; i <= this.end; i++) {
+                        this.waypoints.push({
+                            lat: this.stationList[i - 9].lat,
+                            lng: this.stationList[i - 9].lon
+                        })
                     }
 
                     if (this.start === '9') {
