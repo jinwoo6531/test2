@@ -53,7 +53,7 @@
                     </v-dialog>
 
                     <span v-if="callBtn" style="display: inline-block; width: 70%;">
-                        <v-flex class="mb-3" style="width:80px; background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
+                        <v-flex class="mb-3" style="background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
@@ -738,7 +738,6 @@ export default {
 
 .dialog-background {
     width: 2801px;
-    height: 404px;
     background-image: url('~@/assets/call-dialog.png');
 }
 
