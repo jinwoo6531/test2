@@ -141,9 +141,9 @@ export default {
     },
 
     methods: {
-        getStation() {
-            axios.get('/api/stations/')
-                .then(response => {
+        async getStation() {
+            await axios.get('/api/stations/')
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -167,7 +167,7 @@ export default {
                             this.map.setView([37.579200, 126.888880], 15)
                         }
 
-                        this.getRouting()
+                        await this.getRouting()
                     }
                 }).catch(error => {
                     console.log('station (GET) error: ')
@@ -176,13 +176,13 @@ export default {
                 })
         },
 
-        async getRouting() {
-            let startIcon = await this.$utils.map.createIcon({
+        getRouting() {
+            let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
                 iconSize: [40, 40]
             })
 
-            let endIcon = await this.$utils.map.createIcon({
+            let endIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/end-icon.svg"),
                 iconSize: [40, 40]
             })
