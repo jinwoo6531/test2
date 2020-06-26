@@ -177,98 +177,77 @@ export default {
         },
 
         async getRouting() {
+            let startIcon = await this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40]
+            })
+
+            let endIcon = await this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40]
+            })
+
             // Gunsan
             if (this.site == 1) {
-                if (this.start >= 9 && this.end >= 9) {
+                if (this.start >= 9 && this.end >= 9 && this.start > this.end && this.start != this.end) {
                     // ADD Between Station
-                    if (this.start < this.end) {
-                        for (let i = this.start; i <= this.end; i++) {
-                            this.waypoints.push({
-                                lat: this.stationList[i - 9].lat,
-                                lng: this.stationList[i - 9].lon
-                            })
-                        }
-                        console.log('waypoint', this.waypoints)
 
-                    } else if (this.start > this.end) {
-                        this.$toasted.show("이건 안된다.", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(2000);
-                        // SAME Station Id
-                    } else if (this.start == this.end) {
-                        this.$toasted.show("같은 정류장 선택 불가", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(2000);
+                    for (let i = this.start; i <= this.end; i++) {
+                        this.waypoints.push({
+                            lat: this.stationList[i - 9].lat,
+                            lng: this.stationList[i - 9].lon
+                        })
                     }
 
-                    let startIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/start-icon.svg"),
-                        iconSize: [40, 40]
-                    })
-
                     if (this.start === 9) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 10) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 11) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 12) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 13) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
                             icon: startIcon
                         })
                     }
 
-                    let endIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/end-icon.svg"),
-                        iconSize: [40, 40]
-                    })
-
                     if (this.end === 9) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 10) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 11) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 12) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 13) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[4].lat, this.stationList[4].lon], {
                             icon: endIcon
                         })
                     }
 
-                    this.map.removeLayer(endIcon)
-
+                } else {
+                    this.$toasted.show("지원하지 않는 경로입니다...", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(800)
                 }
             } else if (this.site == 2) {
                 // Daegu
@@ -369,61 +348,42 @@ export default {
                         }
                     }
 
-                    let startIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/start-icon.svg"),
-                        iconSize: [40, 40]
-                    })
-
                     if (this.start === 1) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 2) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 3) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: startIcon
                         })
                     } else if (this.start === 4) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: startIcon
                         })
                     }
 
-                    let endIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/end-icon.svg"),
-                        iconSize: [40, 40]
-                    })
-
                     if (this.end === 1) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[0].lat, this.stationList[0].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 2) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[1].lat, this.stationList[1].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 3) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[2].lat, this.stationList[2].lon], {
                             icon: endIcon
                         })
                     } else if (this.end === 4) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = await this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[3].lat, this.stationList[3].lon], {
                             icon: endIcon
                         })
                     }
 
-                    this.map.removeLayer(endIcon)
                 }
             }
 
