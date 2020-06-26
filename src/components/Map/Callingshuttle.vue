@@ -198,51 +198,6 @@ export default {
                                 lng: this.stationList[i - 9].lon
                             })
                         }
-                    } else if (this.start > this.end) {
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-
-                        this.waypoints.push({
-                            lat: 35.8118970000000000,
-                            lng: 126.4048860000000000
-                        }, {
-                            lat: 35.8141840000000000,
-                            lng: 126.4098450000000000
-                        }, {
-                            lat: 35.8138460000000000,
-                            lng: 126.4132000000000000
-                        }, {
-                            lat: 35.8136980000000000,
-                            lng: 126.4137440000000000
-                        }, {
-                            lat: 35.8114720000000000,
-                            lng: 126.4164430000000000
-                        })
-
-                    } else if (this.start == this.end) { // SAME Station Id
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-
-                        this.waypoints.push({
-                            lat: 35.8118970000000000,
-                            lng: 126.4048860000000000
-                        }, {
-                            lat: 35.8141840000000000,
-                            lng: 126.4098450000000000
-                        }, {
-                            lat: 35.8138460000000000,
-                            lng: 126.4132000000000000
-                        }, {
-                            lat: 35.8136980000000000,
-                            lng: 126.4137440000000000
-                        }, {
-                            lat: 35.8114720000000000,
-                            lng: 126.4164430000000000
-                        })
                     }
 
                     if (this.start === '9') {
