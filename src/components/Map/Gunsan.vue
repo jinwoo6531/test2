@@ -281,7 +281,7 @@ export default {
         // Map View Center Load
         this.map.setView([35.812484, 126.4091], 15)
 
-        this.addMarker()
+        // this.addMarker()
         // this.addRouting(this.waypoints)
     },
 
