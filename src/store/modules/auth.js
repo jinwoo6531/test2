@@ -158,7 +158,7 @@ const actions = {
         size: "invisible",
         callback: function (response) {
           console.log(response)
-          this.dispatch('sendOtp')
+          // this.dispatch('sendOtp')
         },
         "expired-callback": function () {
           console.log('Recaptcha Error')

@@ -265,9 +265,6 @@ export default {
     created() {
         this.getStation()
         // this.getVehicle()
-
-        console.log('start', this.start)
-        console.log('end', this.end)
     },
 
     mounted() {
@@ -474,6 +471,9 @@ export default {
                             value: arr.id
                         })
                     }
+
+                    console.log('gunsanList', this.gunsanList)
+                    console.log('options', this.options)
                 }).catch(error => {
                     console.log('station (GET) error: ')
                     this.error = error
