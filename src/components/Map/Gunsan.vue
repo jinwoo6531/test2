@@ -18,7 +18,7 @@
                                 </v-btn>
                             </span>
                         </template>
-                        
+
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
                                 <v-btn icon @click="dialog = false">
@@ -193,27 +193,28 @@ export default {
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
-        waypoints: [{
-                lat: 35.8118970000000000,
-                lng: 126.4048860000000000
-            },
-            {
-                lat: 35.8141840000000000,
-                lng: 126.4098450000000000
-            },
-            {
-                lat: 35.8138460000000000,
-                lng: 126.4132000000000000
-            },
-            {
-                lat: 35.8136980000000000,
-                lng: 126.4137440000000000
-            },
-            {
-                lat: 35.8114720000000000,
-                lng: 126.4164430000000000
-            }
-        ],
+        waypoints: [],
+        // waypoints: [{
+        //         lat: 35.8118970000000000,
+        //         lng: 126.4048860000000000
+        //     },
+        //     {
+        //         lat: 35.8141840000000000,
+        //         lng: 126.4098450000000000
+        //     },
+        //     {
+        //         lat: 35.8138460000000000,
+        //         lng: 126.4132000000000000
+        //     },
+        //     {
+        //         lat: 35.8136980000000000,
+        //         lng: 126.4137440000000000
+        //     },
+        //     {
+        //         lat: 35.8114720000000000,
+        //         lng: 126.4164430000000000
+        //     }
+        // ],
         data: null,
         options: [],
         station_arr: [],
@@ -265,9 +266,6 @@ export default {
     created() {
         this.getStation()
         // this.getVehicle()
-
-        console.log('start', this.start)
-        console.log('end', this.end)
     },
 
     mounted() {
@@ -284,7 +282,7 @@ export default {
         this.map.setView([35.812484, 126.4091], 15)
 
         this.addMarker()
-        this.addRouting(this.waypoints)
+        // this.addRouting(this.waypoints)
     },
 
     updated() {
@@ -411,21 +409,26 @@ export default {
                 iconSize: [12, 12]
             })
 
-            this.$utils.map.createMakerByXY(this.map, [35.8118970000000000, 126.4048860000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8141840000000000, 126.4098450000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8138460000000000, 126.4132000000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8136980000000000, 126.4137440000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8114720000000000, 126.4164430000000000], {
-                icon: gifIcon
-            })
+            for (let i = 0; i < this.waypoints.length; i++) {
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
+                    icon: gifIcon
+                })
+            }
+            // this.$utils.map.createMakerByXY(this.map, [35.8118970000000000, 126.4048860000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8141840000000000, 126.4098450000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8138460000000000, 126.4132000000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8136980000000000, 126.4137440000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8114720000000000, 126.4164430000000000], {
+            //     icon: gifIcon
+            // })
         },
 
         addRouting(waypoints) {
@@ -452,9 +455,9 @@ export default {
             })
         },
 
-        getStation() {
-            axios.get('/api/stations/')
-                .then(response => {
+        async getStation() {
+            await axios.get('/api/stations/')
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -469,11 +472,19 @@ export default {
                     }
 
                     for (var arr of this.gunsanList) {
+                        this.waypoints.push({
+                            lat: arr.lat,
+                            lng: arr.lon
+                        });
                         this.options.push({
                             name: arr.name,
                             value: arr.id
-                        })
+                        });
                     }
+                    await this.addMarker()
+                    await this.addRouting(this.waypoints)
+                    console.log('waypoints: ', this.waypoints);
+                    console.log('gunsanList: ', this.gunsanList);
                 }).catch(error => {
                     console.log('station (GET) error: ')
                     this.error = error
@@ -481,7 +492,7 @@ export default {
                 })
         },
 
-        onChange() {
+        async onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6)
             this.waypoints = []
@@ -490,12 +501,36 @@ export default {
                 // ADD Between Station
                 if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {
-                        this.waypoints.push({
+                        await this.waypoints.push({
                             lat: this.gunsanList[i - 9].lat,
                             lng: this.gunsanList[i - 9].lon
                         })
                     }
-                } else if (this.start > this.end) {
+
+                    let startIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/start-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+                    let endIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/end-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+
+                    if (this.start) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.start - 9].lat, this.waypoints[this.start - 9].lng], {
+                            icon: startIcon
+                        })
+                    }
+                    if (this.end) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.end - 9].lat, this.waypoints[this.end - 9].lng], {
+                            icon: endIcon
+                        })
+                    }
+                    this.map.removeLayer(endIcon)
+
+                } else if (this.start > this.end || this.start == this.end) {
                     this.$toasted.show("지원하지 않는 경로입니다...", {
                         theme: "bubble",
                         position: "top-center"
@@ -504,118 +539,74 @@ export default {
                     this.start = '출발지 선택'
                     this.end = '도착지 선택'
 
-                    this.waypoints.push({
-                        lat: 35.8118970000000000,
-                        lng: 126.4048860000000000
-                    }, {
-                        lat: 35.8141840000000000,
-                        lng: 126.4098450000000000
-                    }, {
-                        lat: 35.8138460000000000,
-                        lng: 126.4132000000000000
-                    }, {
-                        lat: 35.8136980000000000,
-                        lng: 126.4137440000000000
-                    }, {
-                        lat: 35.8114720000000000,
-                        lng: 126.4164430000000000
-                    })
+                    for (var arr of this.gunsanList) {
+                        await this.waypoints.push({
+                            lat: arr.lat,
+                            lng: arr.lon
+                        });
+                    }
 
-                } else if (this.start == this.end) { // SAME Station Id
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800);
-
-                    this.start = '출발지 선택'
-                    this.end = '도착지 선택'
-
-                    this.waypoints.push({
-                        lat: 35.8118970000000000,
-                        lng: 126.4048860000000000
-                    }, {
-                        lat: 35.8141840000000000,
-                        lng: 126.4098450000000000
-                    }, {
-                        lat: 35.8138460000000000,
-                        lng: 126.4132000000000000
-                    }, {
-                        lat: 35.8136980000000000,
-                        lng: 126.4137440000000000
-                    }, {
-                        lat: 35.8114720000000000,
-                        lng: 126.4164430000000000
-                    })
+                    this.map.removeLayer(this.start_icon)
+                    this.map.removeLayer(this.end_icon)
                 }
-                let startIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/start-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
-                if (this.start === 9) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 10) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 11) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 12) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 13) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
-                        icon: startIcon
-                    })
-                }
-
-                let endIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/end-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
-                if (this.end === 9) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 10) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 11) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 12) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 13) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
-                        icon: endIcon
-                    })
-                }
-
-                this.map.removeLayer(endIcon)
 
                 // SET New Routing
                 this.addRouting(this.waypoints)
                 this.totalDistance()
+
+                // if (this.start === 9) {
+                //     this.map.removeLayer(this.start_icon)
+                //     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
+                //         icon: startIcon
+                //     })
+                // } else if (this.start === 10) {
+                //     this.map.removeLayer(this.start_icon)
+                //     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
+                //         icon: startIcon
+                //     })
+                // } else if (this.start === 11) {
+                //     this.map.removeLayer(this.start_icon)
+                //     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
+                //         icon: startIcon
+                //     })
+                // } else if (this.start === 12) {
+                //     this.map.removeLayer(this.start_icon)
+                //     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
+                //         icon: startIcon
+                //     })
+                // } else if (this.start === 13) {
+                //     this.map.removeLayer(this.start_icon)
+                //     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
+                //         icon: startIcon
+                //     })
+                // }
+
+                // if (this.end === 9) {
+                //     this.map.removeLayer(this.end_icon)
+                //     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
+                //         icon: endIcon
+                //     })
+                // } else if (this.end === 10) {
+                //     this.map.removeLayer(this.end_icon)
+                //     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
+                //         icon: endIcon
+                //     })
+                // } else if (this.end === 11) {
+                //     this.map.removeLayer(this.end_icon)
+                //     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
+                //         icon: endIcon
+                //     })
+                // } else if (this.end === 12) {
+                //     this.map.removeLayer(this.end_icon)
+                //     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
+                //         icon: endIcon
+                //     })
+                // } else if (this.end === 13) {
+                //     this.map.removeLayer(this.end_icon)
+                //     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
+                //         icon: endIcon
+                //     })
+                // }
             }
         },
 
