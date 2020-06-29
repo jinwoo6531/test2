@@ -70,4 +70,19 @@ export default {
     align-items: flex-end;
     color: #BDBDBD;
 }
+
+.v-btn:hover:before,
+.v-btn:focus:before {
+    background-color: transparent;
+}   
+
+.v-card:hover:before,
+.v-card:focus:before {
+    background-color: transparent;
+}
+
+.v-checkbox:hover:before,
+.v-checkbox:focus:before {
+    background-color: transparent;
+}
 </style>
