@@ -193,7 +193,8 @@ export default {
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
-        waypoints: [{
+        waypoints: [],
+        waypoints2: [{
                 lat: 35.8363080000000000,
                 lng: 128.6815470000000000
             },
@@ -280,13 +281,15 @@ export default {
         // Map View Center Load
         this.map.setView([35.836673, 128.686520], 15)
 
-        this.addMarker()
-        this.addRouting(this.waypoints)
+        // this.addMarker()
+        // this.addRouting(this.waypoints)
     },
 
     updated() {
         if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
             this.callBtn = true
+        } else {
+            this.callBtn = false
         }
     },
 
@@ -401,18 +404,24 @@ export default {
                 iconSize: [12, 12]
             })
 
-            this.$utils.map.createMakerByXY(this.map, [35.8363080000000000, 128.6815470000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8386730000000000, 128.6878920000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8370500000000000, 128.6900440000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8345900000000000, 128.6865200000000000], {
-                icon: gifIcon
-            })
+            for (let i = 0; i < this.waypoints.length; i++) {
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
+                    icon: gifIcon
+                })
+            }
+
+            // this.$utils.map.createMakerByXY(this.map, [35.8363080000000000, 128.6815470000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8386730000000000, 128.6878920000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8370500000000000, 128.6900440000000000], {
+            //     icon: gifIcon
+            // })
+            // this.$utils.map.createMakerByXY(this.map, [35.8345900000000000, 128.6865200000000000], {
+            //     icon: gifIcon
+            // })
         },
 
         addRouting(waypoints) {
@@ -439,9 +448,9 @@ export default {
             })
         },
 
-        getStation() {
-            axios.get('/api/stations/')
-                .then(response => {
+        async getStation() {
+            await axios.get('/api/stations/')
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -456,17 +465,24 @@ export default {
                     }
 
                     for (var arr of this.daeguList) {
+                        this.waypoints.push({
+                            lat: arr.lat,
+                            lng: arr.lon
+                        });
                         this.options.push({
                             name: arr.name,
                             value: arr.id
-                        })
+                        });
                     }
+
+                    await this.addMarker()
+                    await this.addRouting(this.waypoints2)
                 }).catch(error => {
                     console.log('station (GET) error: ', error)
                 })
         },
 
-        onChange() {
+        async onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6)
             this.waypoints = []
@@ -475,7 +491,7 @@ export default {
                 // ADD Between Station
                 if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {
-                        this.waypoints.push({
+                        await this.waypoints.push({
                             lat: this.daeguList[i - 1].lat,
                             lng: this.daeguList[i - 1].lon
                         })
@@ -575,6 +591,10 @@ export default {
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40]
                 })
+                let endIcon = this.$utils.map.createIcon({
+                    iconUrl: require("../../assets/end-icon.svg"),
+                    iconSize: [40, 40]
+                })
 
                 if (this.start === 1) {
                     this.map.removeLayer(this.start_icon)
@@ -598,11 +618,6 @@ export default {
                     })
                 }
 
-                let endIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/end-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
                 if (this.end === 1) {
                     this.map.removeLayer(this.end_icon)
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
@@ -624,6 +639,20 @@ export default {
                         icon: endIcon
                     })
                 }
+
+                // if (this.start) {
+                //     this.map.removeLayer(this.start_icon)
+                //     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.start - 1].lat, this.waypoints[this.start - 1].lng], {
+                //         icon: startIcon
+                //     })
+                // }
+
+                // if (this.end) {
+                //     this.map.removeLayer(this.end_icon)
+                //     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.end - 1].lat, this.waypoints[this.end - 1].lng], {
+                //         icon: endIcon
+                //     })
+                // }
 
                 this.map.removeLayer(endIcon)
 
