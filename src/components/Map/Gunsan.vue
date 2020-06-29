@@ -73,7 +73,7 @@
                     <v-overlay :z-index="zIndex" :value="overlay1">
                         <v-card color="#FFF" style="width: 312px; height: 287px;">
                             <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
+                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" :drag-sensitivity="0.5" :touch-sensitivity="0.5" :scroll-sensitivity="0.5" v-model="start" />
                             </v-card-text>
                             <v-card-actions class="pa-0">
                                 <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
@@ -85,7 +85,7 @@
                     <v-overlay :z-index="zIndex" :value="overlay2">
                         <v-card color="#FFF" style="width: 312px; height: 287px;">
                             <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
+                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" :drag-sensitivity="0.5" :touch-sensitivity="0.5" :scroll-sensitivity="0.5" v-model="end" />
                             </v-card-text>
                             <v-card-actions class="pa-0">
                                 <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
@@ -234,7 +234,7 @@ export default {
         isDisabled2: false,
         overlay1: false,
         overlay2: false,
-        zIndex: 0,
+        zIndex: 10,
 
         start_icon: {},
         end_icon: {},

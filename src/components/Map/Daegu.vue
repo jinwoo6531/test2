@@ -234,7 +234,7 @@ export default {
         isDisabled2: false,
         overlay1: false,
         overlay2: false,
-        zIndex: 0,
+        zIndex: 10,
 
         start_icon: {},
         end_icon: {},

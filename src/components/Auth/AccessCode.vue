@@ -82,8 +82,8 @@ export default {
     },
 
     updated() {
-        console.log('this.remainTime: ',  this.remainTime.indexOf('-'))
-        if (this.$route.params.phoneNumber == undefined && this.remainTime.indexOf('-')) {
+        console.log('this.remainTime: ',  this.remainTime.includes('-'))
+        if (this.remainTime.includes('-') == true) {
             this.$router.go(-1);
         }
     },
@@ -110,10 +110,12 @@ export default {
 
         handleOnComplete(value) {
             this.ready = value;
+            // console.log(this.ready)
         },
 
-        handleOnChange() {
-            this.ready = 0;
+        handleOnChange(val) {
+            this.ready = val;
+            console.log(this.ready)
         },
 
         timeStart() {
@@ -135,6 +137,7 @@ export default {
             if (this.minutes <= 0 && this.seconds <= 0) {
                 this.timeStop();
                 this.doneTime = "인증번호 유효시간이 만료 됐습니다.";
+                this.ready = '';
             }
         },
 
