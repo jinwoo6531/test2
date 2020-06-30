@@ -18,7 +18,7 @@
                                 </v-btn>
                             </span>
                         </template>
-                        
+
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
                                 <v-btn icon @click="dialog = false">
@@ -53,11 +53,11 @@
                     </v-dialog>
 
                     <span v-if="callBtn" style="display: inline-block; width: 70%;">
-                        <v-flex class="mb-3" style="width: 175px; background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
+                        <v-flex class="mb-3" style="background: #E61773; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 3px; display: inline-block;">
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px;">약 {{ minutes }}분</span></span>
+                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
                                 </span>
                             </p>
                         </v-flex>
@@ -123,7 +123,7 @@
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
                     <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
                     <v-dialog v-model="calldialog" max-width="280">
-                        <v-card style="width: 280px; height: 404px; background-color: transparent;">
+                        <v-card style="width: 280px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
@@ -157,11 +157,11 @@
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
-                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="56px" v-else>호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -177,11 +177,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 var control
-import {
-    mapGetters
-} from 'vuex'
 
 export default {
     name: 'Gunsan',
@@ -193,27 +191,7 @@ export default {
         OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
-        waypoints: [{
-                lat: 35.8118970000000000,
-                lng: 126.4048860000000000
-            },
-            {
-                lat: 35.8141840000000000,
-                lng: 126.4098450000000000
-            },
-            {
-                lat: 35.8138460000000000,
-                lng: 126.4132000000000000
-            },
-            {
-                lat: 35.8136980000000000,
-                lng: 126.4137440000000000
-            },
-            {
-                lat: 35.8114720000000000,
-                lng: 126.4164430000000000
-            }
-        ],
+        waypoints: [],
         data: null,
         options: [],
         station_arr: [],
@@ -235,18 +213,14 @@ export default {
         overlay1: false,
         overlay2: false,
         zIndex: 10,
-
         start_icon: {},
         end_icon: {},
-
         switch1: false,
         originStart: '',
         originEnd: '',
         changeStart: '',
         changeEnd: '',
-
         usermarker: '',
-
         meth: '',
         isRed1: false,
         isRed2: false
@@ -279,9 +253,6 @@ export default {
 
         // Map View Center Load
         this.map.setView([35.812484, 126.4091], 15)
-
-        this.addMarker()
-        this.addRouting(this.waypoints)
     },
 
     updated() {
@@ -408,21 +379,11 @@ export default {
                 iconSize: [12, 12]
             })
 
-            this.$utils.map.createMakerByXY(this.map, [35.8118970000000000, 126.4048860000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8141840000000000, 126.4098450000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8138460000000000, 126.4132000000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8136980000000000, 126.4137440000000000], {
-                icon: gifIcon
-            })
-            this.$utils.map.createMakerByXY(this.map, [35.8114720000000000, 126.4164430000000000], {
-                icon: gifIcon
-            })
+            for (let i = 0; i < this.waypoints.length; i++) {
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
+                    icon: gifIcon
+                })
+            }
         },
 
         addRouting(waypoints) {
@@ -449,9 +410,9 @@ export default {
             })
         },
 
-        getStation() {
-            axios.get('/api/stations/')
-                .then(response => {
+        async getStation() {
+            await axios.get('/api/stations/')
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data
                         let station_count = Object.keys(station_result).length
@@ -466,14 +427,17 @@ export default {
                     }
 
                     for (var arr of this.gunsanList) {
+                        this.waypoints.push({
+                            lat: arr.lat,
+                            lng: arr.lon
+                        });
                         this.options.push({
                             name: arr.name,
                             value: arr.id
-                        })
+                        });
                     }
-
-                    console.log('gunsanList', this.gunsanList)
-                    console.log('options', this.options)
+                    await this.addMarker();
+                    await this.addRouting(this.waypoints);
                 }).catch(error => {
                     console.log('station (GET) error: ')
                     this.error = error
@@ -481,21 +445,44 @@ export default {
                 })
         },
 
-        onChange() {
+        async onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6)
             this.waypoints = []
 
             if (this.start >= 9 && this.end >= 9) {
-                // ADD Between Station
                 if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {
-                        this.waypoints.push({
+                        await this.waypoints.push({
                             lat: this.gunsanList[i - 9].lat,
                             lng: this.gunsanList[i - 9].lon
                         })
                     }
-                } else if (this.start > this.end) {
+
+                    let startIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/start-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+                    let endIcon = this.$utils.map.createIcon({
+                        iconUrl: require("../../assets/end-icon.svg"),
+                        iconSize: [40, 40]
+                    })
+
+                    if (this.start) {
+                        this.map.removeLayer(this.start_icon)
+                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.start - 9].lat, this.waypoints[this.start - 9].lng], {
+                            icon: startIcon
+                        })
+                    }
+                    if (this.end) {
+                        this.map.removeLayer(this.end_icon)
+                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.end - 9].lat, this.waypoints[this.end - 9].lng], {
+                            icon: endIcon
+                        })
+                    }
+                    this.map.removeLayer(endIcon)
+
+                } else if (this.start > this.end || this.start == this.end) {
                     this.$toasted.show("지원하지 않는 경로입니다...", {
                         theme: "bubble",
                         position: "top-center"
@@ -504,114 +491,16 @@ export default {
                     this.start = '출발지 선택'
                     this.end = '도착지 선택'
 
-                    this.waypoints.push({
-                        lat: 35.8118970000000000,
-                        lng: 126.4048860000000000
-                    }, {
-                        lat: 35.8141840000000000,
-                        lng: 126.4098450000000000
-                    }, {
-                        lat: 35.8138460000000000,
-                        lng: 126.4132000000000000
-                    }, {
-                        lat: 35.8136980000000000,
-                        lng: 126.4137440000000000
-                    }, {
-                        lat: 35.8114720000000000,
-                        lng: 126.4164430000000000
-                    })
+                    for (var arr of this.gunsanList) {
+                        await this.waypoints.push({
+                            lat: arr.lat,
+                            lng: arr.lon
+                        });
+                    }
 
-                } else if (this.start == this.end) { // SAME Station Id
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800);
-
-                    this.start = '출발지 선택'
-                    this.end = '도착지 선택'
-
-                    this.waypoints.push({
-                        lat: 35.8118970000000000,
-                        lng: 126.4048860000000000
-                    }, {
-                        lat: 35.8141840000000000,
-                        lng: 126.4098450000000000
-                    }, {
-                        lat: 35.8138460000000000,
-                        lng: 126.4132000000000000
-                    }, {
-                        lat: 35.8136980000000000,
-                        lng: 126.4137440000000000
-                    }, {
-                        lat: 35.8114720000000000,
-                        lng: 126.4164430000000000
-                    })
+                    this.map.removeLayer(this.start_icon)
+                    this.map.removeLayer(this.end_icon)
                 }
-                let startIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/start-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
-                if (this.start === 9) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 10) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 11) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 12) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
-                        icon: startIcon
-                    })
-                } else if (this.start === 13) {
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
-                        icon: startIcon
-                    })
-                }
-
-                let endIcon = this.$utils.map.createIcon({
-                    iconUrl: require("../../assets/end-icon.svg"),
-                    iconSize: [40, 40]
-                })
-
-                if (this.end === 9) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[0].lat, this.gunsanList[0].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 10) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[1].lat, this.gunsanList[1].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 11) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[2].lat, this.gunsanList[2].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 12) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[3].lat, this.gunsanList[3].lon], {
-                        icon: endIcon
-                    })
-                } else if (this.end === 13) {
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[4].lat, this.gunsanList[4].lon], {
-                        icon: endIcon
-                    })
-                }
-
-                this.map.removeLayer(endIcon)
 
                 // SET New Routing
                 this.addRouting(this.waypoints)
@@ -693,7 +582,6 @@ export default {
         },
 
         requestPay(meth) {
-            console.log(meth)
             if (meth == 'card') {
                 this.isRed1 = true
                 this.isRed2 = false
@@ -738,7 +626,6 @@ export default {
 
 .dialog-background {
     width: 2801px;
-    height: 404px;
     background-image: url('~@/assets/call-dialog.png');
 }
 
