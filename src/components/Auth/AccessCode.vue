@@ -82,10 +82,6 @@ export default {
     created() {
         this.$store.dispatch("initReCaptcha");
         this.timeStart();
-
-        if (this.$route.params.phoneNumber == undefined) {
-            this.$router.go(-1)
-        }
     },
 
     mounted() {
@@ -96,6 +92,17 @@ export default {
         this.phoneN = start + "-" + mid + "-" + end;
 
         this.timeOut();
+    },
+
+    watch: {
+        remainTime(val) {
+            if (val.indexOf('-') == -1) {
+                console.log('-가 없어', val);
+            } else {
+                console.log('-가 있어!', val);
+                this.$router.go(-1);
+            }
+        }
     },
 
     beforeDestroy() {
@@ -154,7 +161,6 @@ export default {
                 phoneNumber: this.$route.params.phoneNumber
             });
 
-            console.log('otpInput: ', this.$refs.otpInput.otp);
             this.$refs.otpInput.otp = [];
             this.tryAgain = true;
             this.doneTime = "인증번호를 재발송하였습니다.";
@@ -193,9 +199,7 @@ export default {
 .otp-input:last-child {
     margin: 0;
 }
-</style>
-
-<style scoped>
+</style><style scoped>
 #otpInput {
     justify-content: space-between;
 }
