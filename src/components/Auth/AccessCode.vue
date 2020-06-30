@@ -47,6 +47,7 @@
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
                         <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true || tryAgain == true">다음</v-btn>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-else-if="minutes <= 0 && seconds <= 0">다음</v-btn>
                         <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                     </v-card>
                 </v-flex>
