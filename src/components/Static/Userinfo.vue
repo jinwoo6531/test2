@@ -361,7 +361,7 @@ export default {
                     displayName: this.displayName
                 })
 
-                this.rules = await ''
+                this.rules = ''
                 this.namedialog = await false
 
                 await location.reload(true)
@@ -405,7 +405,7 @@ export default {
                 this.rules = '6자로 입력해주세요.'
                 this.birthdialog = true
             } else {
-                // 변경된 이름 저장
+                // 변경된 생일 저장
                 var uid = this.user.data.uid
                 this.$firebase.firestore().collection('users').doc(uid).update({
                     birth: this.birth
@@ -422,6 +422,7 @@ export default {
                     this.displayName = response.data.displayName
                     this.namedialog = false
                 })
+            this.rules = ''
         },
 
         nochangeEmail() {
@@ -430,6 +431,7 @@ export default {
                     this.email = response.data.email
                     this.emaildialog = false
                 })
+            this.rules = ''
         },
 
         nochangeGender() {
@@ -438,6 +440,7 @@ export default {
                     this.gender = response.data.gender
                     this.genderdialog = false
                 })
+            this.rules = ''
         },
 
         nochangeBirth() {
@@ -446,6 +449,7 @@ export default {
                     this.birth = response.data.birth
                     this.birthdialog = false
                 })
+            this.rules = ''
         },
 
         signOut() {
