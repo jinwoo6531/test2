@@ -239,7 +239,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -299,15 +301,7 @@ export default {
     }),
 
     created() {
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(async response => {
-                this.displayName = response.data.displayName;
-                this.email = response.data.email;
-                this.gender = response.data.gender;
-                this.birth = response.data.birth;
-            }).catch(error => {
-                console.log('User read: ', error);
-            })
+        this.getUser();
     },
 
     computed: {
@@ -350,6 +344,18 @@ export default {
     },
 
     methods: {
+        async getUser() {
+            await axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+                .then(async response => {
+                    this.displayName = response.data.displayName;
+                    this.email = response.data.email;
+                    this.gender = response.data.gender;
+                    this.birth = response.data.birth;
+                }).catch(error => {
+                    console.log('User read: ', error);
+                })
+        },
+
         handleOnChange() {
             this.watch = true;
         },
