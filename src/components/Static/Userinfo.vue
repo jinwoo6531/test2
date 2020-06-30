@@ -23,8 +23,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch == true" @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else disabled color="#ddd" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
 
@@ -32,7 +32,7 @@
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
-                                            <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
+                                            <v-text-field @change="handleOnChange" v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
                                             <v-card-text class="pa-0">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
@@ -299,14 +299,14 @@ export default {
     }),
 
     created() {
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.displayName = response.data.displayName
-                this.email = response.data.email
-                this.gender = response.data.gender
-                this.birth = response.data.birth
+        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            .then(async response => {
+                this.displayName = response.data.displayName;
+                this.email = response.data.email;
+                this.gender = response.data.gender;
+                this.birth = response.data.birth;
             }).catch(error => {
-                console.log('User read: ', error)
+                console.log('User read: ', error);
             })
     },
 
@@ -316,67 +316,59 @@ export default {
         }),
 
         getPhoneNumber() {
-            let start = String(this.user.data.phoneNumber).substring(3, 5)
-            let mid = String(this.user.data.phoneNumber).substring(5, 9)
-            let end = String(this.user.data.phoneNumber).substring(9, 13)
-            return '0' + start + '-' + mid + '-' + end
-        }
-    },
-
-    watch: {
-        displayName: function(hook) {
-            if (hook == '') { // 변경이 감지되지 않으면
-                // 저장버튼 비활성화
-                this.watch = false;
-            } else {
-                //저장버튼 활성화
-                this.watch = true;
-            }
+            let start = String(this.user.data.phoneNumber).substring(3, 5);
+            let mid = String(this.user.data.phoneNumber).substring(5, 9);
+            let end = String(this.user.data.phoneNumber).substring(9, 13);
+            return '0' + start + '-' + mid + '-' + end;
         }
     },
 
     updated() {
         if (this.byeReason.value == 7) { // 기타 사유를 선택한 경우
-            this.etc = true
-            this.errorRule2 = false
+            this.etc = true;
+            this.errorRule2 = false;
             if (this.byeEtcReason.length == 0) {
-                this.errorRule3 = true
+                this.errorRule3 = true;
             } else {
-                this.errorRule3 = false
+                this.errorRule3 = false;
             }
         } else if (this.byeReason.value == undefined) {
-            this.etc = false
-            this.errorRule2 = true
-            this.errorRule3 = false
+            this.etc = false;
+            this.errorRule2 = true;
+            this.errorRule3 = false;
         } else {
-            this.etc = false
-            this.errorRule2 = false
-            this.errorRule3 = false
+            this.etc = false;
+            this.errorRule2 = false;
+            this.errorRule3 = false;
         }
 
         if (this.inputPhoneNumber.length >= 1) {
-            this.errorRule1 = false
+            this.errorRule1 = false;
         } else {
-            this.errorRule1 = true
+            this.errorRule1 = true;
         }
     },
 
     methods: {
+        handleOnChange() {
+            this.watch = true;
+        },
+
         async showNameDialog() {
             if (this.displayName == null) {
-                this.rules = '이름은 필수 항목입니다.'
-                this.namedialog = true
+                this.rules = '이름은 필수 항목입니다.';
+                this.namedialog = true;
             } else {
                 // 변경된 이름 저장
-                var uid = this.user.data.uid
+                var uid = this.user.data.uid;
                 await this.$firebase.firestore().collection('users').doc(uid).update({
                     displayName: this.displayName
                 })
 
-                this.rules = ''
-                this.namedialog = await false
+                this.rules = await '';
+                this.namedialog = await false;
 
-                await location.reload(true)
+                await location.reload(true);
             }
         },
 
@@ -384,10 +376,10 @@ export default {
             var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
             if (!check.test(this.email)) {
                 this.rules = '이메일 형식을 지켜주세요.'
-                this.emaildialog = true
+                this.emaildialog = true;
             } else if (this.email == null) {
                 this.rules = '이메일은 필수 항목입니다.'
-                this.emaildialog = true
+                this.emaildialog = true;
             } else {
                 // 변경된 이메일 저장
                 var uid = this.user.data.uid
@@ -395,73 +387,77 @@ export default {
                     email: this.email
                 })
 
-                this.rules = ''
-                this.emaildialog = false
+                this.rules = '';
+                this.emaildialog = false;
             }
         },
 
         showGenderDialog() {
             // 변경된 성별 저장
-            var uid = this.user.data.uid
+            var uid = this.user.data.uid;
             this.$firebase.firestore().collection('users').doc(uid).update({
                 gender: this.gender
             })
-            this.genderdialog = false
+            this.genderdialog = false;
         },
 
         showBirthdialog() {
             if (this.birth == null) {
                 this.rules = '생일은 필수 항목입니다.'
-                this.birthdialog = true
+                this.birthdialog = true;
             } else if (this.birth.length > 7) {
                 this.rules = '6자로 입력해주세요.'
-                this.birthdialog = true
+                this.birthdialog = true;
             } else {
                 // 변경된 생일 저장
-                var uid = this.user.data.uid
+                var uid = this.user.data.uid;
                 this.$firebase.firestore().collection('users').doc(uid).update({
                     birth: this.birth
-                })
+                });
 
-                this.rules = ''
-                this.birthdialog = false
+                this.rules = '';
+                this.birthdialog = false;
             }
         },
 
         nochangeDisplayName() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.displayName = response.data.displayName
-                    this.namedialog = false
-                })
-            this.rules = ''
+                    this.displayName = response.data.displayName;
+                    this.namedialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         nochangeEmail() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.email = response.data.email
-                    this.emaildialog = false
-                })
-            this.rules = ''
+                    this.email = response.data.email;
+                    this.emaildialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         nochangeGender() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.gender = response.data.gender
-                    this.genderdialog = false
-                })
-            this.rules = ''
+                    this.gender = response.data.gender;
+                    this.genderdialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         nochangeBirth() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.birth = response.data.birth
-                    this.birthdialog = false
-                })
-            this.rules = ''
+                    this.birth = response.data.birth;
+                    this.birthdialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         signOut() {
@@ -475,8 +471,6 @@ export default {
         },
 
         deleteUser() {
-            console.log(this.inputPhoneNumber)
-            console.log(this.getPhoneNumber)
             if (this.inputPhoneNumber == this.getPhoneNumber) {
                 axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
@@ -484,7 +478,7 @@ export default {
                             theme: "bubble",
                             position: "top-center"
                         }).goAway(2000);
-                        this.$router.replace('/goodbye')
+                        this.$router.replace('/goodbye');
                     })
             } else {
                 this.$toasted.show("휴대폰 번호를 확인해주세요!", {
