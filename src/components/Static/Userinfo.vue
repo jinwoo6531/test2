@@ -23,7 +23,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch == true" @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else disabled color="#ddd" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
 
@@ -238,15 +239,14 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
     name: 'Userinfo',
 
     data: () => ({
+        watch: false,
         namedialog: false,
         emaildialog: false,
         genderdialog: false,
@@ -320,6 +320,18 @@ export default {
             let mid = String(this.user.data.phoneNumber).substring(5, 9)
             let end = String(this.user.data.phoneNumber).substring(9, 13)
             return '0' + start + '-' + mid + '-' + end
+        }
+    },
+
+    watch: {
+        displayName: function(hook) {
+            if (hook == '') { // 변경이 감지되지 않으면
+                // 저장버튼 비활성화
+                this.watch = false;
+            } else {
+                //저장버튼 활성화
+                this.watch = true;
+            }
         }
     },
 
