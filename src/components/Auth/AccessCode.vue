@@ -98,7 +98,7 @@ export default {
     watch: {
         remainTime(val) {
             if (val.indexOf('-') == -1) {
-                console.log('-가 없어', val);
+                console.log('-가 없어!', val);
             } else {
                 console.log('-가 있어!', val);
                 this.$router.go(-1);
