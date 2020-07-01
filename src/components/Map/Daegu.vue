@@ -30,16 +30,16 @@
                                 <v-row align="center" justify="center" class="ma-0">
                                     <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
                                     <v-card class="d-flex justify-space-around" flat>
-                                        <v-card flat tile>
-                                            <v-btn :class="{ 'is-disabled1': isDisabled1 }" @click="decrement" outlined color="#E61773" fab>
+                                        <v-card :ripple="false" flat tile>
+                                            <v-btn :class="{ 'is-disabled1': isDisabled1 }" :ripple="false" @click="decrement" outlined color="#E61773" fab>
                                                 <v-icon dark>mdi-minus</v-icon>
                                             </v-btn>
                                         </v-card>
                                         <v-card flat tile>
                                             <v-card-text class="count">{{ count }}</v-card-text>
                                         </v-card>
-                                        <v-card flat tile>
-                                            <v-btn :class="{ 'is-disabled2': isDisabled2 }" @click="increment" outlined color="#E61773" fab>
+                                        <v-card flat tile :ripple="false">
+                                            <v-btn :class="{ 'is-disabled2': isDisabled2 }" :ripple="false" @click="increment" outlined color="#E61773" fab>
                                                 <v-icon dark>mdi-plus</v-icon>
                                             </v-btn>
                                         </v-card>
@@ -62,9 +62,9 @@
                             </p>
                         </v-flex>
                     </span>
-                    <v-card color="transparent" flat style="display: inline-block; float: right;">
-                        <v-card color="transparent" flat @click="res ? getLocation() : stopLocation()">
-                            <v-btn fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
+                    <v-card :ripple="false" color="transparent" flat style="display: inline-block; float: right;">
+                        <v-card :ripple="false" color="transparent" flat @click="res ? getLocation() : stopLocation()">
+                            <v-btn :ripple="false" fab small color="#FFF" style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;">
                                 <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
                             </v-btn>
                         </v-card>
