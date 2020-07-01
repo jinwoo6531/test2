@@ -32,8 +32,8 @@
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
-                                            <v-text-field @change="handleOnChange" v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
-                                            <v-card-text class="pa-0">{{ rules }}</v-card-text>
+                                            <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
+                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -59,7 +59,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showEmailDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch1 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showEmailDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -67,7 +68,7 @@
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이메일</v-card-title>
                                             <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
-                                            <v-card-text class="pa-0">{{ rules }}</v-card-text>
+                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -93,7 +94,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showGenderDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch3 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showGenderDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -135,7 +137,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showBirthdialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch2 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showBirthdialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -143,7 +146,7 @@
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">생일</v-card-title>
                                             <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
-                                            <v-card-text class="pa-0">{{ rules }}</v-card-text>
+                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -249,6 +252,9 @@ export default {
 
     data: () => ({
         watch: false,
+        watch1: false,
+        watch2: false,
+        watch3: false,
         namedialog: false,
         emaildialog: false,
         genderdialog: false,
@@ -259,6 +265,11 @@ export default {
         birth: '',
         phone: '',
         rules: '',
+
+        displayNameTemp: '',
+        emailTemp: '',
+        birthTemp: '',
+        genderTemp: '',
 
         signoutdialog: false,
         deleteUserdialog: false,
@@ -317,6 +328,40 @@ export default {
         }
     },
 
+    watch: {
+        displayName(newval) {
+            if (newval != this.displayNameTemp) {
+                this.watch = true;
+            } else {
+                this.watch = false;
+            }
+        },
+
+        email(newval) {
+            if (newval != this.emailTemp) {
+                this.watch1 = true;
+            } else {
+                this.watch1 = false;
+            }
+        },
+
+        birth(newval) {
+            if (newval != this.birthTemp) {
+                this.watch2 = true;
+            } else {
+                this.watch2 = false;
+            }
+        },
+
+        gender(newval) {
+            if (newval != this.genderTemp) {
+                this.watch3 = true;
+            } else {
+                this.watch3 = false;
+            }
+        }
+    },
+
     updated() {
         if (this.byeReason.value == 7) { // 기타 사유를 선택한 경우
             this.etc = true;
@@ -351,16 +396,21 @@ export default {
                     this.email = response.data.email;
                     this.gender = response.data.gender;
                     this.birth = response.data.birth;
+
+                    this.displayNameTemp = this.displayName;
+                    this.emailTemp = this.email;
+                    this.birthTemp = this.birth;
+                    this.genderTemp = response.data.gender;
+
+                    this.user.data.displayName = this.displayName;
                 }).catch(error => {
                     console.log('User read: ', error);
                 })
         },
 
-        handleOnChange() {
-            this.watch = true;
-        },
-
         async showNameDialog() {
+            this.watch = false;
+
             if (this.displayName == null) {
                 this.rules = '이름은 필수 항목입니다.';
                 this.namedialog = true;
@@ -373,12 +423,14 @@ export default {
 
                 this.rules = await '';
                 this.namedialog = await false;
-
-                await location.reload(true);
             }
+
+            await this.getUser();
         },
 
-        showEmailDialog() {
+        async showEmailDialog() {
+            this.watch1 = false;
+
             var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
             if (!check.test(this.email)) {
                 this.rules = '이메일 형식을 지켜주세요.'
@@ -389,25 +441,32 @@ export default {
             } else {
                 // 변경된 이메일 저장
                 var uid = this.user.data.uid
-                this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(uid).update({
                     email: this.email
-                })
+                });
 
-                this.rules = '';
-                this.emaildialog = false;
+                this.rules = await '';
+                this.emaildialog = await false;
             }
+            await this.getUser();
         },
 
-        showGenderDialog() {
+        async showGenderDialog() {
+            this.watch3 = false;
             // 변경된 성별 저장
             var uid = this.user.data.uid;
-            this.$firebase.firestore().collection('users').doc(uid).update({
+            await this.$firebase.firestore().collection('users').doc(uid).update({
                 gender: this.gender
-            })
-            this.genderdialog = false;
+            });
+
+            this.genderdialog = await false;
+
+            await this.getUser();
         },
 
-        showBirthdialog() {
+        async showBirthdialog() {
+            this.watch2 = false;
+
             if (this.birth == null) {
                 this.rules = '생일은 필수 항목입니다.'
                 this.birthdialog = true;
@@ -417,13 +476,15 @@ export default {
             } else {
                 // 변경된 생일 저장
                 var uid = this.user.data.uid;
-                this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(uid).update({
                     birth: this.birth
                 });
 
-                this.rules = '';
-                this.birthdialog = false;
+                this.rules = await '';
+                this.birthdialog = await false;
             }
+
+            await this.getUser();
         },
 
         nochangeDisplayName() {

@@ -47,6 +47,7 @@
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
                         <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true || tryAgain == true">다음</v-btn>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-else-if="minutes <= 0 && seconds <= 0">다음</v-btn>
                         <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                     </v-card>
                 </v-flex>
@@ -82,13 +83,6 @@ export default {
         this.timeStart();
     },
 
-    updated() {
-        console.log('this.remainTime: ',  this.remainTime.includes('-'))
-        if (this.remainTime.includes('-') == true) {
-            this.$router.go(-1);
-        }
-    },
-
     mounted() {
         console.log(this.$route.params.phoneNumber);
         let start = this.$route.params.phoneNumber.substring(3, 6);
@@ -97,6 +91,17 @@ export default {
         this.phoneN = start + "-" + mid + "-" + end;
 
         this.timeOut();
+    },
+
+    watch: {
+        remainTime(val) {
+            if (val.indexOf('-') == -1) {
+                console.log('-가 없어', val);
+            } else {
+                console.log('-가 있어!', val);
+                this.$router.go(-1);
+            }
+        }
     },
 
     beforeDestroy() {
@@ -157,7 +162,6 @@ export default {
                 phoneNumber: this.$route.params.phoneNumber
             });
 
-            console.log('otpInput: ', this.$refs.otpInput.otp);
             this.$refs.otpInput.otp = [];
             this.tryAgain = true;
             this.doneTime = "인증번호를 재발송하였습니다.";
@@ -196,9 +200,7 @@ export default {
 .otp-input:last-child {
     margin: 0;
 }
-</style>
-
-<style scoped>
+</style><style scoped>
 #otpInput {
     justify-content: space-between;
 }
