@@ -23,7 +23,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
 
@@ -32,7 +33,7 @@
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
                                             <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
-                                            <v-card-text class="pa-0">{{ rules }}</v-card-text>
+                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -58,7 +59,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showEmailDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch1 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showEmailDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -66,7 +68,7 @@
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이메일</v-card-title>
                                             <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
-                                            <v-card-text class="pa-0">{{ rules }}</v-card-text>
+                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -92,7 +94,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showGenderDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch3 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showGenderDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -134,7 +137,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" @click="showBirthdialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch2 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showBirthdialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -142,7 +146,7 @@
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">생일</v-card-title>
                                             <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
-                                            <v-card-text class="pa-0">{{ rules }}</v-card-text>
+                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
                                 </v-container>
@@ -247,6 +251,10 @@ export default {
     name: 'Userinfo',
 
     data: () => ({
+        watch: false,
+        watch1: false,
+        watch2: false,
+        watch3: false,
         namedialog: false,
         emaildialog: false,
         genderdialog: false,
@@ -257,6 +265,11 @@ export default {
         birth: '',
         phone: '',
         rules: '',
+
+        displayNameTemp: '',
+        emailTemp: '',
+        birthTemp: '',
+        genderTemp: '',
 
         signoutdialog: false,
         deleteUserdialog: false,
@@ -299,15 +312,7 @@ export default {
     }),
 
     created() {
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.displayName = response.data.displayName
-                this.email = response.data.email
-                this.gender = response.data.gender
-                this.birth = response.data.birth
-            }).catch(error => {
-                console.log('User read: ', error)
-            })
+        this.getUser();
     },
 
     computed: {
@@ -316,140 +321,210 @@ export default {
         }),
 
         getPhoneNumber() {
-            let start = String(this.user.data.phoneNumber).substring(3, 5)
-            let mid = String(this.user.data.phoneNumber).substring(5, 9)
-            let end = String(this.user.data.phoneNumber).substring(9, 13)
-            return '0' + start + '-' + mid + '-' + end
+            let start = String(this.user.data.phoneNumber).substring(3, 5);
+            let mid = String(this.user.data.phoneNumber).substring(5, 9);
+            let end = String(this.user.data.phoneNumber).substring(9, 13);
+            return '0' + start + '-' + mid + '-' + end;
+        }
+    },
+
+    watch: {
+        displayName(newval) {
+            if (newval != this.displayNameTemp) {
+                this.watch = true;
+            } else {
+                this.watch = false;
+            }
+        },
+
+        email(newval) {
+            if (newval != this.emailTemp) {
+                this.watch1 = true;
+            } else {
+                this.watch1 = false;
+            }
+        },
+
+        birth(newval) {
+            if (newval != this.birthTemp) {
+                this.watch2 = true;
+            } else {
+                this.watch2 = false;
+            }
+        },
+
+        gender(newval) {
+            if (newval != this.genderTemp) {
+                this.watch3 = true;
+            } else {
+                this.watch3 = false;
+            }
         }
     },
 
     updated() {
         if (this.byeReason.value == 7) { // 기타 사유를 선택한 경우
-            this.etc = true
-            this.errorRule2 = false
+            this.etc = true;
+            this.errorRule2 = false;
             if (this.byeEtcReason.length == 0) {
-                this.errorRule3 = true
+                this.errorRule3 = true;
             } else {
-                this.errorRule3 = false
+                this.errorRule3 = false;
             }
         } else if (this.byeReason.value == undefined) {
-            this.etc = false
-            this.errorRule2 = true
-            this.errorRule3 = false
+            this.etc = false;
+            this.errorRule2 = true;
+            this.errorRule3 = false;
         } else {
-            this.etc = false
-            this.errorRule2 = false
-            this.errorRule3 = false
+            this.etc = false;
+            this.errorRule2 = false;
+            this.errorRule3 = false;
         }
 
         if (this.inputPhoneNumber.length >= 1) {
-            this.errorRule1 = false
+            this.errorRule1 = false;
         } else {
-            this.errorRule1 = true
+            this.errorRule1 = true;
         }
     },
 
     methods: {
+        async getUser() {
+            await axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+                .then(async response => {
+                    this.displayName = response.data.displayName;
+                    this.email = response.data.email;
+                    this.gender = response.data.gender;
+                    this.birth = response.data.birth;
+
+                    this.displayNameTemp = this.displayName;
+                    this.emailTemp = this.email;
+                    this.birthTemp = this.birth;
+                    this.genderTemp = response.data.gender;
+
+                    this.user.data.displayName = this.displayName;
+                }).catch(error => {
+                    console.log('User read: ', error);
+                })
+        },
+
         async showNameDialog() {
+            this.watch = false;
+
             if (this.displayName == null) {
-                this.rules = '이름은 필수 항목입니다.'
-                this.namedialog = true
+                this.rules = '이름은 필수 항목입니다.';
+                this.namedialog = true;
             } else {
                 // 변경된 이름 저장
-                var uid = this.user.data.uid
+                var uid = this.user.data.uid;
                 await this.$firebase.firestore().collection('users').doc(uid).update({
                     displayName: this.displayName
                 })
 
-                this.rules = ''
-                this.namedialog = await false
-
-                await location.reload(true)
+                this.rules = await '';
+                this.namedialog = await false;
             }
+
+            await this.getUser();
         },
 
-        showEmailDialog() {
+        async showEmailDialog() {
+            this.watch1 = false;
+
             var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
             if (!check.test(this.email)) {
                 this.rules = '이메일 형식을 지켜주세요.'
-                this.emaildialog = true
+                this.emaildialog = true;
             } else if (this.email == null) {
                 this.rules = '이메일은 필수 항목입니다.'
-                this.emaildialog = true
+                this.emaildialog = true;
             } else {
                 // 변경된 이메일 저장
                 var uid = this.user.data.uid
-                this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(uid).update({
                     email: this.email
-                })
+                });
 
-                this.rules = ''
-                this.emaildialog = false
+                this.rules = await '';
+                this.emaildialog = await false;
             }
+            await this.getUser();
         },
 
-        showGenderDialog() {
+        async showGenderDialog() {
+            this.watch3 = false;
             // 변경된 성별 저장
-            var uid = this.user.data.uid
-            this.$firebase.firestore().collection('users').doc(uid).update({
+            var uid = this.user.data.uid;
+            await this.$firebase.firestore().collection('users').doc(uid).update({
                 gender: this.gender
-            })
-            this.genderdialog = false
+            });
+
+            this.genderdialog = await false;
+
+            await this.getUser();
         },
 
-        showBirthdialog() {
+        async showBirthdialog() {
+            this.watch2 = false;
+
             if (this.birth == null) {
                 this.rules = '생일은 필수 항목입니다.'
-                this.birthdialog = true
+                this.birthdialog = true;
             } else if (this.birth.length > 7) {
                 this.rules = '6자로 입력해주세요.'
-                this.birthdialog = true
+                this.birthdialog = true;
             } else {
                 // 변경된 생일 저장
-                var uid = this.user.data.uid
-                this.$firebase.firestore().collection('users').doc(uid).update({
+                var uid = this.user.data.uid;
+                await this.$firebase.firestore().collection('users').doc(uid).update({
                     birth: this.birth
-                })
+                });
 
-                this.rules = ''
-                this.birthdialog = false
+                this.rules = await '';
+                this.birthdialog = await false;
             }
+
+            await this.getUser();
         },
 
         nochangeDisplayName() {
             axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.displayName = response.data.displayName
-                    this.namedialog = false
-                })
-            this.rules = ''
+                    this.displayName = response.data.displayName;
+                    this.namedialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         nochangeEmail() {
             axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.email = response.data.email
-                    this.emaildialog = false
-                })
-            this.rules = ''
+                    this.email = response.data.email;
+                    this.emaildialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         nochangeGender() {
             axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.gender = response.data.gender
-                    this.genderdialog = false
-                })
-            this.rules = ''
+                    this.gender = response.data.gender;
+                    this.genderdialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         nochangeBirth() {
             axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
-                    this.birth = response.data.birth
-                    this.birthdialog = false
-                })
-            this.rules = ''
+                    this.birth = response.data.birth;
+                    this.birthdialog = false;
+                });
+            this.rules = '';
+            this.watch = false;
         },
 
         signOut() {
@@ -463,8 +538,6 @@ export default {
         },
 
         deleteUser() {
-            console.log(this.inputPhoneNumber)
-            console.log(this.getPhoneNumber)
             if (this.inputPhoneNumber == this.getPhoneNumber) {
                 axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
@@ -472,7 +545,7 @@ export default {
                             theme: "bubble",
                             position: "top-center"
                         }).goAway(2000);
-                        this.$router.replace('/goodbye')
+                        this.$router.replace('/goodbye');
                     })
             } else {
                 this.$toasted.show("휴대폰 번호를 확인해주세요!", {

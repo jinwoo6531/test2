@@ -235,19 +235,15 @@ export default {
         isDisabled2: false,
         overlay1: false,
         overlay2: false,
-        zIndex: 0,
-
+        zIndex: 10,
         start_icon: {},
         end_icon: {},
-
         switch1: false,
         originStart: '',
         originEnd: '',
         changeStart: '',
         changeEnd: '',
-
         usermarker: '',
-
         meth: '',
         isRed1: false,
         isRed2: false
@@ -259,13 +255,13 @@ export default {
         }),
 
         totalPayment() {
-            return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+            return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
         }
     },
 
     created() {
-        this.getStation()
-        this.getVehicle()
+        this.getStation();
+        this.getVehicle();
     },
 
     mounted() {
@@ -276,20 +272,17 @@ export default {
         })
 
         // Open Street Map Layer Service Load
-        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
 
         // Map View Center Load
-        this.map.setView([35.836673, 128.686520], 15)
-
-        // this.addMarker()
-        // this.addRouting(this.waypoints)
+        this.map.setView([35.836673, 128.686520], 15);
     },
 
     updated() {
         if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
-            this.callBtn = true
+            this.callBtn = true;
         } else {
-            this.callBtn = false
+            this.callBtn = false;
         }
     },
 
@@ -301,100 +294,99 @@ export default {
                 watch: true,
                 enableHighAccuracy: true
             }).on("locationfound", e => {
-                console.log('Location found: ' + e.latitude + e.longitude)
+                console.log('Location found: ' + e.latitude + e.longitude);
                 if (!this.usermarker) {
                     let currentUser = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/current.svg"),
                         iconSize: [17, 17]
-                    })
+                    });
 
                     return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
                         icon: currentUser
-                    })
+                    });
 
                 } else {
-                    return this.usermarker.setLatLng(e.latlng)
+                    return this.usermarker.setLatLng(e.latlng);
                 }
             }).on("locationerror", error => {
-                // alert('사용자의 위치를 받아올 수 없습니다.')
-                console.log('Location error:', error)
+                console.log('Location error:', error);
                 if (this.usermarker) {
-                    this.map.removeLayer(this.usermarker)
-                    this.usermarker = null
+                    this.map.removeLayer(this.usermarker);
+                    this.usermarker = null;
                 }
             })
 
-            this.res = false
+            this.res = false;
         },
 
         stopLocation() {
             if (this.usermarker != null || this.usermarker != undefined) {
-                this.map.removeLayer(this.usermarker)
-                this.usermarker = null
-                this.map.stopLocate()
-                this.map.setView([35.836673, 128.686520], 15)
-                console.log('stopLocation usermarker', this.usermarker)
+                this.map.removeLayer(this.usermarker);
+                this.usermarker = null;
+                this.map.stopLocate();
+                this.map.setView([35.836673, 128.686520], 15);
+                console.log('stopLocation usermarker', this.usermarker);
             }
 
-            this.res = true
+            this.res = true;
         },
 
         increment() {
-            this.count += 1
+            this.count += 1;
 
             if (this.count >= 14) {
-                this.isDisabled2 = true
-                this.count = 14
+                this.isDisabled2 = true;
+                this.count = 14;
             } else {
-                this.isDisabled2 = false
+                this.isDisabled2 = false;
             }
 
             if (this.count <= 1) {
-                this.isDisabled1 = true
-                this.count = 1
+                this.isDisabled1 = true;
+                this.count = 1;
             } else {
-                this.isDisabled1 = false
+                this.isDisabled1 = false;
             }
         },
 
         decrement() {
-            this.count -= 1
+            this.count -= 1;
 
             if (this.count <= 1) {
-                this.isDisabled1 = true
-                this.count = 1
+                this.isDisabled1 = true;
+                this.count = 1;
             } else {
-                this.isDisabled1 = false
+                this.isDisabled1 = false;
             }
 
             if (this.count >= 14) {
-                this.isDisabled2 = true
-                this.count = 14
+                this.isDisabled2 = true;
+                this.count = 14;
             } else {
-                this.isDisabled2 = false
+                this.isDisabled2 = false;
             }
         },
 
         selectPerson() {
-            this.count = 1
+            this.count = 1;
         },
 
         closePersonDialog() {
-            this.dialog = false
-            this.count = this.temp
+            this.dialog = false;
+            this.count = this.temp;
         },
 
         rideCount() {
-            this.temp = this.count
-            this.dialog = false
+            this.temp = this.count;
+            this.dialog = false;
         },
 
         switchDestination() {
             if (this.start >= 1 && this.end >= 1) {
-                var change = this.start
-                this.start = this.end
-                this.end = change
-                this.onChange()
+                var change = this.start;
+                this.start = this.end;
+                this.end = change;
+                this.onChange();
             }
         },
 
@@ -402,26 +394,13 @@ export default {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12]
-            })
+            });
 
             for (let i = 0; i < this.waypoints.length; i++) {
                 this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
                     icon: gifIcon
-                })
+                });
             }
-
-            // this.$utils.map.createMakerByXY(this.map, [35.8363080000000000, 128.6815470000000000], {
-            //     icon: gifIcon
-            // })
-            // this.$utils.map.createMakerByXY(this.map, [35.8386730000000000, 128.6878920000000000], {
-            //     icon: gifIcon
-            // })
-            // this.$utils.map.createMakerByXY(this.map, [35.8370500000000000, 128.6900440000000000], {
-            //     icon: gifIcon
-            // })
-            // this.$utils.map.createMakerByXY(this.map, [35.8345900000000000, 128.6865200000000000], {
-            //     icon: gifIcon
-            // })
         },
 
         addRouting(waypoints) {
@@ -445,20 +424,20 @@ export default {
                 createMarker: function () {
                     return null;
                 }
-            })
+            });
         },
 
         async getStation() {
             await axios.get('/api/stations/')
                 .then(async response => {
                     if (response.status == 200) {
-                        let station_result = response.data
-                        let station_count = Object.keys(station_result).length
+                        let station_result = response.data;
+                        let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
-                                this.daeguList.push(station_result[i])
+                                this.daeguList.push(station_result[i]);
                                 this.daeguList = this.daeguList.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1
+                                    return a.id < b.id ? -1 : 1;
                                 })
                             }
                         }
@@ -475,41 +454,40 @@ export default {
                         });
                     }
 
-                    await this.addMarker()
-                    await this.addRouting(this.waypoints2)
+                    await this.addMarker();
+                    await this.addRouting(this.waypoints2);
                 }).catch(error => {
-                    console.log('station (GET) error: ', error)
-                })
+                    console.log('station (GET) error: ', error);
+                });
         },
 
         async onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6)
-            this.waypoints = []
+            control.spliceWaypoints(0, 6);
+            this.waypoints = [];
 
             if (this.start >= 1 && this.end >= 1) {
-                // ADD Between Station
                 if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {
                         await this.waypoints.push({
                             lat: this.daeguList[i - 1].lat,
                             lng: this.daeguList[i - 1].lon
-                        })
+                        });
                     }
 
                 } else if (this.start > this.end) {
                     this.waypoints.push({
                         lat: this.daeguList[this.start - 1].lat,
                         lng: this.daeguList[this.start - 1].lon
-                    })
+                    });
                     for (let i = this.start;
                         (i % 4) != this.end; i++) {
                         this.waypoints.push({
                             lat: this.daeguList[i % 4].lat,
                             lng: this.daeguList[i % 4].lon
-                        })
+                        });
                     }
-                    // SAME Station Id
+
                 } else if (this.start == this.end) {
                     switch (this.start) {
                         case 1:
@@ -528,8 +506,8 @@ export default {
                             }, {
                                 lat: this.daeguList[0].lat,
                                 lng: this.daeguList[0].lon
-                            })
-                            break
+                            });
+                            break;
                         case 2:
                             this.waypoints.push({
                                 lat: this.daeguList[1].lat,
@@ -546,8 +524,8 @@ export default {
                             }, {
                                 lat: this.daeguList[1].lat,
                                 lng: this.daeguList[1].lon
-                            })
-                            break
+                            });
+                            break;
                         case 3:
                             this.waypoints.push({
                                 lat: this.daeguList[2].lat,
@@ -564,8 +542,8 @@ export default {
                             }, {
                                 lat: this.daeguList[2].lat,
                                 lng: this.daeguList[2].lon
-                            })
-                            break
+                            });
+                            break;
                         default:
                             this.waypoints.push({
                                 lat: this.daeguList[3].lat,
@@ -582,7 +560,7 @@ export default {
                             }, {
                                 lat: this.daeguList[3].lat,
                                 lng: this.daeguList[3].lon
-                            })
+                            });
                     }
 
                 }
@@ -590,54 +568,54 @@ export default {
                 let startIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40]
-                })
+                });
                 let endIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/end-icon.svg"),
                     iconSize: [40, 40]
-                })
+                });
 
                 if (this.start === 1) {
-                    this.map.removeLayer(this.start_icon)
+                    this.map.removeLayer(this.start_icon);
                     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
                         icon: startIcon
-                    })
+                    });
                 } else if (this.start === 2) {
-                    this.map.removeLayer(this.start_icon)
+                    this.map.removeLayer(this.start_icon);
                     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
                         icon: startIcon
-                    })
+                    });
                 } else if (this.start === 3) {
-                    this.map.removeLayer(this.start_icon)
+                    this.map.removeLayer(this.start_icon);
                     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
                         icon: startIcon
-                    })
+                    });
                 } else if (this.start === 4) {
-                    this.map.removeLayer(this.start_icon)
+                    this.map.removeLayer(this.start_icon);
                     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
                         icon: startIcon
-                    })
+                    });
                 }
 
                 if (this.end === 1) {
-                    this.map.removeLayer(this.end_icon)
+                    this.map.removeLayer(this.end_icon);
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[0].lat, this.daeguList[0].lon], {
                         icon: endIcon
-                    })
+                    });
                 } else if (this.end === 2) {
-                    this.map.removeLayer(this.end_icon)
+                    this.map.removeLayer(this.end_icon);
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[1].lat, this.daeguList[1].lon], {
                         icon: endIcon
-                    })
+                    });
                 } else if (this.end === 3) {
-                    this.map.removeLayer(this.end_icon)
+                    this.map.removeLayer(this.end_icon);
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[2].lat, this.daeguList[2].lon], {
                         icon: endIcon
-                    })
+                    });
                 } else if (this.end === 4) {
-                    this.map.removeLayer(this.end_icon)
+                    this.map.removeLayer(this.end_icon);
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.daeguList[3].lat, this.daeguList[3].lon], {
                         icon: endIcon
-                    })
+                    });
                 }
 
                 // if (this.start) {
@@ -654,11 +632,11 @@ export default {
                 //     })
                 // }
 
-                this.map.removeLayer(endIcon)
+                this.map.removeLayer(endIcon);
 
                 // SET New Routing
-                this.addRouting(this.waypoints)
-                this.totalDistance()
+                this.addRouting(this.waypoints);
+                this.totalDistance();
             }
         },
 
@@ -674,43 +652,43 @@ export default {
 
             if (this.start == 1) {
                 if (this.end == 2) {
-                    this.minutes = "5"
+                    this.minutes = "5";
                 } else if (this.end == 3) {
-                    this.minutes = "8"
+                    this.minutes = "8";
                 } else if (this.end == 4) {
-                    this.minutes = "12"
+                    this.minutes = "12";
                 } else if (this.end == 1) {
-                    this.minutes = "17"
+                    this.minutes = "17";
                 }
             } else if (this.start == 2) {
                 if (this.end == 3) {
-                    this.minutes = "2"
+                    this.minutes = "2";
                 } else if (this.end == 4) {
-                    this.minutes = "6"
+                    this.minutes = "6";
                 } else if (this.end == 1) {
-                    this.minutes = "11"
+                    this.minutes = "11";
                 } else if (this.end == 2) {
-                    this.minutes = "17"
+                    this.minutes = "17";
                 }
             } else if (this.start == 3) {
                 if (this.end == 4) {
-                    this.minutes = "4"
+                    this.minutes = "4";
                 } else if (this.end == 1) {
-                    this.minutes = "8"
+                    this.minutes = "8";
                 } else if (this.end == 2) {
-                    this.minutes = "14"
+                    this.minutes = "14";
                 } else if (this.end == 3) {
-                    this.minutes = "17"
+                    this.minutes = "17";
                 }
             } else if (this.start == 4) {
                 if (this.end == 1) {
-                    this.minutes = "4"
+                    this.minutes = "4";
                 } else if (this.end == 2) {
-                    this.minutes = "10"
+                    this.minutes = "10";
                 } else if (this.end == 3) {
-                    this.minutes = "12"
+                    this.minutes = "12";
                 } else if (this.end == 4) {
-                    this.minutes = "17"
+                    this.minutes = "17";
                 }
             }
         },
@@ -720,54 +698,54 @@ export default {
                 .then(response => {
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
-                    })
-                    var vehicleCount = Object.keys(vehicle_data).length
+                    });
+                    var vehicleCount = Object.keys(vehicle_data).length;
                     for (let i = 0; i < vehicleCount; i++) {
                         if (vehicle_data[i].site == 2) {
                             var vehicleIcon = this.$utils.map.createIcon({
                                 iconUrl: require("../../assets/vehicle1.svg"),
                                 iconSize: [32, 32]
-                            })
+                            });
                             this.vehicle[i] = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
                                 draggable: false,
                                 icon: vehicleIcon
-                            })
+                            });
                         }
                     }
                 }).catch(error => {
-                    console.log(error)
+                    console.log(error);
                 })
             setInterval(async function () {
                 axios.get('/api/vehicles/')
                     .then(response => {
                         var vehicle_data = response.data.sort(function (a, b) {
-                            return a.id < b.id ? -1 : 1
+                            return a.id < b.id ? -1 : 1;
                         })
                         var vehicleCount = Object.keys(vehicle_data).length;
                         for (let i = 0; i < vehicleCount; i++) {
                             if (vehicle_data[i].site == 2) {
-                                this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon])
+                                this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
                                 // console.log(i, "번", this.vehicle[i]._latlng.lat, this.vehicle[i]._latlng.lng)
                             }
                         }
                     }).catch(error => {
-                        console.log(error)
+                        console.log(error);
                     })
-            }.bind(this), 1000)
+            }.bind(this), 1000);
         },
 
         requestCallBtn() {
-            var totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+            var totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 
-            const IMP = window.IMP
+            const IMP = window.IMP;
 
             // 가맹점 식별코드
-            IMP.init("imp19092456")
+            IMP.init("imp19092456");
 
             // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: 'inicis', // PG사명
-                pay_method: this.meth, // 결제수단
+                pg: "mobilians_normal", // PG사명
+                pay_method: this.meth, // 결제수단  
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: totalPayment, // 결제할 금액 (필수 항목)
@@ -783,16 +761,16 @@ export default {
         },
 
         requestPay(meth) {
-            console.log(meth)
+            console.log(meth);
             if (meth == 'card') {
-                this.isRed1 = true
-                this.isRed2 = false
-                console.log(this.isRed1)
-                this.meth = meth
+                this.isRed1 = true;
+                this.isRed2 = false;
+                console.log(this.isRed1);
+                this.meth = meth;
             } else {
-                this.isRed1 = false
-                this.isRed2 = true
-                this.meth = meth
+                this.isRed1 = false;
+                this.isRed2 = true;
+                this.meth = meth;
             }
         },
     }

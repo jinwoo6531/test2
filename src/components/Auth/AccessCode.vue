@@ -46,7 +46,8 @@
             <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
-                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true">다음</v-btn>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true || tryAgain == true">다음</v-btn>
+                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-else-if="minutes <= 0 && seconds <= 0">다음</v-btn>
                         <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                     </v-card>
                 </v-flex>
@@ -71,6 +72,7 @@ export default {
         phoneN: "",
         remainTime: 0,
         ready: 0,
+        tryAgain: false,
         doneTime: ""
     }),
 
@@ -81,10 +83,6 @@ export default {
     created() {
         this.$store.dispatch("initReCaptcha");
         this.timeStart();
-
-        if (this.$route.params.phoneNumber == undefined) {
-            this.$router.go(-1)
-        }
     },
 
     mounted() {
@@ -95,6 +93,17 @@ export default {
         this.phoneN = start + "-" + mid + "-" + end;
 
         this.timeOut();
+    },
+
+    watch: {
+        remainTime(val) {
+            if (val.indexOf('-') == -1) {
+                console.log('-가 없어', val);
+            } else {
+                console.log('-가 있어!', val);
+                this.$router.go(-1);
+            }
+        }
     },
 
     beforeDestroy() {
@@ -108,10 +117,12 @@ export default {
 
         handleOnComplete(value) {
             this.ready = value
+            this.tryAgain = false;
         },
 
         handleOnChange() {
-            this.ready = 0
+            this.ready = 0;
+            this.tryAgain = false;
         },
 
         timeStart() {
@@ -150,6 +161,9 @@ export default {
             await this.$store.dispatch("sendOtp", {
                 phoneNumber: this.$route.params.phoneNumber
             });
+
+            this.$refs.otpInput.otp = [];
+            this.tryAgain = true;
             this.doneTime = "인증번호를 재발송하였습니다.";
             clearInterval(this.polling);
             this.timeOut();
@@ -186,9 +200,7 @@ export default {
 .otp-input:last-child {
     margin: 0;
 }
-</style>
-
-<style scoped>
+</style><style scoped>
 #otpInput {
     justify-content: space-between;
 }
