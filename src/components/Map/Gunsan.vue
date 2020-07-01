@@ -452,18 +452,23 @@ export default {
         async onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6)
-            this.waypoints = []
+            this.waypoints = await []
 
-            if (this.start >= 9 && this.end >= 9) {
-                if (this.start < this.end) {
+            if (this.start >= 9 && this.end >= 9) { // 출발지, 도착지 모두 선택 되었을 경우
+                await console.log('출발지, 도착지 모두 선택 되었을 경우');
+                if (this.start < this.end) { // 출발지의 id가 도착지의 id보다 큰 경우
                     for (let i = this.start; i <= this.end; i++) {
+                        await console.log('출발지의 id가 도착지의 id보다 큰 경우');
+                        await console.log(i, ': ', '출발지 id: ', this.start, '도착지 id: ', this.end);
                         await this.waypoints.push({
                             lat: this.gunsanList[i - 9].lat,
                             lng: this.gunsanList[i - 9].lon
-                        })
+                        });
+                        console.log('waypoints: ', this.waypoints[i])
                     }
+                    console.log('gunsanList: ', this.gunsanList[this.start])
 
-                    let startIcon = this.$utils.map.createIcon({
+                    /* let startIcon = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/start-icon.svg"),
                         iconSize: [40, 40]
                     })
@@ -484,9 +489,10 @@ export default {
                             icon: endIcon
                         })
                     }
-                    this.map.removeLayer(endIcon)
+                    this.map.removeLayer(endIcon) */
 
-                } else if (this.start > this.end || this.start == this.end) {
+                }
+                /* else if (this.start > this.end || this.start == this.end) {
                     this.$toasted.show("지원하지 않는 경로입니다...", {
                         theme: "bubble",
                         position: "top-center"
@@ -510,7 +516,7 @@ export default {
 
                     this.map.removeLayer(this.start_icon);
                     this.map.removeLayer(this.end_icon);
-                }
+                } */
 
                 // SET New Routing
                 this.addRouting(this.waypoints);
