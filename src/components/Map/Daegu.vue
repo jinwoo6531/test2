@@ -454,6 +454,9 @@ export default {
                             name: arr.name,
                             value: arr.id
                         });
+
+                        // 배열을 하나 더 만들어서 팝업을 띄워줄 때 선택했던 요소는 제외하고 보여주기
+                        // 아니면 map 이용해서 true false 이용하기
                     }
 
                     await this.addMarker();

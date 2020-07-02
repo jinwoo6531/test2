@@ -103,12 +103,12 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start >= 9">{{ options[start - 9].name }}</span>
+                                        <span v-if="start >= 0">{{ options[start].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end >= 9">{{ options[end - 9].name }}</span>
+                                        <span v-if="end >= 0">{{ options[end].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
                                     </v-card>
                                 </div>
@@ -243,6 +243,9 @@ export default {
     created() {
         this.getStation();
         // this.getVehicle();
+
+        this.start = parseInt(this.start);
+        this.end = parseInt(this.end);
     },
 
     mounted() {
@@ -362,19 +365,19 @@ export default {
         },
 
         switchDestination() {
-            //if (this.start >= 9 && this.end >= 9 && this.start > this.end && this.start != this.end) {
-            var change = this.start;
-            this.start = this.end;
-            this.end = change;
-            this.onChange();
-            // } else {
-            //     this.$toasted.show("지원하지 않는 경로입니다...", {
-            //         theme: "bubble",
-            //         position: "top-center"
-            //     }).goAway(800);
+            if (this.start >= 0 && this.end >= 0 && this.start > this.end && this.start != this.end) {
+                var change = this.start;
+                this.start = this.end;
+                this.end = change;
+                this.onChange();
+            } else {
+                this.$toasted.show("지원하지 않는 경로입니다...", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(800);
 
-            //     this.callBtn = false;
-            // }
+                this.callBtn = false;
+            }
         },
 
         addMarker() {
@@ -435,11 +438,15 @@ export default {
                             lat: arr.lat,
                             lng: arr.lon
                         });
+                    }
+
+                    for (var [i, arr2] of this.gunsanList.entries()) {
                         this.options.push({
-                            name: arr.name,
-                            value: arr.id
+                            name: arr2.name,
+                            value: i
                         });
                     }
+
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
                 }).catch(error => {
@@ -451,39 +458,35 @@ export default {
 
         async onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6)
-            this.waypoints = []
+            control.spliceWaypoints(0, 6);
+            this.waypoints = [];
 
-            if (this.start >= 9 && this.end >= 9) {
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40]
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40]
+            });
+
+            if (this.start >= 0 && this.end >= 0) {
                 if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {
                         await this.waypoints.push({
-                            lat: this.gunsanList[i - 9].lat,
-                            lng: this.gunsanList[i - 9].lon
+                            lat: this.gunsanList[i].lat,
+                            lng: this.gunsanList[i].lon
                         })
                     }
 
-                    let startIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/start-icon.svg"),
-                        iconSize: [40, 40]
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+                        icon: startIcon
                     })
-                    let endIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/end-icon.svg"),
-                        iconSize: [40, 40]
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+                        icon: endIcon
                     })
-
-                    if (this.start) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.start - 9].lat, this.waypoints[this.start - 9].lng], {
-                            icon: startIcon
-                        })
-                    }
-                    if (this.end) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.end - 9].lat, this.waypoints[this.end - 9].lng], {
-                            icon: endIcon
-                        })
-                    }
                     this.map.removeLayer(endIcon)
 
                 } else if (this.start > this.end || this.start == this.end) {
@@ -492,21 +495,15 @@ export default {
                         position: "top-center"
                     }).goAway(800);
 
-                    this.start = '출발지 선택';
-                    this.end = '도착지 선택';
-
-                    this.startTemp = this.start;
-                    this.endTemp = this.end;
-
-                    this.start = '';
-                    this.end = '';
-
                     for (var arr of this.gunsanList) {
                         await this.waypoints.push({
                             lat: arr.lat,
                             lng: arr.lon
                         });
                     }
+
+                    this.start = -1;
+                    this.end = -1;
 
                     this.map.removeLayer(this.start_icon);
                     this.map.removeLayer(this.end_icon);
