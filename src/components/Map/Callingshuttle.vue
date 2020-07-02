@@ -398,7 +398,7 @@ export default {
 
             this.$utils.map.createRouting(this.map, {
                 waypoints: this.waypoints,
-                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
