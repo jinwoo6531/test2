@@ -104,12 +104,12 @@
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
                                         <span v-if="start >= 1">{{ options[start - 1].name }}</span>
-                                        <span v-else style="color: #BDBDBD">{{ start }}</span>
+                                        <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
                                         <span v-if="end >= 1">{{ options[end - 1].name }}</span>
-                                        <span v-else style="color: #BDBDBD">{{ end }}</span>
+                                        <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
                                     </v-card>
                                 </div>
                             </v-flex>
@@ -218,8 +218,10 @@ export default {
         data: null,
         options: [],
         station_arr: [],
-        start: '출발지 선택',
-        end: '도착지 선택 ',
+        startTemp: '출발지 선택',
+        endTemp: '도착지 선택 ',
+        start: '',
+        end: '',
         startId: [],
         endId: [],
         vehicle: [],
@@ -382,12 +384,12 @@ export default {
         },
 
         switchDestination() {
-            if (this.start >= 1 && this.end >= 1) {
+            // if (this.start >= 1 && this.end >= 1) {
                 var change = this.start;
                 this.start = this.end;
                 this.end = change;
                 this.onChange();
-            }
+            // }
         },
 
         addMarker() {
@@ -452,6 +454,9 @@ export default {
                             name: arr.name,
                             value: arr.id
                         });
+
+                        // 배열을 하나 더 만들어서 팝업을 띄워줄 때 선택했던 요소는 제외하고 보여주기
+                        // 아니면 map 이용해서 true false 이용하기
                     }
 
                     await this.addMarker();
