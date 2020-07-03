@@ -103,12 +103,12 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start >= 9">{{ options[start - 9].name }}</span>
+                                        <span v-if="start >= 0">{{ options[start].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end >= 9">{{ options[end - 9].name }}</span>
+                                        <span v-if="end >= 0">{{ options[end].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
                                     </v-card>
                                 </div>
@@ -242,7 +242,10 @@ export default {
 
     created() {
         this.getStation();
-        // this.getVehicle();
+        this.getVehicle();
+
+        this.start = parseInt(this.start);
+        this.end = parseInt(this.end);
     },
 
     mounted() {
@@ -260,7 +263,7 @@ export default {
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
+        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
@@ -362,19 +365,19 @@ export default {
         },
 
         switchDestination() {
-            //if (this.start >= 9 && this.end >= 9 && this.start > this.end && this.start != this.end) {
-            var change = this.start;
-            this.start = this.end;
-            this.end = change;
-            this.onChange();
-            // } else {
-            //     this.$toasted.show("지원하지 않는 경로입니다...", {
-            //         theme: "bubble",
-            //         position: "top-center"
-            //     }).goAway(800);
+            if (this.start >= 0 && this.end >= 0 && this.start > this.end && this.start != this.end) {
+                var change = this.start;
+                this.start = this.end;
+                this.end = change;
+                this.onChange();
+            } else {
+                this.$toasted.show("지원하지 않는 경로입니다...", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(800);
 
-            //     this.callBtn = false;
-            // }
+                this.callBtn = false;
+            }
         },
 
         addMarker() {
@@ -435,11 +438,21 @@ export default {
                             lat: arr.lat,
                             lng: arr.lon
                         });
+                    }
+
+                    for (var [i, arr2] of this.gunsanList.entries()) {
                         this.options.push({
-                            name: arr.name,
-                            value: arr.id
+                            name: arr2.name,
+                            value: i
                         });
                     }
+
+                    this.start_options = this.options;
+                    this.end_options = this.options;
+
+                    console.log('start_options', this.start_options);
+                    console.log('end_options', this.end_options);
+
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
                 }).catch(error => {
@@ -451,45 +464,45 @@ export default {
 
         async onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6)
-            this.waypoints = await []
+            control.spliceWaypoints(0, 6);
+            this.waypoints = [];
 
-            if (this.start >= 9 && this.end >= 9) { // 출발지, 도착지 모두 선택 되었을 경우
-                await console.log('출발지, 도착지 모두 선택 되었을 경우');
-                if (this.start < this.end) { // 출발지의 id가 도착지의 id보다 큰 경우
+            // 선택한 정류장 목록을 지워줘야한다.
+            // 선택한 정류장 목록을 지워주는 배열 하나 추가?
+            console.log('options: ', this.options);
+            console.log('선택한 출발지: ', this.start);
+            console.log('선택한 도착지: ', this.end);
+
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40]
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40]
+            });
+
+            if (this.start >= 0 && this.end >= 0) {
+                if (this.start < this.end) {
                     for (let i = this.start; i <= this.end; i++) {
                         await console.log('출발지의 id가 도착지의 id보다 큰 경우');
                         await console.log(i, ': ', '출발지 id: ', this.start, '도착지 id: ', this.end);
                         await this.waypoints.push({
-                            lat: this.gunsanList[i - 9].lat,
-                            lng: this.gunsanList[i - 9].lon
-                        });
-                        console.log('waypoints: ', this.waypoints[i])
+                            lat: this.gunsanList[i].lat,
+                            lng: this.gunsanList[i].lon
+                        })
                     }
                     console.log('gunsanList: ', this.gunsanList[this.start])
 
-                    /* let startIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/start-icon.svg"),
-                        iconSize: [40, 40]
+                    this.map.removeLayer(this.start_icon)
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+                        icon: startIcon
                     })
-                    let endIcon = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/end-icon.svg"),
-                        iconSize: [40, 40]
+                    this.map.removeLayer(this.end_icon)
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+                        icon: endIcon
                     })
-
-                    if (this.start) {
-                        this.map.removeLayer(this.start_icon)
-                        this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.start - 9].lat, this.waypoints[this.start - 9].lng], {
-                            icon: startIcon
-                        })
-                    }
-                    if (this.end) {
-                        this.map.removeLayer(this.end_icon)
-                        this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.waypoints[this.end - 9].lat, this.waypoints[this.end - 9].lng], {
-                            icon: endIcon
-                        })
-                    }
-                    this.map.removeLayer(endIcon) */
+                    this.map.removeLayer(endIcon)
 
                 }
                 /* else if (this.start > this.end || this.start == this.end) {
@@ -498,21 +511,15 @@ export default {
                         position: "top-center"
                     }).goAway(800);
 
-                    this.start = '출발지 선택';
-                    this.end = '도착지 선택';
-
-                    this.startTemp = this.start;
-                    this.endTemp = this.end;
-
-                    this.start = '';
-                    this.end = '';
-
                     for (var arr of this.gunsanList) {
                         await this.waypoints.push({
                             lat: arr.lat,
                             lng: arr.lon
                         });
                     }
+
+                    this.start = -1;
+                    this.end = -1;
 
                     this.map.removeLayer(this.start_icon);
                     this.map.removeLayer(this.end_icon);
@@ -534,7 +541,7 @@ export default {
 
         getVehicle() {
             axios.get('/api/vehicles/')
-                .then(response => {
+                .then(async response => {
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     });
@@ -545,10 +552,12 @@ export default {
                                 iconUrl: require("../../assets/vehicle1.svg"),
                                 iconSize: [32, 32]
                             });
-                            this.vehicle[i] = this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
-                                draggable: false,
-                                icon: vehicleIcon
-                            });
+                            if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
+                                this.vehicle[i] = await this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                    draggable: false,
+                                    icon: vehicleIcon
+                                });
+                            }
                         }
                     }
                 }).catch(error => {
@@ -558,18 +567,20 @@ export default {
                 axios.get('/api/vehicles/')
                     .then(response => {
                         var vehicle_data = response.data.sort(function (a, b) {
-                            return a.id < b.id ? -1 : 1
-                        });
+                            return a.id < b.id ? -1 : 1;
+                        })
                         var vehicleCount = Object.keys(vehicle_data).length;
                         for (let i = 0; i < vehicleCount; i++) {
-                            if (vehicle_data[i].site == 2) {
-                                this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
+                            if (vehicle_data[i].site == 1) {
+                                if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
+                                    this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
+                                }
                             }
                         }
                     }).catch(error => {
                         console.log(error);
                     })
-            }.bind(this), 1000)
+            }.bind(this), 1000);
         },
 
         requestCallBtn() {
@@ -582,7 +593,7 @@ export default {
 
             // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: 'inicis', // PG사명
+                pg: 'mobilians', // PG사명
                 pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명

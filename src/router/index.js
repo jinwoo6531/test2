@@ -15,6 +15,7 @@ import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
 import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
+import WebSocketTest from '@/views/websocketTest'
 // import store from '../store/modules/auth'
 
 Vue.use(VueRouter)
@@ -52,6 +53,11 @@ const routes = [{
     path: '/import',
     name: 'Import',
     component: Import
+  },
+  {
+    path: '/websocket',
+    name: 'WebSocketTest',
+    component: WebSocketTest
   },
   {
     path: '/accessagree',

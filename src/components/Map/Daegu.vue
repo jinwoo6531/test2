@@ -454,6 +454,9 @@ export default {
                             name: arr.name,
                             value: arr.id
                         });
+
+                        // 배열을 하나 더 만들어서 팝업을 띄워줄 때 선택했던 요소는 제외하고 보여주기
+                        // 아니면 map 이용해서 true false 이용하기
                     }
 
                     await this.addMarker();
@@ -746,7 +749,7 @@ export default {
 
             // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: "mobilians_normal", // PG사명
+                pg: "mobilians", // PG사명
                 pay_method: this.meth, // 결제수단  
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
