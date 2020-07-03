@@ -20,37 +20,59 @@
 export default {
     data: () => ({
         message: "",
-        logs: [],
+        webSocketData: {},
         status: "disconnected",
-        socket: null
+        socket: null,
+        callStatus: 'no'
+
     }),
 
-    methods: {
-        connect() {
-            this.socket = new WebSocket("ws://115.93.143.2:9103");
-            this.socket.onopen = (event) => {
-                console.log(event)
-                /* this.status = "connected";
-                this.logs.push({
-                    event: "연결 완료: ",
-                    data: 'ws://115.93.143.2:9103'
-                }) */
+    created() {
+        this.socket = new WebSocket('ws://115.93.143.2:9103');
+        this.socket.onopen = (event) => {
+            console.log(event);
+            this.status = 'connection';
 
-                this.socket.onmessage = ({
-                    data
-                }) => {
-                    this.logs.push({
-                        event: "배차 수신",
-                        data
-                    });
-                };
+            this.socket.onmessage = ({
+                data
+            }) => { // websocket에 있는 정보들을 받는다.
+                this.webSocketData = data;
             };
-        },
+        }
+    },
 
+    destroyed() {
+        this.disconnect();
+    },
+
+    watch: {
+        webSocketData() {
+            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand') {
+                this.vehicle_id = this.webSocketData.how.vehicle_id;
+                this.callStatus = this.webSocketData.how.value;
+                if (this.callStatus == 'call') {
+                    this.$router.replace({
+                        name: "CallingShuttle",
+                        params: {
+                            site: this.webSocketData.how.site,
+                            start: this.webSocketData.how.start,
+                            end: this.webSocketData.how.end,
+                            startName: this.webSocketData.how.startName,
+                            endName: this.webSocketData.how.endName,
+                            count: this.webSocketData.how.count,
+                            minutes: this.webSocketData.how.minutes,
+                            vehicle_id: this.vehicle_id
+                        }
+                    })
+                }
+            }
+        }
+    },
+
+    methods: {
         disconnect() {
             this.socket.close();
             this.status = "disconnected";
-            this.logs = [];
         },
 
         sendMessage() {
@@ -64,31 +86,19 @@ export default {
                     value: call(string)
                 }
             } */
-            this.message = {
-                where: '',
+            this.message = { // ondemand 측에서 보내줘야 할 데이터
                 who: 'tasio9772',
-                what: 'EVENT',
-                how: {
-                    type: 'ondemand',
-                    site_id: 1, // 지역 번호
-                    start: 'start_id', // 출발지 id
-                    end: 'end_id', // 도착지 id
-                    startName: 'startName', // 출발지 명
-                    endName: 'endName', // 도착지 명
-                    count: 5, // 탑승객 수
-                    minutes: 12, // 소요 시간
-                    vehicle_id: 6, // 셔틀 번호
-                    value: 'call'
-                }
+                site_id: this.$route.query.site, // 지역 번호
+                start: this.$route.query.start, // 출발지 id
+                end: this.$route.query.end, // 도착지 id
+                startName: this.$route.query.startName, // 출발지 명
+                endName: this.$route.query.endName, // 도착지 명
+                count: this.$route.query.count, // 탑승객 수
+                minutes: this.$route.query.minutes, // 소요 시간
+                vehicle_id: ''
             }
 
             this.socket.send(this.message);
-            this.logs.push({
-                event: "배차 요청",
-                data: this.message
-            });
-
-            this.message = "";
         }
     }
 }

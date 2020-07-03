@@ -177,9 +177,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 var control
 
@@ -446,6 +444,13 @@ export default {
                             value: i
                         });
                     }
+
+                    this.start_options = this.options;
+                    this.end_options = this.options;
+
+                    console.log('start_options', this.start_options);
+                    console.log('end_options', this.end_options);
+                    
 
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
