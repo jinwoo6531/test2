@@ -89,7 +89,7 @@ export default {
     data: () => ({
         ready: false,
         map: null,
-        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         stationList: [],
         start_icon: {},
         end_icon: {},

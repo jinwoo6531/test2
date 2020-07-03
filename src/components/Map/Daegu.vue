@@ -190,7 +190,7 @@ export default {
         res: true,
         pageId: 2,
         map: null,
-        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [],
