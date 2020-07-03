@@ -72,7 +72,7 @@ export default {
 
     created() {
         // Web Socket
-        this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle")
+        this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle");
 
         // 연결이 성공적으로 열릴 때
         this.connection.onopen = (event) => {

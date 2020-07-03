@@ -177,9 +177,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 var control
 
@@ -263,7 +261,7 @@ export default {
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
+        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
@@ -447,6 +445,13 @@ export default {
                         });
                     }
 
+                    this.start_options = this.options;
+                    this.end_options = this.options;
+
+                    console.log('start_options', this.start_options);
+                    console.log('end_options', this.end_options);
+                    
+
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
                 }).catch(error => {
@@ -460,6 +465,12 @@ export default {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
+
+            // 선택한 정류장 목록을 지워줘야한다.
+            // 선택한 정류장 목록을 지워주는 배열 하나 추가?
+            console.log('options: ', this.options);
+            console.log('선택한 출발지: ', this.start);
+            console.log('선택한 도착지: ', this.end);
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -573,7 +584,7 @@ export default {
 
             // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: 'inicis', // PG사명
+                pg: 'mobilians', // PG사명
                 pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
@@ -584,7 +595,7 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 9].name}&endName=${this.options[this.end - 9].name}&count=${this.count}&minutes=${this.minutes}`
+                m_redirect_url: `http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
