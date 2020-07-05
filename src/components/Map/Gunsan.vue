@@ -73,7 +73,7 @@
                     <v-overlay :z-index="zIndex" :value="overlay1">
                         <v-card color="#FFF" style="width: 312px; height: 287px;">
                             <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="start" />
+                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="start_options" v-model="start" />
                             </v-card-text>
                             <v-card-actions class="pa-0">
                                 <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
@@ -85,7 +85,7 @@
                     <v-overlay :z-index="zIndex" :value="overlay2">
                         <v-card color="#FFF" style="width: 312px; height: 287px;">
                             <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="options" v-model="end" />
+                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="end_options" v-model="end" />
                             </v-card-text>
                             <v-card-actions class="pa-0">
                                 <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
@@ -227,7 +227,9 @@ export default {
         usermarker: '',
         meth: '',
         isRed1: false,
-        isRed2: false
+        isRed2: false,
+        start_options: [],
+        end_options: []
     }),
 
     computed: {
@@ -472,6 +474,8 @@ export default {
             console.log('options: ', this.options);
             console.log('선택한 출발지: ', this.start);
             console.log('선택한 도착지: ', this.end);
+            this.start_options = this.options.filter(opt => opt.value != this.end);
+            this.end_options = this.options.filter(opt => opt.value != this.start);
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
