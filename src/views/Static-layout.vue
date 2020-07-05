@@ -13,7 +13,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <template v-if="user.loggedIn">
+            <template v-if="user.data">
                 <v-list-item class="pa-0">
                     <v-list-item-content>
                         <v-row class="ma-0" style="height: 30px;">
@@ -195,7 +195,7 @@ import { mapGetters } from "vuex"
 
 export default {
     data: () => ({
-        drawer: null
+        drawer: null,
     }),
 
     computed: {
