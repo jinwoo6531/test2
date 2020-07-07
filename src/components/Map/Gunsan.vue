@@ -229,7 +229,8 @@ export default {
         isRed1: false,
         isRed2: false,
         start_options: [],
-        end_options: []
+        end_options: [],
+        stationMarker: []
     }),
 
     computed: {
@@ -282,6 +283,8 @@ export default {
                 enableHighAccuracy: true
             }).on("locationfound", e => {
                 console.log('Location found: ' + e.latitude + e.longitude);
+                console.log('stationMarker: ', this.stationMarker);
+
                 if (!this.usermarker) {
                     let currentUser = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/current.svg"),
@@ -397,6 +400,13 @@ export default {
             for (let i = 0; i < this.waypoints.length; i++) {
                 this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
                     icon: gifIcon
+                });
+            }
+
+            for (var arr of this.waypoints) {
+                this.stationMarker.push({
+                    stationLat: arr.lat,
+                    stationLng: arr.lng
                 });
             }
         },
