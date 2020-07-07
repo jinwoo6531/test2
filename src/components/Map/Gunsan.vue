@@ -21,7 +21,7 @@
 
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
-                                <v-btn icon @click="dialog = false">
+                                <v-btn icon @click="closePersonDialog">
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -38,7 +38,7 @@
                                         <v-card flat tile>
                                             <v-card-text class="count">{{ count }}</v-card-text>
                                         </v-card>
-                                        <v-card :ripple="false" flat tile>
+                                        <v-card flat tile :ripple="false">
                                             <v-btn :class="{ 'is-disabled2': isDisabled2 }" :ripple="false" @click="increment" outlined color="#E61773" fab>
                                                 <v-icon dark>mdi-plus</v-icon>
                                             </v-btn>
@@ -146,9 +146,9 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('617160000106')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('phone')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('617160000105')">휴대폰 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
                                     </v-card>
                                 </v-card-text>
@@ -160,7 +160,7 @@
                                                 <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '617160000106' || meth == '617160000105'" @click="requestCallBtn">호출하기</v-btn>
                                                 <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
@@ -359,6 +359,11 @@ export default {
 
         selectPerson() {
             this.count = 1;
+        },
+
+        closePersonDialog() {
+            this.dialog = false;
+            this.count = this.temp;
         },
 
         rideCount() {
@@ -593,8 +598,8 @@ export default {
 
             // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: 'mobilians', // PG사명
-                pay_method: this.meth, // 결제수단
+                pg: `mobilians.${this.meth}`, // PG사명
+                // pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: totalPayment, // 결제할 금액 (필수 항목)
@@ -609,12 +614,12 @@ export default {
         },
 
         requestPay(meth) {
-            if (meth == 'card') {
+            if (meth == '617160000106') {
                 this.isRed1 = true;
                 this.isRed2 = false;
                 console.log(this.isRed1);
                 this.meth = meth;
-            } else {
+            } else if (meth == '617160000105') {
                 this.isRed1 = false;
                 this.isRed2 = true;
                 this.meth = meth;
