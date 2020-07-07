@@ -440,12 +440,37 @@ export default {
                         }
                     }
 
-                    for (var arr of this.gunsanList) {
-                        this.waypoints.push({
-                            lat: arr.lat,
-                            lng: arr.lon
-                        });
-                    }
+                    console.log('gunsanList', this.gunsanList);
+                    // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+
+                    // for (var arr of this.gunsanList) {
+                    //     this.waypoints.push({
+                    //         lat: arr.lat,
+                    //         lng: arr.lon
+                    //     });
+                    // }
 
                     for (var [i, arr2] of this.gunsanList.entries()) {
                         this.options.push({
@@ -456,9 +481,6 @@ export default {
 
                     this.start_options = this.options;
                     this.end_options = this.options;
-
-                    console.log('start_options', this.start_options);
-                    console.log('end_options', this.end_options);
 
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
@@ -474,11 +496,6 @@ export default {
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
 
-            // 선택한 정류장 목록을 지워줘야한다.
-            // 선택한 정류장 목록을 지워주는 배열 하나 추가?
-            console.log('options: ', this.options);
-            console.log('선택한 출발지: ', this.start);
-            console.log('선택한 도착지: ', this.end);
             this.start_options = this.options.filter(opt => opt.value != this.end);
             this.end_options = this.options.filter(opt => opt.value != this.start);
 
@@ -491,50 +508,371 @@ export default {
                 iconSize: [40, 40]
             });
 
-            if (this.start >= 0 && this.end >= 0) {
-                if (this.start < this.end) {
-                    for (let i = this.start; i <= this.end; i++) {
-                        await this.waypoints.push({
-                            lat: this.gunsanList[i].lat,
-                            lng: this.gunsanList[i].lon
-                        })
-                    }
-
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
-                        icon: startIcon
+            // [0: 9, 1: 10, 2: 11, 3: 12, 4: 13, 5: 18, 6: 19]
+            // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
+            // 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
+            if (this.start == 3) {
+                console.log(this.start)
+                if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
                     })
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
-                        icon: endIcon
+                } else if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
                     })
-                    this.map.removeLayer(endIcon)
-
-                } else if (this.start > this.end || this.start == this.end) {
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800);
-
-                    for (var arr of this.gunsanList) {
-                        await this.waypoints.push({
-                            lat: arr.lat,
-                            lng: arr.lon
-                        });
-                    }
-
-                    this.start = -1;
-                    this.end = -1;
-
-                    this.map.removeLayer(this.start_icon);
-                    this.map.removeLayer(this.end_icon);
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
                 }
-
-                // SET New Routing
-                this.addRouting(this.waypoints);
-                this.totalDistance();
             }
+            if (this.start == 4) {
+                console.log(this.start)
+                if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    })
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+            if (this.start == 2) {
+                console.log(this.start)
+                if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+            if (this.start == 5) {
+                console.log(this.start)
+                if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+            if (this.start == 0) {
+                console.log(this.start)
+                if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+
+            this.map.removeLayer(this.start_icon)
+            this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+                icon: startIcon
+            })
+            this.map.removeLayer(this.end_icon)
+            this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+                icon: endIcon
+            })
+            this.map.removeLayer(endIcon)
+
+            // SET New Routing
+            this.addRouting(this.waypoints);
+            this.totalDistance();
         },
+
+        // async onChange() {
+        //     // REMOVE Default Routing
+        //     control.spliceWaypoints(0, 6);
+        //     this.waypoints = [];
+
+        //     this.start_options = this.options.filter(opt => opt.value != this.end);
+        //     this.end_options = this.options.filter(opt => opt.value != this.start);
+
+        //     let startIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/start-icon.svg"),
+        //         iconSize: [40, 40]
+        //     });
+        //     let endIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/end-icon.svg"),
+        //         iconSize: [40, 40]
+        //     });
+
+        //     if (this.start >= 0 && this.end >= 0) {
+        //         if (this.start < this.end) {
+        //             for (let i = this.start; i <= this.end; i++) {
+        //                 await this.waypoints.push({
+        //                     lat: this.gunsanList[i].lat,
+        //                     lng: this.gunsanList[i].lon
+        //                 })
+        //             }
+
+        //             this.map.removeLayer(this.start_icon)
+        //             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+        //                 icon: startIcon
+        //             })
+        //             this.map.removeLayer(this.end_icon)
+        //             this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+        //                 icon: endIcon
+        //             })
+        //             this.map.removeLayer(endIcon)
+
+        //         } else if (this.start > this.end || this.start == this.end) {
+        //             this.$toasted.show("지원하지 않는 경로입니다...", {
+        //                 theme: "bubble",
+        //                 position: "top-center"
+        //             }).goAway(800);
+
+        //             for (var arr of this.gunsanList) {
+        //                 await this.waypoints.push({
+        //                     lat: arr.lat,
+        //                     lng: arr.lon
+        //                 });
+        //             }
+
+        //             this.start = -1;
+        //             this.end = -1;
+
+        //             this.map.removeLayer(this.start_icon);
+        //             this.map.removeLayer(this.end_icon);
+        //         }
+
+        //         // SET New Routing
+        //         this.addRouting(this.waypoints);
+        //         this.totalDistance();
+        //     }
+        // },
 
         totalDistance() {
             control.on('routesfound', (e) => {
