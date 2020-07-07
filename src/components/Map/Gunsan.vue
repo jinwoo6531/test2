@@ -798,15 +798,18 @@ export default {
                 }
             }
 
+            console.log('start', this.start)
+            console.log('end', this.end)
+
             this.map.removeLayer(this.start_icon)
             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
                 icon: startIcon
-            })
+            });
             this.map.removeLayer(this.end_icon)
             this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
                 icon: endIcon
-            })
-            this.map.removeLayer(endIcon)
+            });
+            this.map.removeLayer(endIcon);
 
             // SET New Routing
             this.addRouting(this.waypoints);

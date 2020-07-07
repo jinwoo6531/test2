@@ -58,6 +58,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import axios from 'axios'
+
 export default {
     name: 'CallingLayout',
 
@@ -65,10 +68,16 @@ export default {
         loading: true,
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
-        logs: [],
+        isrefund: '',
         status: 'disconnected',
         connection: null
     }),
+
+    computed: {
+        ...mapGetters({
+            user: "user"
+        }),
+    },
 
     created() {
         var msgSend = false;
@@ -77,11 +86,14 @@ export default {
             console.log('onopen', event);
             this.status = 'connected';
 
-            this.socket.onmessage = ({ data }) => {
+            this.socket.onmessage = ({
+                data
+            }) => {
                 // websocket에 있는 정보들을 받는다.
+                this.webSocketData = JSON.parse(data);
+
                 // alive check를 해주는 것이 중요하다.
                 // PING을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
-                this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData);
                 if (this.webSocketData.what == 'PING') {
                     if (msgSend == false) {
@@ -91,7 +103,49 @@ export default {
                     this.webSocketData = JSON.parse(data);
                 }
             };
+
+            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+                .then(response => {
+                    this.isrefund = response.data.isrefund;
+                    this.latest_mid = response.data.latest_mid;
+                }).catch(error => {
+                    console.log('User read: ', error);
+                })
         }
+    },
+
+    mounted() {
+        this.site = this.$route.query.site;
+        this.start = this.$route.query.start;
+        this.end = this.$route.query.end;
+        this.startName = this.$route.query.startName;
+        this.endName = this.$route.query.endName;
+        this.count = this.$route.query.count;
+        this.minutes = this.$route.query.minutes;
+        this.ready = true;
+
+        this.loadingTime = setTimeout(() => {
+            this.loading = false;
+        }, 1500);
+
+        setTimeout(() => {
+            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
+        }, 60000);
+
+        setTimeout(() => {
+            this.$router.replace({
+                name: "CallFail",
+                params: {
+                    site: this.site,
+                    start: this.start,
+                    end: this.end,
+                    startName: this.startName,
+                    endName: this.endName,
+                    count: this.count,
+                    minutes: this.minutes
+                }
+            });
+        }, 180000);
     },
 
     watch: {
@@ -109,9 +163,9 @@ export default {
                             vehicle_mid: this.vehicle_mid, // vheicle의 관리 ID(string)
                             site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
                             eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
-                            current_station_id: this.webSocketData.how.current_station_id,
-                            target_station_id: this.webSocketData.how.target_station_id,
-                            passenger: this.webSocketData.how.passenger
+                            current_station_id: this.start,
+                            target_station_id: this.end,
+                            passenger: this.count
                         }
                     })
                 }
@@ -134,21 +188,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.site = this.$route.query.site;
-        this.start = this.$route.query.start;
-        this.end = this.$route.query.end;
-        this.startName = this.$route.query.startName;
-        this.endName = this.$route.query.endName;
-        this.count = this.$route.query.count;
-        this.minutes = this.$route.query.minutes;
-        this.ready = true;
-
-        this.loadingTime = setTimeout(() => {
-            this.loading = false;
-        }, 1500);
-    },
-
     methods: {
         callCancelModal() {
             this.$toasted.show("호출을 정말로 취소하세요?", {
@@ -156,7 +195,38 @@ export default {
                 position: "top-center"
             }).goAway(2000);
 
-            this.$router.replace('/');
+            if (this.isrefund == '0') {
+                axios({
+                    url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
+                    method: "post",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        merchant_uid: this.latest_mid, // 주문번호 *
+                        reason: "타시오 호출 취소", // 환불 사유 *,
+                        cancel_request_amount: 500
+                    }
+                }).then(response => {
+                    console.log('환불 완료: ', response)
+                    console.log('latest_mid: ', this.latest_mid)
+                }).catch(error => {
+                    this.$toasted.show("환불을 실패하였습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
+
+                    console.log('환불 실패', error)
+                })
+
+                this.$router.replace('/')
+            } else {
+                this.$toasted.show("결제하신 내역이 없습니다.", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            }
+
         },
 
         sendMessage() { // ondemand 측에서 보내줘야 할 데이터
