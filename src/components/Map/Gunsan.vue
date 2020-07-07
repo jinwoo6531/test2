@@ -273,6 +273,7 @@ export default {
     },
 
     methods: {
+        // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
             this.map.locate({
                 setView: true,
