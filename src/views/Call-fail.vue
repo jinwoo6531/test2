@@ -29,8 +29,6 @@ export default {
         this.endName = this.$route.params.endName;
         this.count = this.$route.params.count;
         this.minutes = this.$route.params.minutes;
-
-        alert('this.site: ', this.site)
     },
     
     methods: {
