@@ -58,9 +58,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -72,7 +70,7 @@ export default {
         ready: false,
         isrefund: '',
         status: 'disconnected',
-        connection: null,
+        webSocketData: {},
         timeCount: 0
     }),
 
@@ -140,16 +138,14 @@ export default {
         webSocketData() {
             console.log('watch', this.webSocketData)
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand') {
-                this.vehicle_id = this.webSocketData.how.vehicle_id;
-                this.vehicle_mid = this.webSocketData.how.vehicle_mid;
-                this.callStatus = this.webSocketData.how.function;
-                if (this.callStatus == 'start') {
-                    console.log('ondemand START EVENT(배차 확인)', this.callStatus);
+                console.log('EVENT & ondemand true!!!');
+                if (this.webSocketData.how.function == 'start') {
+                    console.log('ondemand START EVENT(배차 확인)');
                     this.$router.replace({
                         name: "CallingShuttle",
                         params: {
-                            vehicle_id: this.vehicle_id, // vehicle의 ID(number)
-                            vehicle_mid: this.vehicle_mid, // vheicle의 관리 ID(string)
+                            vehicle_id: this.webSocketData.how.vehicle_id, // vehicle의 ID(number)
+                            vehicle_mid: this.webSocketData.how.vehicle_mid, // vheicle의 관리 ID(string)
                             site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
                             eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
                             current_station_id: this.start,
@@ -158,21 +154,21 @@ export default {
                         }
                     })
                 }
-                if (this.callStatus == 'complete') { // 배차 완료될 경우 (사용자가 나 탔어! 할 때)
-                    // {
-                    //     where: sejong_datahub
-                    //     who: [safety_id]
-                    //     what: EVENT
-                    //     how: {
-                    //         type: ondemand(string)
-                    //         vehicle_id: vehicle의 ID(number)
-                    //         vehicle_mid: vheicle의 관리 ID(string)
-                    //         site_id: vehicle에 소속된 site의 ID(number)
-                    //         function: complete(string)
-                    //     }
-                    // }
-                    console.log('ondemand START EVENT(배차 완료)', this.callStatus);
-                }
+                // if (this.webSocketData.how.function == 'complete') { // 배차 완료될 경우 (사용자가 나 탔어! 할 때)
+                //     console.log('ondemand START EVENT(배차 완료)');
+                // {
+                //     where: sejong_datahub
+                //     who: [safety_id]
+                //     what: EVENT
+                //     how: {
+                //         type: ondemand(string)
+                //         vehicle_id: vehicle의 ID(number)
+                //         vehicle_mid: vheicle의 관리 ID(string)
+                //         site_id: vehicle에 소속된 site의 ID(number)
+                //         function: complete(string)
+                //     }
+                // }
+                // }
             }
         }
     },
@@ -226,13 +222,12 @@ export default {
         },
 
         onMessageWebSocket() {
-            // alive check를 해주는 것이 중요하다.
-            // PING을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
             var msgSend = false;
-            this.socket.onmessage = ({  data }) => {
-                // websocket에 있는 정보들을 받는다.
+            this.socket.onmessage = ({
+                data
+            }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
-                console.log('webSocketData: ', this.webSocketData);
+                console.log('webSocketData: ', this.webSocketData.what);
                 if (this.webSocketData.what == 'PING') {
                     if (msgSend == false) {
                         this.sendMessage();
