@@ -177,6 +177,25 @@
 </template>
 
 <script>
+function calcDistance(lat1, lon1, lat2, lon2) {
+    var theta = lon1 - lon2;
+    var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+    dist = Math.acos(dist);
+    dist = rad2deg(dist);
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344;
+    return Number(dist * 1000).toFixed(2);
+}
+
+function deg2rad(deg) {
+    return (deg * Math.PI / 180);
+}
+
+function rad2deg(rad) {
+    return (rad * 180 / Math.PI);
+}
+
 import {
     mapGetters
 } from 'vuex'
@@ -230,7 +249,10 @@ export default {
         isRed2: false,
         start_options: [],
         end_options: [],
-        stationMarker: []
+        currentlocation: {
+            lat: '',
+            lon: ''
+        }
     }),
 
     computed: {
@@ -263,6 +285,19 @@ export default {
 
         // Map View Center Load
         this.map.setView([35.812484, 126.4091], 15);
+        console.log('ho')
+        this.map.locate({
+            setView: false,
+            maxZoom: 18,
+            enableHighAccuracy: true
+        }).on("locationfound", e => {
+            console.log('latitude: ', e.latitude)
+            //this.currentlocation.lat = e.latitude;
+            //this.currentlocation.lon = e.longitude;
+            this.currentlocation.lat = 35.820293
+            this.currentlocation.lon = 126.412015
+        })
+
     },
 
     updated() {
@@ -276,6 +311,8 @@ export default {
     methods: {
         // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
+            console.log('suc??',this.compareLocatoin())
+
             this.map.locate({
                 setView: true,
                 maxZoom: 18,
@@ -283,7 +320,6 @@ export default {
                 enableHighAccuracy: true
             }).on("locationfound", e => {
                 console.log('Location found: ' + e.latitude + e.longitude);
-                console.log('stationMarker: ', this.stationMarker);
 
                 if (!this.usermarker) {
                     let currentUser = this.$utils.map.createIcon({
@@ -323,6 +359,19 @@ export default {
             }
 
             this.res = true;
+        },
+
+        compareLocatoin() {
+            console.log('compareLocatoin: ', this.gunsanList);
+            console.log('loc', this.currentlocation.lat);
+            var success=false
+            for (var loc of this.gunsanList) {
+                console.log(loc);
+                if(2000>calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)){
+                    success=true
+                }
+            }
+            return success
         },
 
         increment() {
@@ -400,13 +449,6 @@ export default {
             for (let i = 0; i < this.waypoints.length; i++) {
                 this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
                     icon: gifIcon
-                });
-            }
-
-            for (var arr of this.waypoints) {
-                this.stationMarker.push({
-                    stationLat: arr.lat,
-                    stationLng: arr.lng
                 });
             }
         },
