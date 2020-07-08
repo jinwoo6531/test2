@@ -29,6 +29,8 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
+
+        alert('this.site: ', this.site)
     },
     
     methods: {
