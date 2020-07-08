@@ -93,6 +93,8 @@ export default {
         map: null,
         OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         stationList: [],
+        startName: '',
+        endName: '',
         start_icon: {},
         end_icon: {},
         setLat: '',
@@ -155,6 +157,9 @@ export default {
                                 })
                             }
                         }
+
+                        this.startName = this.stationList[this.start].name;
+                        this.endName = this.stationList[this.end].name;
 
                         // Map View Center Load
                         if (this.site == 1) {
