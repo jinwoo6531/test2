@@ -376,7 +376,7 @@ export default {
         },
 
         switchDestination() {
-            if (this.start >= 0 && this.end >= 0 && this.start > this.end && this.start != this.end) {
+            /* if (this.start >= 0 && this.end >= 0 && this.start > this.end && this.start != this.end) {
                 var change = this.start;
                 this.start = this.end;
                 this.end = change;
@@ -388,7 +388,7 @@ export default {
                 }).goAway(800);
 
                 this.callBtn = false;
-            }
+            } */
         },
 
         addMarker() {
@@ -522,8 +522,42 @@ export default {
             // [0: 9, 1: 10, 2: 11, 3: 12, 4: 13, 5: 18, 6: 19]
             // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
             // 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
+            if (this.end == 3 || this.start == 1) {
+                this.$toasted.show("지원하지 않는 경로입니다...", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(800);
+
+                this.waypoints.push({
+                    lat: this.gunsanList[3].lat,
+                    lng: this.gunsanList[3].lon
+                }, {
+                    lat: this.gunsanList[4].lat,
+                    lng: this.gunsanList[4].lon
+                }, {
+                    lat: this.gunsanList[2].lat,
+                    lng: this.gunsanList[2].lon
+                }, {
+                    lat: this.gunsanList[5].lat,
+                    lng: this.gunsanList[5].lon
+                }, {
+                    lat: this.gunsanList[0].lat,
+                    lng: this.gunsanList[0].lon
+                }, {
+                    lat: this.gunsanList[6].lat,
+                    lng: this.gunsanList[6].lon
+                }, {
+                    lat: this.gunsanList[1].lat,
+                    lng: this.gunsanList[1].lon
+                })
+
+                this.start = -1;
+                this.end = -1;
+
+                this.map.removeLayer(this.start_icon);
+                this.map.removeLayer(this.end_icon);
+            }
             if (this.start == 3) {
-                console.log(this.start)
                 if (this.end == 4) {
                     this.waypoints.push({
                         lat: this.gunsanList[3].lat,
@@ -691,10 +725,43 @@ export default {
                         lat: this.gunsanList[1].lat,
                         lng: this.gunsanList[1].lon
                     })
+                } else if (this.end == 3) {
+                    this.$toasted.show("지원하지 않는 경로입니다...", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(800);
+
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+
+                    this.start = -1;
+                    this.end = -1;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.end_icon);
                 }
             }
             if (this.start == 2) {
-                console.log(this.start)
                 if (this.end == 5) {
                     this.waypoints.push({
                         lat: this.gunsanList[2].lat,
@@ -745,6 +812,40 @@ export default {
                         lat: this.gunsanList[1].lat,
                         lng: this.gunsanList[1].lon
                     })
+                } else if (this.end == 3 || this.end == 4) {
+                    this.$toasted.show("지원하지 않는 경로입니다...", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(800);
+
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+
+                    this.start = -1;
+                    this.end = -1;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.end_icon);
                 }
             }
             if (this.start == 5) {
@@ -782,6 +883,40 @@ export default {
                         lat: this.gunsanList[1].lat,
                         lng: this.gunsanList[1].lon
                     })
+                } else if (this.end == 3 || this.end == 4 || this.end == 2) {
+                    this.$toasted.show("지원하지 않는 경로입니다...", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(800);
+
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+
+                    this.start = -1;
+                    this.end = -1;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.end_icon);
                 }
             }
             if (this.start == 0) {
@@ -805,10 +940,42 @@ export default {
                         lat: this.gunsanList[1].lat,
                         lng: this.gunsanList[1].lon
                     })
+                } else if (this.end == 3 || this.end == 4 || this.end == 2 || this.end == 5) {
+                    this.$toasted.show("지원하지 않는 경로입니다...", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(800);
+
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+
+                    this.start = -1;
+                    this.end = -1;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.end_icon);
                 }
             }
-
-            console.log('waypoints: ', this.waypoints)
 
             this.map.removeLayer(this.start_icon)
             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
