@@ -58,7 +58,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -70,7 +72,8 @@ export default {
         ready: false,
         isrefund: '',
         status: 'disconnected',
-        connection: null
+        connection: null,
+        timeCount: 0
     }),
 
     computed: {
@@ -80,38 +83,23 @@ export default {
     },
 
     created() {
-        var msgSend = false;
-        this.socket = new WebSocket("ws://222.114.39.8:9103");
-        this.socket.onopen = (event) => {
-            console.log('onopen', event);
-            this.status = 'connected';
+        // this.socket.onerror = (error) => {
+        //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
+        // };
 
-            this.socket.onmessage = ({
-                data
-            }) => {
-                // websocket에 있는 정보들을 받는다.
-                this.webSocketData = JSON.parse(data);
+        // this.socket.onclose = () => {
+        //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
+        // };
+        this.onOpenWebsocket();
+        this.onMessageWebSocket();
 
-                // alive check를 해주는 것이 중요하다.
-                // PING을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
-                console.log('webSocketData: ', this.webSocketData);
-                if (this.webSocketData.what == 'PING') {
-                    if (msgSend == false) {
-                        this.sendMessage();
-                        msgSend = true;
-                    }
-                    this.webSocketData = JSON.parse(data);
-                }
-            };
-
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-                .then(response => {
-                    this.isrefund = response.data.isrefund;
-                    this.latest_mid = response.data.latest_mid;
-                }).catch(error => {
-                    console.log('User read: ', error);
-                })
-        }
+        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            .then(response => {
+                this.isrefund = response.data.isrefund;
+                this.latest_mid = response.data.latest_mid;
+            }).catch(error => {
+                console.log('User read: ', error);
+            })
     },
 
     mounted() {
@@ -128,11 +116,11 @@ export default {
             this.loading = false;
         }, 1500);
 
-        setTimeout(() => {
+        this.waitTimer = setTimeout(() => {
             this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
         }, 60000);
 
-        setTimeout(() => {
+        this.failTimer = setTimeout(() => {
             this.$router.replace({
                 name: "CallFail",
                 params: {
@@ -150,6 +138,7 @@ export default {
 
     watch: {
         webSocketData() {
+            console.log('watch', this.webSocketData)
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand') {
                 this.vehicle_id = this.webSocketData.how.vehicle_id;
                 this.vehicle_mid = this.webSocketData.how.vehicle_mid;
@@ -229,6 +218,31 @@ export default {
 
         },
 
+        onOpenWebsocket() {
+            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket.onopen = (event) => {
+                console.log('onopen', event);
+            }
+        },
+
+        onMessageWebSocket() {
+            // alive check를 해주는 것이 중요하다.
+            // PING을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
+            var msgSend = false;
+            this.socket.onmessage = ({  data }) => {
+                // websocket에 있는 정보들을 받는다.
+                this.webSocketData = JSON.parse(data);
+                console.log('webSocketData: ', this.webSocketData);
+                if (this.webSocketData.what == 'PING') {
+                    if (msgSend == false) {
+                        this.sendMessage();
+                        msgSend = true;
+                    }
+                    this.webSocketData = JSON.parse(data);
+                }
+            };
+        },
+
         sendMessage() { // ondemand 측에서 보내줘야 할 데이터
             this.webSocketData = {
                 where: '',
@@ -256,6 +270,8 @@ export default {
 
     destroyed() {
         this.disconnect();
+        clearTimeout(this.waitTimer);
+        clearTimeout(this.failTimer);
     }
 }
 </script>

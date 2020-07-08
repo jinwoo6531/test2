@@ -28,9 +28,7 @@ export default {
             console.log('onopen', event);
             this.status = 'connected';
 
-            this.socket.onmessage = ({
-                data
-            }) => { // websocket에 있는 정보들을 받는다.
+            this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData);
                 if (this.webSocketData.what == 'PING') {
