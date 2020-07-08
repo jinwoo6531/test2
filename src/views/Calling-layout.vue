@@ -58,7 +58,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -81,6 +83,8 @@ export default {
     },
 
     created() {
+        this.onOpenWebsocket();
+        this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -88,8 +92,6 @@ export default {
         // this.socket.onclose = () => {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
-        this.onOpenWebsocket();
-        this.onMessageWebSocket();
 
         axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
