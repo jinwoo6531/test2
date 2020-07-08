@@ -1068,6 +1068,7 @@ export default {
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     });
+                    console.log(vehicle_data)
                     var vehicleCount = Object.keys(vehicle_data).length;
                     for (let i = 0; i < vehicleCount; i++) {
                         if (vehicle_data[i].site == 1) {

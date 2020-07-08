@@ -22,13 +22,13 @@
 <script>
 export default {
     mounted() {
-        this.site = this.$route.query.site;
-        this.start = this.$route.query.start;
-        this.end = this.$route.query.end;
-        this.startName = this.$route.query.startName;
-        this.endName = this.$route.query.endName;
-        this.count = this.$route.query.count;
-        this.minutes = this.$route.query.minutes;
+        this.site = this.$route.params.site;
+        this.start = this.$route.params.start;
+        this.end = this.$route.params.end;
+        this.startName = this.$route.params.startName;
+        this.endName = this.$route.params.endName;
+        this.count = this.$route.params.count;
+        this.minutes = this.$route.params.minutes;
 
         alert('this.site: ', this.site)
     },
@@ -37,7 +37,7 @@ export default {
         callAgain() {
             this.$router.replace({
                 name: "CallingLayout",
-                params: {
+                query: {
                     site: this.site,
                     start: this.start,
                     end: this.end,

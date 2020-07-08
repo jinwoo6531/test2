@@ -672,6 +672,51 @@ export default {
             })
         },
 
+        getVehicle() {
+            axios.get('/api/vehicles/')
+                .then(async response => {
+                    var vehicle_data = response.data.sort(function (a, b) {
+                        return a.id < b.id ? -1 : 1
+                    });
+                    var vehicleCount = Object.keys(vehicle_data).length;
+                    for (let i = 0; i < vehicleCount; i++) {
+                        if (vehicle_data[i].id == this.vehicle_id) {
+                            console.log('vehicle name: ', vehicle_data[i].name)
+                            var vehicleIcon = this.$utils.map.createIcon({
+                                iconUrl: require("../../assets/vehicle1.svg"),
+                                iconSize: [32, 32]
+                            });
+                            if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
+                                this.vehicle[i] = await this.$utils.map.createMakerByXY(this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                    draggable: false,
+                                    icon: vehicleIcon
+                                });
+                            }
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
+            setInterval(async function () {
+                axios.get('/api/vehicles/')
+                    .then(response => {
+                        var vehicle_data = response.data.sort(function (a, b) {
+                            return a.id < b.id ? -1 : 1;
+                        })
+                        var vehicleCount = Object.keys(vehicle_data).length;
+                        for (let i = 0; i < vehicleCount; i++) {
+                            if (vehicle_data[i].site == 1) {
+                                if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
+                                    this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
+                                }
+                            }
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    })
+            }.bind(this), 1000);
+        },
+
         callCancel() {
             this.callcanceldialog = true
         },

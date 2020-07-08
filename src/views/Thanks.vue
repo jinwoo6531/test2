@@ -17,7 +17,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0">
-            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn">확인</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn" @click="goToMain">확인</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
@@ -25,8 +25,13 @@
 
 <script>
 export default {
-    name: 'Thanks'
+    name: 'Thanks',
 
+    methods: {
+        goToMain() {
+            this.$router.replace('/')
+        }
+    }
 }
 </script>
 
