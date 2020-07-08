@@ -101,7 +101,7 @@ export default {
         setLon: '',
         waypoints: [],
         callcanceldialog: false,
-
+        webSocketData: {},
         isrefund: '',
         latest_mid: ''
     }),
@@ -113,6 +113,12 @@ export default {
     },
 
     created() {
+        // this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
+        //     this.webSocketData = JSON.parse(data);
+        //     console.log('webSocketData2: ', this.webSocketData.what);
+
+        // };
+
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund
@@ -123,6 +129,8 @@ export default {
     },
 
     mounted() {
+        this.socket = this.$route.params.socket;
+        this.vehicle_id = this.$route.params.vehicle_id;
         this.site = this.$route.params.site_id;
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
@@ -131,6 +139,16 @@ export default {
 
         this.getStation();
         this.ready = true;
+
+        this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
+            this.webSocketData = JSON.parse(data);
+            console.log('webSocketData: ', this.webSocketData.what);
+            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'complete') {
+                console.log('ondemand complete');
+                this.socket.close();
+                this.$router.replace('/thanks');
+            }
+        };
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -198,41 +216,6 @@ export default {
             // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
             // 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
             if (this.site == 1) {
-                if (this.end == 3 || this.start == 1) {
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800);
-
-                    this.waypoints.push({
-                        lat: this.stationList[3].lat,
-                        lng: this.stationList[3].lon
-                    }, {
-                        lat: this.stationList[4].lat,
-                        lng: this.stationList[4].lon
-                    }, {
-                        lat: this.stationList[2].lat,
-                        lng: this.stationList[2].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
-                        lat: this.stationList[0].lat,
-                        lng: this.stationList[0].lon
-                    }, {
-                        lat: this.stationList[6].lat,
-                        lng: this.stationList[6].lon
-                    }, {
-                        lat: this.stationList[1].lat,
-                        lng: this.stationList[1].lon
-                    })
-
-                    this.start = -1;
-                    this.end = -1;
-
-                    this.map.removeLayer(this.start_icon);
-                    this.map.removeLayer(this.end_icon);
-                }
                 if (this.start == 3) {
                     if (this.end == 4) {
                         this.waypoints.push({
@@ -401,40 +384,6 @@ export default {
                             lat: this.stationList[1].lat,
                             lng: this.stationList[1].lon
                         })
-                    } else if (this.end == 3) {
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-
-                        this.waypoints.push({
-                            lat: this.stationList[3].lat,
-                            lng: this.stationList[3].lon
-                        }, {
-                            lat: this.stationList[4].lat,
-                            lng: this.stationList[4].lon
-                        }, {
-                            lat: this.stationList[2].lat,
-                            lng: this.stationList[2].lon
-                        }, {
-                            lat: this.stationList[5].lat,
-                            lng: this.stationList[5].lon
-                        }, {
-                            lat: this.stationList[0].lat,
-                            lng: this.stationList[0].lon
-                        }, {
-                            lat: this.stationList[6].lat,
-                            lng: this.stationList[6].lon
-                        }, {
-                            lat: this.stationList[1].lat,
-                            lng: this.stationList[1].lon
-                        })
-
-                        this.start = -1;
-                        this.end = -1;
-
-                        this.map.removeLayer(this.start_icon);
-                        this.map.removeLayer(this.end_icon);
                     }
                 }
                 if (this.start == 2) {
@@ -488,44 +437,9 @@ export default {
                             lat: this.stationList[1].lat,
                             lng: this.stationList[1].lon
                         })
-                    } else if (this.end == 3 || this.end == 4) {
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-
-                        this.waypoints.push({
-                            lat: this.stationList[3].lat,
-                            lng: this.stationList[3].lon
-                        }, {
-                            lat: this.stationList[4].lat,
-                            lng: this.stationList[4].lon
-                        }, {
-                            lat: this.stationList[2].lat,
-                            lng: this.stationList[2].lon
-                        }, {
-                            lat: this.stationList[5].lat,
-                            lng: this.stationList[5].lon
-                        }, {
-                            lat: this.stationList[0].lat,
-                            lng: this.stationList[0].lon
-                        }, {
-                            lat: this.stationList[6].lat,
-                            lng: this.stationList[6].lon
-                        }, {
-                            lat: this.stationList[1].lat,
-                            lng: this.stationList[1].lon
-                        })
-
-                        this.start = -1;
-                        this.end = -1;
-
-                        this.map.removeLayer(this.start_icon);
-                        this.map.removeLayer(this.end_icon);
                     }
                 }
                 if (this.start == 5) {
-                    console.log(this.start)
                     if (this.end == 0) {
                         this.waypoints.push({
                             lat: this.stationList[5].lat,
@@ -559,44 +473,9 @@ export default {
                             lat: this.stationList[1].lat,
                             lng: this.stationList[1].lon
                         })
-                    } else if (this.end == 3 || this.end == 4 || this.end == 2) {
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-
-                        this.waypoints.push({
-                            lat: this.stationList[3].lat,
-                            lng: this.stationList[3].lon
-                        }, {
-                            lat: this.stationList[4].lat,
-                            lng: this.stationList[4].lon
-                        }, {
-                            lat: this.stationList[2].lat,
-                            lng: this.stationList[2].lon
-                        }, {
-                            lat: this.stationList[5].lat,
-                            lng: this.stationList[5].lon
-                        }, {
-                            lat: this.stationList[0].lat,
-                            lng: this.stationList[0].lon
-                        }, {
-                            lat: this.stationList[6].lat,
-                            lng: this.stationList[6].lon
-                        }, {
-                            lat: this.stationList[1].lat,
-                            lng: this.stationList[1].lon
-                        })
-
-                        this.start = -1;
-                        this.end = -1;
-
-                        this.map.removeLayer(this.start_icon);
-                        this.map.removeLayer(this.end_icon);
                     }
                 }
                 if (this.start == 0) {
-                    console.log(this.start)
                     if (this.end == 6) {
                         this.waypoints.push({
                             lat: this.stationList[0].lat,
@@ -616,40 +495,6 @@ export default {
                             lat: this.stationList[1].lat,
                             lng: this.stationList[1].lon
                         })
-                    } else if (this.end == 3 || this.end == 4 || this.end == 2 || this.end == 5) {
-                        this.$toasted.show("지원하지 않는 경로입니다...", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(800);
-
-                        this.waypoints.push({
-                            lat: this.stationList[3].lat,
-                            lng: this.stationList[3].lon
-                        }, {
-                            lat: this.stationList[4].lat,
-                            lng: this.stationList[4].lon
-                        }, {
-                            lat: this.stationList[2].lat,
-                            lng: this.stationList[2].lon
-                        }, {
-                            lat: this.stationList[5].lat,
-                            lng: this.stationList[5].lon
-                        }, {
-                            lat: this.stationList[0].lat,
-                            lng: this.stationList[0].lon
-                        }, {
-                            lat: this.stationList[6].lat,
-                            lng: this.stationList[6].lon
-                        }, {
-                            lat: this.stationList[1].lat,
-                            lng: this.stationList[1].lon
-                        })
-
-                        this.start = -1;
-                        this.end = -1;
-
-                        this.map.removeLayer(this.start_icon);
-                        this.map.removeLayer(this.end_icon);
                     }
                 }
 

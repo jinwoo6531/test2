@@ -83,6 +83,7 @@ export default {
     },
 
     created() {
+        // console.log('asdfsfd')
         this.onOpenWebsocket();
         this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
@@ -110,7 +111,7 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
-        
+
         this.ready = true;
 
         this.loadingTime = setTimeout(() => {
@@ -135,45 +136,6 @@ export default {
                 }
             });
         }, 180000);
-    },
-
-    watch: {
-        webSocketData() {
-            console.log('watch', this.webSocketData)
-            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand') {
-                console.log('EVENT & ondemand true!!!');
-                if (this.webSocketData.how.function == 'start') {
-                    console.log('ondemand START EVENT(배차 확인)');
-                    this.$router.replace({
-                        name: "CallingShuttle",
-                        params: {
-                            vehicle_id: this.webSocketData.how.vehicle_id, // vehicle의 ID(number)
-                            vehicle_mid: this.webSocketData.how.vehicle_mid, // vheicle의 관리 ID(string)
-                            site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
-                            eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
-                            current_station_id: this.start,
-                            target_station_id: this.end,
-                            passenger: this.count
-                        }
-                    })
-                }
-                // if (this.webSocketData.how.function == 'complete') { // 배차 완료될 경우 (사용자가 나 탔어! 할 때)
-                //     console.log('ondemand START EVENT(배차 완료)');
-                // {
-                //     where: sejong_datahub
-                //     who: [safety_id]
-                //     what: EVENT
-                //     how: {
-                //         type: ondemand(string)
-                //         vehicle_id: vehicle의 ID(number)
-                //         vehicle_mid: vheicle의 관리 ID(string)
-                //         site_id: vehicle에 소속된 site의 ID(number)
-                //         function: complete(string)
-                //     }
-                // }
-                // }
-            }
-        }
     },
 
     methods: {
@@ -221,22 +183,30 @@ export default {
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
+                this.sendMessage();
             }
         },
 
         onMessageWebSocket() {
-            var msgSend = false;
-            this.socket.onmessage = ({
-                data
-            }) => { // websocket에 있는 정보들을 받는다.
+            this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData.what);
-                if (this.webSocketData.what == 'PING') {
-                    if (msgSend == false) {
-                        this.sendMessage();
-                        msgSend = true;
-                    }
-                    this.webSocketData = JSON.parse(data);
+                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'start') {
+                    console.log('function start');
+                    this.$router.replace({
+                        name: "CallingShuttle",
+                        params: {
+                            socket: this.socket,
+                            vehicle_id: this.webSocketData.how.vehicle_id, // vehicle의 ID(number)
+                            vehicle_mid: this.webSocketData.how.vehicle_mid, // vheicle의 관리 ID(string)
+                            site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
+                            eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
+                            current_station_id: this.start,
+                            target_station_id: this.end,
+                            passenger: this.count
+                        }
+                    })
+
                 }
             };
         },
@@ -267,7 +237,7 @@ export default {
     },
 
     destroyed() {
-        this.disconnect();
+        // this.disconnect();
         clearTimeout(this.waitTimer);
         clearTimeout(this.failTimer);
     }
