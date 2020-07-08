@@ -146,9 +146,9 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('phone')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('170622040674')">휴대폰 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
                                     </v-card>
                                 </v-card-text>
@@ -160,7 +160,7 @@
                                                 <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116' || meth == '170622040674'" @click="requestCallBtn">호출하기</v-btn>
                                                 <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
@@ -385,10 +385,10 @@ export default {
 
         switchDestination() {
             // if (this.start >= 1 && this.end >= 1) {
-                var change = this.start;
-                this.start = this.end;
-                this.end = change;
-                this.onChange();
+            var change = this.start;
+            this.start = this.end;
+            this.end = change;
+            this.onChange();
             // }
         },
 
@@ -747,10 +747,10 @@ export default {
             // 가맹점 식별코드
             IMP.init("imp19092456");
 
-            // 결제창 호출 코드
+            // // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: "mobilians", // PG사명
-                pay_method: this.meth, // 결제수단  
+                pg: `mobilians.${this.meth}`, // PG사명
+                // pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: totalPayment, // 결제할 금액 (필수 항목)
@@ -760,24 +760,22 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`,
-                app_scheme: 'importspringcloud'
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
         requestPay(meth) {
-            console.log(meth);
-            if (meth == 'card') {
+            if (meth == '191029079116') {
                 this.isRed1 = true;
                 this.isRed2 = false;
                 console.log(this.isRed1);
                 this.meth = meth;
-            } else {
+            } else if (meth == '170622040674') {
                 this.isRed1 = false;
                 this.isRed2 = true;
                 this.meth = meth;
             }
-        },
+        }
     }
 }
 </script>
