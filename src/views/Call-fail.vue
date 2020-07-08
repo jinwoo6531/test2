@@ -13,7 +13,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
-            <v-btn block depressed tile color="#E61773" height="50px" class="call-again-btn">다시 호출하기</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="call-again-btn" @click="callAgain">다시 호출하기</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
@@ -21,7 +21,32 @@
 
 <script>
 export default {
-
+    mounted() {
+        this.site = this.$route.params.site;
+        this.start = this.$route.params.start;
+        this.end = this.$route.params.end;
+        this.startName = this.$route.params.startName;
+        this.endName = this.$route.params.endName;
+        this.count = this.$route.params.count;
+        this.minutes = this.$route.params.minutes;
+    },
+    
+    methods: {
+        callAgain() {
+            this.$router.replace({
+                name: "CallingLayout",
+                params: {
+                    site: this.site,
+                    start: this.start,
+                    end: this.end,
+                    startName: this.startName,
+                    endName: this.endName,
+                    count: this.count,
+                    minutes: this.minutes
+                }
+            });
+        }
+    }
 }
 </script>
 

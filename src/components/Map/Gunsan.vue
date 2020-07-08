@@ -21,7 +21,7 @@
 
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
-                                <v-btn icon @click="dialog = false">
+                                <v-btn icon @click="closePersonDialog">
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -38,7 +38,7 @@
                                         <v-card flat tile>
                                             <v-card-text class="count">{{ count }}</v-card-text>
                                         </v-card>
-                                        <v-card :ripple="false" flat tile>
+                                        <v-card flat tile :ripple="false">
                                             <v-btn :class="{ 'is-disabled2': isDisabled2 }" :ripple="false" @click="increment" outlined color="#E61773" fab>
                                                 <v-icon dark>mdi-plus</v-icon>
                                             </v-btn>
@@ -146,9 +146,9 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('phone')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('170622040674')">휴대폰 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
                                     </v-card>
                                 </v-card-text>
@@ -160,7 +160,7 @@
                                                 <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116' || meth == '170622040674'" @click="requestCallBtn">호출하기</v-btn>
                                                 <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
@@ -229,7 +229,8 @@ export default {
         isRed1: false,
         isRed2: false,
         start_options: [],
-        end_options: []
+        end_options: [],
+        stationMarker: []
     }),
 
     computed: {
@@ -273,6 +274,7 @@ export default {
     },
 
     methods: {
+        // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
             this.map.locate({
                 setView: true,
@@ -281,6 +283,8 @@ export default {
                 enableHighAccuracy: true
             }).on("locationfound", e => {
                 console.log('Location found: ' + e.latitude + e.longitude);
+                console.log('stationMarker: ', this.stationMarker);
+
                 if (!this.usermarker) {
                     let currentUser = this.$utils.map.createIcon({
                         iconUrl: require("../../assets/current.svg"),
@@ -361,6 +365,11 @@ export default {
             this.count = 1;
         },
 
+        closePersonDialog() {
+            this.dialog = false;
+            this.count = this.temp;
+        },
+
         rideCount() {
             this.temp = this.count;
             this.dialog = false;
@@ -391,6 +400,13 @@ export default {
             for (let i = 0; i < this.waypoints.length; i++) {
                 this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
                     icon: gifIcon
+                });
+            }
+
+            for (var arr of this.waypoints) {
+                this.stationMarker.push({
+                    stationLat: arr.lat,
+                    stationLng: arr.lng
                 });
             }
         },
@@ -435,12 +451,37 @@ export default {
                         }
                     }
 
-                    for (var arr of this.gunsanList) {
-                        this.waypoints.push({
-                            lat: arr.lat,
-                            lng: arr.lon
-                        });
-                    }
+                    console.log('gunsanList', this.gunsanList);
+                    // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+
+                    // for (var arr of this.gunsanList) {
+                    //     this.waypoints.push({
+                    //         lat: arr.lat,
+                    //         lng: arr.lon
+                    //     });
+                    // }
 
                     for (var [i, arr2] of this.gunsanList.entries()) {
                         this.options.push({
@@ -451,9 +492,6 @@ export default {
 
                     this.start_options = this.options;
                     this.end_options = this.options;
-
-                    console.log('start_options', this.start_options);
-                    console.log('end_options', this.end_options);
 
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
@@ -469,13 +507,11 @@ export default {
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
 
-            // 선택한 정류장 목록을 지워줘야한다.
-            // 선택한 정류장 목록을 지워주는 배열 하나 추가?
-            console.log('options: ', this.options);
-            console.log('선택한 출발지: ', this.start);
-            console.log('선택한 도착지: ', this.end);
             this.start_options = this.options.filter(opt => opt.value != this.end);
             this.end_options = this.options.filter(opt => opt.value != this.start);
+
+            console.log('adsf', this.start_options[this.start].name)
+            console.log('adffadsf', this.end_options[this.end].name)
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -486,54 +522,374 @@ export default {
                 iconSize: [40, 40]
             });
 
-            if (this.start >= 0 && this.end >= 0) {
-                if (this.start < this.end) {
-                    for (let i = this.start; i <= this.end; i++) {
-                        await console.log('출발지의 id가 도착지의 id보다 큰 경우');
-                        await console.log(i, ': ', '출발지 id: ', this.start, '도착지 id: ', this.end);
-                        await this.waypoints.push({
-                            lat: this.gunsanList[i].lat,
-                            lng: this.gunsanList[i].lon
-                        })
-                    }
-                    console.log('gunsanList: ', this.gunsanList[this.start])
-
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
-                        icon: startIcon
+            // [0: 9, 1: 10, 2: 11, 3: 12, 4: 13, 5: 18, 6: 19]
+            // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
+            // 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
+            if (this.start == 3) {
+                console.log(this.start)
+                if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
                     })
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
-                        icon: endIcon
+                } else if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
                     })
-                    this.map.removeLayer(endIcon)
-
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
                 }
-                /* else if (this.start > this.end || this.start == this.end) {
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800);
-
-                    for (var arr of this.gunsanList) {
-                        await this.waypoints.push({
-                            lat: arr.lat,
-                            lng: arr.lon
-                        });
-                    }
-
-                    this.start = -1;
-                    this.end = -1;
-
-                    this.map.removeLayer(this.start_icon);
-                    this.map.removeLayer(this.end_icon);
-                } */
-
-                // SET New Routing
-                this.addRouting(this.waypoints);
-                this.totalDistance();
             }
+            if (this.start == 4) {
+                console.log(this.start)
+                if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    })
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+            if (this.start == 2) {
+                console.log(this.start)
+                if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+            if (this.start == 5) {
+                console.log(this.start)
+                if (this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+            if (this.start == 0) {
+                console.log(this.start)
+                if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    })
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                }
+            }
+
+            console.log('start', this.start)
+            console.log('end', this.end)
+
+            this.map.removeLayer(this.start_icon)
+            this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+                icon: startIcon
+            });
+            this.map.removeLayer(this.end_icon)
+            this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+                icon: endIcon
+            });
+            this.map.removeLayer(endIcon);
+
+            // SET New Routing
+            this.addRouting(this.waypoints);
+            this.totalDistance();
         },
+
+        // async onChange() {
+        //     // REMOVE Default Routing
+        //     control.spliceWaypoints(0, 6);
+        //     this.waypoints = [];
+
+        //     this.start_options = this.options.filter(opt => opt.value != this.end);
+        //     this.end_options = this.options.filter(opt => opt.value != this.start);
+
+        //     let startIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/start-icon.svg"),
+        //         iconSize: [40, 40]
+        //     });
+        //     let endIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/end-icon.svg"),
+        //         iconSize: [40, 40]
+        //     });
+
+        //     if (this.start >= 0 && this.end >= 0) {
+        //         if (this.start < this.end) {
+        //             for (let i = this.start; i <= this.end; i++) {
+        //                 await this.waypoints.push({
+        //                     lat: this.gunsanList[i].lat,
+        //                     lng: this.gunsanList[i].lon
+        //                 })
+        //             }
+
+        //             this.map.removeLayer(this.start_icon)
+        //             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+        //                 icon: startIcon
+        //             })
+        //             this.map.removeLayer(this.end_icon)
+        //             this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+        //                 icon: endIcon
+        //             })
+        //             this.map.removeLayer(endIcon)
+
+        //         } else if (this.start > this.end || this.start == this.end) {
+        //             this.$toasted.show("지원하지 않는 경로입니다...", {
+        //                 theme: "bubble",
+        //                 position: "top-center"
+        //             }).goAway(800);
+
+        //             for (var arr of this.gunsanList) {
+        //                 await this.waypoints.push({
+        //                     lat: arr.lat,
+        //                     lng: arr.lon
+        //                 });
+        //             }
+
+        //             this.start = -1;
+        //             this.end = -1;
+
+        //             this.map.removeLayer(this.start_icon);
+        //             this.map.removeLayer(this.end_icon);
+        //         }
+
+        //         // SET New Routing
+        //         this.addRouting(this.waypoints);
+        //         this.totalDistance();
+        //     }
+        // },
 
         totalDistance() {
             control.on('routesfound', (e) => {
@@ -595,10 +951,10 @@ export default {
             // 가맹점 식별코드
             IMP.init("imp19092456");
 
-            // 결제창 호출 코드
+            // // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: 'mobilians', // PG사명
-                pay_method: this.meth, // 결제수단
+                pg: `mobilians.${this.meth}`, // PG사명
+                // pay_method: this.meth, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: totalPayment, // 결제할 금액 (필수 항목)
@@ -613,17 +969,17 @@ export default {
         },
 
         requestPay(meth) {
-            if (meth == 'card') {
+            if (meth == '191029079116') {
                 this.isRed1 = true;
                 this.isRed2 = false;
                 console.log(this.isRed1);
                 this.meth = meth;
-            } else {
+            } else if (meth == '170622040674') {
                 this.isRed1 = false;
                 this.isRed2 = true;
                 this.meth = meth;
             }
-        },
+        }
     }
 }
 </script>
