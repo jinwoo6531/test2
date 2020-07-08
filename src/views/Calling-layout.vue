@@ -117,7 +117,7 @@ export default {
         }, 1500);
 
         this.waitTimer = setTimeout(() => {
-            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
+            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
         }, 60000);
 
         this.failTimer = setTimeout(() => {
