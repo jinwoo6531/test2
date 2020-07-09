@@ -1171,7 +1171,7 @@ export default {
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
-                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                custom_data: {imp_uid: this.user.data.uid, count: this.count}, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
                 m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
             });
         },
