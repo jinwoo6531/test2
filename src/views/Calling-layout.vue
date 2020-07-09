@@ -1,6 +1,6 @@
 <template>
 <v-app style="position: relative;">
-    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
+    <!-- <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
         <v-row align="center" justify="center">
             <v-card color="transparent" flat>
                 <v-card-text class="text-center">
@@ -11,7 +11,7 @@
                 </v-card-text>
             </v-card>
         </v-row>
-    </v-container>
+    </v-container> -->
 
     <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
         <div class="circle"></div>
@@ -114,9 +114,9 @@ export default {
 
         this.ready = true;
 
-        this.loadingTime = setTimeout(() => {
-            this.loading = false;
-        }, 1500);
+        // this.loadingTime = setTimeout(() => {
+        //     this.loading = false;
+        // }, 1500);
 
         this.waitTimer = setTimeout(() => {
             this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';

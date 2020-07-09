@@ -113,12 +113,6 @@ export default {
     },
 
     created() {
-        // this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
-        //     this.webSocketData = JSON.parse(data);
-        //     console.log('webSocketData2: ', this.webSocketData.what);
-
-        // };
-
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund
@@ -143,6 +137,7 @@ export default {
         this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
             console.log('webSocketData: ', this.webSocketData.what);
+            // 5분이상 지연될 경우 자동취소 페이지로 진입
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'complete') {
                 console.log('ondemand complete');
                 this.socket.close();

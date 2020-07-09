@@ -1,5 +1,18 @@
 <template>
 <div id="daegu">
+    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; margin-top: -57px; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    페이지 불러오는 중...
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+
     <v-container class="map-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
@@ -179,14 +192,13 @@
 <script>
 import axios from 'axios'
 var control
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'Daegu',
 
     data: () => ({
+        loading: true,
         res: true,
         pageId: 2,
         map: null,
@@ -715,6 +727,7 @@ export default {
                                 draggable: false,
                                 icon: vehicleIcon
                             });
+                            this.loading = false;
                         }
                     }
                 }).catch(error => {

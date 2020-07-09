@@ -1,5 +1,32 @@
 <template>
 <div id="gunsan">
+    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; margin-top: -57px; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    페이지 불러오는 중...
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+    <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card style="margin-top: -185px; width: 100%; height: 252px; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat>
+                <v-card-text class="text-center">
+                    <img src="../../assets/warning.svg">
+                    <p style="margin: 0; padding-top: 8px; padding-bottom: 26px; font-size: 18px; font-weight: 500; color: #262626;">이 곳은 타시오 운행지역에서 너무 멀어요!</p>
+                    <p class="warningmsg" style="margin: 0;">셔틀이 출발지에 도착한 시점부터</p>
+                    <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">5분 내</span> 탑승이 완료되지 않으면</p>
+                    <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">호출이 자동 취소</span>되며 <span style="color: #EB5757 !important;">위약금이 발생</span>합니다.</p>
+                    <v-btn color="#E61773" tile depressed class="pa-0 pl-3 pr-3 goReturn" :ripple="false" @click="can = false">운행지역 지도로 돌아가기</v-btn>
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+
     <v-container class="map-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
@@ -146,9 +173,9 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116', 'card')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('170622040674')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
                                     </v-card>
                                 </v-card-text>
@@ -206,7 +233,9 @@ export default {
     name: 'Gunsan',
 
     data: () => ({
+        loading: true,
         res: true,
+        can: false,
         pageId: 1,
         map: null,
         OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -245,6 +274,7 @@ export default {
         changeEnd: '',
         usermarker: '',
         meth: '',
+        pay_method: '',
         isRed1: false,
         isRed2: false,
         start_options: [],
@@ -312,6 +342,8 @@ export default {
         getLocation() {
             console.log('suc??', this.compareLocatoin())
             if (this.compareLocatoin() == true) {
+                this.can = false;
+
                 this.map.locate({
                     setView: true,
                     maxZoom: 18,
@@ -347,7 +379,7 @@ export default {
                 })
                 this.res = false;
             } else {
-                alert('타시호 호출 불가~!');
+                this.can = true;
                 this.res = true;
             }
         },
@@ -365,8 +397,11 @@ export default {
 
         compareLocatoin() {
             var success = false;
+            console.log('currentlocation: ', this.currentlocation)
             for (var loc of this.gunsanList) {
+                console.log('stationlocation: ', loc)
                 console.log('사용자와 정류장과의 거리: ', calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon));
+                // 하나 정류장에라도 가까이 있으면 success true
                 if (1200 > calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     success = true;
                 } else if (1200 <= calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
@@ -565,42 +600,8 @@ export default {
 
             // [0: 9, 1: 10, 2: 11, 3: 12, 4: 13, 5: 18, 6: 19]
             // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
-            // 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
-            if (this.end == 3 || this.start == 1) {
-                this.$toasted.show("지원하지 않는 경로입니다...", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(800);
-
-                this.waypoints.push({
-                    lat: this.gunsanList[3].lat,
-                    lng: this.gunsanList[3].lon
-                }, {
-                    lat: this.gunsanList[4].lat,
-                    lng: this.gunsanList[4].lon
-                }, {
-                    lat: this.gunsanList[2].lat,
-                    lng: this.gunsanList[2].lon
-                }, {
-                    lat: this.gunsanList[5].lat,
-                    lng: this.gunsanList[5].lon
-                }, {
-                    lat: this.gunsanList[0].lat,
-                    lng: this.gunsanList[0].lon
-                }, {
-                    lat: this.gunsanList[6].lat,
-                    lng: this.gunsanList[6].lon
-                }, {
-                    lat: this.gunsanList[1].lat,
-                    lng: this.gunsanList[1].lon
-                })
-
-                this.start = -1;
-                this.end = -1;
-
-                this.map.removeLayer(this.start_icon);
-                this.map.removeLayer(this.end_icon);
-            }
+            // 하행선: 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
+            // 상행선: 1 -> 6 -> 0 -> 5 -> 2 -> 4 -> 3
             if (this.start == 3) {
                 if (this.end == 4) {
                     this.waypoints.push({
@@ -1126,6 +1127,7 @@ export default {
                                     icon: vehicleIcon
                                 });
                             }
+                            this.loading = false;
                         }
                     }
                 }).catch(error => {
@@ -1162,7 +1164,7 @@ export default {
             // // 결제창 호출 코드
             IMP.request_pay({ // param
                 pg: `mobilians.${this.meth}`, // PG사명
-                // pay_method: this.meth, // 결제수단
+                pay_method: this.pay_method, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: totalPayment, // 결제할 금액 (필수 항목)
@@ -1171,21 +1173,25 @@ export default {
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
-                custom_data: {imp_uid: this.user.data.uid, count: this.count}, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                custom_data: {
+                    imp_uid: this.user.data.uid,
+                    count: this.count
+                }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
                 m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
-        requestPay(meth) {
-            if (meth == '191029079116') {
+        requestPay(meth, pay_method) {
+            if (meth == '191029079116' && pay_method == 'card') {
                 this.isRed1 = true;
                 this.isRed2 = false;
-                console.log(this.isRed1);
                 this.meth = meth;
-            } else if (meth == '170622040674') {
+                this.pay_method = pay_method;
+            } else if (meth == '170622040674' && pay_method == 'phone') {
                 this.isRed1 = false;
                 this.isRed2 = true;
                 this.meth = meth;
+                this.pay_method = pay_method;
             }
         }
     }
@@ -1290,9 +1296,26 @@ export default {
     color: #FFFFFF !important;
 }
 
+.warningmsg {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px !important;
+    color: #262626;
+}
+
+.goReturn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
+    border-radius: 0;
+    margin-top: 15px !important;
+}
+
 .paymentMethod {
     position: relative;
-
     width: 116px !important;
     height: 49px !important;
     border: 1px solid #BDBDBD !important;
