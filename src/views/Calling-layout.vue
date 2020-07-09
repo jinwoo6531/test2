@@ -159,20 +159,21 @@ export default {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
+                    this.$router.replace('/')
                 }).catch(error => {
                     console.log('환불 실패', error)
                     this.$toasted.show("환불을 실패하였습니다.", {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
+                    this.$router.replace('/')
                 })
-
-                this.$router.replace('/')
             } else {
                 this.$toasted.show("결제하신 내역이 없습니다.", {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
+                this.$router.replace('/')
             }
 
         },

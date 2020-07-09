@@ -1,8 +1,8 @@
 <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
-        <v-flex xs12 sm12 md12 class="d-flex justify-left align-start">
-            <img src="../assets/closing-btn.svg" >
+        <v-flex xs12 sm12 md12 class="d-flex justify-left align-start" @click="goToMain">
+            <img src="../assets/closing-btn.svg" style="padding-top: 21px; padding-left: 24px;">
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
             <v-card color="transparent" flat tile>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     mounted() {
         this.site = this.$route.params.site;
@@ -33,8 +35,46 @@ export default {
         this.count = this.$route.params.count;
         this.minutes = this.$route.params.minutes;
     },
-    
+
     methods: {
+        goToMain() {
+            if (this.isrefund == '0') {
+                axios({
+                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
+                    method: "post",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        merchant_uid: this.latest_mid, // 주문번호 *
+                        reason: "타시오 호출 취소", // 환불 사유 *,
+                        cancel_request_amount: 500
+                    }
+                }).then(response => {
+                    console.log('환불 완료: ', response)
+                    console.log('latest_mid: ', this.latest_mid)
+                    this.$toasted.show("호출이 취소되었습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
+                    this.$router.replace('/')
+                }).catch(error => {
+                    console.log('환불 실패', error)
+                    this.$toasted.show("환불을 실패하였습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
+                    this.$router.replace('/')
+                })
+            } else {
+                this.$toasted.show("결제하신 내역이 없습니다.", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+                this.$router.replace('/')
+            }
+        },
+
         callAgain() {
             this.$router.replace({
                 name: "CallingLayout",
