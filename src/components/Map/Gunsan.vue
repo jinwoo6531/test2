@@ -234,6 +234,8 @@ export default {
 
     data: () => ({
         loading: true,
+        loading1: true,
+        loading2: true,
         res: true,
         can: false,
         pageId: 1,
@@ -296,8 +298,10 @@ export default {
     },
 
     created() {
+
         this.getStation();
         this.getVehicle();
+        console.log(this.loading)
 
         this.start = parseInt(this.start);
         this.end = parseInt(this.end);
@@ -527,6 +531,11 @@ export default {
                                     return a.id < b.id ? -1 : 1;
                                 });
                             }
+                        }
+                        this.loading1 = false;
+                        console.log('afds', this.loading1)
+                        if (this.loading1 == false && this.loading2 == false) {
+                            this.loading = false;
                         }
                     }
 
@@ -1127,7 +1136,10 @@ export default {
                                     icon: vehicleIcon
                                 });
                             }
-                            this.loading = false;
+                            this.loading2 = false;
+                            if (this.loading1 == false && this.loading2 == false) {
+                                this.loading = false;
+                            }
                         }
                     }
                 }).catch(error => {
