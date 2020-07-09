@@ -147,7 +147,7 @@ export default {
 
             if (this.isrefund == '0') {
                 axios({
-                    url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
+                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
                     method: "post",
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded'

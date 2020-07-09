@@ -285,17 +285,16 @@ export default {
 
         // Map View Center Load
         this.map.setView([35.812484, 126.4091], 15);
-        console.log('ho')
         this.map.locate({
             setView: false,
             maxZoom: 18,
             enableHighAccuracy: true
         }).on("locationfound", e => {
-            console.log('latitude: ', e.latitude)
-            //this.currentlocation.lat = e.latitude;
-            //this.currentlocation.lon = e.longitude;
-            this.currentlocation.lat = 35.820293
-            this.currentlocation.lon = 126.412015
+            console.log(e)
+            this.currentlocation.lat = e.latitude;
+            this.currentlocation.lon = e.longitude;
+            // this.currentlocation.lat = 35.820293;
+            // this.currentlocation.lon = 126.412015;
         })
 
     },
@@ -311,42 +310,46 @@ export default {
     methods: {
         // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
-            console.log('suc??',this.compareLocatoin())
+            console.log('suc??', this.compareLocatoin())
+            if (this.compareLocatoin() == true) {
+                this.map.locate({
+                    setView: true,
+                    maxZoom: 18,
+                    watch: true,
+                    enableHighAccuracy: true
+                }).on("locationfound", e => {
+                    console.log('Location found: ' + e.latitude + e.longitude);
 
-            this.map.locate({
-                setView: true,
-                maxZoom: 18,
-                watch: true,
-                enableHighAccuracy: true
-            }).on("locationfound", e => {
-                console.log('Location found: ' + e.latitude + e.longitude);
+                    if (!this.usermarker) {
+                        let currentUser = this.$utils.map.createIcon({
+                            iconUrl: require("../../assets/current.svg"),
+                            iconSize: [17, 17]
+                        });
 
-                if (!this.usermarker) {
-                    let currentUser = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/current.svg"),
-                        iconSize: [17, 17]
-                    });
+                        return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                            icon: currentUser
+                        });
 
-                    return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
-                        icon: currentUser
-                    });
+                    } else {
+                        return this.usermarker.setLatLng(e.latlng);
+                    }
+                }).on("locationerror", error => {
+                    this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
 
-                } else {
-                    return this.usermarker.setLatLng(e.latlng);
-                }
-            }).on("locationerror", error => {
-                this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-
-                console.log('Location error:', error);
-                if (this.usermarker) {
-                    this.map.removeLayer(this.usermarker);
-                    this.usermarker = null;
-                }
-            })
-            this.res = false;
+                    console.log('Location error:', error);
+                    if (this.usermarker) {
+                        this.map.removeLayer(this.usermarker);
+                        this.usermarker = null;
+                    }
+                })
+                this.res = false;
+            } else {
+                alert('타시호 호출 불가~!');
+                this.res = true;
+            }
         },
 
         stopLocation() {
@@ -357,21 +360,20 @@ export default {
                 this.map.setView([35.812484, 126.4091], 15);
                 console.log('stopLocation usermarker', this.usermarker);
             }
-
             this.res = true;
         },
 
         compareLocatoin() {
-            console.log('compareLocatoin: ', this.gunsanList);
-            console.log('loc', this.currentlocation.lat);
-            var success=false
+            var success = false;
             for (var loc of this.gunsanList) {
-                console.log(loc);
-                if(2000>calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)){
-                    success=true
+                console.log('사용자와 정류장과의 거리: ', calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon));
+                if (1200 > calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    success = true;
+                } else if (1200 <= calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    success = false;
                 }
             }
-            return success
+            return success;
         },
 
         increment() {
