@@ -222,7 +222,8 @@ export default {
                     function: 'call',
                     current_station_id: this.$route.query.start,
                     target_station_id: this.$route.query.end,
-                    passenger: this.$route.query.count
+                    passenger: this.$route.query.count,
+                    passenger_name: '민형주'
                 }
             };
 

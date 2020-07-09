@@ -1,6 +1,9 @@
 <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
+        <v-flex xs12 sm12 md12 class="d-flex justify-left align-start">
+            <img src="../assets/closing-btn.svg" >
+        </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
             <v-card color="transparent" flat tile>
                 <img src="../assets/kiosk-icon.svg">
