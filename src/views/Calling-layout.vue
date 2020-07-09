@@ -135,7 +135,7 @@ export default {
                     minutes: this.minutes
                 }
             });
-        }, 180000);
+        }, 120000);
     },
 
     methods: {
