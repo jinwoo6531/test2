@@ -140,11 +140,6 @@ export default {
 
     methods: {
         callCancelModal() {
-            this.$toasted.show("호출을 정말로 취소하세요?", {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(2000);
-
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -160,13 +155,16 @@ export default {
                 }).then(response => {
                     console.log('환불 완료: ', response)
                     console.log('latest_mid: ', this.latest_mid)
+                    this.$toasted.show("호출이 취소되었습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
                 }).catch(error => {
+                    console.log('환불 실패', error)
                     this.$toasted.show("환불을 실패하였습니다.", {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
-
-                    console.log('환불 실패', error)
                 })
 
                 this.$router.replace('/')
@@ -188,7 +186,9 @@ export default {
         },
 
         onMessageWebSocket() {
-            this.socket.onmessage = ({ data }) => { // websocket에 있는 정보들을 받는다.
+            this.socket.onmessage = ({
+                data
+            }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData.what);
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'start') {

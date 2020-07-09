@@ -503,9 +503,6 @@ export default {
                 });
                 this.map.removeLayer(endIcon);
 
-                // SET New Routing
-                this.addRouting(this.waypoints);
-
             } else if (this.site == 2) {
                 // Daegu
                 if (this.start >= 1 && this.end >= 1) {
