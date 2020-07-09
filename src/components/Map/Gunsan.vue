@@ -14,7 +14,7 @@
     </v-container>
     <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
-            <v-card style="margin-top: -185px; width: 100%; height: 252px; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat>
+            <v-card style="margin-top: -185px; width: 100%; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
                 <v-card-text class="text-center">
                     <img src="../../assets/warning.svg">
                     <p style="margin: 0; padding-top: 8px; padding-bottom: 26px; font-size: 18px; font-weight: 500; color: #262626;">이 곳은 타시오 운행지역에서 너무 멀어요!</p>
