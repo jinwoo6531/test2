@@ -621,7 +621,6 @@ export default {
                 iconSize: [40, 40]
             });
 
-            // 경로 찍어주기
             if (this.start == 0) {
                 if (this.end == 6) {
                     this.waypoints.push({
