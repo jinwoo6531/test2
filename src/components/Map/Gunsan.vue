@@ -97,7 +97,7 @@
                         </v-card>
                     </v-card>
 
-                    <v-overlay :z-index="zIndex" :value="overlay1">
+                    <!-- <v-overlay :z-index="zIndex" :value="overlay1">
                         <v-card color="#FFF" style="width: 312px; height: 287px;">
                             <v-card-text style="color: #000; width: 100%; height: 237px;">
                                 <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="start_options" v-model="start" />
@@ -120,6 +120,61 @@
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
+                    </v-overlay> -->
+
+                    <v-overlay :z-index="zIndex" :value="overlay1">
+                        <v-card style="width: 290px; height: 376px;" color="#FFF">
+                            <v-card-text class="pa-0" style="color: #333; height: 37px;">
+                                <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">출발지</span>
+                            </v-card-text>
+                            <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
+                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
+                                <v-list light tile>
+                                    <v-list-item-group v-model="start" color="#E61773">
+                                        <v-list-item v-for="item in start_options" :key="item.value">
+                                            <v-list-item-content>
+                                                <v-list-item-title v-text="item.name"></v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                            <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay1=false;">
+                                    취소
+                                </v-btn>
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
+                                    선택하기
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-overlay>
+                    <v-overlay :z-index="zIndex" :value="overlay2">
+                        <v-card style="width: 290px; height: 376px;" color="#FFF">
+                            <v-card-text class="pa-0" style="color: #333; height: 37px;">
+                                <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">도착지</span>
+                            </v-card-text>
+                            <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
+                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
+                                <v-list light tile>
+                                    <v-list-item-group v-model="end" color="#E61773">
+                                        <v-list-item v-for="item in end_options" :key="item.value">
+                                            <v-list-item-content>
+                                                <v-list-item-title v-text="item.name"></v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                            <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay2=false;">
+                                    취소
+                                </v-btn>
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
+                                    선택하기
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
                     </v-overlay>
 
                     <v-flex class="selectStationWrap" xs12 sm12 md12 lg12 xl12>
@@ -130,12 +185,12 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start >= 0">{{ options[start].name }}</span>
+                                        <span v-if="start >= 0">{{ start_options[start].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end >= 0">{{ options[end].name }}</span>
+                                        <span v-if="end >= 0">{{ end_options[end].name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
                                     </v-card>
                                 </div>
@@ -611,6 +666,8 @@ export default {
 
             this.start_options = this.options.filter(opt => opt.value != this.end);
             this.end_options = this.options.filter(opt => opt.value != this.start);
+            console.log('start_options', this.start_options)
+            console.log('end_options', this.end_options)
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
