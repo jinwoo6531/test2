@@ -140,10 +140,10 @@
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay1=false;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay1 = false;">
                                     취소
                                 </v-btn>
-                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1 = false; onChange();">
                                     선택하기
                                 </v-btn>
                             </v-card-actions>
@@ -158,9 +158,9 @@
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
                                 <v-list light tile>
                                     <v-list-item-group v-model="end" color="#E61773">
-                                        <v-list-item v-for="item in end_options" :key="item.value">
+                                        <v-list-item v-for="item2 in end_options" :key="item2.value">
                                             <v-list-item-content>
-                                                <v-list-item-title v-text="item.name"></v-list-item-title>
+                                                <v-list-item-title v-text="item2.name"></v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list-item-group>
@@ -185,12 +185,12 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start >= 0">{{ start_options[start].name }}</span>
+                                        <span v-if="start >= 0">{{ options.find(i => i.value === start_options[start].value).name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end >= 0">{{ end_options[end].name }}</span>
+                                        <span v-if="end >= 0">{{ options.find(i => i.value === end_options[end].value).name }}</span>
                                         <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
                                     </v-card>
                                 </div>
@@ -353,10 +353,8 @@ export default {
     },
 
     created() {
-
         this.getStation();
         this.getVehicle();
-        console.log(this.loading)
 
         this.start = parseInt(this.start);
         this.end = parseInt(this.end);
@@ -399,7 +397,7 @@ export default {
     methods: {
         // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
-            console.log('suc??', this.compareLocatoin())
+            console.log('suc??', this.compareLocatoin());
             if (this.compareLocatoin() == true) {
                 this.can = false;
 
@@ -666,8 +664,6 @@ export default {
 
             this.start_options = this.options.filter(opt => opt.value != this.end);
             this.end_options = this.options.filter(opt => opt.value != this.start);
-            console.log('start_options', this.start_options)
-            console.log('end_options', this.end_options)
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
