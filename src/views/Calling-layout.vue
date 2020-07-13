@@ -1,5 +1,5 @@
 <template>
-<v-app style="position: relative;">
+<v-app style="position: relative;" v-if="loading == true">
     <!-- <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
         <v-row align="center" justify="center">
             <v-card color="transparent" flat>
@@ -84,8 +84,8 @@ export default {
 
     created() {
         // console.log('asdfsfd')
-        this.onOpenWebsocket();
-        this.onMessageWebSocket();
+        // this.onOpenWebsocket();
+        // this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -95,9 +95,18 @@ export default {
         // };
 
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.isrefund = response.data.isrefund;
-                this.latest_mid = response.data.latest_mid;
+            .then(() => {
+                this.uid = this.user.data.uid;
+                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+                    .then(response => {
+                        console.log(response)
+                        this.isrefund = response.data.isrefund;
+                        console.log(this.isrefund)
+                        this.latest_mid = response.data.latest_mid;
+                        this.loading = true;
+                    }).catch(err => {
+                        console.log(err)
+                    })
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -178,7 +187,7 @@ export default {
 
         },
 
-        onOpenWebsocket() {
+        /* onOpenWebsocket() {
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
@@ -229,7 +238,7 @@ export default {
             };
 
             this.socket.send(JSON.stringify(this.webSocketData));
-        },
+        }, */
 
         disconnect() {
             this.socket.close();
