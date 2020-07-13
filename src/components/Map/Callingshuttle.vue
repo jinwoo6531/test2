@@ -141,9 +141,9 @@ export default {
     mounted() {
         this.socket = this.$route.params.socket;
         this.vehicle_id = this.$route.params.vehicle_id;
-        // this.site = this.$route.params.site_id;
-        // this.start = this.$route.params.current_station_id;
-        // this.end = this.$route.params.target_station_id;
+        this.site = this.$route.params.site_id;
+        this.start = this.$route.params.current_station_id;
+        this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
         this.eta = this.$route.params.eta;
 
