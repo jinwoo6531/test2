@@ -155,7 +155,7 @@ export default {
                 }).then(response => {
                     console.log('환불 완료: ', response)
                     console.log('latest_mid: ', this.latest_mid)
-                    this.$toasted.show("호출이 취소되었습니다.", {
+                    this.$toasted.show(`호출이 취소되었습니다. ${this.isrefund}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
@@ -169,7 +169,7 @@ export default {
                     this.$router.replace('/')
                 })
             } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
+                this.$toasted.show(`결제하신 내역이 없습니다. ${this.isrefund}`, {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);

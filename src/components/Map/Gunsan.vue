@@ -12,7 +12,7 @@
             </v-card>
         </v-row>
     </v-container>
-    <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; pointer-events: inherit !important; z-index: 20;">
+    <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; margin-top: -57px; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
             <v-card style="margin-top: -185px; width: 100%; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
                 <v-card-text class="text-center">
