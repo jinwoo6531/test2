@@ -29,7 +29,10 @@ export default {
     name: 'App',
 
     computed: {
-        ...mapGetters(['isLoading'])
+        ...mapGetters(['isLoading']),
+        ...mapGetters({
+            user: "user"
+        }),
     }
 };
 </script>
