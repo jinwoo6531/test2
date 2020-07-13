@@ -119,32 +119,39 @@ export default {
 
     created() {
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
-                this.isrefund = response.data.isrefund
-                this.latest_mid = response.data.latest_mid
+            .then(() => {
+                this.uid = this.user.data.uid;
+                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+                    .then(response => {
+                        this.isrefund = response.data.isrefund;
+                        this.latest_mid = response.data.latest_mid;
+                        this.loading = true;
+                    }).catch(err => {
+                        console.log(err)
+                    })
             }).catch(error => {
-                console.log('User read: ', error)
+                console.log('User read: ', error);
             })
     },
 
     mounted() {
         this.socket = this.$route.params.socket;
-        // this.vehicle_id = this.$route.params.vehicle_id;
-        // this.site = this.$route.params.site_id;
-        // this.start = this.$route.params.current_station_id;
-        // this.end = this.$route.params.target_station_id;
+        this.vehicle_id = this.$route.params.vehicle_id;
+        this.site = this.$route.params.site_id;
+        this.start = this.$route.params.current_station_id;
+        this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
         this.eta = this.$route.params.eta;
 
-        this.site = 1;
+        /* this.site = 1;
         this.vehicle_id = 5;
         this.start = 0;
-        this.end = 3;
+        this.end = 3; */
 
         this.getStation();
         this.ready = true;
 
-        /* this.socket.onmessage = ({
+        this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
@@ -155,7 +162,7 @@ export default {
                 this.socket.close();
                 this.$router.replace('/thanks');
             }
-        }; */
+        };
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -811,23 +818,27 @@ export default {
                         cancel_request_amount: 500
                     }
                 }).then(response => {
-                    console.log('환불 완료: ', response)
-                    console.log('latest_mid: ', this.latest_mid)
-                }).catch(error => {
-                    this.$toasted.show("환불을 실패하였습니다.", {
+                    alert('환불 완료: ', response)
+                    alert('latest_mid: ', this.latest_mid)
+                    this.$toasted.show(`호출이 취소되었습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
-
+                    this.$router.replace('/')
+                }).catch(error => {
                     console.log('환불 실패', error)
+                    this.$toasted.show(`환불을 실패하였습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
+                    this.$router.replace('/')
                 })
-
-                this.$router.replace('/')
             } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
+                this.$toasted.show(`결제하신 내역이 없습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
+                this.$router.replace('/')
             }
 
         }
