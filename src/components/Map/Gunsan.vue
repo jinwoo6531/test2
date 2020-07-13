@@ -408,10 +408,6 @@ export default {
             mode == "start" ? this.start_point = item : this.end_point = item;
         },
 
-        onCancel(state) {
-            state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
-        },
-
         // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
             console.log('suc??', this.compareLocatoin());
@@ -674,6 +670,10 @@ export default {
                     this.error = error;
                     console.log(error);
                 })
+        },
+        
+        onCancel(state) {
+            state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
         },
 
         async onChange() {
