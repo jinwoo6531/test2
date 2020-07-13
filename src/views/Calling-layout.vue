@@ -94,7 +94,7 @@ export default {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
 
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(response => {
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
