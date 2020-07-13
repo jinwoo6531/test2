@@ -71,6 +71,7 @@ export default {
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
         isrefund: '',
+        latest_mid: '',
         status: 'disconnected',
         webSocketData: {},
         timeCount: 0
@@ -101,8 +102,8 @@ export default {
                     .then(response => {
                         console.log(response)
                         this.isrefund = response.data.isrefund;
-                        console.log(this.isrefund)
                         this.latest_mid = response.data.latest_mid;
+                        console.log(this.latest_mid)
                         this.loading = true;
                     }).catch(err => {
                         console.log(err)
@@ -162,23 +163,23 @@ export default {
                         cancel_request_amount: 500
                     }
                 }).then(response => {
-                    console.log('환불 완료: ', response)
-                    console.log('latest_mid: ', this.latest_mid)
-                    this.$toasted.show(`호출이 취소되었습니다. ${this.isrefund}`, {
+                    alert('환불 완료: ', response)
+                    alert('latest_mid: ', this.latest_mid)
+                    this.$toasted.show(`호출이 취소되었습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
                     this.$router.replace('/')
                 }).catch(error => {
                     console.log('환불 실패', error)
-                    this.$toasted.show("환불을 실패하였습니다.", {
+                    this.$toasted.show(`환불을 실패하였습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
                     this.$router.replace('/')
                 })
             } else {
-                this.$toasted.show(`결제하신 내역이 없습니다. ${this.isrefund}`, {
+                this.$toasted.show(`결제하신 내역이 없습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
