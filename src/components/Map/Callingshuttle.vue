@@ -122,7 +122,7 @@ export default {
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
             .then(() => {
                 this.uid = this.user.data.uid;
-                console.log(this.uid)
+                console.log(this.uid);
                 axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
                     .then(response => {
                         this.isrefund = response.data.isrefund;

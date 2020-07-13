@@ -130,8 +130,8 @@
                             <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
                                 <v-list light tile>
-                                    <v-list-item-group v-model="start" color="#E61773">
-                                        <v-list-item v-for="item in start_options" :key="item.value">
+                                    <v-list-item-group color="#E61773">
+                                        <v-list-item v-for="item in start_options" @click="clk(item,'start')" :key="item.value">
                                             <v-list-item-content>
                                                 <v-list-item-title v-text="item.name"></v-list-item-title>
                                             </v-list-item-content>
@@ -157,8 +157,8 @@
                             <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
                                 <v-list light tile>
-                                    <v-list-item-group v-model="end" color="#E61773">
-                                        <v-list-item v-for="item2 in end_options" :key="item2.value">
+                                    <v-list-item-group color="#E61773">
+                                        <v-list-item v-for="item2 in end_options" @click="clk(item2,'end')" :key="item2.value">
                                             <v-list-item-content>
                                                 <v-list-item-title v-text="item2.name"></v-list-item-title>
                                             </v-list-item-content>
@@ -185,13 +185,13 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start >= 0">{{ options.find(i => i.value === start_options[start].value).name }}</span>
-                                        <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
+                                        <span v-if="start < 0 || start_point.name==startTemp" style="color: #BDBDBD">{{ startTemp }}</span>
+                                        <span v-else>{{ start_point.name }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end >= 0">{{ options.find(i => i.value === end_options[end].value).name }}</span>
-                                        <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
+                                        <span v-if="end < 0 || end_point.name==endTemp" style="color: #BDBDBD">{{ endTemp }}</span>
+                                        <span v-else>{{ end_point.name }}</span>
                                     </v-card>
                                 </div>
                             </v-flex>
@@ -304,9 +304,17 @@ export default {
         options: [],
         station_arr: [],
         startTemp: '출발지 선택',
-        endTemp: '도착지 선택 ',
+        endTemp: '도착지 선택',
         start: '',
         end: '',
+        start_point: {
+            name: '출발지 선택',
+            value: -1
+        },
+        end_point: {
+            name: '도착지 선택',
+            value: -1
+        },
         startId: [],
         endId: [],
         vehicle: [],
@@ -396,6 +404,9 @@ export default {
     },
 
     methods: {
+        clk(item, mode) {
+            mode == "start" ? this.start_point = item : this.end_point = item;
+        },
         // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
             console.log('suc??', this.compareLocatoin());
@@ -520,10 +531,12 @@ export default {
         },
 
         switchDestination() {
-            var change = this.start;
-            this.start = this.end;
-            this.end = change;
-            this.onChange();
+            if (this.start >= 0 && this.end >= 0) {
+                var change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+                this.onChange();
+            }
         },
 
         addMarker() {
@@ -663,8 +676,11 @@ export default {
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
 
-            this.start_options = this.options.filter(opt => opt.value != this.end);
-            this.end_options = this.options.filter(opt => opt.value != this.start);
+            this.start = this.start_point.value;
+            this.end = this.end_point.value;
+
+            this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
+            this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
