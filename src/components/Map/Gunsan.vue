@@ -140,7 +140,7 @@
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay1 = false;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay1 = false; onCancel('start');">
                                     취소
                                 </v-btn>
                                 <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1 = false; onChange();">
@@ -167,7 +167,7 @@
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay2=false;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay2=false; onCancel('end');">
                                     취소
                                 </v-btn>
                                 <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
@@ -407,6 +407,11 @@ export default {
         clk(item, mode) {
             mode == "start" ? this.start_point = item : this.end_point = item;
         },
+
+        onCancel(state) {
+            state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
+        },
+
         // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
             console.log('suc??', this.compareLocatoin());
@@ -675,7 +680,7 @@ export default {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
-
+            console.log('dkjhfkdjh')
             this.start = this.start_point.value;
             this.end = this.end_point.value;
 
