@@ -23,9 +23,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapState } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -36,26 +34,16 @@ export default {
     }),
 
     computed: {
-        ...mapGetters({
-            user: "user"
-        }),
+         ...mapState(['uid'])
     },
 
     created() {
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(() => {
-                this.uid = this.user.data.uid;
-                console.log(this.uid)
-                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
-                    .then(response => {
-                        this.isrefund = response.data.isrefund;
-                        this.latest_mid = response.data.latest_mid;
-                        console.log(this.isrefund)
-                        console.log(this.latest_mid)
-                        this.loading = true;
-                    }).catch(err => {
-                        console.log(err)
-                    })
+        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+            .then(response => {
+                console.log(response)
+                this.isrefund = response.data.isrefund;
+                this.latest_mid = response.data.latest_mid;
+                console.log(this.latest_mid)
             }).catch(error => {
                 console.log('User read: ', error);
             })

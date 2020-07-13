@@ -1,5 +1,5 @@
 <template>
-<v-app style="position: relative;" v-if="loading == true">
+<v-app style="position: relative;">
     <!-- <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
         <v-row align="center" justify="center">
             <v-card color="transparent" flat>
@@ -58,16 +58,13 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapState } from 'vuex'
 import axios from 'axios'
 
 export default {
     name: 'CallingLayout',
 
     data: () => ({
-        loading: true,
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
         isrefund: '',
@@ -78,15 +75,13 @@ export default {
     }),
 
     computed: {
-        ...mapGetters({
-            user: "user"
-        }),
+        ...mapState(['uid'])
     },
 
     created() {
-        alert(this.user.data.uid)
-        // this.onOpenWebsocket();
-        // this.onMessageWebSocket();
+        console.log('hfhfhfhf', this.uid)
+        this.onOpenWebsocket();
+        this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -95,13 +90,12 @@ export default {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
 
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
                 console.log(this.latest_mid)
-                this.loading = true;
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -190,7 +184,7 @@ export default {
             }
         },
 
-        /*onMessageWebSocket() {
+        onMessageWebSocket() {
             this.socket.onmessage = ({
                 data
             }) => { // websocket에 있는 정보들을 받는다.
@@ -240,7 +234,7 @@ export default {
             this.socket.close();
             this.status = "disconnected";
             console.log('socket', this.status);
-        }*/
+        }
     },
 
     destroyed() {

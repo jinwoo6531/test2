@@ -118,6 +118,7 @@ const actions = {
   fetchUser({ commit }, user) {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
+      this.state.uid = user.uid;
       axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + user.uid)
         .then(async response => {
           await commit("SET_USER", {

@@ -362,7 +362,6 @@ export default {
     },
 
     created() {
-        console.log('asd',this.$store.getters.user.data.uid)
         this.getStation();
         this.getVehicle();
 
