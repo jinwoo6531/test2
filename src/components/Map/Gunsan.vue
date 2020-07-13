@@ -294,6 +294,7 @@ export default {
         res: true,
         can: false,
         pageId: 1,
+        siteName: 'gunsan',
         map: null,
         OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
@@ -1191,7 +1192,7 @@ export default {
                     imp_uid: this.user.data.uid,
                     count: this.count
                 }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 

@@ -201,6 +201,7 @@ export default {
         loading: true,
         res: true,
         pageId: 2,
+        siteName: 'daegu',
         map: null,
         OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
@@ -773,7 +774,7 @@ export default {
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
                 custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
