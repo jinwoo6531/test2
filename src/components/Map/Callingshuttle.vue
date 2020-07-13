@@ -1,5 +1,5 @@
 <template>
-<v-container v-if="loading == true" class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
+<v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
     <v-layout row wrap class="ma-0">
         <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
             <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
@@ -89,7 +89,6 @@ export default {
     name: 'CallingShuttle',
 
     data: () => ({
-        loading: false,
         ready: false,
         map: null,
         OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -129,7 +128,6 @@ export default {
                         this.latest_mid = response.data.latest_mid;
                         console.log(this.isrefund)
                         console.log(this.latest_mid)
-                        this.loading = true;
                     }).catch(err => {
                         console.log(err)
                     })
