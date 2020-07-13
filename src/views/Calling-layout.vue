@@ -84,8 +84,9 @@ export default {
     },
 
     created() {
-        this.onOpenWebsocket();
-        this.onMessageWebSocket();
+        alert(this.user.data.uid)
+        // this.onOpenWebsocket();
+        // this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -95,18 +96,12 @@ export default {
         // };
 
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(() => {
-                this.uid = this.user.data.uid;
-                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
-                    .then(response => {
-                        console.log(response)
-                        this.isrefund = response.data.isrefund;
-                        this.latest_mid = response.data.latest_mid;
-                        console.log(this.latest_mid)
-                        this.loading = true;
-                    }).catch(err => {
-                        console.log(err)
-                    })
+            .then(response => {
+                console.log(response)
+                this.isrefund = response.data.isrefund;
+                this.latest_mid = response.data.latest_mid;
+                console.log(this.latest_mid)
+                this.loading = true;
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -195,7 +190,7 @@ export default {
             }
         },
 
-        onMessageWebSocket() {
+        /*onMessageWebSocket() {
             this.socket.onmessage = ({
                 data
             }) => { // websocket에 있는 정보들을 받는다.
@@ -245,7 +240,7 @@ export default {
             this.socket.close();
             this.status = "disconnected";
             console.log('socket', this.status);
-        }
+        }*/
     },
 
     destroyed() {
