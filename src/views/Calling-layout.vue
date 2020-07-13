@@ -79,7 +79,7 @@ export default {
     },
 
     created() {
-        console.log('hfhfhfhf', this.uid)
+        console.log('calling-layout uid: ', this.uid);
         this.onOpenWebsocket();
         this.onMessageWebSocket();
         // this.socket.onerror = (error) => {

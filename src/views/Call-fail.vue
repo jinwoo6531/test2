@@ -1,5 +1,5 @@
 <template>
-<v-container v-if="loading == true" class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
+<v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
         <v-flex xs12 sm12 md12 class="d-flex justify-left align-start" @click="goToMain">
             <img src="../assets/closing-btn.svg" style="padding-top: 21px; padding-left: 24px;">
@@ -28,7 +28,6 @@ import axios from 'axios'
 
 export default {
     data: () => ({
-        loading: false,
         isrefund: '',
         latest_mid: '',
     }),
@@ -38,6 +37,7 @@ export default {
     },
 
     created() {
+        console.log('fail uid: ', this.uid);
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)

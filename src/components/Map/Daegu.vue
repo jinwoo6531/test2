@@ -275,6 +275,7 @@ export default {
     },
 
     created() {
+        console.log('daegu uid: ', this.user.data.uid);
         this.getStation();
         this.getVehicle();
     },

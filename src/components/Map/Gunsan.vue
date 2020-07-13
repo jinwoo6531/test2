@@ -362,6 +362,7 @@ export default {
     },
 
     created() {
+        console.log('gunsan uid: ', this.user.data.uid);
         this.getStation();
         this.getVehicle();
 
