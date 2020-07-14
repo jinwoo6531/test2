@@ -190,8 +190,8 @@ export default {
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData.what);
-                // if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'start') {
-                if (this.webSocketData.what == 'RESP' && this.webSocketData.how.type == 'ondemand') {
+                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'start') {
+                // if (this.webSocketData.what == 'RESP' && this.webSocketData.how.type == 'ondemand') {
                     console.log('function start');
                     this.$router.replace({
                         name: "CallingShuttle",

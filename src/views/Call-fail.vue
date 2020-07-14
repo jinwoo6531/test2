@@ -1,7 +1,7 @@
 <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
-        <v-flex xs12 sm12 md12 class="d-flex justify-left align-start" @click="goToMain">
+        <v-flex xs12 sm12 md12 class="d-flex justify-left align-start" @click="goToBack">
             <img src="../assets/closing-btn.svg" style="padding-top: 21px; padding-left: 24px;">
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
@@ -33,7 +33,7 @@ export default {
     }),
 
     computed: {
-         ...mapState(['uid'])
+        ...mapState(['uid'])
     },
 
     created() {
@@ -60,7 +60,7 @@ export default {
     },
 
     methods: {
-        goToMain() {
+        goToBack() {
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -74,27 +74,51 @@ export default {
                         cancel_request_amount: 500
                     }
                 }).then(response => {
-                    console.log('환불 완료: ', response)
-                    console.log('latest_mid: ', this.latest_mid)
+                    console.log('환불 완료: ', response);
                     this.$toasted.show("호출이 취소되었습니다.", {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
-                    this.$router.replace('/')
+                    if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
                 }).catch(error => {
-                    console.log('환불 실패', error)
+                    console.log('환불 실패', error);
                     this.$toasted.show("환불을 실패하였습니다.", {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
-                    this.$router.replace('/')
+
+                    if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
                 })
             } else {
                 this.$toasted.show("결제하신 내역이 없습니다.", {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
-                this.$router.replace('/')
+                if (this.site == 1) {
+                    this.$router.replace('/map/gunsan');
+                } else if (this.site == 2) {
+                    this.$router.replace('/map/daegu');
+                } else if (this.site == 3) {
+                    this.$router.replace('/map/sejong');
+                } else if (this.site == 4) {
+                    this.$router.replace('/map/sangam');
+                }
             }
         },
 
