@@ -209,7 +209,7 @@ export default {
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket = new WebSocket("wss://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
