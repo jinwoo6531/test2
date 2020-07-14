@@ -40,8 +40,8 @@
                             <span style="display: inline-block; width: 70%;">
                                 <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
                                     <img src="../../assets/person-count.svg">
-                                    <span v-if="count >= 1" style="padding-left: 12px;">탑승인원 {{ temp }}명</span>
-                                    <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
+                                    <span v-if="count >= 1" style="padding-left: 12px;" @click="selectPerson">탑승인원 {{ temp }}명</span>
+                                    <span v-else @click="count = 1" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                                 </v-btn>
                             </span>
                         </template>
@@ -96,31 +96,6 @@
                             </v-btn>
                         </v-card>
                     </v-card>
-
-                    <!-- <v-overlay :z-index="zIndex" :value="overlay1">
-                        <v-card color="#FFF" style="width: 312px; height: 287px;">
-                            <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="start_options" v-model="start" />
-                            </v-card-text>
-                            <v-card-actions class="pa-0">
-                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
-                                    출발지 적용하기
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-overlay>
-                    <v-overlay :z-index="zIndex" :value="overlay2">
-                        <v-card color="#FFF" style="width: 312px; height: 287px;">
-                            <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="end_options" v-model="end" />
-                            </v-card-text>
-                            <v-card-actions class="pa-0">
-                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
-                                    도착지 적용하기
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-overlay> -->
 
                     <v-overlay :z-index="zIndex" :value="overlay1">
                         <v-card style="width: 290px; height: 376px;" color="#FFF">
@@ -483,6 +458,7 @@ export default {
         },
 
         increment() {
+            console.log('increment: ', this.count);
             this.count += 1;
 
             if (this.count >= 14) {
@@ -501,9 +477,10 @@ export default {
         },
 
         decrement() {
+            console.log('decrement: ', this.count);
             this.count -= 1;
 
-            if (this.count <= 1) {
+            if (this.count < 2) {
                 this.isDisabled1 = true;
                 this.count = 1;
             } else {
@@ -519,12 +496,25 @@ export default {
         },
 
         selectPerson() {
-            this.count = 1;
+            console.log('ksadf', this.count)
+            if (this.count < 2) {
+                this.isDisabled1 = true;
+            } else {
+                this.isDisabled1 = false;
+            }
+
+            if (this.count >= 14) {
+                this.isDisabled2 = true;
+            } else {
+                this.isDisabled2 = false;
+            }
         },
 
         closePersonDialog() {
+            console.log('count: ', this.count)
             this.dialog = false;
             this.count = this.temp;
+            console.log('이게 진짜지롱!', this.temp);
         },
 
         rideCount() {
