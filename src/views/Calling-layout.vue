@@ -82,8 +82,8 @@ export default {
 
     created() {
         console.log('calling-layout uid: ', this.uid);
-        this.onOpenWebsocket();
-        this.onMessageWebSocket();
+        // this.onOpenWebsocket();
+        // this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -208,7 +208,7 @@ export default {
 
         },
 
-        onOpenWebsocket() {
+        /* onOpenWebsocket() {
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
@@ -266,7 +266,7 @@ export default {
             this.socket.close();
             this.status = "disconnected";
             console.log('socket', this.status);
-        }
+        } */
     },
 
     destroyed() {
