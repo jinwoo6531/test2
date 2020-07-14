@@ -13,7 +13,6 @@ import Thanks from '@/views/Thanks'
 import AutoCancel from '@/views/Auto-cancel'
 import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
-import Import from '@/views/im-port'
 import Webview from '@/views/Webview'
 import WebSocketTest from '@/views/websocketTest'
 // import store from '../store/modules/auth'
@@ -48,11 +47,6 @@ const routes = [{
     path: '/webview',
     name: 'Webview',
     component: Webview
-  },
-  {
-    path: '/import',
-    name: 'Import',
-    component: Import
   },
   {
     path: '/websocket',

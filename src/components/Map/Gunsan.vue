@@ -363,10 +363,10 @@ export default {
             enableHighAccuracy: true
         }).on("locationfound", e => {
             console.log(e)
-            this.currentlocation.lat = e.latitude;
-            this.currentlocation.lon = e.longitude;
-            // this.currentlocation.lat = 35.820293;
-            // this.currentlocation.lon = 126.412015;
+            // this.currentlocation.lat = e.latitude;
+            // this.currentlocation.lon = e.longitude;
+            this.currentlocation.lat = 35.820293;
+            this.currentlocation.lon = 126.412015;
         })
 
     },
@@ -399,10 +399,15 @@ export default {
                     console.log('Location found: ' + e.latitude + e.longitude);
 
                     if (!this.usermarker) {
-                        let currentUser = this.$utils.map.createIcon({
-                            iconUrl: require("../../assets/current.svg"),
-                            iconSize: [17, 17]
+                        let currentUser = this.$utils.map.createDiv({
+                            html: "<div id='container'><div class='item'></div><div class='item2'></div><div class='circle' style='animation-delay: -3s'></div><div class='circle' style='animation-delay: -2s'></div><div class='circle' style='animation-delay: -1s'></div><div class='circle' style='animation-delay: 0s'></div></div>",
+                            iconSize: [0, 0]
                         });
+
+                        /*  let currentUser = this.$utils.map.createIcon({
+                             iconUrl: require("../../assets/current.svg"),
+                             iconSize: [17, 17]
+                         }); */
 
                         return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
                             icon: currentUser
