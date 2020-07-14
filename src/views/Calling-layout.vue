@@ -85,6 +85,8 @@ export default {
     created() {
         console.log('calling-layout uid: ', this.uid);
         this.getStation();
+        this.onOpenWebsocket();
+        this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -111,6 +113,8 @@ export default {
         this.site = this.$route.query.site;
         this.start = this.$route.query.start;
         this.end = this.$route.query.end;
+        this.station_startId = this.$route.query.station_startId,
+        this.station_endId = this.$route.query.station_endId,
         this.startName = this.$route.query.startName;
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
@@ -143,29 +147,6 @@ export default {
     },
 
     methods: {
-        getStation() {
-            axios.get('/api/stations/')
-                .then(response => {
-                    if (response.status == 200) {
-                        let station_result = response.data;
-                        console.log(station_result)
-                        let station_count = Object.keys(station_result).length;
-                        for (let i = 0; i < station_count; i++) {
-                            if (station_result[i].site == this.site) {
-                                this.stationList.push(station_result[i]);
-                                this.stationList = this.stationList.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1;
-                                });
-                            }
-                        }
-                        this.station_startId = this.stationList[this.start].id;
-                        this.station_endId = this.stationList[this.end].id;
-                        this.onOpenWebsocket();
-                        this.onMessageWebSocket();
-                    }
-                })
-        },
-
         callCancelModal() {
             if (this.isrefund == '0') {
                 axios({
@@ -230,6 +211,7 @@ export default {
         },
 
         onOpenWebsocket() {
+            console.log('onOpenWebsocket')
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
@@ -241,6 +223,7 @@ export default {
         },
 
         onMessageWebSocket() {
+            console.log('onMessageWebSocket')
             this.socket.onmessage = ({
                 data
             }) => { // websocket에 있는 정보들을 받는다.
@@ -268,6 +251,7 @@ export default {
         },
 
         sendMessage() { // ondemand 측에서 보내줘야 할 데이터
+            console.log('sendMessage')
             this.webSocketData = {
                 where: '',
                 who: 'tasio_id',

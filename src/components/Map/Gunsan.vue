@@ -587,6 +587,7 @@ export default {
                                 });
                             }
                         }
+
                         this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
                             this.loading = false;
@@ -682,6 +683,11 @@ export default {
 
             this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
             this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
+
+            this.station_startId = this.gunsanList[this.start].id;
+            this.station_endId = this.gunsanList[this.end].id;
+            console.log(this.station_startId)
+            console.log(this.station_endId)
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -1209,7 +1215,7 @@ export default {
                     imp_uid: this.user.data.uid,
                     count: this.count
                 }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId${this.station_startId}&station_endId${this.station_endId}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
