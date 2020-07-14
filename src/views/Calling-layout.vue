@@ -157,21 +157,45 @@ export default {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
-                    this.$router.replace('/')
+                    if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
                 }).catch(error => {
                     console.log('환불 실패', error)
                     this.$toasted.show(`환불을 실패하였습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
-                    this.$router.replace('/')
+                    if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
                 })
             } else {
                 this.$toasted.show(`결제하신 내역이 없습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
-                this.$router.replace('/')
+                if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
             }
 
         },
