@@ -67,8 +67,6 @@ export default {
     name: 'CallingLayout',
 
     data: () => ({
-        getStationAPI: false,
-        stationList: [],
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
         isrefund: '',
@@ -83,6 +81,7 @@ export default {
     },
 
     created() {
+        console.log('calling-layout uid: ', this.uid);
         this.onOpenWebsocket();
         this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
@@ -115,6 +114,9 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
+
+        console.log(this.station_startId)
+        console.log(this.station_endId)
 
         this.ready = true;
 
@@ -210,8 +212,6 @@ export default {
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
-                console.log('station_startId', this.station_startId);
-                console.log('station_endId', this.station_endId);
                 this.sendMessage();
             }
         },
@@ -252,8 +252,8 @@ export default {
                     type: 'ondemand',
                     vehicle_id: 5,
                     function: 'call',
-                    current_station_id: this.station_startId,
-                    target_station_id: this.station_endId,
+                    current_station_id: parseInt(this.$route.query.station_startId),
+                    target_station_id: parseInt(this.$route.query.station_endId),
                     passenger: this.$route.query.count,
                     passenger_name: '민형주'
                 }
