@@ -58,13 +58,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import {
+    mapState
+} from 'vuex'
 import axios from 'axios'
 
 export default {
     name: 'CallingLayout',
 
     data: () => ({
+        getStationAPI: false,
+        stationList: [],
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
         isrefund: '',
@@ -80,8 +84,7 @@ export default {
 
     created() {
         console.log('calling-layout uid: ', this.uid);
-        this.onOpenWebsocket();
-        this.onMessageWebSocket();
+        this.getStation();
         // this.socket.onerror = (error) => {
         //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
         // };
@@ -89,6 +92,7 @@ export default {
         // this.socket.onclose = () => {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
+
 
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
@@ -99,12 +103,16 @@ export default {
             }).catch(error => {
                 console.log('User read: ', error);
             })
+
     },
 
     mounted() {
-        this.site = this.$route.query.site;
-        this.start = this.$route.query.start;
-        this.end = this.$route.query.end;
+        // this.site = this.$route.query.site;
+        this.site = 1;
+        // this.start = this.$route.query.start;
+        // this.end = this.$route.query.end;
+        this.start = 0;
+        this.end = 5;
         this.startName = this.$route.query.startName;
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
@@ -137,6 +145,29 @@ export default {
     },
 
     methods: {
+        getStation() {
+            axios.get('/api/stations/')
+                .then(response => {
+                    if (response.status == 200) {
+                        let station_result = response.data;
+                        console.log(station_result)
+                        let station_count = Object.keys(station_result).length;
+                        for (let i = 0; i < station_count; i++) {
+                            if (station_result[i].site == this.site) {
+                                this.stationList.push(station_result[i]);
+                                this.stationList = this.stationList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1;
+                                });
+                            }
+                        }
+                        this.station_startId = this.stationList[this.start].id;
+                        this.station_endId = this.stationList[this.end].id;
+                        this.onOpenWebsocket();
+                        this.onMessageWebSocket();
+                    }
+                })
+        },
+
         callCancelModal() {
             if (this.isrefund == '0') {
                 axios({
@@ -188,14 +219,14 @@ export default {
                     position: "top-center"
                 }).goAway(2000);
                 if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
+                    this.$router.replace('/map/gunsan');
+                } else if (this.site == 2) {
+                    this.$router.replace('/map/daegu');
+                } else if (this.site == 3) {
+                    this.$router.replace('/map/sejong');
+                } else if (this.site == 4) {
+                    this.$router.replace('/map/sangam');
+                }
             }
 
         },
@@ -215,7 +246,7 @@ export default {
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData.what);
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'start') {
-                // if (this.webSocketData.what == 'RESP' && this.webSocketData.how.type == 'ondemand') {
+                    // if (this.webSocketData.what == 'RESP' && this.webSocketData.how.type == 'ondemand') {
                     console.log('function start');
                     this.$router.replace({
                         name: "CallingShuttle",
@@ -244,8 +275,8 @@ export default {
                     type: 'ondemand',
                     vehicle_id: 5,
                     function: 'call',
-                    current_station_id: this.$route.query.start,
-                    target_station_id: this.$route.query.end,
+                    current_station_id: this.station_startId,
+                    target_station_id: this.station_endId,
                     passenger: this.$route.query.count,
                     passenger_name: '민형주'
                 }

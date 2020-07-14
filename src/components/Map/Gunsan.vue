@@ -1391,4 +1391,63 @@ export default {
     padding-left: 12px !important;
     padding-right: 14px !important;
 }
+
+/* Current Location */
+#container {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.item {
+    z-index: 100;
+    padding: 5px;
+}
+
+.item {
+    border-radius: 50%;
+    width: 11px;
+    height: 11px;
+    background: #F82323;
+    z-index: 10;
+}
+
+.item2 {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    z-index: 9;
+}
+
+.circle {
+    border-radius: 50%;
+    background-color: #EB5757;
+    box-shadow: inset 0px 0px 4px rgba(255, 0, 0, 0.4);
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    opacity: 0;
+    animation: scaleIn 4s infinite cubic-bezier(.36, .11, .89, .32);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(.5, .5);
+        opacity: .5;
+    }
+
+    to {
+        transform: scale(2.5, 2.5);
+        opacity: 0;
+    }
+}
 </style>
