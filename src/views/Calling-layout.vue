@@ -83,7 +83,6 @@ export default {
     },
 
     created() {
-        console.log('calling-layout uid: ', this.uid);
         this.onOpenWebsocket();
         this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
@@ -97,11 +96,9 @@ export default {
 
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
-                console.log(response)
-                this.userName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-                console.log(this.latest_mid)
+                console.log(response.data.displayName);
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -112,8 +109,8 @@ export default {
         this.site = this.$route.query.site;
         this.start = this.$route.query.start;
         this.end = this.$route.query.end;
-        this.station_startId = this.$route.query.station_startId,
-        this.station_endId = this.$route.query.station_endId,
+        this.station_startId = parseInt(this.$route.query.station_startId),
+        this.station_endId = parseInt(this.$route.query.station_endId),
         this.startName = this.$route.query.startName;
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
@@ -210,19 +207,14 @@ export default {
         },
 
         onOpenWebsocket() {
-            console.log('onOpenWebsocket')
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
-                console.log(this.station_startId)
-                console.log(this.station_endId)
-                console.log('sendMessage: ', this.sendMessage())
                 this.sendMessage();
             }
         },
 
         onMessageWebSocket() {
-            console.log('onMessageWebSocket')
             this.socket.onmessage = ({
                 data
             }) => { // websocket에 있는 정보들을 받는다.
@@ -250,7 +242,6 @@ export default {
         },
 
         sendMessage() { // ondemand 측에서 보내줘야 할 데이터
-            console.log('sendMessage')
             this.webSocketData = {
                 where: '',
                 who: 'tasio_id',
@@ -262,7 +253,7 @@ export default {
                     current_station_id: this.station_startId,
                     target_station_id: this.station_endId,
                     passenger: this.$route.query.count,
-                    passenger_name: this.userName
+                    passenger_name: '민형주'
                 }
             };
 
