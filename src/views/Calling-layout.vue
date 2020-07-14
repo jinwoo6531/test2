@@ -108,8 +108,8 @@ export default {
         this.site = this.$route.query.site;
         this.start = this.$route.query.start;
         this.end = this.$route.query.end;
-        this.station_startId = parseInt(this.$route.query.station_startId),
-        this.station_endId = parseInt(this.$route.query.station_endId),
+        this.station_startId = parseInt(this.$route.query.station_startId);
+        this.station_endId = parseInt(this.$route.query.station_endId);
         this.startName = this.$route.query.startName;
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
@@ -209,7 +209,7 @@ export default {
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("wss://222.114.39.8:11411");
+            this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
