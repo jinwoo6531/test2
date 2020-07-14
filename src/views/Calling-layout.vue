@@ -107,12 +107,9 @@ export default {
     },
 
     mounted() {
-        // this.site = this.$route.query.site;
-        this.site = 1;
-        // this.start = this.$route.query.start;
-        // this.end = this.$route.query.end;
-        this.start = 0;
-        this.end = 5;
+        this.site = this.$route.query.site;
+        this.start = this.$route.query.start;
+        this.end = this.$route.query.end;
         this.startName = this.$route.query.startName;
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
@@ -281,6 +278,9 @@ export default {
                     passenger_name: '민형주'
                 }
             };
+
+            console.log(this.station_startId)
+            console.log(this.station_endId)
 
             this.socket.send(JSON.stringify(this.webSocketData));
         },
