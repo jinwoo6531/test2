@@ -84,7 +84,6 @@ export default {
 
     created() {
         console.log('calling-layout uid: ', this.uid);
-        this.getStation();
         this.onOpenWebsocket();
         this.onMessageWebSocket();
         // this.socket.onerror = (error) => {
