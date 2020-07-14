@@ -92,31 +92,25 @@ export default {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
 
-
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
+                console.log(response)
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-                console.log(response.data.displayName);
+                console.log(this.latest_mid)
             }).catch(error => {
                 console.log('User read: ', error);
             })
-
     },
 
     mounted() {
         this.site = this.$route.query.site;
         this.start = this.$route.query.start;
         this.end = this.$route.query.end;
-        this.station_startId = parseInt(this.$route.query.station_startId);
-        this.station_endId = parseInt(this.$route.query.station_endId);
         this.startName = this.$route.query.startName;
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
-
-        console.log(this.station_startId)
-        console.log(this.station_endId)
 
         this.ready = true;
 
@@ -156,12 +150,12 @@ export default {
                     data: {
                         merchant_uid: this.latest_mid, // 주문번호 *
                         reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 500 * parseInt(this.count)
+                        cancel_request_amount: 500
                     }
                 }).then(response => {
                     alert('환불 완료: ', response)
                     alert('latest_mid: ', this.latest_mid)
-                    this.$toasted.show("호출이 취소되었습니다.", {
+                    this.$toasted.show(`호출이 취소되었습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
@@ -176,7 +170,7 @@ export default {
                     }
                 }).catch(error => {
                     console.log('환불 실패', error)
-                    this.$toasted.show("환불을 실패하였습니다.", {
+                    this.$toasted.show(`환불을 실패하였습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
@@ -191,7 +185,7 @@ export default {
                     }
                 })
             } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
+                this.$toasted.show(`결제하신 내역이 없습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
@@ -252,8 +246,8 @@ export default {
                     type: 'ondemand',
                     vehicle_id: 5,
                     function: 'call',
-                    current_station_id: parseInt(this.$route.query.station_startId),
-                    target_station_id: parseInt(this.$route.query.station_endId),
+                    current_station_id: this.$route.query.start,
+                    target_station_id: this.$route.query.end,
                     passenger: this.$route.query.count,
                     passenger_name: '민형주'
                 }
