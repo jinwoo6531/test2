@@ -305,8 +305,8 @@ export default {
         station_arr: [],
         startTemp: '출발지 선택',
         endTemp: '도착지 선택',
-        start: '',
-        end: '',
+        start: -1,
+        end: -1,
         start_point: {
             name: '출발지 선택',
             value: -1
@@ -672,7 +672,7 @@ export default {
                     console.log(error);
                 })
         },
-        
+
         onCancel(state) {
             state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
         },
@@ -681,7 +681,7 @@ export default {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
-            console.log('dkjhfkdjh')
+
             this.start = this.start_point.value;
             this.end = this.end_point.value;
 
