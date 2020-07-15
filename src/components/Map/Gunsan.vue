@@ -363,10 +363,10 @@ export default {
             enableHighAccuracy: true
         }).on("locationfound", e => {
             console.log(e)
-            // this.currentlocation.lat = e.latitude;
-            // this.currentlocation.lon = e.longitude;
-            this.currentlocation.lat = 35.820293;
-            this.currentlocation.lon = 126.412015;
+            this.currentlocation.lat = e.latitude;
+            this.currentlocation.lon = e.longitude;
+            // this.currentlocation.lat = 35.820293;
+            // this.currentlocation.lon = 126.412015;
         })
 
     },
