@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  nginx:
+    restart: unless-stopped
+    image: staticfloat/nginx-certbot
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      CERTBOT_EMAIL: dwyug@aspringcloud.com
+      # variable names are space-separated
+      ENVSUBST_VARS: FQDN
+      FQDN: kiosk.aspringcloud.com
+    volumes:
+      - ./nginx:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
+      - ./tasio_kiosk:/data
+
+volumes:
+  letsencrypt:
+
