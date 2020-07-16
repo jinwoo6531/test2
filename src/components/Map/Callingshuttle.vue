@@ -813,26 +813,25 @@ export default {
                     data: {
                         merchant_uid: this.latest_mid, // 주문번호 *
                         reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 500
+                        cancel_request_amount: 500 * parseInt(this.count)
                     }
-                }).then(response => {
-                    alert('환불 완료: ', response)
-                    alert('latest_mid: ', this.latest_mid)
-                    this.$toasted.show(`호출이 취소되었습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
+                }).then((response) => {
+                    console.log(response)
+                    this.$toasted.show(`호출이 취소되었습니다.`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
                     this.$router.replace('/')
                 }).catch(error => {
                     console.log('환불 실패', error)
-                    this.$toasted.show(`환불을 실패하였습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
+                    this.$toasted.show(`환불을 실패하였습니다.`, {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
                     this.$router.replace('/')
                 })
             } else {
-                this.$toasted.show(`결제하신 내역이 없습니다. isrefund: ${this.isrefund}, latest_mid: ${this.latest_mid}`, {
+                this.$toasted.show(`결제하신 내역이 없습니다.`, {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);

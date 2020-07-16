@@ -323,7 +323,8 @@ export default {
         currentlocation: {
             lat: '',
             lon: ''
-        }
+        },
+        success: false
     }),
 
     computed: {
@@ -362,13 +363,24 @@ export default {
             maxZoom: 18,
             enableHighAccuracy: true
         }).on("locationfound", e => {
-            console.log(e)
-            this.currentlocation.lat = e.latitude;
-            this.currentlocation.lon = e.longitude;
-            // this.currentlocation.lat = 35.820293;
-            // this.currentlocation.lon = 126.412015;
+            this.currentlocation = {
+                lat: e.latitude,
+                lon: e.longitude
+            };
+            console.log(this.currentlocation);
         })
 
+    },
+
+    watch: {
+        currentlocation() {
+            console.log('watch: ', this.currentlocation);
+            if (this.success == false) {
+                this.can = true;
+            } else {
+                this.can = false;
+            }
+        }
     },
 
     updated() {
@@ -447,19 +459,16 @@ export default {
         },
 
         compareLocatoin() {
-            var success = false;
-            console.log('currentlocation: ', this.currentlocation)
+            this.success = false;
             for (var loc of this.gunsanList) {
-                console.log('stationlocation: ', loc)
-                console.log('사용자와 정류장과의 거리: ', calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon));
                 // 하나 정류장에라도 가까이 있으면 success true
-                if (1200 > calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    success = true;
-                } else if (1200 <= calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    success = false;
+                if (1000 > calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    this.success = true;
+                } else if (1000 <= calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    this.success = false;
                 }
             }
-            return success;
+            return this.success;
         },
 
         increment() {
