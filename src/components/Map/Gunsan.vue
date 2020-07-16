@@ -324,7 +324,7 @@ export default {
             lat: '',
             lon: ''
         },
-        success: false
+        success: true
     }),
 
     computed: {

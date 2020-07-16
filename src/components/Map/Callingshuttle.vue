@@ -173,9 +173,9 @@ export default {
     },
 
     methods: {
-        getStation() {
-            axios.get('/api/stations/')
-                .then(response => {
+        async getStation() {
+            await axios.get('/api/stations/')
+                .then(async response => {
                     if (response.status == 200) {
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
