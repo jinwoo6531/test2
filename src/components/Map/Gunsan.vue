@@ -387,12 +387,22 @@ export default {
 
     watch: {
         currentlocation() {
-            console.log('watch: ', this.currentlocation);
-            if (this.success == false) {
-                this.can = true;
-            } else {
-                this.can = false;
+            this.$toasted.show(`watch: ${this.currentlocation}`, {
+                theme: "bubble",
+                position: "top-center"
+            }).goAway(2000);
+
+            for (let i = 0; i < this.gunsanList.length; i++) { 
+                if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    this.success = true;
+                    break;
+                } else {
+                    this.success = false;
+                    continue;
+                }
             }
+
+            return this.success;
         }
     },
 
@@ -480,17 +490,9 @@ export default {
             this.success = false;
             for (let i = 0; i < this.gunsanList.length; i++) { // 하나 정류장에라도 가까이 있으면 success true
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    this.$toasted.show(`YES: ", ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(5000);
                     this.success = true;
                     break;
                 } else {
-                    this.$toasted.show(`NO: ", ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(5000);
                     this.success = false;
                     continue;
                 }
