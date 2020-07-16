@@ -12,6 +12,20 @@
             </v-card>
         </v-row>
     </v-container>
+
+    <v-container fluid v-if="loading3 == true" style="display: flex; position: absolute; margin-top: -57px; height: 100%; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    위치 받아오는 중...
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+
     <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; margin-top: -57px; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
             <v-card style="margin-top: -57px; width: 100%; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
@@ -266,6 +280,7 @@ export default {
         loading: true,
         loading1: true,
         loading2: true,
+        loading3: false,
         res: true,
         can: false,
         pageId: 1,
@@ -398,6 +413,7 @@ export default {
         getLocation() {
             console.log('suc??', this.compareLocatoin());
             if (this.compareLocatoin() == true) {
+                this.loading3 = true;
                 this.can = false;
 
                 this.map.locate({
@@ -413,6 +429,8 @@ export default {
                     console.log('Location found: ' + e.latitude + e.longitude);
 
                     if (!this.usermarker) {
+                        this.loading3 = false;
+
                         let currentUser = this.$utils.map.createDiv({
                             html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
                             iconSize: [0, 0]
@@ -426,6 +444,7 @@ export default {
                         return this.usermarker.setLatLng(e.latlng);
                     }
                 }).on("locationerror", error => {
+                    this.loading3 = false;
                     this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
                         theme: "bubble",
                         position: "top-center"
