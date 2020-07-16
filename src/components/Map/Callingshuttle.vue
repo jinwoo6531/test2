@@ -120,7 +120,9 @@ export default {
     },
 
     created() {
-        console.log('callingshuttle uid: ', this.uid);
+        this.getStation();
+        this.ready = true;
+        
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
@@ -145,9 +147,6 @@ export default {
         this.vehicle_id = 5;
         this.start = 0;
         this.end = 3; */
-
-        this.getStation();
-        this.ready = true;
 
         this.socket.onmessage = ({
             data
