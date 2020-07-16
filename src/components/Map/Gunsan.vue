@@ -362,18 +362,21 @@ export default {
             setView: false,
             maxZoom: 18,
             enableHighAccuracy: true
-        }).on("locationfound", e => {
-            this.currentlocation = {
+        }).on("locationfound", async e => {
+            this.currentlocation = await {
                 lat: e.latitude,
                 lon: e.longitude
             };
-            console.log(this.currentlocation);
+            // console.log(e)
         })
-
+        console.log('지금 어디게!: ', this.currentlocation);
     },
 
     watch: {
         currentlocation() {
+            if (this.currentlocation.lat == "") {
+                console.log('뭐야')
+            }
             console.log('watch: ', this.currentlocation);
             if (this.success == false) {
                 this.can = true;
@@ -408,18 +411,17 @@ export default {
                     watch: true,
                     enableHighAccuracy: true
                 }).on("locationfound", e => {
+                    this.currentlocation = {
+                        lat: e.latitude,
+                        lon: e.longitude
+                    };
                     console.log('Location found: ' + e.latitude + e.longitude);
 
                     if (!this.usermarker) {
                         let currentUser = this.$utils.map.createDiv({
-                            html: "<div id='container'><div class='item'></div><div class='item2'></div><div class='circle' style='animation-delay: -3s'></div><div class='circle' style='animation-delay: -2s'></div><div class='circle' style='animation-delay: -1s'></div><div class='circle' style='animation-delay: 0s'></div></div>",
+                            html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
                             iconSize: [0, 0]
                         });
-
-                        /*  let currentUser = this.$utils.map.createIcon({
-                             iconUrl: require("../../assets/current.svg"),
-                             iconSize: [17, 17]
-                         }); */
 
                         return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
                             icon: currentUser
@@ -439,6 +441,8 @@ export default {
                         this.map.removeLayer(this.usermarker);
                         this.usermarker = null;
                     }
+
+                    console.log('현재 위치 다시? ', this.getLocation());
                 })
                 this.res = false;
             } else {
@@ -460,15 +464,26 @@ export default {
 
         compareLocatoin() {
             this.success = false;
-            for (var loc of this.gunsanList) {
-                // 하나 정류장에라도 가까이 있으면 success true
-                if (1000 > calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+            // for (var loc of this.gunsanList) {
+            //     console.log('loc: ', loc);
+            //     // 하나 정류장에라도 가까이 있으면 success true
+            //     if (1000 > calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+            //         this.success = true;
+            //     } else if (1000 <= calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+            //         this.success = false;
+            //     }
+            // }
+            for (let i = 0; i < this.gunsanList.length; i++) {
+                if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    console.log(i, '번째: ', calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon));
                     this.success = true;
-                } else if (1000 <= calcDistance(loc.lat, loc.lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    return this.success;
+                } else {
+                    console.log(i, '번째 안돼: ', calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon));
                     this.success = false;
+                    return this.success;
                 }
             }
-            return this.success;
         },
 
         increment() {
@@ -510,7 +525,6 @@ export default {
         },
 
         selectPerson() {
-            console.log('ksadf', this.count)
             if (this.count < 2) {
                 this.isDisabled1 = true;
             } else {
@@ -1423,64 +1437,5 @@ export default {
     line-height: 19px;
     padding-left: 12px !important;
     padding-right: 14px !important;
-}
-
-/* Current Location */
-#container {
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: -20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.item {
-    z-index: 100;
-    padding: 5px;
-}
-
-.item {
-    border-radius: 50%;
-    width: 11px;
-    height: 11px;
-    background: #F82323;
-    z-index: 10;
-}
-
-.item2 {
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    background: #FFFFFF;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
-    position: absolute;
-    z-index: 9;
-}
-
-.circle {
-    border-radius: 50%;
-    background-color: #EB5757;
-    box-shadow: inset 0px 0px 4px rgba(255, 0, 0, 0.4);
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    opacity: 0;
-    animation: scaleIn 4s infinite cubic-bezier(.36, .11, .89, .32);
-}
-
-@keyframes scaleIn {
-    from {
-        transform: scale(.5, .5);
-        opacity: .5;
-    }
-
-    to {
-        transform: scale(2.5, 2.5);
-        opacity: 0;
-    }
 }
 </style>

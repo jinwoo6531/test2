@@ -192,7 +192,9 @@
 <script>
 import axios from 'axios'
 var control
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 
 export default {
     name: 'Daegu',
@@ -312,9 +314,9 @@ export default {
             }).on("locationfound", e => {
                 console.log('Location found: ' + e.latitude + e.longitude);
                 if (!this.usermarker) {
-                    let currentUser = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/current.svg"),
-                        iconSize: [17, 17]
+                    let currentUser = this.$utils.map.createDiv({
+                        html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
+                        iconSize: [0, 0]
                     });
 
                     return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
