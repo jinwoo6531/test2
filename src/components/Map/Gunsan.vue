@@ -1078,7 +1078,8 @@ export default {
 
             // SET New Routing
             this.addRouting(this.waypoints);
-            this.totalDistance();
+            this.getEta();
+            // this.totalDistance();
         },
 
         // async onChange() {
@@ -1198,6 +1199,22 @@ export default {
                         console.log(error);
                     })
             }.bind(this), 1000);
+        },
+
+        getEta() {
+            console.log('stationList', this.gunsanList);
+            var eta = JSON.parse(this.gunsanList[this.start].eta);
+            var etaVehicle = 0;
+            var etaTime = 0;
+            console.log('eta', eta);
+            for (let key in eta) {
+                etaVehicle = key;
+                etaTime = eta[key];
+            }
+            console.log('etaVehicle', etaVehicle);
+            this.minutes = etaTime;
+            console.log('minutes', this.minutes);
+
         },
 
         requestCallBtn() {

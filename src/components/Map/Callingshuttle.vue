@@ -240,6 +240,10 @@ export default {
             }
             console.log('etaVehicle', etaVehicle);
             if (this.vehicle_id == etaVehicle) {
+                // setInterval(() => {
+                //     this.minutes = etaTime;
+                //     console.log('minutes', this.minutes);
+                // }, 10000);
                 this.minutes = etaTime;
                 console.log('minutes', this.minutes);
             }
