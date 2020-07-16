@@ -367,7 +367,6 @@ export default {
                 lat: e.latitude,
                 lon: e.longitude
             };
-            console.log('지금 어디게!: ', e, this.currentlocation);
         })
     },
 
@@ -462,16 +461,22 @@ export default {
             this.success = false;
             for (let i = 0; i < this.gunsanList.length; i++) { // 하나 정류장에라도 가까이 있으면 success true
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    console.log(i, '번째: ', calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon));
+                    this.$toasted.show(`YES: ", ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(5000);
                     this.success = true;
                     break;
                 } else {
-                    console.log(i, '번째 안돼: ', calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon));
+                    this.$toasted.show(`NO: ", ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(5000);
                     this.success = false;
                     continue;
                 }
             }
-            
+
             return this.success;
         },
 

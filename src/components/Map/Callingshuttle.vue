@@ -157,7 +157,12 @@ export default {
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'complete') {
                 console.log('ondemand complete');
                 this.socket.close();
-                this.$router.replace('/thanks');
+                this.$router.replace({
+                    name: 'Thanks',
+                    params: {
+                        site: this.site
+                    }
+                });
             }
         };
 
