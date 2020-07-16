@@ -136,14 +136,14 @@ export default {
 
     mounted() {
         this.socket = this.$route.params.socket;
-        this.vehicle_id = this.$route.params.vehicle_id;
+        this.vehicle_id = parseInt(this.$route.params.vehicle_id);
         this.site = this.$route.params.site_id;
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
         this.eta = this.$route.params.eta;
 
-        /* this.site = 1;
+        /*this.site = 1;
         this.vehicle_id = 5;
         this.start = 0;
         this.end = 3; */
@@ -172,11 +172,25 @@ export default {
     },
 
     methods: {
-        async getStation() {
-            await axios.get('/api/stations/')
-                .then(async response => {
+        addMarker() {
+            console.log('add')
+            let gifIcon = this.$utils.map.createIcon({ 
+                iconUrl: require("../../assets/station_icon.svg"),
+                iconSize: [12, 12]
+            });
+
+            for (let i = 0; i < this.waypoints.length; i++) {
+                console.log(this.waypoints)
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
+                    icon: gifIcon
+                });
+            }
+        },
+
+        getStation() {
+            axios.get('/api/stations/')
+                .then(response => {
                     if (response.status == 200) {
-                        alert('옛다 station')
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
@@ -754,6 +768,7 @@ export default {
                     return null;
                 }
             })
+            this.addMarker()
         },
 
         getVehicle() { // 배차된 셔틀만 보여주면 된다.
