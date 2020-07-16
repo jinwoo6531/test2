@@ -122,7 +122,7 @@ export default {
     created() {
         this.getStation();
         this.ready = true;
-        
+
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
@@ -176,6 +176,7 @@ export default {
             await axios.get('/api/stations/')
                 .then(async response => {
                     if (response.status == 200) {
+                        alert('옛다 station')
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
