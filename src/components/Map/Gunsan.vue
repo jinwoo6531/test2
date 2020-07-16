@@ -13,13 +13,13 @@
         </v-row>
     </v-container>
 
-    <v-container fluid v-if="loading3 == true" style="display: flex; position: absolute; margin-top: -57px; height: 100%; pointer-events: inherit !important; z-index: 20;">
+    <v-container fluid v-if="loading3 == false" style="display: flex; position: absolute; margin-top: -57px; height: 100%; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
-            <v-card color="transparent" flat>
+            <v-card color="#FFF" flat>
                 <v-card-text class="text-center">
                     <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
                 </v-card-text>
-                <v-card-text class="text-center" style="color: #FFF;">
+                <v-card-text class="text-center" style="color: #E61773;">
                     위치 받아오는 중...
                 </v-card-text>
             </v-card>
