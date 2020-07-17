@@ -391,12 +391,10 @@ export default {
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     this.can = false;
-                    this.callBtn = true;
                     break;
                 } else {
                     this.success = false;
                     this.can = true;
-                    this.callBtn = false;
                     continue;
                 }
             }
@@ -406,7 +404,7 @@ export default {
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
+        if (this.count >= 1 && this.start >= 0 && this.end >= 0 && this.success == true) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
