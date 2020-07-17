@@ -416,9 +416,9 @@ export default {
             mode == "start" ? this.start_point = item : this.end_point = item;
         },
 
-        getLocation() {
+        async getLocation() {
             console.log('suc??', this.compareLocatoin());
-            if (this.compareLocatoin() == true) {
+            if (await this.compareLocatoin() == true) {
                 this.loading3 = true;
                 this.can = false;
 
@@ -484,6 +484,10 @@ export default {
         compareLocatoin() {
             this.success = false;
             for (let i = 0; i < this.gunsanList.length; i++) { // 하나 정류장에라도 가까이 있으면 success true
+                this.$toasted.show(`compareLocatoin ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
+                    theme: "outline",
+                    position: "top-center"
+                }).goAway(2000);
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     break;
