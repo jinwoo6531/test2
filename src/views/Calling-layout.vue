@@ -71,6 +71,7 @@ export default {
         ready: false,
         isrefund: '',
         latest_mid: '',
+        displayName: '',
         status: 'disconnected',
         webSocketData: {},
         timeCount: 0
@@ -97,7 +98,7 @@ export default {
             .then(response => {
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-                console.log(response.data.displayName);
+                this.displayName = response.data.displayName;
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -250,12 +251,12 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: 5,
+                    vehicle_id: 4,
                     function: 'call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
                     passenger: this.$route.query.count,
-                    passenger_name: '민형주'
+                    passenger_name: this.displayName
                 }
             };
 

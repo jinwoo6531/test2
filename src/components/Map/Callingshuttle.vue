@@ -32,11 +32,12 @@
 
                         <v-list-item-avatar class="ma-4" width="56px" height="56px">
                             <v-img src="../../assets/profile.png"></v-img>
+                            <!-- <v-img :src="owner_img"></v-img> -->
                         </v-list-item-avatar>
 
                         <v-list-item-content style="text-align: left;">
                             <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
-                            <v-list-item-subtitle class="desination-info-subtitle">주장혁</v-list-item-subtitle>
+                            <v-list-item-subtitle class="desination-info-subtitle">{{ owner }}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -108,8 +109,11 @@ export default {
         minutes: 0,
         vehicle_site: 0,
         vehicle_name: '',
+        vehicle_user: '',
         vehicle_lat: '',
-        vehicle_lon: ''
+        vehicle_lon: '',
+        owner: '',
+        owner_img: ''
     }),
 
     computed: {
@@ -143,8 +147,8 @@ export default {
         this.count = this.$route.params.passenger;
         this.eta = this.$route.params.eta;
 
-        /*this.site = 1;
-        this.vehicle_id = 5;
+        /* this.site = 1;
+        this.vehicle_id = 4;
         this.start = 0;
         this.end = 3; */
 
@@ -178,8 +182,7 @@ export default {
 
     methods: {
         addMarker() {
-            console.log('add')
-            let gifIcon = this.$utils.map.createIcon({ 
+            let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12]
             });
@@ -245,10 +248,6 @@ export default {
             }
             console.log('etaVehicle', etaVehicle);
             if (this.vehicle_id == etaVehicle) {
-                // setInterval(() => {
-                //     this.minutes = etaTime;
-                //     console.log('minutes', this.minutes);
-                // }, 10000);
                 this.minutes = etaTime;
                 console.log('minutes', this.minutes);
             }
@@ -794,6 +793,7 @@ export default {
                     for (var arr of vehicle_data) {
                         if (this.vehicle_id == arr.id) {
                             this.vehicle_name = arr.name;
+                            this.vehicle_user = arr.user;
                             this.vehicle_site = arr.site;
                             this.vehicle_lat = arr.lat;
                             this.vehicle_lon = arr.lon;
@@ -805,6 +805,7 @@ export default {
                             icon: vehicleIcon
                         });
                     }
+                    this.getVehicleUser();
                 }).catch(error => {
                     console.log('Vehicle Error: ', error);
                 })
@@ -820,6 +821,16 @@ export default {
                         console.log('SetInterval Error: ', error);
                     })
             }.bind(this), 1000);
+        },
+
+        getVehicleUser() {
+            axios.get(`/api/users/${this.vehicle_user}`)
+                .then(response => {
+                    this.owner = response.data.username;
+                    this.owner_img = response.data.profile.photo;
+                }).catch(error => {
+                    console.log('/api/user/ Error: ', error);
+                });
         },
 
         callCancel() {
