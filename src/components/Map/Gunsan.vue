@@ -469,67 +469,16 @@ export default {
                 }
             });
             this.res = false; // stopLocation()
-
-            // if (await this.compareLocatoin() == true) {
-            //     this.loading3 = true;
-            //     this.can = false;
-
-            //     await this.map.locate({
-            //         setView: true,
-            //         maxZoom: 18,
-            //         watch: true,
-            //         enableHighAccuracy: true
-            //     }).on("locationfound", async e => {
-            //         this.currentlocation = await {
-            //             lat: 35.8142630000000000,
-            //             lon: 126.4098250000000000
-            //         };
-
-            //         if (!this.usermarker) {
-            //             this.loading3 = false;
-
-            //             let currentUser = this.$utils.map.createDiv({
-            //                 html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
-            //                 iconSize: [0, 0]
-            //             });
-
-            //             return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
-            //                 icon: currentUser
-            //             });
-
-            //         } else {
-            //             return this.usermarker.setLatLng(e.latlng);
-            //         }
-            //     }).on("locationerror", error => {
-            //         this.loading3 = false;
-            //         this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
-            //             theme: "bubble",
-            //             position: "top-center"
-            //         }).goAway(2000);
-
-            //         console.log('Location error:', error);
-            //         if (this.usermarker) {
-            //             this.map.removeLayer(this.usermarker);
-            //             this.usermarker = null;
-            //         }
-
-            //         console.log('현재 위치 다시? ', this.getLocation());
-            //     })
-            //     this.res = false;
-            // } else {
-            //     this.can = true;
-            //     this.res = true;
-            // }
         },
 
         stopLocation() {
             if (this.usermarker != null || this.usermarker != undefined) {
                 this.map.removeLayer(this.usermarker);
                 this.usermarker = null;
-                this.map.stopLocate();
-                this.map.setView([35.812484, 126.4091], 15);
-                console.log('stopLocation usermarker', this.usermarker);
             }
+            this.map.stopLocate();
+            this.map.setView([35.812484, 126.4091], 15);
+            console.log('stopLocation usermarker', this.usermarker);
             this.res = true; // getLocation()
         },
 
@@ -549,7 +498,6 @@ export default {
 
         goBackGunsan() {
             this.can = false;
-            this.res = true;
             this.stopLocation();
         },
 
