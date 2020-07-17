@@ -430,7 +430,6 @@ export default {
                     lat: e.latitude,
                     lon: e.longitude
                 }
-
                 if (this.compareLocatoin() == true) {
                     this.can = false; // 운행지역 모달
                     this.res = false; // stopLocation()
@@ -473,12 +472,12 @@ export default {
 
         stopLocation() {
             this.res = true; // getLocation()
+            this.map.stopLocate();
+            this.map.setView([35.812484, 126.4091], 15);
             if (this.usermarker != null || this.usermarker != undefined) {
                 this.map.removeLayer(this.usermarker);
                 this.usermarker = null;
             }
-            this.map.stopLocate();
-            this.map.setView([35.812484, 126.4091], 15);
             console.log('stopLocation usermarker', this.usermarker);
         },
 
