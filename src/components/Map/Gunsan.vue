@@ -391,21 +391,17 @@ export default {
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     this.can = false;
+                    this.callBtn = true;
                     break;
                 } else {
                     this.success = false;
                     this.can = true;
+                    this.callBtn = false;
                     continue;
                 }
             }
 
             return this.success;
-        },
-        
-        success() {
-            if (this.success == false) {
-                this.callBtn = false;
-            }
         }
     },
 
