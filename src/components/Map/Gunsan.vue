@@ -544,12 +544,12 @@ export default {
                     continue;
                 }
             }
-
             return this.success;
         },
 
         goBackGunsan() {
             this.can = false;
+            this.res = true;
             this.stopLocation();
         },
 
