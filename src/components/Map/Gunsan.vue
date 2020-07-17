@@ -375,14 +375,13 @@ export default {
         this.map.setView([35.812484, 126.4091], 15);
         this.map.locate({
             setView: false,
-            maxZoom: 18,
             enableHighAccuracy: true
         }).on("locationfound", e => {
             console.log(e)
             this.currentlocation = {
-                lat: 35.8142630000000000,
-                lon: 127.4098250000000000
-            };
+                lat: e.latitude,
+                lon: e.longitude
+            }
         })
     },
 
