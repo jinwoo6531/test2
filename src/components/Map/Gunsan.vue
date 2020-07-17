@@ -452,7 +452,7 @@ export default {
                 } else {
                     this.can = true;
                     this.loading3 = false;
-                    this.res = true; 
+                    this.res = true;
                 }
             }).on('locationerror', error => {
                 console.log('Location error:', error);
@@ -565,12 +565,11 @@ export default {
         },
 
         switchDestination() {
-            if (this.start >= 0 && this.end >= 0) {
-                var change = this.start_point;
-                this.start_point = this.end_point;
-                this.end_point = change;
-                this.onChange();
-            }
+            var change = this.start_point;
+            this.start_point = this.end_point;
+            this.end_point = change;
+            this.onChange();
+
         },
 
         addMarker() {
