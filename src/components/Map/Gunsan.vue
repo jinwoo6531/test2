@@ -400,11 +400,17 @@ export default {
             }
 
             return this.success;
+        },
+        
+        success() {
+            if (this.success == false) {
+                this.callBtn = false;
+            }
         }
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 0 && this.end >= 0 || this.success == true) {
+        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
