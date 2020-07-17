@@ -375,7 +375,6 @@ export default {
         this.map.setView([35.812484, 126.4091], 15);
         this.map.locate({
             setView: false,
-            maxZoom: 18,
             enableHighAccuracy: true
         }).on("locationfound", e => {
             console.log(e)
