@@ -387,10 +387,10 @@ export default {
 
     watch: {
         currentlocation() {
-            this.$toasted.show(`watch: ${this.currentlocation}`, {
+            this.$toasted.show(`watch: ${this.currentlocation.lat}, ${this.currentlocation.lon}`, {
                 theme: "bubble",
                 position: "top-center"
-            }).goAway(2000);
+            }).goAway(5000);
 
             for (let i = 0; i < this.gunsanList.length; i++) { 
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
@@ -419,7 +419,6 @@ export default {
             mode == "start" ? this.start_point = item : this.end_point = item;
         },
 
-        // 모든 정류장 기준으로 2km 이상 떨어져 있을 경우 경고문 띄워준다.
         getLocation() {
             console.log('suc??', this.compareLocatoin());
             if (this.compareLocatoin() == true) {
@@ -436,7 +435,6 @@ export default {
                         lat: e.latitude,
                         lon: e.longitude
                     };
-                    console.log('Location found: ' + e.latitude + e.longitude);
 
                     if (!this.usermarker) {
                         this.loading3 = false;
