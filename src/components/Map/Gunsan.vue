@@ -387,25 +387,22 @@ export default {
 
     watch: {
         currentlocation() {
-            this.$toasted.show(`watch: ${this.currentlocation.lat}, ${this.currentlocation.lon}`, {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(10000);
-
             for (let i = 0; i < this.gunsanList.length; i++) {
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    this.$toasted.show(`success : ${this.success}, ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
+                    this.$toasted.show(`success : ${this.success}`, {
                         theme: "outline",
                         position: "top-center"
                     }).goAway(5000);
                     this.success = true;
+                    this.can = false;
                     break;
                 } else {
-                    this.$toasted.show(`success : ${this.success}, ${calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)}`, {
+                    this.$toasted.show(`success : ${this.success}`, {
                         theme: "outline",
                         position: "top-center"
                     }).goAway(5000);
                     this.success = false;
+                    this.can = true;
                     continue;
                 }
             }
