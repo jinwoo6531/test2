@@ -391,10 +391,12 @@ export default {
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     this.can = false;
+                    this.res = false;
                     break;
                 } else {
                     this.success = false;
                     this.can = true;
+                    this.res = true;
                     continue;
                 }
             }
