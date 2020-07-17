@@ -35,7 +35,7 @@
                     <p class="warningmsg" style="margin: 0;">셔틀이 출발지에 도착한 시점부터</p>
                     <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">5분 내</span> 탑승이 완료되지 않으면</p>
                     <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">호출이 자동 취소</span>되며 <span style="color: #EB5757 !important;">위약금이 발생</span>합니다.</p>
-                    <v-btn color="#E61773" tile depressed class="pa-0 pl-3 pr-3 goReturn" :ripple="false" @click="can = false">운행지역 지도로 돌아가기</v-btn>
+                    <v-btn color="#E61773" tile depressed class="pa-0 pl-3 pr-3 goReturn" :ripple="false" @click="goBackGunsan">운행지역 지도로 돌아가기</v-btn>
                 </v-card-text>
             </v-card>
         </v-row>
@@ -391,12 +391,10 @@ export default {
                 if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     this.can = false;
-                    this.res = false;
                     break;
                 } else {
                     this.success = false;
                     this.can = true;
-                    this.res = true;
                     continue;
                 }
             }
@@ -496,6 +494,11 @@ export default {
             }
 
             return this.success;
+        },
+
+        goBackGunsan() {
+            this.can = false;
+            this.stopLocation();
         },
 
         increment() {
