@@ -422,13 +422,13 @@ export default {
                 this.loading3 = true;
                 this.can = false;
 
-                this.map.locate({
+                await this.map.locate({
                     setView: true,
                     maxZoom: 18,
                     watch: true,
                     enableHighAccuracy: true
-                }).on("locationfound", e => {
-                    this.currentlocation = {
+                }).on("locationfound", async e => {
+                    this.currentlocation = await {
                         lat: e.latitude,
                         lon: e.longitude
                     };
