@@ -1,13 +1,13 @@
 <template>
 <v-container style="height: 100%;">
-    <v-layout  wrap>
+    <v-layout wrap>
         <v-flex class="pa-5" xs12 sm12 md12>
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" autofocus v-model="form.name" placeholder="이름을 입력하세요." />
+                    <input type="text" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keypress="hangul()" placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
@@ -22,7 +22,7 @@
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">생년월일</p>
-                    <input type="text" id="birth" name="birth" maxlength="6" minlength="6" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
+                    <input type="number" id="birth" name="birth" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
                 <p class="error-message" style="margin-top: 22px;">{{ error }}</p>
                 <v-footer absolute style="margin-bottom: 24px; background: transparent;">
@@ -35,7 +35,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -65,22 +67,34 @@ export default {
     },
 
     methods: {
+        hangul() {
+            if ((event.keyCode < 12592) || (event.keyCode > 12687)) {
+                event.returnValue = false;
+                return;
+            }
+        },
+
         submit(uid) {
             if (!this.form.name) {
-                this.error = "이름은 필수 항목입니다."
-                return
+                this.error = "이름은 필수 항목입니다.";
+                return;
             }
             if (!this.form.email) {
-                this.error = "이메일은 필수 항목입니다."
-                return
+                this.error = "이메일은 필수 항목입니다.";
+                return;
             }
             if (!this.form.gender) {
-                this.error = "성별은 필수 선택항목입니다."
-                return
+                this.error = "성별은 필수 선택항목입니다.";
+                return;
             }
             if (!this.form.birth) {
-                this.error = "생일은 필수 선택항목입니다."
-                return
+                this.error = "생일은 필수 선택항목입니다.";
+                return;
+            }
+
+            if (this.form.birth.length > 6 || this.form.birth.length != 6) {
+                this.error = "생일은 6자로 입력해주세요.";
+                return;
             }
 
             uid = this.user.data.uid
