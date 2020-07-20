@@ -325,6 +325,11 @@ export default {
             let mid = String(this.user.data.phoneNumber).substring(5, 9);
             let end = String(this.user.data.phoneNumber).substring(9, 13);
             return '0' + start + '-' + mid + '-' + end;
+        },
+
+        deletePhoneNumber() {
+            let start = String(this.user.data.phoneNumber).substring(3, 13);
+            return '0' + start;
         }
     },
 
@@ -538,8 +543,9 @@ export default {
         },
 
         deleteUser() {
-            if (this.inputPhoneNumber == this.getPhoneNumber) {
-                axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
+            if (this.inputPhoneNumber == this.deletePhoneNumber) {
+                console.log(this.user.data.uid)
+                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         this.$toasted.show("회원 탈퇴 완료!", {
                             theme: "bubble",
