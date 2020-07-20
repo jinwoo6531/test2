@@ -538,7 +538,7 @@ export default {
             }
         },
 
-        beforeSelectPerson() {
+        async beforeSelectPerson() {
             if (this.count == 0) {
                 this.count = 1;
                 this.isDisabled1 = true;
@@ -563,7 +563,13 @@ export default {
         closePersonDialog() {
             console.log('count: ', this.count);
             this.dialog = false;
-            this.count = this.temp;
+            if (this.temp != 0) {
+                this.count = this.temp;
+            } else {
+                this.count = 1;
+                this.isDisabled1 = true;
+                this.isDisabled2 = false;
+            }
             console.log('이게 진짜지롱!', this.temp);
         },
 
