@@ -158,7 +158,7 @@ export default {
                     data: {
                         merchant_uid: this.latest_mid, // 주문번호 *
                         reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 500 * parseInt(this.count)
+                        cancel_request_amount: 1000 * parseInt(this.count)
                     }
                 }).then(response => {
                     alert('환불 완료: ', response)
