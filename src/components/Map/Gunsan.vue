@@ -484,7 +484,7 @@ export default {
         compareLocatoin() {
             this.success = false;
             for (let i = 0; i < this.gunsanList.length; i++) { // 하나 정류장에라도 가까이 있으면 success true
-                if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                if (800 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     break;
                 } else {
