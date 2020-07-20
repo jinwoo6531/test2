@@ -55,7 +55,7 @@
                                 <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
                                     <img src="../../assets/person-count.svg">
                                     <span v-if="count >= 1" style="padding-left: 12px;" @click="selectPerson">탑승인원 {{ temp }}명</span>
-                                    <span v-else @click="count = 1" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
+                                    <span v-else @click="beforeSelectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
                                 </v-btn>
                             </span>
                         </template>
@@ -536,6 +536,18 @@ export default {
             } else {
                 this.isDisabled2 = false;
             }
+        },
+
+        async beforeSelectPerson() {
+            this.count = await 1;
+            if (this.count <= 1) {
+                this.isDisabled1 = true;
+                this.isDisabled2 = false;
+            } else {
+                this.isDisabled1 = false;
+                this.isDisabled2 = true;
+            }
+            console.log('beforeSelectPerson: ', this.count);
         },
 
         selectPerson() {
