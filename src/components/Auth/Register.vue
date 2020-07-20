@@ -7,7 +7,7 @@
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keypress="hangul()" placeholder="이름을 입력하세요." />
+                    <input type="text" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keyup="hangul()" @keypress="hangul()" placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
