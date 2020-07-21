@@ -243,11 +243,6 @@ export default {
                 axios.get('/api/stations/')
                     .then(response => {
                         if (response.status == 200) {
-                            this.$toasted.show('다시 요청!', {
-                                theme: "bubble",
-                                position: "top-center"
-                            }).goAway(1500);
-
                             let station_result = response.data;
                             let station_count = Object.keys(station_result).length;
                             for (let i = 0; i < station_count; i++) {
@@ -277,15 +272,21 @@ export default {
                 etaVehicle = key;
                 etaTime = eta[key];
             }
+            this.$toasted.show(`etaVehicle! ${etaVehicle}`, {
+                theme: "bubble",
+                position: "top-center"
+            }).goAway(1500);
+            
             console.log('etaVehicle', etaVehicle);
+
             if (this.vehicle_id == etaVehicle) {
                 this.minutes = etaTime;
                 console.log('minutes', this.minutes);
-
-                this.$toasted.show(`ETA! ${this.minutes}`, {
-                    position: "center"
-                }).goAway(1500);
             }
+            this.$toasted.show(`ETA! ${this.minutes}`, {
+                theme: "bubble",
+                position: "top-center"
+            }).goAway(1500);
         },
 
         async getRouting() {
