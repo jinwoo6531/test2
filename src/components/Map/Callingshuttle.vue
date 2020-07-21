@@ -195,6 +195,50 @@ export default {
         },
 
         getStation() {
+            axios.get('/api/stations/')
+                .then(response => {
+                    if (response.status == 200) {
+                        this.$toasted.show('다시 요청!', {
+                            theme: "bubble",
+                            position: "top-center"
+                        }).goAway(1500);
+
+                        let station_result = response.data;
+                        let station_count = Object.keys(station_result).length;
+                        for (let i = 0; i < station_count; i++) {
+                            if (station_result[i].site == this.site) {
+                                this.stationList.push(station_result[i]);
+                                this.stationList = this.stationList.sort(function (a, b) {
+                                    return a.id < b.id ? -1 : 1;
+                                });
+                            }
+                        }
+
+                        this.startName = this.stationList[this.start].name;
+                        this.endName = this.stationList[this.end].name;
+
+                        this.getVehicle();
+                        this.getEta();
+
+                        // Map View Center Load
+                        if (this.site == 1) {
+                            this.map.setView([35.812484, 126.4091], 15)
+                        } else if (this.site == 2) {
+                            this.map.setView([35.836673, 128.686520], 15)
+                        } else if (this.site == 3) {
+                            this.map.setView([36.599351, 127.270606], 15)
+                        } else if (this.site == 4) {
+                            this.map.setView([37.579200, 126.888880], 15)
+                        }
+
+                        this.getRouting()
+                    }
+                }).catch(error => {
+                    console.log('station (GET) error: ')
+                    this.error = error
+                    console.log(error)
+                })
+
             setInterval(async function () {
                 axios.get('/api/stations/')
                     .then(response => {
@@ -215,29 +259,10 @@ export default {
                                 }
                             }
 
-                            this.startName = this.stationList[this.start].name;
-                            this.endName = this.stationList[this.end].name;
-
-                            this.getVehicle();
                             this.getEta();
-
-                            // Map View Center Load
-                            if (this.site == 1) {
-                                this.map.setView([35.812484, 126.4091], 15)
-                            } else if (this.site == 2) {
-                                this.map.setView([35.836673, 128.686520], 15)
-                            } else if (this.site == 3) {
-                                this.map.setView([36.599351, 127.270606], 15)
-                            } else if (this.site == 4) {
-                                this.map.setView([37.579200, 126.888880], 15)
-                            }
-
-                            this.getRouting()
                         }
                     }).catch(error => {
-                        console.log('station (GET) error: ')
-                        this.error = error
-                        console.log(error)
+                        console.log(error);
                     })
             }.bind(this), 10000);
         },
@@ -256,6 +281,10 @@ export default {
             if (this.vehicle_id == etaVehicle) {
                 this.minutes = etaTime;
                 console.log('minutes', this.minutes);
+
+                this.$toasted.show(`ETA! ${this.minutes}`, {
+                    position: "center"
+                }).goAway(1500);
             }
         },
 
