@@ -59,6 +59,7 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
+        this.vehicle_id = parseInt(this.$route.query.vehicle_id)
     },
 
     methods: {
@@ -136,7 +137,8 @@ export default {
                     startName: this.startName,
                     endName: this.endName,
                     count: this.count,
-                    minutes: this.minutes
+                    minutes: this.minutes,
+                    vehicle_id: this.vehicle_id
                 }
             });
         }
