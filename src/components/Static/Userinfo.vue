@@ -218,7 +218,7 @@
                                         본인 확인을 위해 <br>
                                         회원가입 시 사용한 휴대전화번호를 입력해주세요.
                                     </v-card-text>
-                                    <v-text-field v-model="inputPhoneNumber" label="휴대전화 번호를 입력해주세요" color="#828282" class="pb-2 bye-check-field" single-line outlined flat full-width hide-details></v-text-field>
+                                    <v-text-field type="number" v-model="inputPhoneNumber" label="휴대전화 번호를 입력해주세요" color="#828282" class="pb-2 bye-check-field" single-line outlined flat full-width hide-details></v-text-field>
                                     <v-card-text class="pa-0 pb-4 error-rule" v-if="errorRule1 == true">휴대전화번호를 입력해주세요.</v-card-text>
                                     <v-select v-model="byeReason" :items="secession" item-text="title" item-value="value" label="탈퇴 사유를 선택해주세요" color="#828282" class="bye-check-field" item-color="#828282" return-object single-line outlined flat full-width hide-details></v-select>
                                     <v-text-field v-model="byeEtcReason" label="기타 사유를 입력해주세요." color="#828282" class="bye-check-field pt-2" v-if="etc == true" single-line outlined flat full-width hide-details></v-text-field>

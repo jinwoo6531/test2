@@ -151,7 +151,7 @@ export default {
         callCancelModal() {
             // WebSocket Cancel
             this.cancleMessage();
-            
+
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -216,8 +216,8 @@ export default {
         },
 
         onOpenWebsocket() {
-            // this.socket = new WebSocket("ws://222.114.39.8:11411");
-            this.socket = new WebSocket("ws://222.114.39.8:9103");
+            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            // this.socket = new WebSocket("ws://222.114.39.8:9103");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
