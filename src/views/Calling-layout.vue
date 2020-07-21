@@ -258,7 +258,8 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    // vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    vehicle_id: 4,
                     function: 'call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
@@ -277,7 +278,8 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    // vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    vehicle_id: 4,
                     function: 'call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
