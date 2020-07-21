@@ -59,6 +59,7 @@ export default {
         displayName: '',
         status: 'disconnected',
         webSocketData: {},
+        webSocketData2: {},
         timeCount: 0
     }),
 
@@ -118,10 +119,36 @@ export default {
         }, 120000);
     },
 
-    
+    watch: {
+        socket() {
+            let webSocketError = this.socket.onerror = (error) => {
+                this.$toasted.show(`WebSocket 서버와 통신 중에 에러가 발생했습니다.  ${error}`, {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            };
+
+            let webSocketClose = this.socket.onclose = () => {
+                this.$toasted.show('WebSocket 서버와 접속이 끊기면 호출되는 함수', {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            };
+
+            if (webSocketError || webSocketClose) {
+                this.disconnect();
+                this.onOpenWebsocket();
+                this.onMessageWebSocket();
+            }
+        }
+    },
 
     methods: {
         callCancelModal() {
+            // WebSocket Cancel
+            this.cancleMessage();
+            this.disconnect();
+            
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -198,7 +225,7 @@ export default {
                 data
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
-                console.log('webSocketData: ', this.webSocketData.what);
+                console.log('webSocketData: ', this.webSocketData);
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go') {
                     this.$router.replace({
                         name: "CallingShuttle",
@@ -234,8 +261,42 @@ export default {
                 }
             };
 
+            /* this.webSocketData = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: 4,
+                    function: 'call',
+                    current_station_id: 9,
+                    target_station_id: 10,
+                    passenger: 2,
+                    passenger_name: 'asdf'
+                }
+            }; */
+
             this.socket.send(JSON.stringify(this.webSocketData));
         },
+
+        cancleMessage() {
+            this.webSocketData2 = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    function: 'cancel_call',
+                    current_station_id: parseInt(this.$route.query.station_startId),
+                    target_station_id: parseInt(this.$route.query.station_endId),
+                    passenger: parseInt(this.$route.query.count),
+                    passenger_name: this.displayName,
+                }
+            };
+
+            this.socket.send(JSON.stringify(this.webSocketData2));
+        },  
 
         disconnect() {
             this.socket.close();
