@@ -45,9 +45,7 @@
 </template>
 
 <script>
-import {
-    mapState
-} from 'vuex'
+import {  mapState } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -61,7 +59,6 @@ export default {
         displayName: '',
         status: 'disconnected',
         webSocketData: {},
-        webSocketData2: {},
         timeCount: 0
     }),
 
@@ -70,16 +67,8 @@ export default {
     },
 
     created() {
-        console.log('calling-layout uid: ', this.uid);
         this.onOpenWebsocket();
         this.onMessageWebSocket();
-        // this.socket.onerror = (error) => {
-        //     console.log('WebSocket 서버와 통신 중에 에러가 발생했습니다.', error);
-        // };
-
-        // this.socket.onclose = () => {
-        //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
-        // };
 
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
@@ -104,14 +93,7 @@ export default {
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
 
-        console.log(this.station_startId)
-        console.log(this.station_endId)
-
         this.ready = true;
-
-        // this.loadingTime = setTimeout(() => {
-        //     this.loading = false;
-        // }, 1500);
 
         this.waitTimer = setTimeout(() => {
             this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
@@ -120,10 +102,12 @@ export default {
         this.failTimer = setTimeout(() => {
             this.$router.replace({
                 name: "CallFail",
-                params: {
+                query: {
                     site: this.site,
                     start: this.start,
                     end: this.end,
+                    station_startId: this.station_startId,
+                    station_endId: this.station_endId,
                     startName: this.startName,
                     endName: this.endName,
                     count: this.count,
@@ -133,36 +117,10 @@ export default {
         }, 120000);
     },
 
-    /* watch: {
-        socket() {
-            let webSocketError = this.socket.onerror = (error) => {
-                this.$toasted.show(`WebSocket 서버와 통신 중에 에러가 발생했습니다.  ${error}`, {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-            };
-
-            let webSocketClose = this.socket.onclose = () => {
-                this.$toasted.show('WebSocket 서버와 접속이 끊기면 호출되는 함수', {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-            };
-
-            if (webSocketError || webSocketClose) {
-                this.disconnect();
-                this.onOpenWebsocket();
-                this.onMessageWebSocket();
-            }
-        }
-    }, */
+    
 
     methods: {
         callCancelModal() {
-            // WebSocket Cancel
-            this.cancleMessage();
-            this.disconnect(); // 이걸 하고 다시 웹소켓 연결하면 되지 않을까...?
-
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -241,8 +199,6 @@ export default {
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData.what);
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go') {
-                    // if (this.webSocketData.what == 'RESP' && this.webSocketData.how.type == 'ondemand') {
-                    console.log('function start');
                     this.$router.replace({
                         name: "CallingShuttle",
                         params: {
@@ -278,26 +234,6 @@ export default {
             };
 
             this.socket.send(JSON.stringify(this.webSocketData));
-        },
-
-        cancleMessage() {
-            this.webSocketData2 = {
-                where: '',
-                who: 'tasio_id',
-                what: 'EVENT',
-                how: {
-                    type: 'ondemand',
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
-                    function: 'call',
-                    current_station_id: parseInt(this.$route.query.station_startId),
-                    target_station_id: parseInt(this.$route.query.station_endId),
-                    passenger: parseInt(this.$route.query.count),
-                    passenger_name: this.displayName,
-                    cancel_call: ''
-                }
-            };
-
-            this.socket.send(JSON.stringify(this.webSocketData2));
         },
 
         disconnect() {

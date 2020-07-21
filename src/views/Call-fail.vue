@@ -50,13 +50,15 @@ export default {
     },
 
     mounted() {
-        this.site = this.$route.params.site;
-        this.start = this.$route.params.start;
-        this.end = this.$route.params.end;
-        this.startName = this.$route.params.startName;
-        this.endName = this.$route.params.endName;
-        this.count = this.$route.params.count;
-        this.minutes = this.$route.params.minutes;
+        this.site = this.$route.query.site;
+        this.start = this.$route.query.start;
+        this.end = this.$route.query.end;
+        this.station_startId = parseInt(this.$route.query.station_startId);
+        this.station_endId = parseInt(this.$route.query.station_endId);
+        this.startName = this.$route.query.startName;
+        this.endName = this.$route.query.endName;
+        this.count = this.$route.query.count;
+        this.minutes = this.$route.query.minutes;
     },
 
     methods: {
@@ -129,6 +131,8 @@ export default {
                     site: this.site,
                     start: this.start,
                     end: this.end,
+                    station_startId: this.station_startId,
+                    station_endId: this.station_endId,
                     startName: this.startName,
                     endName: this.endName,
                     count: this.count,
