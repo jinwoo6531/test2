@@ -1,18 +1,5 @@
 <template>
 <v-app style="position: relative;">
-    <!-- <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
-        <v-row align="center" justify="center">
-            <v-card color="transparent" flat>
-                <v-card-text class="text-center">
-                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
-                </v-card-text>
-                <v-card-text class="text-center" style="color: #FFF;">
-                    결제 정보를 처리하는 중입니다...
-                </v-card-text>
-            </v-card>
-        </v-row>
-    </v-container> -->
-
     <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
         <div class="circle"></div>
         <div class="start-info">
@@ -94,7 +81,6 @@ export default {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
 
-
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 this.displayName = response.data.displayName;
@@ -147,10 +133,35 @@ export default {
         }, 120000);
     },
 
+    watch: {
+        socket() {
+            let webSocketError = this.socket.onerror = (error) => {
+                this.$toasted.show(`WebSocket 서버와 통신 중에 에러가 발생했습니다.  ${error}`, {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            };
+
+            let webSocketClose = this.socket.onclose = () => {
+                this.$toasted.show('WebSocket 서버와 접속이 끊기면 호출되는 함수', {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            };
+
+            if (webSocketError || webSocketClose) {
+                this.disconnect();
+                this.onOpenWebsocket();
+                this.onMessageWebSocket();
+            }
+        }
+    },
+
     methods: {
         callCancelModal() {
             // WebSocket Cancel
             this.cancleMessage();
+            this.disconnect(); // 이걸 하고 다시 웹소켓 연결하면 되지 않을까...?
 
             if (this.isrefund == '0') {
                 axios({
@@ -202,7 +213,7 @@ export default {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
-                
+
                 if (this.site == 1) {
                     this.$router.replace('/map/gunsan');
                 } else if (this.site == 2) {
@@ -217,7 +228,6 @@ export default {
 
         onOpenWebsocket() {
             this.socket = new WebSocket("ws://222.114.39.8:11411");
-            // this.socket = new WebSocket("ws://222.114.39.8:9103");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();

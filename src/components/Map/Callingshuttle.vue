@@ -159,7 +159,6 @@ export default {
             console.log('webSocketData: ', this.webSocketData.what);
             // 5분이상 지연될 경우 자동취소 페이지로 진입
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
-                console.log('ondemand complete');
                 this.socket.close();
                 this.$router.replace({
                     name: 'Thanks',
