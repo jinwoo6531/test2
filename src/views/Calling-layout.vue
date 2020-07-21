@@ -133,7 +133,7 @@ export default {
         }, 120000);
     },
 
-    watch: {
+    /* watch: {
         socket() {
             let webSocketError = this.socket.onerror = (error) => {
                 this.$toasted.show(`WebSocket 서버와 통신 중에 에러가 발생했습니다.  ${error}`, {
@@ -155,7 +155,7 @@ export default {
                 this.onMessageWebSocket();
             }
         }
-    },
+    }, */
 
     methods: {
         callCancelModal() {
@@ -268,8 +268,7 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    // vehicle_id: parseInt(this.$route.query.vehicle_id),
-                    vehicle_id: 4,
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
                     function: 'call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
@@ -288,8 +287,7 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    // vehicle_id: parseInt(this.$route.query.vehicle_id),
-                    vehicle_id: 4,
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
                     function: 'call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
