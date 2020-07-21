@@ -74,6 +74,7 @@ export default {
         displayName: '',
         status: 'disconnected',
         webSocketData: {},
+        webSocketData2: {},
         timeCount: 0
     }),
 
@@ -148,6 +149,9 @@ export default {
 
     methods: {
         callCancelModal() {
+            // WebSocket Cancel
+            this.cancleMessage();
+            
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -167,6 +171,7 @@ export default {
                         theme: "bubble",
                         position: "top-center"
                     }).goAway(2000);
+
                     if (this.site == 1) {
                         this.$router.replace('/map/gunsan');
                     } else if (this.site == 2) {
@@ -197,6 +202,7 @@ export default {
                     theme: "bubble",
                     position: "top-center"
                 }).goAway(2000);
+                
                 if (this.site == 1) {
                     this.$router.replace('/map/gunsan');
                 } else if (this.site == 2) {
@@ -207,11 +213,11 @@ export default {
                     this.$router.replace('/map/sangam');
                 }
             }
-
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            // this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket = new WebSocket("ws://222.114.39.8:9103");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
@@ -224,7 +230,7 @@ export default {
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log('webSocketData: ', this.webSocketData.what);
-                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'start') {
+                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go') {
                     // if (this.webSocketData.what == 'RESP' && this.webSocketData.how.type == 'ondemand') {
                     console.log('function start');
                     this.$router.replace({
@@ -252,16 +258,36 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: 4,
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
                     function: 'call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
-                    passenger: this.$route.query.count,
+                    passenger: parseInt(this.$route.query.count),
                     passenger_name: this.displayName
                 }
             };
 
             this.socket.send(JSON.stringify(this.webSocketData));
+        },
+
+        cancleMessage() {
+            this.webSocketData2 = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    function: 'call',
+                    current_station_id: parseInt(this.$route.query.station_startId),
+                    target_station_id: parseInt(this.$route.query.station_endId),
+                    passenger: parseInt(this.$route.query.count),
+                    passenger_name: this.displayName,
+                    cancel_call: ''
+                }
+            };
+
+            this.socket.send(JSON.stringify(this.webSocketData2));
         },
 
         disconnect() {

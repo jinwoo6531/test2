@@ -308,6 +308,7 @@ export default {
         startId: [],
         endId: [],
         vehicle: [],
+        vehicle_id: 0,
         distanceKm: 0,
         minutes: 0,
         gunsanList: [],
@@ -1196,6 +1197,7 @@ export default {
         getVehicle() {
             axios.get('/api/vehicles/')
                 .then(async response => {
+                    var vehicle_arr = [];
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     });
@@ -1213,12 +1215,16 @@ export default {
                                     icon: vehicleIcon
                                 });
                             }
+                            vehicle_arr.push(vehicle_data[i].id);
+                            this.vehicle_id = vehicle_arr[0];
+
                             this.loading2 = false;
                             if (this.loading1 == false && this.loading2 == false) {
                                 this.loading = false;
                             }
                         }
                     }
+                    console.log(this.vehicle_id)
                 }).catch(error => {
                     console.log(error);
                 })
@@ -1282,7 +1288,7 @@ export default {
                     imp_uid: this.user.data.uid,
                     count: this.count
                 }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}`
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}}&vehicle_id=${this.vehicle_id}`
                 // m_redirect_url: `http://service.tasio.io:1994/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}`
             });
         },
