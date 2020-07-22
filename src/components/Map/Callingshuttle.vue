@@ -201,7 +201,9 @@ export default {
 
                 if (current == 10) {
                     clearInterval(countUp);
+                    this.cancleMessage();
                     this.disconnect();
+                    
                     this.$router.replace({
                         name: 'AutoCancel',
                         params: {
