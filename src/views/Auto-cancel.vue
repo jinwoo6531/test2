@@ -58,22 +58,21 @@
 export default {
     name: 'AutoCancel',
 
-    mounted() {
-        this.all_pay = this.$route.params.allPay;
-        this.half_pay = this.$route.params.payment;
-    },
-
     computed: {
         allPay() {
-            let pay = this.all_pay;
+            let pay = 1000 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         payment() {
-            let pay = this.half_pay;
+            let pay = 500 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
-    }
+    },
+
+    mounted() {
+        this.count = this.$route.params.count;
+    },
 
 }
 </script>

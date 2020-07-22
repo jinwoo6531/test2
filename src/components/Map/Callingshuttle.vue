@@ -205,8 +205,7 @@ export default {
                     this.$router.replace({
                         name: 'AutoCancel',
                         params: {
-                            allPay: 1000 * parseInt(this.count),
-                            payment: 500 * parseInt(this.count)
+                            count: this.count
                         }
                     });
                 }
