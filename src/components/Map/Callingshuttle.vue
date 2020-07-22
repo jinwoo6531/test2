@@ -46,16 +46,16 @@
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
                     <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
                     <v-dialog v-model="callcanceldialog" max-width="280">
-                        <v-card style="width: 280px; height: 242px; background-color: transparent;">
+                        <v-card style="width: 280px; background-color: transparent;">
                             <v-card flat class="dialog-background" style="background-color: transparent;">
                                 <v-card-text class="pa-3 text-center">
                                     <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
                                     <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">500<span style="font-size: 14px !important;">원</span></v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-paymony">{{ payment }}<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
                                 <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
-                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 1,000원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
+                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 {{ allPay }}원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
                                 </v-card-text>
 
                                 <v-card flat class="pa-0 d-flex align-self-end">
@@ -121,19 +121,30 @@ export default {
         ...mapGetters({
             user: "user"
         }),
-        ...mapState(['uid'])
+        ...mapState(['uid']),
+
+        allPay() {
+            let pay = 1000 * parseInt(this.count); 
+            return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+
+        payment() {
+            let pay = 500 * parseInt(this.count);
+            return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
     },
 
     created() {
         this.getStation();
-        
+
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
                 this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-                
+
                 this.ready = true;
             }).catch(error => {
                 console.log('User read: ', error);
@@ -142,9 +153,10 @@ export default {
 
     mounted() {
         /* this.site = 1;
-        this.vehicle_id = 5;
+        this.vehicle_id = 4;
         this.start = 0;
-        this.end = 3; */
+        this.end = 3;
+        this.count = 9; */
 
         this.socket = this.$route.params.socket;
         this.vehicle_id = parseInt(this.$route.params.vehicle_id);
@@ -152,7 +164,6 @@ export default {
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
-        this.eta = this.$route.params.eta;
 
         this.socket.onmessage = ({
             data
@@ -169,7 +180,7 @@ export default {
                     }
                 });
             }
-        };
+        }; 
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -268,17 +279,6 @@ export default {
                     break;
                 }
             }
-
-            /* for (let key in eta) {
-                etaVehicle.push(key);
-            }
-
-            for (let i in etaVehicle) {
-                if (parseInt(etaVehicle[i]) === this.vehicle_id) {
-                    ok_vehicle = parseInt(etaVehicle[i]);
-                }
-                return ok_vehicle;
-            } */
         },
 
         async getRouting() {
@@ -923,7 +923,7 @@ export default {
             };
 
             this.socket.send(JSON.stringify(this.webSocketData2));
-        },  
+        },
 
         disconnect() {
             this.socket.close();
@@ -997,7 +997,7 @@ export default {
 
 .dialog-background {
     width: 2801px;
-    height: 242px;
+    /* height: 242px; */
     background-image: url('~@/assets/call-cancel-dialog.png');
 }
 
