@@ -405,7 +405,7 @@ export default {
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 0 && this.end >= 0 && this.success == true) {
+        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
