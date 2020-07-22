@@ -180,7 +180,7 @@ export default {
                     }
                 });
             }
-        }; 
+        };
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -230,9 +230,9 @@ export default {
 
                         // Map View Center Load
                         if (this.site == 1) {
-                            this.map.setView([35.812484, 126.4091], 15)
+                            this.map.setView([35.809484, 126.4091], 15)
                         } else if (this.site == 2) {
-                            this.map.setView([35.836673, 128.686520], 15)
+                            this.map.setView([35.835153, 128.685620], 15)
                         } else if (this.site == 3) {
                             this.map.setView([36.599351, 127.270606], 15)
                         } else if (this.site == 4) {
