@@ -207,7 +207,7 @@ export default {
                     this.$router.replace({
                         name: 'AutoCancel',
                         query: {
-                            count: this.count
+                            passenger_count: this.count
                         }
                     });
                 }

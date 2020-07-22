@@ -58,6 +58,10 @@
 export default {
     name: 'AutoCancel',
 
+    data:() => ({
+        count: 0
+    }),
+
     computed: {
         allPay() {
             let pay = 1000 * parseInt(this.count);
@@ -71,9 +75,7 @@ export default {
     },
 
     mounted() {
-        this.count = this.$route.query.count;
-
-        alert('count', this.count);
+        this.count = this.$route.query.passenger_count;
     },
 
     methods: {
