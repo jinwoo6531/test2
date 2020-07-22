@@ -305,12 +305,14 @@ export default {
         async getRouting() {
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
-                iconSize: [40, 40]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
             })
 
             let endIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/end-icon.svg"),
-                iconSize: [40, 40]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
             })
             this.start = await parseInt(this.start);
             this.end = await parseInt(this.end);

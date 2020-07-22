@@ -737,8 +737,6 @@ export default {
 
             this.station_startId = this.gunsanList[this.start].id;
             this.station_endId = this.gunsanList[this.end].id;
-            console.log(this.station_startId)
-            console.log(this.station_endId)
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -1313,10 +1311,6 @@ export default {
 </script>
 
 <style scoped>
-.request.leaflet-marker-icon .leaflet-marker-icon {
-    margin-top: -40px !important;
-}
-
 .is-disabled1 {
     color: #BDBDBD !important;
 }
