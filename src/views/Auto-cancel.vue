@@ -16,7 +16,7 @@
                     <v-divider class="ml-5 mr-5"></v-divider>
                     <v-row class="ma-0 pl-9 pr-9" style="padding-top: 14px;">
                         <v-col class="pa-0 cancel-info2">총 탑승요금</v-col>
-                        <v-col class="pa-0 cancel-info3">1,000원</v-col>
+                        <v-col class="pa-0 cancel-info3">{{ allPay }}</v-col>
                     </v-row>
                     <v-row class="ma-0 pl-9 pr-9" style="padding-bottom: 13px !important;">
                         <v-col class="pa-0 cancel-info2">x 위약금</v-col>
@@ -25,7 +25,7 @@
                     <v-divider class="ml-5 mr-5"></v-divider>
                     <v-row class="ma-0 pl-9 pr-9">
                         <v-col class="pa-0 pt-4 cancel-info5" style="text-align: left;">취소 위약금</v-col>
-                        <v-col class="pa-0 pt-2 cancel-info6" style="text-align: right;">500<span style="font-size: 14px !important;">원</span></v-col>
+                        <v-col class="pa-0 pt-2 cancel-info6" style="text-align: right;">{{ payment }}<span style="font-size: 14px !important;">원</span></v-col>
                     </v-row>
                 </v-card>
             </v-card>
@@ -44,7 +44,7 @@
         </v-flex>
         <v-flex xs12 sm12 md12 class="justify-center text-center pa-6 pt-0">
             <v-card class="text-center" color="transparent" flat tile>
-                
+
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pa-6">
@@ -56,7 +56,24 @@
 
 <script>
 export default {
-    name: 'AutoCancel'
+    name: 'AutoCancel',
+
+    mounted() {
+        this.all_pay = this.$route.params.allPay;
+        this.half_pay = this.$route.params.payment;
+    },
+
+    computed: {
+        allPay() {
+            let pay = this.all_pay;
+            return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+
+        payment() {
+            let pay = this.half_pay;
+            return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    }
 
 }
 </script>

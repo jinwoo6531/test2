@@ -124,7 +124,7 @@ export default {
         ...mapState(['uid']),
 
         allPay() {
-            let pay = 1000 * parseInt(this.count); 
+            let pay = 1000 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
@@ -132,7 +132,6 @@ export default {
             let pay = 500 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
-
     },
 
     created() {
@@ -170,7 +169,6 @@ export default {
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
             console.log('webSocketData: ', this.webSocketData.what);
-            // 5분이상 지연될 경우 자동취소 페이지로 진입
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
                 this.socket.close();
                 this.$router.replace({
@@ -181,6 +179,9 @@ export default {
                 });
             }
         };
+
+        // 5분이상 지연될 경우 자동취소 페이지로 진입
+        this.setTime();
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -193,6 +194,25 @@ export default {
     },
 
     methods: {
+        setTime() {
+            let current = 0;
+            let countUp = setInterval(() => {
+                current++;
+
+                if (current == 10) {
+                    clearInterval(countUp);
+                    this.disconnect();
+                    this.$router.replace({
+                        name: 'AutoCancel',
+                        params: {
+                            allPay: this.allPay,
+                            payment: this.payment
+                        }
+                    });
+                }
+            }, 1000);
+        },
+
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
