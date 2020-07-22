@@ -126,14 +126,15 @@ export default {
 
     created() {
         this.getStation();
-        this.ready = true;
-
+        
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
+                this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-                console.log(this.latest_mid)
+                
+                this.ready = true;
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -912,11 +913,11 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    vehicle_id: this.vehicle_id,
                     function: 'cancel_call',
-                    current_station_id: parseInt(this.$route.query.station_startId),
-                    target_station_id: parseInt(this.$route.query.station_endId),
-                    passenger: parseInt(this.$route.query.count),
+                    current_station_id: this.start,
+                    target_station_id: this.end,
+                    passenger: this.count,
                     passenger_name: this.displayName,
                 }
             };
