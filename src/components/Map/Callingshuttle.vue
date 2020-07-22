@@ -104,6 +104,7 @@ export default {
         waypoints: [],
         callcanceldialog: false,
         webSocketData: {},
+        webSocketData2: {},
         isrefund: '',
         latest_mid: '',
         minutes: 0,
@@ -860,10 +861,13 @@ export default {
         },
 
         callCancel() {
-            this.callcanceldialog = true
+            this.callcanceldialog = true;
         },
 
         callCancleBtn() {
+            this.cancleMessage();
+            this.disconnect();
+
             if (this.isrefund == '0') {
                 axios({
                     url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -899,6 +903,31 @@ export default {
                 this.$router.replace('/')
             }
 
+        },
+
+        cancleMessage() {
+            this.webSocketData2 = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    function: 'cancel_call',
+                    current_station_id: parseInt(this.$route.query.station_startId),
+                    target_station_id: parseInt(this.$route.query.station_endId),
+                    passenger: parseInt(this.$route.query.count),
+                    passenger_name: this.displayName,
+                }
+            };
+
+            this.socket.send(JSON.stringify(this.webSocketData2));
+        },  
+
+        disconnect() {
+            this.socket.close();
+            this.status = "disconnected";
+            console.log('socket', this.status);
         }
     }
 }
