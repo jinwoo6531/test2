@@ -181,7 +181,7 @@ export default {
         };
 
         // 5분이상 지연될 경우 자동취소 페이지로 진입
-        this.setTime();
+        // this.setTime();
 
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
@@ -194,12 +194,12 @@ export default {
     },
 
     methods: {
-        setTime() {
+        /* setTime() {
             let current = 0;
             let countUp = setInterval(() => {
                 current++;
 
-                if (current == 10) {
+                if (current == 300) {
                     clearInterval(countUp);
                     this.cancleMessage();
                     this.disconnect();
@@ -212,7 +212,7 @@ export default {
                     });
                 }
             }, 1000);
-        },
+        }, */
 
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
