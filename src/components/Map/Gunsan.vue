@@ -742,11 +742,13 @@ export default {
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
-                iconSize: [40, 40]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
             });
             let endIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/end-icon.svg"),
-                iconSize: [40, 40]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
             });
 
             if (this.start == 0) {
@@ -1311,6 +1313,10 @@ export default {
 </script>
 
 <style scoped>
+.request.leaflet-marker-icon .leaflet-marker-icon {
+    margin-top: -40px !important;
+}
+
 .is-disabled1 {
     color: #BDBDBD !important;
 }
