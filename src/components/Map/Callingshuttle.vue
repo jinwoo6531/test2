@@ -203,10 +203,10 @@ export default {
                     clearInterval(countUp);
                     this.cancleMessage();
                     this.disconnect();
-                    
+
                     this.$router.replace({
                         name: 'AutoCancel',
-                        params: {
+                        query: {
                             count: this.count
                         }
                     });

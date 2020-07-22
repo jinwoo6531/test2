@@ -37,7 +37,7 @@
                     5분이 지났지만 탑승이 확인되지 않았어요.
                 </v-card-text>
                 <v-card-text class="why-not-ride pa-0 pt-4">
-                    탑승요금 2,000원의 50%가 <br>
+                    탑승요금 {{ 1000 * parseInt(this.count) }}원의 50%가 <br>
                     취소 위약금으로 발생하며 차액은 환불됩니다.
                 </v-card-text>
             </v-card>
@@ -48,7 +48,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pa-6">
-            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn">확인</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn" @click="goToMain">확인</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
@@ -71,8 +71,16 @@ export default {
     },
 
     mounted() {
-        this.count = this.$route.params.count;
+        this.count = this.$route.query.count;
+
+        alert('count', this.count);
     },
+
+    methods: {
+        goToMain() {
+            this.$router.replace('/');
+        }
+    }
 
 }
 </script>
