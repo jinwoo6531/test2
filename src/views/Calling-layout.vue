@@ -68,14 +68,14 @@ export default {
     },
 
     created() {
-        this.onOpenWebsocket();
-        this.onMessageWebSocket();
-
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
+
+                this.onOpenWebsocket();
+                this.onMessageWebSocket();
             }).catch(error => {
                 console.log('User read: ', error);
             })
