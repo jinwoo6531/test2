@@ -139,6 +139,11 @@ export default {
     },
 
     mounted() {
+        /* this.site = 1;
+        this.vehicle_id = 5;
+        this.start = 0;
+        this.end = 3; */
+
         this.socket = this.$route.params.socket;
         this.vehicle_id = parseInt(this.$route.params.vehicle_id);
         this.site = this.$route.params.site_id;
@@ -146,11 +151,6 @@ export default {
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
         this.eta = this.$route.params.eta;
-
-        /* this.site = 1;
-        this.vehicle_id = 4;
-        this.start = 0;
-        this.end = 3; */
 
         this.socket.onmessage = ({
             data
@@ -198,11 +198,6 @@ export default {
             axios.get('/api/stations/')
                 .then(response => {
                     if (response.status == 200) {
-                        this.$toasted.show('다시 요청!', {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(1500);
-
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
@@ -253,7 +248,6 @@ export default {
                                     });
                                 }
                             }
-
                             this.getEta();
                         }
                     }).catch(error => {
@@ -263,30 +257,26 @@ export default {
         },
 
         getEta() {
-            console.log('stationList', this.stationList);
             var eta = JSON.parse(this.stationList[this.start].eta);
-            var etaVehicle = 0;
-            var etaTime = 0;
-            console.log('eta', eta);
-            for (let key in eta) {
-                etaVehicle = key;
-                etaTime = eta[key];
-            }
-            this.$toasted.show(`etaVehicle! ${etaVehicle}`, {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(1500);
-            
-            console.log('etaVehicle', etaVehicle);
 
-            if (this.vehicle_id == etaVehicle) {
-                this.minutes = etaTime;
-                console.log('minutes', this.minutes);
+            for (let [key, value] of Object.entries(eta)) {
+                if (key == this.vehicle_id) {
+                    console.log(key, ', ', value);
+                    this.minutes = parseInt(value);
+                    break;
+                }
             }
-            this.$toasted.show(`ETA! ${this.minutes}`, {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(1500);
+
+            /* for (let key in eta) {
+                etaVehicle.push(key);
+            }
+
+            for (let i in etaVehicle) {
+                if (parseInt(etaVehicle[i]) === this.vehicle_id) {
+                    ok_vehicle = parseInt(etaVehicle[i]);
+                }
+                return ok_vehicle;
+            } */
         },
 
         async getRouting() {

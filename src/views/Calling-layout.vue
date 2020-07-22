@@ -76,7 +76,6 @@ export default {
                 this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-                this.displayName = response.data.displayName;
             }).catch(error => {
                 console.log('User read: ', error);
             })
