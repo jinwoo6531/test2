@@ -28,7 +28,7 @@
 
     <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; margin-top: -57px; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
-            <v-card style="margin-top: -57px; width: 100%; height: 252px; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
+            <v-card style="margin-top: -57px; width: 100%; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
                 <v-card-text class="text-center pa-0">
                     <img src="../../assets/warning.svg" style="padding-top: 20px;">
                     <p style="letter-spacing: -1px; margin: 0; padding-top: 6px; padding-bottom: 24px; font-size: 18px; font-weight: 500; color: #262626;">이 곳은 타시오 운행지역에서 너무 멀어요!</p>
@@ -98,7 +98,7 @@
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                    <span style="font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
+                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
                                 </span>
                             </p>
                         </v-flex>
@@ -175,12 +175,12 @@
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
                                         <span v-if="start < 0 || start_point.name==startTemp" class="select_station">{{ startTemp }}</span>
-                                        <span v-else>{{ start_point.name }}</span>
+                                        <span v-else class="sel_station">{{ start_point.name }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
                                         <span v-if="end < 0 || end_point.name==endTemp" class="select_station">{{ endTemp }}</span>
-                                        <span v-else>{{ end_point.name }}</span>
+                                        <span v-else class="sel_station">{{ end_point.name }}</span>
                                     </v-card>
                                 </div>
                             </v-flex>
@@ -1347,6 +1347,14 @@ export default {
     color: #BDBDBD;
 }
 
+.sel_station {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #262626;
+}
+
 .select-person-btn {
     height: 50px !important;
 }
@@ -1449,6 +1457,7 @@ export default {
     color: #FFFFFF !important;
     border-radius: 0;
     margin-top: 15px !important;
+    margin-bottom: 18px !important;
     letter-spacing: 0px;
 }
 
