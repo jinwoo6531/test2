@@ -28,10 +28,10 @@
 
     <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; margin-top: -57px; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
-            <v-card style="margin-top: -57px; width: 100%; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
-                <v-card-text class="text-center">
-                    <img src="../../assets/warning.svg">
-                    <p style="margin: 0; padding-top: 8px; padding-bottom: 26px; font-size: 18px; font-weight: 500; color: #262626;">이 곳은 타시오 운행지역에서 너무 멀어요!</p>
+            <v-card style="margin-top: -57px; width: 100%; height: 252px; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
+                <v-card-text class="text-center pa-0">
+                    <img src="../../assets/warning.svg" style="padding-top: 20px;">
+                    <p style="letter-spacing: -1px; margin: 0; padding-top: 6px; padding-bottom: 24px; font-size: 18px; font-weight: 500; color: #262626;">이 곳은 타시오 운행지역에서 너무 멀어요!</p>
                     <p class="warningmsg" style="margin: 0;">셔틀이 출발지에 도착한 시점부터</p>
                     <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">5분 내</span> 탑승이 완료되지 않으면</p>
                     <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">호출이 자동 취소</span>되며 <span style="color: #EB5757 !important;">위약금이 발생</span>합니다.</p>
@@ -55,7 +55,7 @@
                                 <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
                                     <img src="../../assets/person-count.svg">
                                     <span v-if="temp >= 1" style="padding-left: 12px;" @click="selectPerson">탑승인원 {{ temp }}명</span>
-                                    <span v-else @click="beforeSelectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
+                                    <span v-else @click="beforeSelectPerson" style="color: #262626; padding-left: 12px; letter-spacing: 0.5px;">탑승인원 선택</span>
                                 </v-btn>
                             </span>
                         </template>
@@ -98,7 +98,7 @@
                             <p class="ma-0" style="color: #FFF; height: 30px;">
                                 <span style="display: inline-block; height: 100%;">
                                     <img style="vertical-align: middle;" class="pl-3 pr-3" src="../../assets/time-icon.svg">
-                                    <span style="vertical-align: middle; font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
+                                    <span style="font-style: normal; font-weight: normal; font-size: 14px; color: #FFF;">소요시간: <span style="color: #FFF; font-weight: 500; font-size: 18px; padding-right: 12px;">약 {{ minutes }}분</span></span>
                                 </span>
                             </p>
                         </v-flex>
@@ -117,22 +117,22 @@
                                 <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">출발지</span>
                             </v-card-text>
                             <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
-                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
-                                <v-list light tile>
+                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
+                                <v-list light tile style="padding: 8px 0 22px 0;">
                                     <v-list-item-group color="#E61773">
-                                        <v-list-item v-for="item in start_options" @click="clk(item,'start')" :key="item.value">
+                                        <v-list-item class="pa-0" v-for="item in start_options" @click="clk(item,'start')" :key="item.value">
                                             <v-list-item-content>
-                                                <v-list-item-title v-text="item.name"></v-list-item-title>
+                                                <v-list-item-title v-text="item.name" style="color: #333;"></v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list-item-group>
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay1 = false; onCancel('start');">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay1 = false; onCancel('start');">
                                     취소
                                 </v-btn>
-                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1 = false; onChange();">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay1 = false; onChange();">
                                     선택하기
                                 </v-btn>
                             </v-card-actions>
@@ -144,22 +144,22 @@
                                 <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">도착지</span>
                             </v-card-text>
                             <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
-                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll;" tile flat>
-                                <v-list light tile>
+                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
+                                <v-list light tile style="padding: 8px 0 22px 0;">
                                     <v-list-item-group color="#E61773">
-                                        <v-list-item v-for="item2 in end_options" @click="clk(item2,'end')" :key="item2.value">
+                                        <v-list-item class="pa-0" v-for="item2 in end_options" @click="clk(item2,'end')" :key="item2.value">
                                             <v-list-item-content>
-                                                <v-list-item-title v-text="item2.name"></v-list-item-title>
+                                                <v-list-item-title v-text="item2.name" style="color: #333;"></v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list-item-group>
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box;" @click="overlay2=false; onCancel('end');">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay2=false; onCancel('end');">
                                     취소
                                 </v-btn>
-                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay2=false; onChange();">
                                     선택하기
                                 </v-btn>
                             </v-card-actions>
@@ -174,12 +174,12 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start < 0 || start_point.name==startTemp" style="color: #BDBDBD">{{ startTemp }}</span>
+                                        <span v-if="start < 0 || start_point.name==startTemp" class="select_station">{{ startTemp }}</span>
                                         <span v-else>{{ start_point.name }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end < 0 || end_point.name==endTemp" style="color: #BDBDBD">{{ endTemp }}</span>
+                                        <span v-if="end < 0 || end_point.name==endTemp" class="select_station">{{ endTemp }}</span>
                                         <span v-else>{{ end_point.name }}</span>
                                     </v-card>
                                 </div>
@@ -202,7 +202,7 @@
                                     <v-card-text class="pa-0 call-dialog-paymony">{{ totalPayment }}<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
-                                <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
+                                <v-card-text class="pa-3 pb-0 text-center" style="padding-top: 13px !important;">
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
                                         <table style="width: 100%; border: none !important;">
                                             <tr>
@@ -219,19 +219,23 @@
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
                                         <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116', 'card')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
-                                        <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ not_red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
+                                        <!-- <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span> -->
+                                        <p class="payment_msg" v-if="isRed2 == true">휴대폰 결제 서비스는 준비중 입니다.</p>
+                                        <p class="payment_msg" v-else-if="isRed1 == true" style="color: transparent;">선택 완료</p>
+                                        <p class="payment_msg" v-else>결제 방식을 선택하세요.</p>
                                     </v-card>
                                 </v-card-text>
 
-                                <v-card flat class="pa-0 pt-2 d-flex align-self-end">
+                                <v-card flat class="pa-0 d-flex align-self-end" style="padding-top: 7px !important;">
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="cancelCallDialog">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116' || meth == '170622040674'" @click="requestCallBtn">호출하기</v-btn>
+                                                <!-- <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116' || meth == '170622040674'" @click="requestCallBtn">호출하기</v-btn> -->
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116'" @click="requestCallBtn">호출하기</v-btn>
                                                 <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
@@ -293,16 +297,16 @@ export default {
         data: null,
         options: [],
         station_arr: [],
-        startTemp: '출발지 선택',
-        endTemp: '도착지 선택',
+        startTemp: '출발지 선택하기',
+        endTemp: '도착지 선택하기',
         start: -1,
         end: -1,
         start_point: {
-            name: '출발지 선택',
+            name: '출발지 선택하기',
             value: -1
         },
         end_point: {
-            name: '도착지 선택',
+            name: '도착지 선택하기',
             value: -1
         },
         startId: [],
@@ -405,7 +409,7 @@ export default {
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
+        if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
@@ -1305,6 +1309,13 @@ export default {
                 this.meth = meth;
                 this.pay_method = pay_method;
             }
+        },
+
+        cancelCallDialog() {
+            this.calldialog = false;
+            this.isRed1 = false;
+            this.isRed2 = false;
+            this.meth = '';
         }
     }
 }
@@ -1325,6 +1336,14 @@ export default {
     font-weight: normal;
     font-size: 14px;
     text-align: center;
+    color: #BDBDBD;
+}
+
+.select_station {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
     color: #BDBDBD;
 }
 
@@ -1398,6 +1417,7 @@ export default {
     font-weight: 500;
     font-size: 16px !important;
     color: #262626 !important;
+    letter-spacing: 1px;
 }
 
 .call-dialog-btn {
@@ -1406,6 +1426,7 @@ export default {
     font-weight: 500;
     font-size: 16px !important;
     color: #FFFFFF !important;
+    letter-spacing: 1px;
 }
 
 .warningmsg {
@@ -1414,9 +1435,13 @@ export default {
     font-weight: 500;
     font-size: 14px !important;
     color: #262626;
+    letter-spacing: -0.5px;
 }
 
 .goReturn {
+    width: 196px;
+    height: 41px !important;
+    background: #E61773;
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
@@ -1424,6 +1449,7 @@ export default {
     color: #FFFFFF !important;
     border-radius: 0;
     margin-top: 15px !important;
+    letter-spacing: 0px;
 }
 
 .paymentMethod {
@@ -1448,6 +1474,12 @@ export default {
     background: #FFF;
 }
 
+.not_red {
+    background: #F2F2F2 !important;
+    border: 1px solid #E0E0E0 !important;
+    color: #BDBDBD !important;
+}
+
 .check-state {
     position: absolute;
     right: 140px;
@@ -1456,6 +1488,17 @@ export default {
 .check-state2 {
     position: absolute;
     right: 0;
+}
+
+.payment_msg {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #EB5757;
+    text-align: left !important;
+    margin: 0px;
+    padding-top: 3px;
 }
 
 .v-btn:before {
