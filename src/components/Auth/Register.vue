@@ -7,7 +7,8 @@
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" style="ime-mode: active" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keypress="hangul()" placeholder="이름을 입력하세요." />
+                    <!-- <input type="text" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keypress="hangul()" placeholder="이름을 입력하세요." /> -->
+                    <input type="text" style="ime-mode:active;" id="name" name="name" maxlength="25" autofocus v-model="form.name" @onkeypress="if(!(event.keyCode < 47 && event.keyCode > 58)) event.returnValue=false;" placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
