@@ -377,7 +377,7 @@ export default {
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
 
         // Map View Center Load
-        this.map.setView([35.812484, 126.4091], 15);
+        this.map.setView([35.812484, 126.4101], 15);
         this.map.locate({
             setView: false,
             enableHighAccuracy: true
