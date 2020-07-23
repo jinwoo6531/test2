@@ -1,17 +1,17 @@
 <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
-            <v-card class="text-center" color="transparent" flat tile>
-                <v-card-text class="cant-call pt-0">페이지를 찾을 수 없어요...</v-card-text>
+        <v-flex xs12 sm12 md12 class="text-center pa-0">
+            <v-card class="text-center" style="padding-top: 110px;" color="transparent" flat tile>
+                <v-card-text class="cant-call pa-0">페이지를 찾을 수 없어요...</v-card-text>
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center">
+        <v-flex xs12 sm12 md12 class="text-center pa-0">
             <v-card color="transparent" flat tile>
                 <img src="../assets/404.svg">
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center">
+        <v-flex xs12 sm12 md12 class="text-center pa-0" style="margin-top: -30px;">
             <v-card class="text-center" color="transparent" flat tile>
                 <v-card-text class="cant-call-sub">
                     지금 조회하는 페이지는 사라졌거나 <br>
@@ -57,6 +57,7 @@ export default {
     font-size: 13px !important;
     line-height: 19px;
     color: #828282 !important;
+    letter-spacing: 0px;
 }
 
 .call-again-btn {

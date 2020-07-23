@@ -29,7 +29,10 @@ export default {
     name: 'App',
 
     computed: {
-        ...mapGetters(['isLoading'])
+        ...mapGetters(['isLoading']),
+        ...mapGetters({
+            user: "user"
+        }),
     }
 };
 </script>
@@ -69,5 +72,20 @@ export default {
     display: flex;
     align-items: flex-end;
     color: #BDBDBD;
+}
+
+.v-btn:hover:before,
+.v-btn:focus:before {
+    background-color: transparent;
+}   
+
+.v-card:hover:before,
+.v-card:focus:before {
+    background-color: transparent;
+}
+
+.v-checkbox:hover:before,
+.v-checkbox:focus:before {
+    background-color: transparent;
 }
 </style>

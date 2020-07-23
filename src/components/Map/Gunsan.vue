@@ -1,5 +1,46 @@
 <template>
 <div id="gunsan">
+    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; margin-top: -57px; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="transparent" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #FFF;">
+                    페이지 불러오는 중...
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+
+    <v-container fluid v-if="loading3 == true" style="display: flex; position: absolute; margin-top: -57px; height: 100%; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card color="#FFF" flat>
+                <v-card-text class="text-center">
+                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                </v-card-text>
+                <v-card-text class="text-center" style="color: #E61773;">
+                    위치 받아오는 중...
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+
+    <v-container fluid v-if="can == true" color="transparent" style="display: flex; position: absolute; height: 100%; margin-top: -57px; pointer-events: inherit !important; z-index: 20;">
+        <v-row align="center" justify="center">
+            <v-card style="margin-top: -57px; width: 100%; background: rgba(255, 255, 255, 0.7); box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);" flat tile>
+                <v-card-text class="text-center pa-0">
+                    <img src="../../assets/warning.svg" style="padding-top: 20px;">
+                    <p style="letter-spacing: -1px; margin: 0; padding-top: 6px; padding-bottom: 24px; font-size: 18px; font-weight: 500; color: #262626;">이 곳은 타시오 운행지역에서 너무 멀어요!</p>
+                    <p class="warningmsg" style="margin: 0;">셔틀이 출발지에 도착한 시점부터</p>
+                    <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">5분 내</span> 탑승이 완료되지 않으면</p>
+                    <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">호출이 자동 취소</span>되며 <span style="color: #EB5757 !important;">위약금이 발생</span>합니다.</p>
+                    <v-btn color="#E61773" tile depressed class="pa-0 pl-3 pr-3 goReturn" :ripple="false" @click="goBackGunsan">운행지역 지도로 돌아가기</v-btn>
+                </v-card-text>
+            </v-card>
+        </v-row>
+    </v-container>
+
     <v-container class="map-container pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
@@ -13,15 +54,15 @@
                             <span style="display: inline-block; width: 70%;">
                                 <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
                                     <img src="../../assets/person-count.svg">
-                                    <span v-if="count >= 1" style="padding-left: 12px;">탑승인원 {{ temp }}명</span>
-                                    <span v-else @click="selectPerson" style="color: #262626; padding-left: 12px;">탑승인원 선택</span>
+                                    <span v-if="temp >= 1" style="padding-left: 12px;" @click="selectPerson">탑승인원 {{ temp }}명</span>
+                                    <span v-else @click="beforeSelectPerson" style="color: #262626; padding-left: 12px; letter-spacing: 0.5px;">탑승인원 선택</span>
                                 </v-btn>
                             </span>
                         </template>
 
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
-                                <v-btn icon @click="dialog = false">
+                                <v-btn icon @click="closePersonDialog">
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -38,7 +79,7 @@
                                         <v-card flat tile>
                                             <v-card-text class="count">{{ count }}</v-card-text>
                                         </v-card>
-                                        <v-card :ripple="false" flat tile>
+                                        <v-card flat tile :ripple="false">
                                             <v-btn :class="{ 'is-disabled2': isDisabled2 }" :ripple="false" @click="increment" outlined color="#E61773" fab>
                                                 <v-icon dark>mdi-plus</v-icon>
                                             </v-btn>
@@ -71,25 +112,55 @@
                     </v-card>
 
                     <v-overlay :z-index="zIndex" :value="overlay1">
-                        <v-card color="#FFF" style="width: 312px; height: 287px;">
-                            <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="start_options" v-model="start" />
+                        <v-card style="width: 290px; height: 376px;" color="#FFF">
+                            <v-card-text class="pa-0" style="color: #333; height: 37px;">
+                                <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">출발지</span>
                             </v-card-text>
-                            <v-card-actions class="pa-0">
-                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay1=false; onChange();">
-                                    출발지 적용하기
+                            <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
+                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
+                                <v-list light tile style="padding: 8px 0 22px 0;">
+                                    <v-list-item-group color="#E61773">
+                                        <v-list-item class="pa-0" v-for="item in start_options" @click="clk(item,'start')" :key="item.value">
+                                            <v-list-item-content>
+                                                <v-list-item-title v-text="item.name" style="color: #333;"></v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                            <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay1 = false; onCancel('start');">
+                                    취소
+                                </v-btn>
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay1 = false; onChange();">
+                                    선택하기
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-overlay>
                     <v-overlay :z-index="zIndex" :value="overlay2">
-                        <v-card color="#FFF" style="width: 312px; height: 287px;">
-                            <v-card-text style="color: #000; width: 100%; height: 237px;">
-                                <scroll-picker style="top: 50%; margin-top: -70px; font-style: normal; font-weight: 500; font-size: 16px;" :options="end_options" v-model="end" />
+                        <v-card style="width: 290px; height: 376px;" color="#FFF">
+                            <v-card-text class="pa-0" style="color: #333; height: 37px;">
+                                <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">도착지</span>
                             </v-card-text>
-                            <v-card-actions class="pa-0">
-                                <v-btn tile block depressed color="#E61773" style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;" @click="overlay2=false; onChange();">
-                                    도착지 적용하기
+                            <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
+                            <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
+                                <v-list light tile style="padding: 8px 0 22px 0;">
+                                    <v-list-item-group color="#E61773">
+                                        <v-list-item class="pa-0" v-for="item2 in end_options" @click="clk(item2,'end')" :key="item2.value">
+                                            <v-list-item-content>
+                                                <v-list-item-title v-text="item2.name" style="color: #333;"></v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                            <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay2=false; onCancel('end');">
+                                    취소
+                                </v-btn>
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay2=false; onChange();">
+                                    선택하기
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -103,13 +174,13 @@
                             <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
-                                        <span v-if="start >= 0">{{ options[start].name }}</span>
-                                        <span v-else style="color: #BDBDBD">{{ startTemp }}</span>
+                                        <span v-if="start < 0 || start_point.name==startTemp" class="select_station">{{ startTemp }}</span>
+                                        <span v-else class="sel_station">{{ start_point.name }}</span>
                                     </v-card>
                                     <span class="divide-bar mt-2 mb-2"></span>
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay2 = !overlay2" flat>
-                                        <span v-if="end >= 0">{{ options[end].name }}</span>
-                                        <span v-else style="color: #BDBDBD">{{ endTemp }}</span>
+                                        <span v-if="end < 0 || end_point.name==endTemp" class="select_station">{{ endTemp }}</span>
+                                        <span v-else class="sel_station">{{ end_point.name }}</span>
                                     </v-card>
                                 </div>
                             </v-flex>
@@ -131,7 +202,7 @@
                                     <v-card-text class="pa-0 call-dialog-paymony">{{ totalPayment }}<span style="font-size: 14px !important;">원</span></v-card-text>
                                 </v-card-text>
 
-                                <v-card-text class="pa-3 text-center" style="padding-top: 13px !important;">
+                                <v-card-text class="pa-3 pb-0 text-center" style="padding-top: 13px !important;">
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
                                         <table style="width: 100%; border: none !important;">
                                             <tr>
@@ -146,21 +217,25 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('card')">신용카드 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116', 'card')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ red: isRed2 }" :ripple="false" @click="requestPay('phone')">휴대폰 결제</v-btn>
-                                        <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span>
+                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ not_red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
+                                        <!-- <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span> -->
+                                        <p class="payment_msg" v-if="isRed2 == true">휴대폰 결제 서비스는 준비중 입니다.</p>
+                                        <p class="payment_msg" v-else-if="isRed1 == true" style="color: transparent;">선택 완료</p>
+                                        <p class="payment_msg" v-else>결제 방식을 선택하세요.</p>
                                     </v-card>
                                 </v-card-text>
 
-                                <v-card flat class="pa-0 pt-2 d-flex align-self-end">
+                                <v-card flat class="pa-0 d-flex align-self-end" style="padding-top: 7px !important;">
                                     <v-container class="pa-0">
                                         <v-row no-gutters>
                                             <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="calldialog = false">취소</v-btn>
+                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="cancelCallDialog">취소</v-btn>
                                             </v-col>
                                             <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == 'card' || meth == 'phone'" @click="requestCallBtn">호출하기</v-btn>
+                                                <!-- <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116' || meth == '170622040674'" @click="requestCallBtn">호출하기</v-btn> -->
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116'" @click="requestCallBtn">호출하기</v-btn>
                                                 <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
                                             </v-col>
                                         </v-row>
@@ -177,6 +252,25 @@
 </template>
 
 <script>
+function calcDistance(lat1, lon1, lat2, lon2) {
+    var theta = lon1 - lon2;
+    var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+    dist = Math.acos(dist);
+    dist = rad2deg(dist);
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344;
+    return Number(dist * 1000).toFixed(2);
+}
+
+function deg2rad(deg) {
+    return (deg * Math.PI / 180);
+}
+
+function rad2deg(rad) {
+    return (rad * 180 / Math.PI);
+}
+
 import {
     mapGetters
 } from 'vuex'
@@ -187,30 +281,45 @@ export default {
     name: 'Gunsan',
 
     data: () => ({
+        loading: true,
+        loading1: true,
+        loading2: true,
+        loading3: false,
         res: true,
+        can: false,
         pageId: 1,
+        siteName: 'gunsan',
         map: null,
-        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [],
         data: null,
         options: [],
         station_arr: [],
-        startTemp: '출발지 선택',
-        endTemp: '도착지 선택 ',
-        start: '',
-        end: '',
+        startTemp: '출발지 선택하기',
+        endTemp: '도착지 선택하기',
+        start: -1,
+        end: -1,
+        start_point: {
+            name: '출발지 선택하기',
+            value: -1
+        },
+        end_point: {
+            name: '도착지 선택하기',
+            value: -1
+        },
         startId: [],
         endId: [],
         vehicle: [],
+        vehicle_id: 0,
         distanceKm: 0,
         minutes: 0,
         gunsanList: [],
         callBtn: false,
         dialog: false,
         calldialog: false,
-        count: 0,
+        count: 1,
         temp: 0,
         isDisabled1: true,
         isDisabled2: false,
@@ -226,10 +335,16 @@ export default {
         changeEnd: '',
         usermarker: '',
         meth: '',
+        pay_method: '',
         isRed1: false,
         isRed2: false,
         start_options: [],
-        end_options: []
+        end_options: [],
+        currentlocation: {
+            lat: '',
+            lon: ''
+        },
+        success: true
     }),
 
     computed: {
@@ -243,6 +358,7 @@ export default {
     },
 
     created() {
+        console.log('gunsan uid: ', this.user.data.uid);
         this.getStation();
         this.getVehicle();
 
@@ -261,11 +377,39 @@ export default {
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
 
         // Map View Center Load
-        this.map.setView([35.812484, 126.4091], 15);
+        this.map.setView([35.812484, 126.4101], 15);
+        this.map.locate({
+            setView: false,
+            enableHighAccuracy: true
+        }).on("locationfound", e => {
+            console.log(e)
+            this.currentlocation = {
+                lat: e.latitude,
+                lon: e.longitude
+            }
+        })
+    },
+
+    watch: {
+        currentlocation() {
+            for (let i = 0; i < this.gunsanList.length; i++) {
+                if (1000 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    this.success = true;
+                    this.can = false;
+                    break;
+                } else {
+                    this.success = false;
+                    this.can = true;
+                    continue;
+                }
+            }
+
+            return this.success;
+        }
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
+        if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
@@ -273,55 +417,96 @@ export default {
     },
 
     methods: {
+        clk(item, mode) {
+            mode == "start" ? this.start_point = item : this.end_point = item;
+        },
+
         getLocation() {
+            console.log('success: ', this.compareLocatoin());
+            console.log('currentlocation: ', this.currentlocation);
+            this.loading3 = true;
+
             this.map.locate({
                 setView: true,
-                maxZoom: 18,
                 watch: true,
                 enableHighAccuracy: true
-            }).on("locationfound", e => {
-                console.log('Location found: ' + e.latitude + e.longitude);
-                if (!this.usermarker) {
-                    let currentUser = this.$utils.map.createIcon({
-                        iconUrl: require("../../assets/current.svg"),
-                        iconSize: [17, 17]
-                    });
-
-                    return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
-                        icon: currentUser
-                    });
-
-                } else {
-                    return this.usermarker.setLatLng(e.latlng);
+            }).on('locationfound', e => {
+                this.currentlocation = {
+                    lat: e.latitude,
+                    lon: e.longitude
                 }
-            }).on("locationerror", error => {
+                if (this.compareLocatoin() == true) {
+                    this.can = false; // 운행지역 모달
+                    this.res = false; // stopLocation()
+
+                    if (!this.usermarker) {
+                        this.loading3 = false;
+
+                        let currentUser = this.$utils.map.createDiv({
+                            html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
+                            iconSize: [0, 0]
+                        });
+
+                        return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                            icon: currentUser
+                        });
+
+                    } else {
+                        return this.usermarker.setLatLng(e.latlng);
+                    }
+                } else {
+                    this.can = true;
+                    this.loading3 = false;
+                    this.res = true;
+                }
+            }).on('locationerror', error => {
+                console.log('Location error:', error);
+                this.loading3 = false;
+
                 this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
                     theme: "bubble",
                     position: "top-center"
-                }).goAway(2000);
+                });
 
-                console.log('Location error:', error);
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
                     this.usermarker = null;
                 }
-            })
-            this.res = false;
+            });
         },
 
         stopLocation() {
+            this.res = true; // getLocation()
+            this.map.stopLocate();
+            this.map.setView([35.812484, 126.4091], 15);
             if (this.usermarker != null || this.usermarker != undefined) {
                 this.map.removeLayer(this.usermarker);
                 this.usermarker = null;
-                this.map.stopLocate();
-                this.map.setView([35.812484, 126.4091], 15);
-                console.log('stopLocation usermarker', this.usermarker);
             }
+            console.log('stopLocation usermarker', this.usermarker);
+        },
 
-            this.res = true;
+        compareLocatoin() {
+            this.success = false;
+            for (let i = 0; i < this.gunsanList.length; i++) { // 하나 정류장에라도 가까이 있으면 success true
+                if (800 > calcDistance(this.gunsanList[i].lat, this.gunsanList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    this.success = true;
+                    break;
+                } else {
+                    this.success = false;
+                    continue;
+                }
+            }
+            return this.success;
+        },
+
+        goBackGunsan() {
+            this.can = false;
+            this.stopLocation();
         },
 
         increment() {
+            console.log('increment: ', this.count);
             this.count += 1;
 
             if (this.count >= 14) {
@@ -340,9 +525,10 @@ export default {
         },
 
         decrement() {
+            console.log('decrement: ', this.count);
             this.count -= 1;
 
-            if (this.count <= 1) {
+            if (this.count < 2) {
                 this.isDisabled1 = true;
                 this.count = 1;
             } else {
@@ -357,8 +543,39 @@ export default {
             }
         },
 
+        async beforeSelectPerson() {
+            if (this.count == 0) {
+                this.count = 1;
+                this.isDisabled1 = true;
+                this.isDisabled2 = false;
+            }
+        },
+
         selectPerson() {
-            this.count = 1;
+            if (this.count < 2) {
+                this.isDisabled1 = true;
+            } else {
+                this.isDisabled1 = false;
+            }
+
+            if (this.count >= 14) {
+                this.isDisabled2 = true;
+            } else {
+                this.isDisabled2 = false;
+            }
+        },
+
+        closePersonDialog() {
+            console.log('count: ', this.count);
+            this.dialog = false;
+            if (this.temp != 0) {
+                this.count = this.temp;
+            } else {
+                this.count = 1;
+                this.isDisabled1 = true;
+                this.isDisabled2 = false;
+            }
+            console.log('이게 진짜지롱!', this.temp);
         },
 
         rideCount() {
@@ -367,19 +584,11 @@ export default {
         },
 
         switchDestination() {
-            if (this.start >= 0 && this.end >= 0 && this.start > this.end && this.start != this.end) {
-                var change = this.start;
-                this.start = this.end;
-                this.end = change;
-                this.onChange();
-            } else {
-                this.$toasted.show("지원하지 않는 경로입니다...", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(800);
+            var change = this.start_point;
+            this.start_point = this.end_point;
+            this.end_point = change;
+            this.onChange();
 
-                this.callBtn = false;
-            }
         },
 
         addMarker() {
@@ -398,7 +607,7 @@ export default {
         addRouting(waypoints) {
             control = this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
@@ -433,14 +642,68 @@ export default {
                                 });
                             }
                         }
+
+                        this.loading1 = false;
+                        if (this.loading1 == false && this.loading2 == false) {
+                            this.loading = false;
+                        }
                     }
 
-                    for (var arr of this.gunsanList) {
-                        this.waypoints.push({
-                            lat: arr.lat,
-                            lng: arr.lon
-                        });
-                    }
+                    console.log('gunsanList', this.gunsanList);
+                    // 19 -> 10 -> 12 -> 13 -> 11 -> 18 -> 09 (다시) -> 19
+                    // 상행선: 9 -> 19 -> 10 -> 12 -> 13
+                    // 하행선: 13 -> 11 -> 18 -> 9
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                    /* this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }) */
+
+                    // for (var arr of this.gunsanList) {
+                    //     this.waypoints.push({
+                    //         lat: arr.lat,
+                    //         lng: arr.lon
+                    //     });
+                    // }
 
                     for (var [i, arr2] of this.gunsanList.entries()) {
                         this.options.push({
@@ -452,9 +715,6 @@ export default {
                     this.start_options = this.options;
                     this.end_options = this.options;
 
-                    console.log('start_options', this.start_options);
-                    console.log('end_options', this.end_options);
-
                     await this.addMarker();
                     await this.addRouting(this.waypoints);
                 }).catch(error => {
@@ -464,72 +724,471 @@ export default {
                 })
         },
 
+        onCancel(state) {
+            state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
+        },
+
         async onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
 
-            // 선택한 정류장 목록을 지워줘야한다.
-            // 선택한 정류장 목록을 지워주는 배열 하나 추가?
-            console.log('options: ', this.options);
-            console.log('선택한 출발지: ', this.start);
-            console.log('선택한 도착지: ', this.end);
-            this.start_options = this.options.filter(opt => opt.value != this.end);
-            this.end_options = this.options.filter(opt => opt.value != this.start);
+            this.start = this.start_point.value;
+            this.end = this.end_point.value;
+
+            this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
+            this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
+
+            this.station_startId = this.gunsanList[this.start].id;
+            this.station_endId = this.gunsanList[this.end].id;
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
-                iconSize: [40, 40]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
             });
             let endIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/end-icon.svg"),
-                iconSize: [40, 40]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
             });
 
-            if (this.start >= 0 && this.end >= 0) {
-                if (this.start < this.end) {
-                    for (let i = this.start; i <= this.end; i++) {
-                        await this.waypoints.push({
-                            lat: this.gunsanList[i].lat,
-                            lng: this.gunsanList[i].lon
-                        })
-                    }
-
-                    this.map.removeLayer(this.start_icon)
-                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
-                        icon: startIcon
+            if (this.start == 0) {
+                if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
                     })
-                    this.map.removeLayer(this.end_icon)
-                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
-                        icon: endIcon
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
                     })
-                    this.map.removeLayer(endIcon)
-
-                } else if (this.start > this.end || this.start == this.end) {
-                    this.$toasted.show("지원하지 않는 경로입니다...", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(800);
-
-                    for (var arr of this.gunsanList) {
-                        await this.waypoints.push({
-                            lat: arr.lat,
-                            lng: arr.lon
-                        });
-                    }
-
-                    this.start = -1;
-                    this.end = -1;
-
-                    this.map.removeLayer(this.start_icon);
-                    this.map.removeLayer(this.end_icon);
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    })
+                } else if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                } else if (this.end == 2 || this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
                 }
-
-                // SET New Routing
-                this.addRouting(this.waypoints);
-                this.totalDistance();
             }
+            if (this.start == 6) {
+                if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    })
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    })
+                } else if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                } else if (this.end == 2 || this.end == 5 || this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[6].lat,
+                        lng: this.gunsanList[6].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                }
+            }
+            if (this.start == 1) {
+                if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    })
+                } else if (this.end == 4 || this.end == 2 || this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                } else if (this.end == 0 || this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[1].lat,
+                        lng: this.gunsanList[1].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                }
+            }
+            if (this.start == 3) {
+                if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                } else if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    })
+                }
+            }
+
+            if (this.start == 4) {
+                if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    })
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0 || this.end == 6 || this.end == 1 || this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                }
+            }
+            if (this.start == 2) {
+                if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    })
+                } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[2].lat,
+                        lng: this.gunsanList[2].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                }
+            }
+
+            if (this.start == 5) {
+                if (this.end == 0 || this.end == 6 || this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                } else if (this.end == 4 || this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.gunsanList[4].lat,
+                        lng: this.gunsanList[4].lon
+                    }, {
+                        lat: this.gunsanList[3].lat,
+                        lng: this.gunsanList[3].lon
+                    }, {
+                        lat: this.gunsanList[5].lat,
+                        lng: this.gunsanList[5].lon
+                    }, {
+                        lat: this.gunsanList[0].lat,
+                        lng: this.gunsanList[0].lon
+                    })
+                }
+            }
+            /* this.waypoints.push({
+                lat: this.gunsanList[0].lat,
+                lng: this.gunsanList[0].lon
+            }, {
+                lat: this.gunsanList[6].lat,
+                lng: this.gunsanList[6].lon
+            }, {
+                lat: this.gunsanList[1].lat,
+                lng: this.gunsanList[1].lon
+            }, {
+                lat: this.gunsanList[5].lat,
+                lng: this.gunsanList[5].lon
+            }, {
+                lat: this.gunsanList[2].lat,
+                lng: this.gunsanList[2].lon
+            }, {
+                lat: this.gunsanList[3].lat,
+                lng: this.gunsanList[3].lon
+            }, {
+                lat: this.gunsanList[4].lat,
+                lng: this.gunsanList[4].lon
+            }) */
+
+            this.map.removeLayer(this.start_icon)
+            this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+                icon: startIcon
+            });
+            this.map.removeLayer(this.end_icon)
+            this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+                icon: endIcon
+            });
+            this.map.removeLayer(endIcon);
+
+            // SET New Routing
+            this.addRouting(this.waypoints);
+            this.getEta();
+            // this.totalDistance();
         },
+
+        // async onChange() {
+        //     // REMOVE Default Routing
+        //     control.spliceWaypoints(0, 6);
+        //     this.waypoints = [];
+
+        //     this.start_options = this.options.filter(opt => opt.value != this.end);
+        //     this.end_options = this.options.filter(opt => opt.value != this.start);
+
+        //     let startIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/start-icon.svg"),
+        //         iconSize: [40, 40]
+        //     });
+        //     let endIcon = this.$utils.map.createIcon({
+        //         iconUrl: require("../../assets/end-icon.svg"),
+        //         iconSize: [40, 40]
+        //     });
+
+        //     if (this.start >= 0 && this.end >= 0) {
+        //         if (this.start < this.end) {
+        //             for (let i = this.start; i <= this.end; i++) {
+        //                 await this.waypoints.push({
+        //                     lat: this.gunsanList[i].lat,
+        //                     lng: this.gunsanList[i].lon
+        //                 })
+        //             }
+
+        //             this.map.removeLayer(this.start_icon)
+        //             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.start].lat, this.gunsanList[this.start].lon], {
+        //                 icon: startIcon
+        //             })
+        //             this.map.removeLayer(this.end_icon)
+        //             this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon], {
+        //                 icon: endIcon
+        //             })
+        //             this.map.removeLayer(endIcon)
+
+        //         } else if (this.start > this.end || this.start == this.end) {
+        //             this.$toasted.show("지원하지 않는 경로입니다...", {
+        //                 theme: "bubble",
+        //                 position: "top-center"
+        //             }).goAway(800);
+
+        //             for (var arr of this.gunsanList) {
+        //                 await this.waypoints.push({
+        //                     lat: arr.lat,
+        //                     lng: arr.lon
+        //                 });
+        //             }
+
+        //             this.start = -1;
+        //             this.end = -1;
+
+        //             this.map.removeLayer(this.start_icon);
+        //             this.map.removeLayer(this.end_icon);
+        //         }
+
+        //         // SET New Routing
+        //         this.addRouting(this.waypoints);
+        //         this.totalDistance();
+        //     }
+        // },
 
         totalDistance() {
             control.on('routesfound', (e) => {
@@ -542,9 +1201,11 @@ export default {
         getVehicle() {
             axios.get('/api/vehicles/')
                 .then(async response => {
+                    var vehicle_arr = [];
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     });
+                    console.log(vehicle_data)
                     var vehicleCount = Object.keys(vehicle_data).length;
                     for (let i = 0; i < vehicleCount; i++) {
                         if (vehicle_data[i].site == 1) {
@@ -558,8 +1219,16 @@ export default {
                                     icon: vehicleIcon
                                 });
                             }
+                            vehicle_arr.push(vehicle_data[i].id);
+                            this.vehicle_id = vehicle_arr[0];
+
+                            this.loading2 = false;
+                            if (this.loading1 == false && this.loading2 == false) {
+                                this.loading = false;
+                            }
                         }
                     }
+                    console.log(this.vehicle_id)
                 }).catch(error => {
                     console.log(error);
                 })
@@ -583,6 +1252,22 @@ export default {
             }.bind(this), 1000);
         },
 
+        getEta() {
+            console.log('stationList', this.gunsanList);
+            var eta = JSON.parse(this.gunsanList[this.start].eta);
+            var etaVehicle = 0;
+            var etaTime = 0;
+            console.log('eta', eta);
+            for (let key in eta) {
+                etaVehicle = key;
+                etaTime = eta[key];
+            }
+            console.log('etaVehicle', etaVehicle);
+            this.minutes = etaTime;
+            console.log('minutes', this.minutes);
+
+        },
+
         requestCallBtn() {
             var totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 
@@ -591,10 +1276,10 @@ export default {
             // 가맹점 식별코드
             IMP.init("imp19092456");
 
-            // 결제창 호출 코드
+            // // 결제창 호출 코드
             IMP.request_pay({ // param
-                pg: 'mobilians', // PG사명
-                pay_method: this.meth, // 결제수단
+                pg: `mobilians.${this.meth}`, // PG사명
+                pay_method: this.pay_method, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
                 name: '타시오 결제', // 주문명
                 amount: totalPayment, // 결제할 금액 (필수 항목)
@@ -603,23 +1288,35 @@ export default {
                 buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
                 buyer_addr: '', // 주문자 주소 (선택 항목)
                 buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
-                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&count=${this.count}&minutes=${this.minutes}`
+                custom_data: {
+                    imp_uid: this.user.data.uid,
+                    count: this.count
+                }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`
+                // m_redirect_url: `http://service.tasio.io:1994/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
-        requestPay(meth) {
-            if (meth == 'card') {
+        requestPay(meth, pay_method) {
+            if (meth == '191029079116' && pay_method == 'card') {
                 this.isRed1 = true;
                 this.isRed2 = false;
-                console.log(this.isRed1);
                 this.meth = meth;
-            } else {
+                this.pay_method = pay_method;
+            } else if (meth == '170622040674' && pay_method == 'phone') {
                 this.isRed1 = false;
                 this.isRed2 = true;
                 this.meth = meth;
+                this.pay_method = pay_method;
             }
         },
+
+        cancelCallDialog() {
+            this.calldialog = false;
+            this.isRed1 = false;
+            this.isRed2 = false;
+            this.meth = '';
+        }
     }
 }
 </script>
@@ -640,6 +1337,22 @@ export default {
     font-size: 14px;
     text-align: center;
     color: #BDBDBD;
+}
+
+.select_station {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #BDBDBD;
+}
+
+.sel_station {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #262626;
 }
 
 .select-person-btn {
@@ -712,6 +1425,7 @@ export default {
     font-weight: 500;
     font-size: 16px !important;
     color: #262626 !important;
+    letter-spacing: 1px;
 }
 
 .call-dialog-btn {
@@ -720,11 +1434,35 @@ export default {
     font-weight: 500;
     font-size: 16px !important;
     color: #FFFFFF !important;
+    letter-spacing: 1px;
+}
+
+.warningmsg {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px !important;
+    color: #262626;
+    letter-spacing: -0.5px;
+}
+
+.goReturn {
+    width: 196px;
+    height: 41px !important;
+    background: #E61773;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
+    border-radius: 0;
+    margin-top: 15px !important;
+    margin-bottom: 18px !important;
+    letter-spacing: 0px;
 }
 
 .paymentMethod {
     position: relative;
-
     width: 116px !important;
     height: 49px !important;
     border: 1px solid #BDBDBD !important;
@@ -745,6 +1483,12 @@ export default {
     background: #FFF;
 }
 
+.not_red {
+    background: #F2F2F2 !important;
+    border: 1px solid #E0E0E0 !important;
+    color: #BDBDBD !important;
+}
+
 .check-state {
     position: absolute;
     right: 140px;
@@ -753,6 +1497,17 @@ export default {
 .check-state2 {
     position: absolute;
     right: 0;
+}
+
+.payment_msg {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #EB5757;
+    text-align: left !important;
+    margin: 0px;
+    padding-top: 3px;
 }
 
 .v-btn:before {

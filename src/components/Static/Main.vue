@@ -81,8 +81,8 @@ export default {
                 color: '#F2F2F2',
                 hidden: false,
             }
-        ],
-    }),
+        ]
+    })
 }
 </script>
 

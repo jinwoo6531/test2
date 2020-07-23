@@ -17,6 +17,11 @@ const createIcon = options => {
     return $L.icon(options)
 }
 
+const createDiv = options => {
+    return $L.divIcon(options)
+}
+
+
 /**
  *
  * @param {Object} map
@@ -56,6 +61,7 @@ export default {
     createMap,
     createTileLayer,
     createIcon,
+    createDiv,
     createMakerByXY,
     createRouting,
     updateMarkerByXY

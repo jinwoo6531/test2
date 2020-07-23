@@ -1,18 +1,5 @@
 <template>
 <v-app style="position: relative;">
-    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
-        <v-row align="center" justify="center">
-            <v-card color="transparent" flat>
-                <v-card-text class="text-center">
-                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
-                </v-card-text>
-                <v-card-text class="text-center" style="color: #FFF;">
-                    결제 정보를 처리하는 중입니다...
-                </v-card-text>
-            </v-card>
-        </v-row>
-    </v-container>
-
     <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
         <div class="circle"></div>
         <div class="start-info">
@@ -58,105 +45,269 @@
 </template>
 
 <script>
+import {  mapState } from 'vuex'
+import axios from 'axios'
+
 export default {
     name: 'CallingLayout',
 
     data: () => ({
-        loading: true,
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
-        logs: [],
+        isrefund: '',
+        latest_mid: '',
+        displayName: '',
         status: 'disconnected',
-        connection: null
+        webSocketData: {},
+        webSocketData2: {},
+        timeCount: 0
     }),
 
+    computed: {
+        ...mapState(['uid'])
+    },
+
     created() {
-        // Web Socket
-        this.connection = new WebSocket("ws://115.93.143.2:9103/ws/vehicle");
+        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+            .then(response => {
+                this.displayName = response.data.displayName;
+                this.isrefund = response.data.isrefund;
+                this.latest_mid = response.data.latest_mid;
 
-        // 연결이 성공적으로 열릴 때
-        this.connection.onopen = (event) => {
-            console.log('connection onopen: ', event)
-            this.status = "Successfully connected to 9103 WebSocket Server"
-            console.log(this.status)
-        }
-        // 설정한 WebSocket 연결이 메시지를 받을 때마다
-        this.connection.onmessage = (event) => {
-            console.log('connection onmessage: ', event)
-            // 여기에 배차 정보 로직을 구현한다.
-            // alive check를 해주는 것이 중요하다.
-            // -> 핑을 보냈는데 서버에서 5초 안에 퐁이 안오면 다시 핑을 보내주어야한다.
-        }
-
-        // ☆만약에 ping이 안들어올 때, 연결이 끊어질 때 다시 연결될 수 있게하기!!★
+                this.onOpenWebsocket();
+                this.onMessageWebSocket();
+            }).catch(error => {
+                console.log('User read: ', error);
+            })
 
     },
 
     mounted() {
-        this.site = this.$route.query.site
-        this.start = this.$route.query.start
-        this.end = this.$route.query.end
-        this.startName = this.$route.query.startName
-        this.endName = this.$route.query.endName
-        this.count = this.$route.query.count
-        this.minutes = this.$route.query.minutes
-        this.ready = true
+        this.site = this.$route.query.site;
+        this.start = this.$route.query.start;
+        this.end = this.$route.query.end;
+        this.station_startId = parseInt(this.$route.query.station_startId);
+        this.station_endId = parseInt(this.$route.query.station_endId);
+        this.startName = this.$route.query.startName;
+        this.endName = this.$route.query.endName;
+        this.count = this.$route.query.count;
+        this.minutes = this.$route.query.minutes;
 
-        this.loadingTime = setTimeout(() => {
-            this.loading = false
-        }, 1500);
+        this.ready = true;
 
-        this.callingShuttle = setTimeout(() => {
+        this.waitTimer = setTimeout(() => {
+            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
+        }, 60000);
+
+        this.failTimer = setTimeout(() => {
             this.$router.replace({
-                name: "CallingShuttle",
-                params: {
+                name: "CallFail",
+                query: {
                     site: this.site,
                     start: this.start,
                     end: this.end,
+                    station_startId: this.station_startId,
+                    station_endId: this.station_endId,
                     startName: this.startName,
                     endName: this.endName,
                     count: this.count,
-                    minutes: this.minutes
+                    minutes: this.minutes,
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
                 }
-            })
-        }, 3000)
-
-        //     setTimeout(() => {
-        //         this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...'
-        //     }, 60000)
-
-        // setTimeout(() => {
-        //     this.$router.replace('/fail')
-        // }, 180000)
+            });
+        }, 120000);
     },
 
-    destroyed() {
-        clearTimeout(this.loadingTime)
-        clearTimeout(this.callingShuttle)
+    watch: {
+        socket() {
+            let webSocketError = this.socket.onerror = (error) => {
+                this.$toasted.show(`WebSocket 서버와 통신 중에 에러가 발생했습니다.  ${error}`, {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            };
+
+            let webSocketClose = this.socket.onclose = () => {
+                this.$toasted.show('WebSocket 서버와 접속이 끊기면 호출되는 함수', {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+            };
+
+            if (webSocketError || webSocketClose) {
+                this.disconnect();
+                this.onOpenWebsocket();
+                this.onMessageWebSocket();
+            }
+        }
     },
 
     methods: {
         callCancelModal() {
-            this.$toasted.show("호출을 정말로 취소하세요?", {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(2000);
+            // WebSocket Cancel
+            this.cancleMessage();
+            this.disconnect();
+            
+            if (this.isrefund == '0') {
+                axios({
+                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
+                    method: "post",
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        merchant_uid: this.latest_mid, // 주문번호 *
+                        reason: "타시오 호출 취소", // 환불 사유 *,
+                        cancel_request_amount: 1000 * parseInt(this.count)
+                    }
+                }).then(response => {
+                    alert('환불 완료: ', response)
+                    alert('latest_mid: ', this.latest_mid)
+                    this.$toasted.show("호출이 취소되었습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
 
-            this.$router.replace('/')
+                    if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
+                }).catch(error => {
+                    console.log('환불 실패', error)
+                    this.$toasted.show("환불을 실패하였습니다.", {
+                        theme: "bubble",
+                        position: "top-center"
+                    }).goAway(2000);
+                    if (this.site == 1) {
+                        this.$router.replace('/map/gunsan');
+                    } else if (this.site == 2) {
+                        this.$router.replace('/map/daegu');
+                    } else if (this.site == 3) {
+                        this.$router.replace('/map/sejong');
+                    } else if (this.site == 4) {
+                        this.$router.replace('/map/sangam');
+                    }
+                })
+            } else {
+                this.$toasted.show("결제하신 내역이 없습니다.", {
+                    theme: "bubble",
+                    position: "top-center"
+                }).goAway(2000);
+
+                if (this.site == 1) {
+                    this.$router.replace('/map/gunsan');
+                } else if (this.site == 2) {
+                    this.$router.replace('/map/daegu');
+                } else if (this.site == 3) {
+                    this.$router.replace('/map/sejong');
+                } else if (this.site == 4) {
+                    this.$router.replace('/map/sangam');
+                }
+            }
         },
 
-        sendMessage(message) {
-            // 우리가 보내고 싶은 메세지
-            console.log('sendMessage connection: ', this.connection)
-            // 아직 서버에서 보내만주지 send를 하지는 않기 때문에 작동하지 않는다!
-            this.connection.send(message)
+        onOpenWebsocket() {
+            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket.onopen = (event) => {
+                console.log('onopen', event);
+                this.sendMessage();
+            }
         },
+
+        onMessageWebSocket() {
+            this.socket.onmessage = ({
+                data
+            }) => { // websocket에 있는 정보들을 받는다.
+                this.webSocketData = JSON.parse(data);
+                console.log('webSocketData: ', this.webSocketData);
+                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go') {
+                    this.$router.replace({
+                        name: "CallingShuttle",
+                        params: {
+                            socket: this.socket,
+                            vehicle_id: this.webSocketData.how.vehicle_id, // vehicle의 ID(number)
+                            vehicle_mid: this.webSocketData.how.vehicle_mid, // vheicle의 관리 ID(string)
+                            site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
+                            eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
+                            current_station_id: this.start,
+                            target_station_id: this.end,
+                            passenger: this.count
+                        }
+                    })
+
+                }
+            };
+        },
+
+        sendMessage() { // ondemand 측에서 보내줘야 할 데이터
+            this.webSocketData = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    function: 'call',
+                    current_station_id: parseInt(this.$route.query.station_startId),
+                    target_station_id: parseInt(this.$route.query.station_endId),
+                    passenger: parseInt(this.$route.query.count),
+                    passenger_name: this.displayName
+                }
+            };
+
+            /* this.webSocketData = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: 4,
+                    function: 'call',
+                    current_station_id: 9,
+                    target_station_id: 10,
+                    passenger: 2,
+                    passenger_name: 'asdf'
+                }
+            }; */
+
+            this.socket.send(JSON.stringify(this.webSocketData));
+        },
+
+        cancleMessage() {
+            this.webSocketData2 = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    function: 'cancel_call',
+                    current_station_id: parseInt(this.$route.query.station_startId),
+                    target_station_id: parseInt(this.$route.query.station_endId),
+                    passenger: parseInt(this.$route.query.count),
+                    passenger_name: this.displayName,
+                }
+            };
+
+            this.socket.send(JSON.stringify(this.webSocketData2));
+        },  
 
         disconnect() {
-            this.connection.close()
-            console.log("socket close")
-            this.status = false
+            this.socket.close();
+            this.status = "disconnected";
+            console.log('socket', this.status);
         }
+    },
+
+    destroyed() {
+        // this.disconnect();
+        clearTimeout(this.waitTimer);
+        clearTimeout(this.failTimer);
     }
 }
 </script>

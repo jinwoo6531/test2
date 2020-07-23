@@ -218,7 +218,7 @@
                                         본인 확인을 위해 <br>
                                         회원가입 시 사용한 휴대전화번호를 입력해주세요.
                                     </v-card-text>
-                                    <v-text-field v-model="inputPhoneNumber" label="휴대전화 번호를 입력해주세요" color="#828282" class="pb-2 bye-check-field" single-line outlined flat full-width hide-details></v-text-field>
+                                    <v-text-field type="number" v-model="inputPhoneNumber" label="휴대전화 번호를 입력해주세요" color="#828282" class="pb-2 bye-check-field" single-line outlined flat full-width hide-details></v-text-field>
                                     <v-card-text class="pa-0 pb-4 error-rule" v-if="errorRule1 == true">휴대전화번호를 입력해주세요.</v-card-text>
                                     <v-select v-model="byeReason" :items="secession" item-text="title" item-value="value" label="탈퇴 사유를 선택해주세요" color="#828282" class="bye-check-field" item-color="#828282" return-object single-line outlined flat full-width hide-details></v-select>
                                     <v-text-field v-model="byeEtcReason" label="기타 사유를 입력해주세요." color="#828282" class="bye-check-field pt-2" v-if="etc == true" single-line outlined flat full-width hide-details></v-text-field>
@@ -325,6 +325,11 @@ export default {
             let mid = String(this.user.data.phoneNumber).substring(5, 9);
             let end = String(this.user.data.phoneNumber).substring(9, 13);
             return '0' + start + '-' + mid + '-' + end;
+        },
+
+        deletePhoneNumber() {
+            let start = String(this.user.data.phoneNumber).substring(3, 13);
+            return '0' + start;
         }
     },
 
@@ -390,7 +395,7 @@ export default {
 
     methods: {
         async getUser() {
-            await axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            await axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(async response => {
                     this.displayName = response.data.displayName;
                     this.email = response.data.email;
@@ -488,7 +493,7 @@ export default {
         },
 
         nochangeDisplayName() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.displayName = response.data.displayName;
                     this.namedialog = false;
@@ -498,7 +503,7 @@ export default {
         },
 
         nochangeEmail() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.email = response.data.email;
                     this.emaildialog = false;
@@ -508,7 +513,7 @@ export default {
         },
 
         nochangeGender() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.gender = response.data.gender;
                     this.genderdialog = false;
@@ -518,7 +523,7 @@ export default {
         },
 
         nochangeBirth() {
-            axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.birth = response.data.birth;
                     this.birthdialog = false;
@@ -538,8 +543,9 @@ export default {
         },
 
         deleteUser() {
-            if (this.inputPhoneNumber == this.getPhoneNumber) {
-                axios.get('http://service.tasio.io:5000/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
+            if (this.inputPhoneNumber == this.deletePhoneNumber) {
+                console.log(this.user.data.uid)
+                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         this.$toasted.show("회원 탈퇴 완료!", {
                             theme: "bubble",

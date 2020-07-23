@@ -17,7 +17,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0">
-            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn">확인</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn" @click="goToSite">확인</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
@@ -25,8 +25,25 @@
 
 <script>
 export default {
-    name: 'Thanks'
+    name: 'Thanks',
 
+    mounted() {
+        this.site = this.$route.params.site;
+    },
+
+    methods: {
+        goToSite() {
+            if (this.site == 1) {
+                this.$router.replace('/map/gunsan');
+            } else if (this.site == 2) {
+                this.$router.replace('/map/daegu');
+            } else if (this.site == 3) {
+                this.$router.replace('/map/sejong');
+            } else if (this.site == 4) {
+                this.$router.replace('/map/sangam');
+            }
+        }
+    }
 }
 </script>
 

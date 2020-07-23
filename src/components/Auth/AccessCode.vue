@@ -59,9 +59,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     data: () => ({
@@ -108,11 +106,12 @@ export default {
 
     beforeDestroy() {
         clearInterval(this.polling);
+        this.remainTime;
     },
 
     methods: {
         goToBack() {
-            this.$router.go(-1)
+            this.$router.go(-1);
         },
 
         handleOnComplete(value) {
@@ -137,13 +136,14 @@ export default {
             this.minutes = parseInt(second / 60);
             this.seconds = second % 60;
 
-            if (this.minutes < 10) this.minutes = '0' + this.minutes
-            if (this.seconds < 10) this.seconds = '0' + this.seconds
+            if (this.minutes < 10) this.minutes = '0' + this.minutes;
+            if (this.seconds < 10) this.seconds = '0' + this.seconds;
 
             this.remainTime = this.minutes + ":" + this.seconds;
             if (this.minutes <= 0 && this.seconds <= 0) {
                 this.timeStop();
                 this.doneTime = "인증번호 유효시간이 만료 됐습니다.";
+                this.ready = '';
             }
         },
 

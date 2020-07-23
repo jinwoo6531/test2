@@ -95,7 +95,7 @@ export default {
     data: () => ({
         pageId: 4,
         map: null,
-        OSMUrl: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png",
+        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [{
@@ -179,7 +179,7 @@ export default {
         addRouting(waypoints) {
             control = this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'http://115.93.143.2:8104/route/v1',
+                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,

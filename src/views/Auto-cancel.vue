@@ -16,7 +16,7 @@
                     <v-divider class="ml-5 mr-5"></v-divider>
                     <v-row class="ma-0 pl-9 pr-9" style="padding-top: 14px;">
                         <v-col class="pa-0 cancel-info2">총 탑승요금</v-col>
-                        <v-col class="pa-0 cancel-info3">1,000원</v-col>
+                        <v-col class="pa-0 cancel-info3">{{ 1000 * parseInt(this.count) }}</v-col>
                     </v-row>
                     <v-row class="ma-0 pl-9 pr-9" style="padding-bottom: 13px !important;">
                         <v-col class="pa-0 cancel-info2">x 위약금</v-col>
@@ -25,7 +25,7 @@
                     <v-divider class="ml-5 mr-5"></v-divider>
                     <v-row class="ma-0 pl-9 pr-9">
                         <v-col class="pa-0 pt-4 cancel-info5" style="text-align: left;">취소 위약금</v-col>
-                        <v-col class="pa-0 pt-2 cancel-info6" style="text-align: right;">500<span style="font-size: 14px !important;">원</span></v-col>
+                        <v-col class="pa-0 pt-2 cancel-info6" style="text-align: right;">{{ 500 * parseInt(this.count) }}<span style="font-size: 14px !important;">원</span></v-col>
                     </v-row>
                 </v-card>
             </v-card>
@@ -37,18 +37,18 @@
                     5분이 지났지만 탑승이 확인되지 않았어요.
                 </v-card-text>
                 <v-card-text class="why-not-ride pa-0 pt-4">
-                    탑승요금 2,000원의 50%가 <br>
+                    탑승요금 {{ 1000 * parseInt(this.count) }}원의 50%가 <br>
                     취소 위약금으로 발생하며 차액은 환불됩니다.
                 </v-card-text>
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="justify-center text-center pa-6 pt-0">
             <v-card class="text-center" color="transparent" flat tile>
-                
+
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pa-6">
-            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn">확인</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="ok-btn" @click="goToMain">확인</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
@@ -56,7 +56,33 @@
 
 <script>
 export default {
-    name: 'AutoCancel'
+    name: 'AutoCancel',
+
+    data:() => ({
+        count: 0
+    }),
+
+    computed: {
+        allPay() {
+            let pay = 1000 * parseInt(this.count);
+            return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+
+        payment() {
+            let pay = 500 * parseInt(this.count);
+            return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    },
+
+    mounted() {
+        this.count = this.$route.query.passenger_count;
+    },
+
+    methods: {
+        goToMain() {
+            this.$router.replace('/');
+        }
+    }
 
 }
 </script>
