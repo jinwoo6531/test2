@@ -160,9 +160,7 @@ export default {
                         reason: "타시오 호출 취소", // 환불 사유 *,
                         cancel_request_amount: 1000 * parseInt(this.count)
                     }
-                }).then(response => {
-                    alert('환불 완료: ', response)
-                    alert('latest_mid: ', this.latest_mid)
+                }).then(() => {
                     this.$toasted.show("호출이 취소되었습니다.", {
                         theme: "bubble",
                         position: "top-center"
