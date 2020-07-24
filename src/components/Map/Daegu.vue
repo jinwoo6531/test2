@@ -500,12 +500,11 @@ export default {
                 this.map.removeLayer(this.usermarker);
                 this.usermarker = null;
             }
-            console.log('stopLocation usermarker', this.usermarker);
         },
 
         compareLocatoin() {
             this.success = false;
-            for (let i = 0; i < this.daeguList.length; i++) { // 하나 정류장에라도 가까이 있으면 success true
+            for (let i = 0; i < this.daeguList.length; i++) {
                 if (800 > calcDistance(this.daeguList[i].lat, this.daeguList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
                     break;
@@ -729,8 +728,6 @@ export default {
                     });
                 }
             } else if (this.start > this.end) {
-                console.log(this.start)
-                console.log(this.end)
                 this.waypoints.push({
                     lat: this.daeguList[this.start].lat,
                     lng: this.daeguList[this.start].lon
@@ -745,7 +742,6 @@ export default {
                     lat: this.daeguList[this.end].lat,
                     lng: this.daeguList[this.end].lon
                 });
-                console.log(this.waypoints)
             }
 
             if (this.start === 0) {
