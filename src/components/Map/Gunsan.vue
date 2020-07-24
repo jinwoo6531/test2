@@ -271,9 +271,7 @@ function rad2deg(rad) {
     return (rad * 180 / Math.PI);
 }
 
-import {
-    mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 var control
 
@@ -387,7 +385,7 @@ export default {
                 lat: e.latitude,
                 lon: e.longitude
             }
-        })
+        });
     },
 
     watch: {
@@ -588,7 +586,6 @@ export default {
             this.start_point = this.end_point;
             this.end_point = change;
             this.onChange();
-
         },
 
         addMarker() {
@@ -728,7 +725,7 @@ export default {
             state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
         },
 
-        async onChange() {
+        onChange() {
             // REMOVE Default Routing
             control.spliceWaypoints(0, 6);
             this.waypoints = [];
@@ -1205,7 +1202,6 @@ export default {
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     });
-                    console.log(vehicle_data)
                     var vehicleCount = Object.keys(vehicle_data).length;
                     for (let i = 0; i < vehicleCount; i++) {
                         if (vehicle_data[i].site == 1) {
@@ -1272,12 +1268,8 @@ export default {
             var totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 
             const IMP = window.IMP;
-
-            // 가맹점 식별코드
-            IMP.init("imp19092456");
-
-            // // 결제창 호출 코드
-            IMP.request_pay({ // param
+            IMP.init("imp19092456"); // 가맹점 식별코드
+            IMP.request_pay({ // 결제창 호출 코드
                 pg: `mobilians.${this.meth}`, // PG사명
                 pay_method: this.pay_method, // 결제수단
                 merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
@@ -1291,9 +1283,8 @@ export default {
                 custom_data: {
                     imp_uid: this.user.data.uid,
                     count: this.count
-                }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                },
                 m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`
-                // m_redirect_url: `http://service.tasio.io:1994/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}`
             });
         },
 
