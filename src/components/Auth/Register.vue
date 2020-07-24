@@ -71,11 +71,10 @@ export default {
             var pattern_num = /[0-9]/;
 
             if (pattern_num.test(this.form.name) || pattern_spc.test(this.form.name)) {
-                this.form.name = '';
-                this.$toasted.show('한글 또는 영문만 입력 가능합니다.', {
-                    theme: "bubble",
-                    position: "center"
-                }).goAway(2000);
+                this.error = "이름은 한글 또는 영문만 가능합니다.";
+                this.form.name = "";
+            } else {
+                this.error = "";
             }
         },
 
