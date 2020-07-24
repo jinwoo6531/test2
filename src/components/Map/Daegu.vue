@@ -729,17 +729,23 @@ export default {
                     });
                 }
             } else if (this.start > this.end) {
+                console.log(this.start)
+                console.log(this.end)
                 this.waypoints.push({
                     lat: this.daeguList[this.start].lat,
                     lng: this.daeguList[this.start].lon
                 });
-                for (let i = this.start;
-                    (i % 3) != this.end; i++) {
+                for (let i = this.start; (i % 3) != this.end; i++) {
                     this.waypoints.push({
                         lat: this.daeguList[i % 3].lat,
                         lng: this.daeguList[i % 3].lon
                     });
                 }
+                this.waypoints.push({
+                    lat: this.daeguList[this.end].lat,
+                    lng: this.daeguList[this.end].lon
+                });
+                console.log(this.waypoints)
             }
 
             if (this.start === 0) {
