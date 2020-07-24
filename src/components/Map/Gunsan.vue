@@ -219,7 +219,7 @@
                                     <v-card flat tile class="pa-0 ma-0 mt-6">
                                         <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116', 'card')">신용카드 결제</v-btn>
                                         <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod pa-0" :class="{ not_red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
+                                        <v-btn tile depressed class="paymentMethod2 pa-0" :class="{ not_red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
                                         <!-- <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span> -->
                                         <p class="payment_msg" v-if="isRed2 == true">휴대폰 결제 서비스는 준비중 입니다.</p>
                                         <p class="payment_msg" v-else-if="isRed1 == true" style="color: transparent;">선택 완료</p>
@@ -1475,6 +1475,23 @@ export default {
     font-weight: normal;
     font-size: 14px !important;
     color: #262626 !important;
+    letter-spacing: -0.1px;
+}
+
+.paymentMethod2 {
+    position: relative;
+    width: 116px !important;
+    height: 49px !important;
+    background: #F2F2F2 !important;
+    border: 1px solid #E0E0E0 !important;
+    color: #BDBDBD !important;
+    box-sizing: border-box !important;
+    border-radius: 8px !important;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px !important;
     letter-spacing: -0.1px;
 }
 
