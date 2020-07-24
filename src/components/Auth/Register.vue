@@ -8,7 +8,7 @@
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
                     <!-- <input type="text" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keypress="hangul()" placeholder="이름을 입력하세요." /> -->
-                    <input type="text" style="ime-mode:active;" id="name" name="name" maxlength="25" autofocus v-model="form.name" @onkeyup='onlyKr(this);' placeholder="이름을 입력하세요." />
+                    <input type="text" id="name" ref="name" name="name" maxlength="25" autofocus v-model="form.name" class="input is-medium" @input="typing" placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
@@ -68,37 +68,22 @@ export default {
     },
 
     methods: {
+        typing(e) {
+            console.log(e.target.value);
+            let kor_pattern = /([^가-힣\x20])/i;
+            
+            if (kor_pattern.test(this.form.name)) {
+                this.form.name = '';
+                this.error = "한글만 입력 가능합니다.";
+            } else {
+                this.error = "";
+            }
+        },
+
         hangul() {
             if ((event.keyCode < 12592) || (event.keyCode > 12687)) {
                 event.returnValue = false;
                 return;
-            }
-        },
-
-        onlyKr(object) {
-            var strValue = object.value;
-            var retCode;
-            var retChar;
-            var i;
-            var err = 0;
-
-            for (i = 0; i < strValue.length; i++) {
-                retCode = strValue.charCodeAt(i);
-                retChar = strValue.substr(i, 1);
-                retCode = parseInt(retCode);
-
-                if (!(((retCode >= 12592) && (retCode <= 12687)))) {
-                    object.value = object.value.replace(retChar, "");
-                    err = 1;
-                }
-            }
-
-            if (err) {
-                this.$toasted.show('한글만 입력 가능합니다.', {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-                return false;
             }
         },
 
