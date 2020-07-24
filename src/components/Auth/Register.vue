@@ -7,7 +7,7 @@
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" maxlength="25" autofocus v-model="form.name" @keypress="hangul()" placeholder="이름을 입력하세요." />
+                    <input type="text" id="name" name="name" v-model="form.name" @input="hangul" maxlength="25" autofocus placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
@@ -41,20 +41,18 @@ import {
 import axios from 'axios'
 
 export default {
-    data() {
-        return {
-            uid: "",
-            phoneNumber: "",
-            form: {
-                name: "",
-                email: "",
-                gender: "",
-                birth: ""
-            },
-            error: "",
-            items: []
-        };
-    },
+    data: () => ({
+        uid: "",
+        phoneNumber: "",
+        form: {
+            name: "",
+            email: "",
+            gender: "",
+            birth: ""
+        },
+        error: "",
+        items: []
+    }),
 
     created() {
         this.get()
@@ -67,10 +65,16 @@ export default {
     },
 
     methods: {
-        hangul() {
-            if ((event.keyCode < 12592) || (event.keyCode > 12687)) {
-                event.returnValue = false;
-                return;
+        hangul(e) {
+            console.log(e.target.value);
+            let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
+            var pattern_num = /[0-9]/;
+
+            if (pattern_num.test(this.form.name) || pattern_spc.test(this.form.name)) {
+                this.error = "이름은 한글 또는 영문만 가능합니다.";
+                this.form.name = "";
+            } else {
+                this.error = "";
             }
         },
 
