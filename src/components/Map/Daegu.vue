@@ -428,7 +428,7 @@ export default {
     },
 
     updated() {
-        if (this.count >= 1 && this.start >= 1 && this.end >= 1) {
+        if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
             this.callBtn = false;
@@ -732,7 +732,8 @@ export default {
                     lat: this.daeguList[this.start].lat,
                     lng: this.daeguList[this.start].lon
                 });
-                for (let i = this.start; (i % 3) != this.end; i++) {
+                for (let i = this.start;
+                    (i % 3) != this.end; i++) {
                     this.waypoints.push({
                         lat: this.daeguList[i % 3].lat,
                         lng: this.daeguList[i % 3].lon
