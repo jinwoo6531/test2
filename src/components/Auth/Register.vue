@@ -68,8 +68,10 @@ export default {
         hangul() {
             let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
             var pattern_num = /[0-9]/;
+            // eslint-disable-next-line no-useless-escape
+            var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
 
-            if (pattern_num.test(this.form.name) || pattern_spc.test(this.form.name)) {
+            if (pattern_num.test(this.form.name) || pattern_spc.test(this.form.name) || pattern_char.test(this.form.name)) {
                 this.error = "이름은 한글 또는 영문만 가능합니다.";
                 this.form.name = "";
             } else {
