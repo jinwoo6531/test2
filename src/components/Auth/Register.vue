@@ -24,7 +24,7 @@
                     <p style="margin-top: 22px;">생년월일</p>
                     <input type="number" id="birth" name="birth" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
-                <p class="error-message" style="margin-top: 22px;">{{ error }}</p>
+                <p class="error-message" style="margin-top: 15px;">{{ error }}</p>
                 <v-footer absolute style="margin-bottom: 24px; background: transparent;">
                     <button class="signupBtn" type="submit">가입 완료하기</button>
                 </v-footer>
@@ -55,7 +55,7 @@ export default {
     }),
 
     created() {
-        this.get()
+        this.get();
     },
 
     computed: {
@@ -65,8 +65,7 @@ export default {
     },
 
     methods: {
-        hangul(e) {
-            console.log(e.target.value);
+        hangul() {
             let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
             var pattern_num = /[0-9]/;
 
@@ -142,6 +141,7 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
+    margin-top: 12px;
     color: #828282;
 }
 
