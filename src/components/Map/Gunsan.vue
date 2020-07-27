@@ -460,11 +460,11 @@ export default {
             }).on('locationerror', error => {
                 console.log('Location error:', error);
                 this.loading3 = false;
-
-                this.$toasted.show("사용자의 위치를 받아올 수 없습니다", {
+                
+                this.$toasted.show("사용자의 위치를 받아올 수 없습니다.", {
                     theme: "bubble",
                     position: "top-center"
-                });
+                }).goAway(1500);
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
