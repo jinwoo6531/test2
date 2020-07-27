@@ -13,7 +13,7 @@
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-top text-center">
             <v-card class="text-center" color="transparent" flat tile>
-                <v-card-text class="thanks-call pt-0">타시오와 함께<br>행복한 여정이 되시길 바랄게요!</v-card-text>
+                <v-card-text class="thanks-call pa-0">타시오와 함께<br>행복한 여정이 되시길 바랄게요!</v-card-text>
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0">
@@ -63,5 +63,11 @@ export default {
     font-weight: 500;
     font-size: 16px;
     color: #FFFFFF;
+}
+
+@media screen and (max-width: 330px) { 
+    .thanks-call { 
+        width: 195px;
+    }
 }
 </style>
