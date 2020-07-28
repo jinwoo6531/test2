@@ -88,6 +88,12 @@ export default {
                 this.error = "이메일은 필수 항목입니다.";
                 return;
             }
+            var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+            if (!check.test(this.form.email)) {
+                this.error = "이메일 형식을 지켜주세요.";
+                return;
+            }
+
             if (!this.form.gender) {
                 this.error = "성별은 필수 선택항목입니다.";
                 return;

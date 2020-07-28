@@ -436,7 +436,7 @@ export default {
         async showEmailDialog() {
             this.watch1 = false;
 
-            var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+            var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
             if (!check.test(this.email)) {
                 this.rules = '이메일 형식을 지켜주세요.'
                 this.emaildialog = true;

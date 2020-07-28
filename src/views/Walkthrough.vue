@@ -3,7 +3,7 @@
     <v-layout wrap class="pa-6 ma-0">
         <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
             <v-card class="jump-btn" flat @click="jump" v-if="change == 1">건너뛰기</v-card>
-            <v-card class="jump-btn" flat @click="jump" v-else>시작하기</v-card>
+            <v-card class="jump-btn" flat @click="jump" v-else></v-card>
         </v-flex>
 
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
@@ -35,7 +35,8 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0 pt-0">
-            <v-btn block depressed tile color="#E61773" height="50px" class="next-btn" @click="model++">다음</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="next-btn" @click="model++" v-if="change == 1">다음</v-btn>
+            <v-btn block depressed tile color="#E61773" height="50px" class="next-btn" @click="model++" v-else>시작하기</v-btn>
         </v-flex>
     </v-layout>
 </v-container>
@@ -81,6 +82,7 @@ export default {
         model() {
             if (this.model == 2) {
                 this.change = 2;
+
             }
         }
     },
