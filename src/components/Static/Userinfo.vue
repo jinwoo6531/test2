@@ -547,10 +547,6 @@ export default {
                 console.log(this.user.data.uid)
                 axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
-                        this.$toasted.show("회원 탈퇴 완료!", {
-                            theme: "bubble",
-                            position: "top-center"
-                        }).goAway(2000);
                         this.$router.replace('/goodbye');
                     })
             } else {

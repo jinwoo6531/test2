@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {  mapState } from 'vuex'
+import { mapState } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -231,7 +231,6 @@ export default {
                             vehicle_id: this.webSocketData.how.vehicle_id, // vehicle의 ID(number)
                             vehicle_mid: this.webSocketData.how.vehicle_mid, // vheicle의 관리 ID(string)
                             site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
-                            eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
                             current_station_id: this.start,
                             target_station_id: this.end,
                             passenger: this.count
@@ -257,21 +256,6 @@ export default {
                     passenger_name: this.displayName
                 }
             };
-
-            /* this.webSocketData = {
-                where: '',
-                who: 'tasio_id',
-                what: 'EVENT',
-                how: {
-                    type: 'ondemand',
-                    vehicle_id: 4,
-                    function: 'call',
-                    current_station_id: 9,
-                    target_station_id: 10,
-                    passenger: 2,
-                    passenger_name: 'asdf'
-                }
-            }; */
 
             this.socket.send(JSON.stringify(this.webSocketData));
         },

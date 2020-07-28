@@ -31,8 +31,8 @@
                         </v-list-item-content>
 
                         <v-list-item-avatar class="ma-4" width="56px" height="56px">
-                            <v-img src="../../assets/profile.png"></v-img>
-                            <!-- <v-img :src="owner_img"></v-img> -->
+                            <!-- <v-img src="../../assets/profile.png"></v-img> -->
+                            <v-img :src="owner_img"></v-img>
                         </v-list-item-avatar>
 
                         <v-list-item-content style="text-align: left;">
