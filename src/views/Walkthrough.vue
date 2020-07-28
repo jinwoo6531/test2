@@ -83,6 +83,8 @@ export default {
             if (this.model == 2) {
                 this.change = 2;
 
+            } else {
+                this.change = 1;
             }
         }
     },
