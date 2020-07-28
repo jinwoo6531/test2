@@ -429,7 +429,6 @@ export default {
             this.map.locate({
                 setView: true,
                 watch: true,
-                maximumAge: 5,
                 enableHighAccuracy: true
             }).on('locationfound', e => {
                 this.currentlocation = {
