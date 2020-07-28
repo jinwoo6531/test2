@@ -2,7 +2,8 @@
 <v-container class="pa-0 ma-0 flex-wrap text-center" style="background-color: #FFF;" fluid grid-list-md fill-height>
     <v-layout wrap class="pa-6 ma-0">
         <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
-            <v-card class="jump-btn" flat @click="jump">건너뛰기</v-card>
+            <v-card class="jump-btn" flat @click="jump" v-if="change == 1">건너뛰기</v-card>
+            <v-card class="jump-btn" flat @click="jump" v-else>시작하기</v-card>
         </v-flex>
 
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
@@ -57,6 +58,7 @@ export default {
         ],
         model: 0,
         cycle: false,
+        change: 1
     }),
 
     created() {
@@ -73,6 +75,14 @@ export default {
 
     mounted() {
         // window.callJsFunction = this.callJsFunction
+    },
+
+    watch: {
+        model() {
+            if (this.model == 2) {
+                this.change = 2;
+            }
+        }
     },
 
     computed: {
