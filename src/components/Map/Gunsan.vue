@@ -271,7 +271,9 @@ function rad2deg(rad) {
     return (rad * 180 / Math.PI);
 }
 
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios'
 var control
 
@@ -468,7 +470,7 @@ export default {
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
-                    this.usermarker = null;
+                    return this.usermarker = null;
                 }
             });
         },
@@ -476,7 +478,7 @@ export default {
         stopLocation() {
             this.res = true; // getLocation()
             this.map.stopLocate();
-            this.map.setView([35.812484, 126.4091], 15);
+            this.map.setView([35.812484, 126.4101], 15);
             if (this.usermarker != null || this.usermarker != undefined) {
                 this.map.removeLayer(this.usermarker);
                 this.usermarker = null;
