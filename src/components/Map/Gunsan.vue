@@ -427,7 +427,7 @@ export default {
             this.loading3 = true;
 
             this.map.locate({
-                setView: true,
+                setView: false,
                 watch: true,
                 enableHighAccuracy: true
             }).on('locationfound', e => {
