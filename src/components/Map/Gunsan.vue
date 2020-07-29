@@ -436,27 +436,18 @@ export default {
                     lon: e.longitude
                 };
 
-                var currentlocation_lat = e.latitude;
-                var currentlocation_lon = e.longitude;
-
-                console.log('locationfound: ', e.target._locateOptions.setView)
-
                 if (this.compareLocatoin() == true) {
                     this.can = false; // 운행지역 모달
                     this.res = false; // stopLocation()
 
                     if (!this.usermarker) {
                         this.loading3 = false;
+                        e.target._locateOptions.setView = false;
 
                         let currentUser = this.$utils.map.createDiv({
                             html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
                             iconSize: [0, 0]
                         });
-
-                        if (currentlocation_lat != this.currentlocation.lat || currentlocation_lon != this.currentlocation.lon) {
-                            e.target._locateOptions.setView = false;
-                            console.log('compareLocatoin: ', e.target._locateOptions.setView)
-                        }
 
                         return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
                             icon: currentUser
