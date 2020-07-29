@@ -450,7 +450,7 @@ export default {
                         });
 
                         return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
-                            autoPan: true,
+                            autoPan: false,
                             icon: currentUser
                         });
 
