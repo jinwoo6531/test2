@@ -427,7 +427,7 @@ export default {
             this.loading3 = true;
 
             this.map.locate({
-                setView: true,
+                setView: false,
                 watch: true,
                 enableHighAccuracy: true
             }).on('locationfound', e => {
@@ -441,8 +441,6 @@ export default {
 
                     if (!this.usermarker) {
                         this.loading3 = false;
-
-                        console.log('asdfasdf', this.usermarker.setLatLng[e.latitude, e.longitude]);
 
                         let currentUser = this.$utils.map.createDiv({
                             html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
@@ -468,7 +466,6 @@ export default {
                 this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
                     position: "top-center"
                 }).goAway(1500);
-               
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
