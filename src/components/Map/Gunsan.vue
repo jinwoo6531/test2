@@ -442,12 +442,15 @@ export default {
                     if (!this.usermarker) {
                         this.loading3 = false;
 
+                        console.log('asdfasdf', this.usermarker.setLatLng[e.latitude, e.longitude]);
+
                         let currentUser = this.$utils.map.createDiv({
                             html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
                             iconSize: [0, 0]
                         });
 
                         return this.usermarker = this.$utils.map.createMakerByXY(this.map, [e.latitude, e.longitude], {
+                            autoPan: true,
                             icon: currentUser
                         });
 
