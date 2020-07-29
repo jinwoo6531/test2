@@ -84,7 +84,7 @@ export default {
         ]
     }),
 
-    beforeCreate() {
+    /* beforeCreate() {
         // 페이지 진입시history.pushState 인터페이스를 통해 새로운 history state를 추가하여 바로 이전 페이지로 갈 수 없도록 한다.
         history.pushState(null, null, location.href); // history.pushState(state, title, url);
 
@@ -92,7 +92,7 @@ export default {
         window.onpopstate = ((event) => {
             history.go(event.currentTarget.length);
         });
-    },
+    }, */
 }
 </script>
 

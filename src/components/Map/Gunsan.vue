@@ -434,7 +434,7 @@ export default {
                 this.currentlocation = {
                     lat: e.latitude,
                     lon: e.longitude
-                }
+                };
                 if (this.compareLocatoin() == true) {
                     this.can = false; // 운행지역 모달
                     this.res = false; // stopLocation()
@@ -462,11 +462,11 @@ export default {
             }).on('locationerror', error => {
                 console.log('Location error:', error);
                 this.loading3 = false;
-                
-                this.$toasted.show("사용자의 위치를 받아올 수 없습니다.", {
-                    theme: "bubble",
+
+                this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
                     position: "top-center"
                 }).goAway(1500);
+               
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
