@@ -28,12 +28,13 @@ export default {
     name: 'Thanks',
 
     mounted() {
-        this.site = this.$route.params.site;
+        // this.site = this.$route.params.site;
     },
 
     methods: {
         goToSite() {
-            if (this.site == 1) {
+            this.$router.replace('/');
+            /* if (this.site == 1) {
                 this.$router.replace('/map/gunsan');
             } else if (this.site == 2) {
                 this.$router.replace('/map/daegu');
@@ -41,7 +42,7 @@ export default {
                 this.$router.replace('/map/sejong');
             } else if (this.site == 4) {
                 this.$router.replace('/map/sangam');
-            }
+            }  */
         }
     }
 }
