@@ -432,8 +432,8 @@ export default {
                 enableHighAccuracy: true
             }).on('locationfound', e => {
                 this.currentlocation = {
-                    lat: 35.8117490000000000,
-                    lon: 126.4050750000000000
+                    lat: e.latitude,
+                    lon: e.longitude
                 };
 
                 var currentlocation_lat = e.latitude;
