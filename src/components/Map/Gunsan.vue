@@ -429,6 +429,7 @@ export default {
             this.map.locate({
                 setView: false,
                 watch: true,
+                maxZoom: 50,
                 enableHighAccuracy: true
             }).on('locationfound', e => {
                 this.currentlocation = {
