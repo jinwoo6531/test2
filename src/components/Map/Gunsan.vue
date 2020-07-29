@@ -425,6 +425,7 @@ export default {
             console.log('success: ', this.compareLocatoin());
             console.log('currentlocation: ', this.currentlocation);
             this.loading3 = true;
+            var count = 0;
 
             this.map.locate({
                 setView: true,
@@ -465,9 +466,14 @@ export default {
                 console.log('Location error:', error);
                 this.loading3 = false;
 
-                this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
-                    position: "top-center"
-                }).goAway(1500);
+                if (count == 0) {
+                    this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
+                        position: "top-center"
+                    }).goAway(1000);
+                }
+
+                count = count + 1;
+                console.log(count);
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
