@@ -432,6 +432,7 @@ export default {
                 watch: true,
                 enableHighAccuracy: true
             }).on('locationfound', e => {
+                count = 0;
                 this.currentlocation = {
                     lat: e.latitude,
                     lon: e.longitude
