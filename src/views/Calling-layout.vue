@@ -223,7 +223,7 @@ export default {
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log(this.webSocketData.what, 'webSocketData: ', this.webSocketData);
-                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go') {
+                if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go' && this.webSocketData.how.uid == this.uid) {
                     this.$router.replace({
                         name: "CallingShuttle",
                         params: {
