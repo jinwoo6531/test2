@@ -425,6 +425,7 @@ export default {
             console.log('success: ', this.compareLocatoin());
             console.log('currentlocation: ', this.currentlocation);
             this.loading3 = true;
+            var count = 0;
 
             this.map.locate({
                 setView: true,
@@ -434,13 +435,15 @@ export default {
                 this.currentlocation = {
                     lat: e.latitude,
                     lon: e.longitude
-                }
+                };
+
                 if (this.compareLocatoin() == true) {
                     this.can = false; // 운행지역 모달
                     this.res = false; // stopLocation()
 
                     if (!this.usermarker) {
                         this.loading3 = false;
+                        e.target._locateOptions.setView = false;
 
                         let currentUser = this.$utils.map.createDiv({
                             html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
@@ -462,11 +465,15 @@ export default {
             }).on('locationerror', error => {
                 console.log('Location error:', error);
                 this.loading3 = false;
-                
-                this.$toasted.show("사용자의 위치를 받아올 수 없습니다.", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(1500);
+
+                if (count == 0) {
+                    this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
+                        position: "top-center"
+                    }).goAway(1000);
+                }
+
+                count = count + 1;
+                console.log(count);
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
@@ -1123,7 +1130,7 @@ export default {
 
             // SET New Routing
             this.addRouting(this.waypoints);
-            this.getEta();
+            this.getStat2Sta();
             // this.totalDistance();
         },
 
@@ -1250,20 +1257,11 @@ export default {
             }.bind(this), 1000);
         },
 
-        getEta() {
-            console.log('stationList', this.gunsanList);
-            var eta = JSON.parse(this.gunsanList[this.start].eta);
-            var etaVehicle = 0;
-            var etaTime = 0;
-            console.log('eta', eta);
-            for (let key in eta) {
-                etaVehicle = key;
-                etaTime = eta[key];
-            }
-            console.log('etaVehicle', etaVehicle);
-            this.minutes = etaTime;
-            console.log('minutes', this.minutes);
-
+        getStat2Sta() {
+            var stat = JSON.parse(this.gunsanList[this.start].stat2sta);
+            var start_station = JSON.parse(this.gunsanList[this.start].id)
+            var end_station = JSON.parse(this.gunsanList[this.end].id);
+            this.minutes = stat[start_station][end_station];
         },
 
         requestCallBtn() {

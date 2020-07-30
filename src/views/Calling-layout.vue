@@ -222,7 +222,7 @@ export default {
                 data
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
-                console.log('webSocketData: ', this.webSocketData);
+                console.log(this.webSocketData.what, 'webSocketData: ', this.webSocketData);
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go') {
                     this.$router.replace({
                         name: "CallingShuttle",
@@ -241,6 +241,26 @@ export default {
             };
         },
 
+        /* sendMessage() { // 테스트용
+            this.webSocketData = {
+                where: '',
+                who: 'tasio_id',
+                what: 'EVENT',
+                how: {
+                    type: 'ondemand',
+                    vehicle_id: 4,
+                    function: 'call',
+                    current_station_id: 9,
+                    target_station_id: 10,
+                    passenger: 2,
+                    passenger_name: "타시오",
+                    uid: this.uid
+                }
+            };
+
+            this.socket.send(JSON.stringify(this.webSocketData));
+        }, */
+
         sendMessage() { // ondemand 측에서 보내줘야 할 데이터
             this.webSocketData = {
                 where: '',
@@ -253,7 +273,8 @@ export default {
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),
                     passenger: parseInt(this.$route.query.count),
-                    passenger_name: this.displayName
+                    passenger_name: this.displayName,
+                    uid: this.uid
                 }
             };
 
