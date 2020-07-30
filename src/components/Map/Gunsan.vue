@@ -472,13 +472,6 @@ export default {
                     this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
                         position: "top-center"
                     }).goAway(1000);
-                } else {
-                    count = 0;
-                    if (count == 0) {
-                        this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
-                            position: "top-center"
-                        }).goAway(1000);
-                    }
                 }
 
                 count = count + 1;
