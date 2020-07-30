@@ -432,13 +432,13 @@ export default {
                 watch: true,
                 enableHighAccuracy: true
             }).on('locationfound', e => {
-                count = 0;
                 this.currentlocation = {
                     lat: e.latitude,
                     lon: e.longitude
                 };
 
                 if (this.compareLocatoin() == true) {
+                    count = 0;
                     this.can = false; // 운행지역 모달
                     this.res = false; // stopLocation()
 
@@ -459,6 +459,7 @@ export default {
                         return this.usermarker.setLatLng(e.latlng);
                     }
                 } else {
+                    count = 0;
                     this.can = true;
                     this.loading3 = false;
                     this.res = true;
@@ -471,10 +472,16 @@ export default {
                     this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
                         position: "top-center"
                     }).goAway(1000);
+                } else {
+                    count = 0;
+                    if (count == 0) {
+                        this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
+                            position: "top-center"
+                        }).goAway(1000);
+                    }
                 }
 
                 count = count + 1;
-                console.log(count);
 
                 if (this.usermarker) {
                     this.map.removeLayer(this.usermarker);
