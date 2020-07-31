@@ -76,10 +76,12 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item link to="/map/daegu" class="ma-0">
+                    <v-list-item class="ma-0">
                         <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
-                                대구 수성알파시티
+                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
+                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
+                                    대구 수성알파시티
+                                </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
@@ -138,8 +140,7 @@
             </v-list-item>
         </v-list>
 
-        <v-footer class="nav-footer justify-left pa-0" style="background: transparent; margin-top: 65px;">
-            <span style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; line-height: 17px; display: flex; align-items: flex-end; color: #828282; margin-bottom: 15px;">개인정보보호정책</span>
+        <v-footer class="copyrightStyle nav-footer justify-left pa-0">
             <span>COPYRIGHT@SPRINGCLOUD INC. <br>
                 ALL RIGHTS RESERVED.</span>
         </v-footer>
@@ -183,7 +184,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import {
+    mapGetters
+} from "vuex"
 
 export default {
     data: () => ({
@@ -219,12 +222,28 @@ export default {
     border-radius: 7px !important;
 }
 
+.v-navigation-drawer__content {
+    position: relative !important;
+}
+
 .v-navigation-drawer__content::-webkit-scrollbar {
     display: none;
 }
 
 .v-list-item {
     padding-right: 0 !important;
+}
+
+.v-list .v-list-item--active {
+    color: transparent;
+}
+
+.v-ripple__container {
+    display:none !important;
+}
+
+.theme--light.v-list-item:hover::before {
+    opacity: 0 !important;
 }
 
 .static-title {
@@ -235,5 +254,17 @@ export default {
     color: #262626 !important;
     width: 100%;
     height: 100%;
+}
+
+.copyrightStyle {
+    font-family: Roboto !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 10px !important;
+    line-height: 14px;
+    color: #BDBDBD !important;
+    background: transparent !important;
+    position: absolute;
+    bottom: 0;
 }
 </style>

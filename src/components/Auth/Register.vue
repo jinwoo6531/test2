@@ -1,6 +1,6 @@
 <template>
 <v-container style="height: 100%;">
-    <v-layout wrap>
+    <v-layout wrap style="height: 100%;">
         <v-flex class="pa-5" xs12 sm12 md12>
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
