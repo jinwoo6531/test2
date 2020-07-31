@@ -585,10 +585,17 @@ export default {
         },
 
         switchDestination() {
-            var change = this.start_point;
-            this.start_point = this.end_point;
-            this.end_point = change;
-            this.onChange();
+            var change = 0;
+            if (this.start_point.value == -1 && this.end_point.value == -1) {
+                change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+            } else {
+                change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+                this.onChange();
+            }
         },
 
         addMarker() {
@@ -1440,7 +1447,7 @@ export default {
     box-sizing: border-box !important;
     background: transparent !important;
     border-radius: 8px !important;
-    
+
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: normal;
