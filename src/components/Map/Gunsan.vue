@@ -216,14 +216,10 @@
                                     </v-card-text>
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
-                                    <v-card flat tile class="pa-0 ma-0 mt-6">
-                                        <v-btn tile depressed class="paymentMethod pa-0 mr-6" :class="{ red: isRed1 }" :ripple="false" @click="requestPay('191029079116', 'card')">신용카드 결제</v-btn>
-                                        <span><img src="../../assets/check-state.svg" v-if="isRed1 == true" class="check-state"></span>
-                                        <v-btn tile depressed class="paymentMethod2 pa-0" :class="{ not_red: isRed2 }" :ripple="false" @click="requestPay('170622040674', 'phone')">휴대폰 결제</v-btn>
-                                        <!-- <span><img src="../../assets/check-state.svg" v-if="isRed2 == true" class="check-state2"></span> -->
-                                        <p class="payment_msg" v-if="isRed2 == true">휴대폰 결제 서비스는 준비중 입니다.</p>
-                                        <p class="payment_msg" v-else-if="isRed1 == true" style="color: transparent;">선택 완료</p>
-                                        <p class="payment_msg" v-else>결제 방식을 선택하세요.</p>
+                                    <v-card flat tile class="pa-0 ma-0 mt-3 mb-3">
+                                        <v-btn tile depressed class="paymentMethod pa-0" :ripple="false" @click="requestPay('191029079116', 'card')">
+                                            <v-img src="../../assets/credit-card.svg" width="32px" height="24px" style="flex: none; margin-right: 10px;"></v-img>신용카드 결제
+                                        </v-btn>
                                     </v-card>
                                 </v-card-text>
 
@@ -235,8 +231,7 @@
                                             </v-col>
                                             <v-col>
                                                 <!-- <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116' || meth == '170622040674'" @click="requestCallBtn">호출하기</v-btn> -->
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" v-if="meth == '191029079116'" @click="requestCallBtn">호출하기</v-btn>
-                                                <v-btn color="#E0E0E0" style="color: #000;" tile depressed disabled class="pa-0 call-dialog-btn" width="100%" height="50px" v-else>호출하기</v-btn>
+                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" @click="requestCallBtn">호출하기</v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -336,8 +331,6 @@ export default {
         usermarker: '',
         meth: '',
         pay_method: '',
-        isRed1: false,
-        isRed2: false,
         start_options: [],
         end_options: [],
         currentlocation: {
@@ -1295,11 +1288,6 @@ export default {
                 this.isRed2 = false;
                 this.meth = meth;
                 this.pay_method = pay_method;
-            } else if (meth == '170622040674' && pay_method == 'phone') {
-                this.isRed1 = false;
-                this.isRed2 = true;
-                this.meth = meth;
-                this.pay_method = pay_method;
             }
         },
 
@@ -1455,68 +1443,19 @@ export default {
 
 .paymentMethod {
     position: relative;
-    width: 116px !important;
-    height: 49px !important;
-    border: 1px solid #BDBDBD !important;
+    width: 154px !important;
+    height: 65px !important;
+    border: 1.5px solid #E61773 !important;
     box-sizing: border-box !important;
     background: transparent !important;
     border-radius: 8px !important;
-
+    
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: normal;
     font-size: 14px !important;
-    color: #262626 !important;
+    color: #E61773 !important;
     letter-spacing: -0.1px;
-}
-
-.paymentMethod2 {
-    position: relative;
-    width: 116px !important;
-    height: 49px !important;
-    background: #F2F2F2 !important;
-    border: 1px solid #E0E0E0 !important;
-    color: #BDBDBD !important;
-    box-sizing: border-box !important;
-    border-radius: 8px !important;
-
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px !important;
-    letter-spacing: -0.1px;
-}
-
-.red {
-    border: 1px solid #E61773 !important;
-    background: #FFF;
-}
-
-.not_red {
-    background: #F2F2F2 !important;
-    border: 1px solid #E0E0E0 !important;
-    color: #BDBDBD !important;
-}
-
-.check-state {
-    position: absolute;
-    right: 140px;
-}
-
-.check-state2 {
-    position: absolute;
-    right: 0;
-}
-
-.payment_msg {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    color: #EB5757;
-    text-align: left !important;
-    margin: 0px;
-    padding-top: 3px;
 }
 
 .v-btn:before {
