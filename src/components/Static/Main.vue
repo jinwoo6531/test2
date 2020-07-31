@@ -49,10 +49,10 @@ export default {
                 title: '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
                 src: require('../../assets/daegu-btn.png'),
                 to: '/map/daegu',
-                disabled: false,
-                gradient: undefined,
+                disabled: true,
+                gradient: "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
                 color: 'transparent',
-                hidden: true,
+                hidden: false,
             },
             {
                 title: '<span style="width: 100%; text-align: center;">세종<br>호수공원</span>',
