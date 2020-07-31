@@ -140,7 +140,7 @@
             </v-list-item>
         </v-list>
 
-        <v-footer class="nav-footer justify-left" style="background: transparent; margin-top: 65px;">
+        <v-footer class="copyrightStyle nav-footer justify-left pa-0">
             <span>COPYRIGHT@SPRINGCLOUD INC. <br>
                 ALL RIGHTS RESERVED.</span>
         </v-footer>
@@ -208,6 +208,10 @@ export default {
     display: none;
 }
 
+.v-navigation-drawer__content {
+    position: relative !important;
+}
+
 .v-navigation-drawer__content::-webkit-scrollbar {
     display: none;
 }
@@ -224,6 +228,18 @@ export default {
     position: relative;
     z-index: 9;
     width: 100%;
+}
+
+.copyrightStyle {
+    font-family: Roboto !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 10px !important;
+    line-height: 14px;
+    color: #BDBDBD !important;
+    background: transparent !important;
+    position: absolute;
+    bottom: 0;
 }
 
 .map-container {
