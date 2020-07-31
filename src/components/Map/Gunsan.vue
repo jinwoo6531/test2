@@ -217,7 +217,7 @@
                                     <v-card-text class="pa-0 pt-3 call-dialog-content">배차가 완료된 이후에는 호출 취소 시<br>위약금 50%가 발생합니다.</v-card-text>
                                     <v-card-text class="pa-0 pb-2 pt-1 call-dialog-subcontent">(배차 전에는 위약금이 발생하지 않습니다.)</v-card-text>
                                     <v-card flat tile class="pa-0 ma-0 mt-3 mb-3">
-                                        <v-btn tile depressed class="paymentMethod pa-0" :ripple="false" @click="requestPay('191029079116', 'card')">
+                                        <v-btn tile depressed class="paymentMethod pa-0" :ripple="false">
                                             <v-img src="../../assets/credit-card.svg" width="32px" height="24px" style="flex: none; margin-right: 10px;"></v-img>신용카드 결제
                                         </v-btn>
                                     </v-card>
@@ -329,8 +329,8 @@ export default {
         changeStart: '',
         changeEnd: '',
         usermarker: '',
-        meth: '',
-        pay_method: '',
+        meth: '191029079116',
+        pay_method: 'card',
         start_options: [],
         end_options: [],
         currentlocation: {
@@ -1280,15 +1280,6 @@ export default {
                 },
                 m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.options[this.start].name}&endName=${this.options[this.end].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`
             });
-        },
-
-        requestPay(meth, pay_method) {
-            if (meth == '191029079116' && pay_method == 'card') {
-                this.isRed1 = true;
-                this.isRed2 = false;
-                this.meth = meth;
-                this.pay_method = pay_method;
-            }
         },
 
         cancelCallDialog() {
