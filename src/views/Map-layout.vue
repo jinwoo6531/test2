@@ -225,7 +225,7 @@ export default {
 }
 
 .v-list .v-list-item--active {
-    color: transparent !important;
+    color: transparent;
 }
 
 .v-ripple__container {

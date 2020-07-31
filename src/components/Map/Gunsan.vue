@@ -1291,15 +1291,16 @@ export default {
 
         cancelCallDialog() {
             this.calldialog = false;
-            this.isRed1 = false;
-            this.isRed2 = false;
-            this.meth = '';
         }
     }
 }
 </script>
 
 <style scoped>
+.v-list .v-list-item--active {
+    background-color: rgba(230, 23, 115, 0.1) !important;
+}
+
 .is-disabled1 {
     color: #BDBDBD !important;
 }
