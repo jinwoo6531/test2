@@ -234,6 +234,18 @@ export default {
     padding-right: 0 !important;
 }
 
+.v-list .v-list-item--active {
+    color: transparent !important;
+}
+
+.v-ripple__container {
+    display:none !important;
+}
+
+.theme--light.v-list-item:hover::before {
+    opacity: 0 !important;
+}
+
 .static-title {
     font-family: Noto Sans KR;
     font-style: normal;
