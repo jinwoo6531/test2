@@ -17,13 +17,13 @@
                         <v-card class="text-justify pa-5 intro-wrap" flat tile>
                             <p class="font-weight-bold">추가 정보:</p>
                             <p>자세한 내용은 TASIO 웹사이트를 참고하세요.</p>
-                            <a>www.tasio.io</a>
+                            <a href="http://www.tasio.io/" style="text-decoration: none; color: #0094FF;">www.tasio.io</a>
                         </v-card>
 
                         <v-card class="text-justify pa-5 intro-wrap" flat tile>
                             <p class="font-weight-bold">Contact</p>
                             <p>자세한 내용은 TASIO 웹사이트를 참고하세요.</p>
-                            <a>www.tasio.io</a>
+                            <a href="http://www.tasio.io/" style="text-decoration: none; color: #0094FF;">www.tasio.io</a>
                         </v-card>
                     </v-card>
                 </v-card>

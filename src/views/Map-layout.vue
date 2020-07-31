@@ -139,7 +139,6 @@
         </v-list>
 
         <v-footer class="nav-footer justify-left" style="background: transparent; margin-top: 65px;">
-            <span style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; line-height: 17px; display: flex; align-items: flex-end; color: #828282; margin-bottom: 15px;">개인정보보호정책</span>
             <span>COPYRIGHT@SPRINGCLOUD INC. <br>
                 ALL RIGHTS RESERVED.</span>
         </v-footer>
