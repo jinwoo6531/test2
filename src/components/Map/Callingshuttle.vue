@@ -876,6 +876,7 @@ export default {
                     target_station_id: this.end,
                     passenger: this.count,
                     passenger_name: this.displayName,
+                    uid: this.uid
                 }
             };
 

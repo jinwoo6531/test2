@@ -294,6 +294,7 @@ export default {
                     target_station_id: parseInt(this.$route.query.station_endId),
                     passenger: parseInt(this.$route.query.count),
                     passenger_name: this.displayName,
+                    uid: this.uid
                 }
             };
 
