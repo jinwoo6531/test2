@@ -206,7 +206,7 @@
                                     <v-card-text class="pl-3 pr-3 pb-3 pt-2 text-center">
                                         <table style="width: 100%; border: none !important;">
                                             <tr>
-                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1000원</p>
+                                                <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">요금<p style="margin: 0" class="price-people">1,000원</p>
                                                 </td>
                                                 <td style="width: 20%;" rowspan="2"><img src="../../assets/x-icon.svg" class="display: inline-block;"></td>
                                                 <td style="width: 40%;" rowspan="2" class="call-dialog-subtitle">탑승인원<p style="margin: 0" class="price-people">{{ count }}명</p>
@@ -367,7 +367,9 @@ export default {
         }),
 
         totalPayment() {
-            return String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+            let num = 1000 * this.count;
+            num = parseInt(num, 10);
+            return num.toLocaleString();
         }
     },
 
