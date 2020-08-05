@@ -285,7 +285,7 @@ export default {
         pageId: 1,
         siteName: 'gunsan',
         map: null,
-        OSMUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        OSMUrl: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [],
