@@ -21,26 +21,12 @@ Vue.use(VueRouter)
 
 const requireAuth = () => (to, from, next) => {
   firebase.auth().onAuthStateChanged((user) => {
-  if (user.uid == null) {
-    return next('/walkthrough')
-  } else {
-    return next()
-  }
-})
-  /* const currentUser = firebase.auth().currentUser;
-  console.log('current user', currentUser)
-  if (currentUser == null) {
-    // 인증되어 있지 않으면 로그인 페이지로 리다이렉트
-    console.log('next access phone')
-    return next('/auth/accessphone')
-  } else {
-    console.log('next')
-    // store.state.isLoading = true;
-    // setTimeout(() => {
-    //   store.state.isLoading = false;
-    // }, 2000);
-    return next()
-  } */
+    if (user.uid == null) {
+      return next('/walkthrough')
+    } else {
+      return next()
+    }
+  })
 }
 
 const routes = [{
@@ -109,22 +95,22 @@ const routes = [{
     children: [{
         path: 'accessphone',
         name: 'AccessPhone',
-        component: () => import('@/components/Auth/AccessPhone.vue')
+        component: () => import(/* webpackChunkName: "AccessPhone" */ '@/components/Auth/AccessPhone.vue')
       },
       {
         path: 'accesscode',
         name: 'AccessCode',
-        component: () => import('@/components/Auth/AccessCode.vue')
+        component: () => import(/* webpackChunkName: "AccessCode" */ '@/components/Auth/AccessCode.vue')
       },
       {
         path: 'agreecheck',
         name: 'AgreeCheck',
-        component: () => import('@/components/Auth/AgreeCheck.vue'),
+        component: () => import(/* webpackChunkName: "AgreeCheck" */ '@/components/Auth/AgreeCheck.vue'),
       },
       {
         path: 'register',
         name: 'Register',
-        component: () => import('@/components/Auth/Register.vue'),
+        component: () => import(/* webpackChunkName: "Register" */ '@/components/Auth/Register.vue'),
       }
     ]
   },
@@ -135,27 +121,27 @@ const routes = [{
     children: [{
         path: 'gunsan',
         name: 'Gunsan',
-        component: () => import('@/components/Map/Gunsan.vue')
+        component: () => import(/* webpackChunkName: "Gunsan" */ '@/components/Map/Gunsan.vue')
       },
       {
         path: 'daegu',
         name: 'Daegu',
-        component: () => import('@/components/Map/Daegu.vue')
+        component: () => import(/* webpackChunkName: "Daegu" */ '@/components/Map/Daegu.vue')
       },
       {
         path: 'sejong',
         name: 'Sejong',
-        component: () => import('@/components/Map/Sejong.vue')
+        component: () => import(/* webpackChunkName: "Sejong" */ '@/components/Map/Sejong.vue')
       },
       {
         path: 'sangam',
         name: 'Sangam',
-        component: () => import('@/components/Map/Sangam.vue')
+        component: () => import(/* webpackChunkName: "Sangam" */ '@/components/Map/Sangam.vue')
       },
       {
         path: 'callingshuttle',
         name: 'CallingShuttle',
-        component: () => import('@/components/Map/Callingshuttle.vue')
+        component: () => import(/* webpackChunkName: "CallingShuttle" */ '@/components/Map/Callingshuttle.vue')
       }
     ]
   },
@@ -166,31 +152,31 @@ const routes = [{
     children: [{
         path: '',
         name: 'Main',
-        component: () => import('@/components/Static/Main')
+        component: () => import(/* webpackChunkName: "Main" */ '@/components/Static/Main')
       }, {
         path: 'introduction',
         name: 'Introduction',
-        component: () => import('@/components/Static/Introduction')
+        component: () => import(/* webpackChunkName: "Introduction" */ '@/components/Static/Introduction')
       },
       {
         path: 'schedule',
         name: 'Schedule',
-        component: () => import('@/components/Static/Schedule')
+        component: () => import(/* webpackChunkName: "Schedule" */ '@/components/Static/Schedule')
       },
       {
         path: 'faq',
         name: 'FAQ',
-        component: () => import('@/components/Static/FAQ')
+        component: () => import(/* webpackChunkName: "FAQ" */ '@/components/Static/FAQ')
       },
       {
         path: 'serviceinfo',
         name: 'Serviceinfo',
-        component: () => import('@/components/Static/Serviceinfo')
+        component: () => import(/* webpackChunkName: "Serviceinfo" */ '@/components/Static/Serviceinfo')
       },
       {
         path: 'userinfo',
         name: 'Userinfo',
-        component: () => import('@/components/Static/Userinfo')
+        component: () => import(/* webpackChunkName: "Userinfo" */ '@/components/Static/Userinfo')
       }
     ]
   }
