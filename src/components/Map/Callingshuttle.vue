@@ -30,10 +30,9 @@
                             <v-list-item-subtitle class="desination-info-subtitle">{{ vehicle_name }}</v-list-item-subtitle>
                         </v-list-item-content>
 
-                        <v-list-item-avatar class="ma-4" width="56px" height="56px">
-                            <!-- <v-img src="../../assets/profile.png"></v-img> -->
-                            <v-img :src="owner_img"></v-img>
-                        </v-list-item-avatar>
+                        <v-card class="ma-4" flat tile color="transparent">
+                            <v-img src="../../assets/profile.svg"></v-img>
+                        </v-card>
 
                         <v-list-item-content style="text-align: left;">
                             <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
@@ -114,7 +113,6 @@ export default {
         vehicle_lat: '',
         vehicle_lon: '',
         owner: '',
-        owner_img: ''
     }),
 
     computed: {
@@ -812,7 +810,6 @@ export default {
             axios.get(`/api/users/${this.vehicle_user}`)
                 .then(response => {
                     this.owner = response.data.username;
-                    this.owner_img = response.data.profile.photo;
                 }).catch(error => {
                     console.log('/api/user/ Error: ', error);
                 });
