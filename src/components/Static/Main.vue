@@ -66,7 +66,7 @@ export default {
             {
                 title: '<span style="width: 100%; text-align: center;">세종<br>산학연클러스터4-2</span>',
                 src: require('../../assets/sejong2-btn.png'),
-                to: '/map/4',
+                to: '/map/3',
                 disabled: true,
                 gradient: "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
                 color: '#F2F2F2',
@@ -75,7 +75,7 @@ export default {
             {
                 title: '<span style="width: 100%; text-align: center;">상암<br>DMC홍보관</span>',
                 src: require('../../assets/sangam-btn.png'),
-                to: '/map/5',
+                to: '/map/4',
                 disabled: true,
                 gradient: "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
                 color: '#F2F2F2',

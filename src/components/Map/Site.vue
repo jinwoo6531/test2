@@ -156,7 +156,7 @@
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay2=false; onCancel('end');">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay2 = false; onCancel('end');">
                                     취소
                                 </v-btn>
                                 <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay2=false; onChange();">
@@ -265,7 +265,9 @@ function deg2rad(deg) {
 function rad2deg(rad) {
     return (rad * 180 / Math.PI);
 }
-import { mapGetters } from 'vuex'
+import {
+    mapGetters
+} from 'vuex'
 import axios from 'axios';
 var control;
 
@@ -368,6 +370,12 @@ export default {
         } else if (this.siteId == 2) {
             this.map.setView([35.836673, 128.686520], 15);
             this.siteName = 'daegu';
+        } else if (this.siteId == 3) {
+            this.map.setView([36.599351, 127.270606], 15);
+            this.siteName = 'sejong';
+        } else if (this.siteId == 4) {
+            this.map.setView([37.579200, 126.891700], 15);
+            this.siteName = 'sangam';
         }
 
         this.map.locate({
@@ -487,6 +495,31 @@ export default {
                         }, {
                             lat: 35.8363080000000000,
                             lng: 128.6815470000000000
+                        })
+                    } else if (this.siteId == 3) {
+                        this.waypoints.push({
+                            lat: 36.4993510000000000,
+                            lng: 127.2706060000000000
+                        }, {
+                            lat: 36.5016900000000000,
+                            lng: 127.2723150000000000
+                        })
+                    } else if (this.siteId == 4) {
+                        this.waypoints.push({
+                            lat: 37.5793330000000000,
+                            lng: 126.8890360000000000
+                        }, {
+                            lat: 37.57518,
+                            lng: 126.89837
+                        }, {
+                            lat: 37.58299,
+                            lng: 126.88485
+                        }, {
+                            lat: 37.5812960000000000,
+                            lng: 126.8856930000000000
+                        }, {
+                            lat: 37.5793330000000000,
+                            lng: 126.8890360000000000
                         })
                     }
 
@@ -640,6 +673,10 @@ export default {
         // options
         clk(item, mode) {
             mode == "start" ? this.start_point = item : this.end_point = item;
+        },
+
+        onCancel(state) {
+            state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
         },
 
         onChange() {
@@ -1004,6 +1041,31 @@ export default {
                         })
                     }
                 }
+            } else if (this.siteId == 2) {
+                if (this.start < this.end) {
+                    for (let i = this.start; i <= this.end; i++) {
+                        this.waypoints.push({
+                            lat: this.stationList[i].lat,
+                            lng: this.stationList[i].lon
+                        });
+                    }
+                } else if (this.start > this.end) {
+                    this.waypoints.push({
+                        lat: this.stationList[this.start].lat,
+                        lng: this.stationList[this.start].lon
+                    });
+                    for (let i = this.start;
+                        (i % 3) != this.end; i++) {
+                        this.waypoints.push({
+                            lat: this.stationList[i % 3].lat,
+                            lng: this.stationList[i % 3].lon
+                        });
+                    }
+                    this.waypoints.push({
+                        lat: this.stationList[this.end].lat,
+                        lng: this.stationList[this.end].lon
+                    });
+                }
             }
 
             this.map.removeLayer(this.start_icon)
@@ -1037,8 +1099,6 @@ export default {
 
         // Location
         getLocation() {
-            console.log('success: ', this.compareLocatoin());
-            console.log('currentlocation: ', this.currentlocation);
             this.loading3 = true;
             var count = 0;
 
@@ -1105,7 +1165,12 @@ export default {
                 this.map.setView([35.812484, 126.4101], 15);
             } else if (this.siteId == 2) {
                 this.map.setView([35.836673, 128.686520], 15);
+            } else if (this.siteId == 3) {
+                this.map.setView([36.599351, 127.270606], 15);
+            } else if (this.siteId == 4) {
+                this.map.setView([37.579200, 126.891700], 15);
             }
+
             if (this.usermarker != null || this.usermarker != undefined) {
                 this.map.removeLayer(this.usermarker);
                 this.usermarker = null;
