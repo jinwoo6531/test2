@@ -13,9 +13,7 @@ import Thanks from '@/views/Thanks'
 import AutoCancel from '@/views/Auto-cancel'
 import GoodBye from '@/views/Good-bye'
 import NotFoundComponent from '@/views/NotFoundComponent'
-import Webview from '@/views/Webview'
-import WebSocketTest from '@/views/websocketTest'
-// import store from '../store/modules/auth'
+// import Webview from '@/views/Webview'
 
 Vue.use(VueRouter)
 
@@ -29,163 +27,138 @@ const requireAuth = () => (to, from, next) => {
   })
 }
 
-const routes = [{
-    path: '/webview',
-    name: 'Webview',
-    component: Webview
+const routes = [
+// {
+//   path: '/webview',
+//   name: 'Webview',
+//   component: Webview
+// },
+{
+  path: '/accessagree',
+  name: 'AccessAgree',
+  component: AccessAgree
+},
+{
+  path: '/welcome',
+  name: 'Welcome',
+  component: Welcome,
+  beforeEnter: requireAuth(),
+},
+{
+  path: '/walkthrough',
+  name: 'Walkthrough',
+  component: Walkthrough
+},
+{
+  path: '/calling',
+  name: 'CallingLayout',
+  component: CallingLayout,
+  beforeEnter: requireAuth(),
+},
+{
+  path: '/fail',
+  name: 'CallFail',
+  component: CallFail,
+  beforeEnter: requireAuth(),
+},
+{
+  path: '/goodbye',
+  name: 'GoodBye',
+  component: GoodBye
+},
+{
+  path: '/thanks',
+  name: 'Thanks',
+  component: Thanks,
+  beforeEnter: requireAuth(),
+},
+{
+  path: '/autocancel',
+  name: 'AutoCancel',
+  component: AutoCancel,
+  beforeEnter: requireAuth(),
+},
+{
+  path: '*',
+  name: 'NotFoundComponent',
+  component: NotFoundComponent
+},
+{
+  path: '/auth',
+  component: AuthLayout,
+  children: [{
+    path: 'accessphone',
+    name: 'AccessPhone',
+    component: () => import(/* webpackChunkName: "AccessPhone" */ '@/components/Auth/AccessPhone.vue')
   },
   {
-    path: '/websocket',
-    name: 'WebSocketTest',
-    component: WebSocketTest
+    path: 'accesscode',
+    name: 'AccessCode',
+    component: () => import(/* webpackChunkName: "AccessCode" */ '@/components/Auth/AccessCode.vue')
   },
   {
-    path: '/accessagree',
-    name: 'AccessAgree',
-    component: AccessAgree
+    path: 'agreecheck',
+    name: 'AgreeCheck',
+    component: () => import(/* webpackChunkName: "AgreeCheck" */ '@/components/Auth/AgreeCheck.vue'),
   },
   {
-    path: '/welcome',
-    name: 'Welcome',
-    component: Welcome,
-    beforeEnter: requireAuth(),
-  },
-  {
-    path: '/walkthrough',
-    name: 'Walkthrough',
-    component: Walkthrough
-  },
-  {
-    path: '/calling',
-    name: 'CallingLayout',
-    component: CallingLayout,
-    beforeEnter: requireAuth(),
-  },
-  {
-    path: '/fail',
-    name: 'CallFail',
-    component: CallFail,
-    beforeEnter: requireAuth(),
-  },
-  {
-    path: '/goodbye',
-    name: 'GoodBye',
-    component: GoodBye
-  },
-  {
-    path: '/thanks',
-    name: 'Thanks',
-    component: Thanks,
-    beforeEnter: requireAuth(),
-  },
-  {
-    path: '/autocancel',
-    name: 'AutoCancel',
-    component: AutoCancel,
-    beforeEnter: requireAuth(),
-  },
-  {
-    path: '*',
-    name: 'NotFoundComponent',
-    component: NotFoundComponent
-  },
-  {
-    path: '/auth',
-    component: AuthLayout,
-    children: [{
-        path: 'accessphone',
-        name: 'AccessPhone',
-        component: () => import(/* webpackChunkName: "AccessPhone" */ '@/components/Auth/AccessPhone.vue')
-      },
-      {
-        path: 'accesscode',
-        name: 'AccessCode',
-        component: () => import(/* webpackChunkName: "AccessCode" */ '@/components/Auth/AccessCode.vue')
-      },
-      {
-        path: 'agreecheck',
-        name: 'AgreeCheck',
-        component: () => import(/* webpackChunkName: "AgreeCheck" */ '@/components/Auth/AgreeCheck.vue'),
-      },
-      {
-        path: 'register',
-        name: 'Register',
-        component: () => import(/* webpackChunkName: "Register" */ '@/components/Auth/Register.vue'),
-      }
-    ]
-  },
-  {
-    path: '/map',
-    component: MapLayout,
-    beforeEnter: requireAuth(),
-    children: [
-      // {
-      //   path: 'gunsan',
-      //   name: 'Gunsan',
-      //   component: () => import(/* webpackChunkName: "Gunsan" */ '@/components/Map/Gunsan.vue')
-      // },
-      // {
-      //   path: 'daegu',
-      //   name: 'Daegu',
-      //   component: () => import(/* webpackChunkName: "Daegu" */ '@/components/Map/Daegu.vue')
-      // },
-      // {
-      //   path: 'sejong',
-      //   name: 'Sejong',
-      //   component: () => import(/* webpackChunkName: "Sejong" */ '@/components/Map/Sejong.vue')
-      // },
-      // {
-      //   path: 'sangam',
-      //   name: 'Sangam',
-      //   component: () => import(/* webpackChunkName: "Sangam" */ '@/components/Map/Sangam.vue')
-      // },
-      {
-        path: 'callingshuttle',
-        name: 'CallingShuttle',
-        component: () => import(/* webpackChunkName: "CallingShuttle" */ '@/components/Map/Callingshuttle.vue')
-      },
-      {
-        path: ':siteId',
-        name: 'Site',
-        component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: StaticLayout,
-    beforeEnter: requireAuth(),
-    children: [{
-        path: '',
-        name: 'Main',
-        component: () => import(/* webpackChunkName: "Main" */ '@/components/Static/Main')
-      }, {
-        path: 'introduction',
-        name: 'Introduction',
-        component: () => import(/* webpackChunkName: "Introduction" */ '@/components/Static/Introduction')
-      },
-      {
-        path: 'schedule',
-        name: 'Schedule',
-        component: () => import(/* webpackChunkName: "Schedule" */ '@/components/Static/Schedule')
-      },
-      {
-        path: 'faq',
-        name: 'FAQ',
-        component: () => import(/* webpackChunkName: "FAQ" */ '@/components/Static/FAQ')
-      },
-      {
-        path: 'serviceinfo',
-        name: 'Serviceinfo',
-        component: () => import(/* webpackChunkName: "Serviceinfo" */ '@/components/Static/Serviceinfo')
-      },
-      {
-        path: 'userinfo',
-        name: 'Userinfo',
-        component: () => import(/* webpackChunkName: "Userinfo" */ '@/components/Static/Userinfo')
-      }
-    ]
+    path: 'register',
+    name: 'Register',
+    component: () => import(/* webpackChunkName: "Register" */ '@/components/Auth/Register.vue'),
   }
+  ]
+},
+{
+  path: '/map',
+  component: MapLayout,
+  beforeEnter: requireAuth(),
+  children: [{
+      path: ':siteId',
+      name: 'Site',
+      component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue')
+    },
+    {
+      path: 'callingshuttle',
+      name: 'CallingShuttle',
+      component: () => import(/* webpackChunkName: "CallingShuttle" */ '@/components/Map/Callingshuttle.vue')
+    }
+  ]
+},
+{
+  path: '/',
+  component: StaticLayout,
+  beforeEnter: requireAuth(),
+  children: [{
+    path: '',
+    name: 'Main',
+    component: () => import(/* webpackChunkName: "Main" */ '@/components/Static/Main')
+  }, {
+    path: 'introduction',
+    name: 'Introduction',
+    component: () => import(/* webpackChunkName: "Introduction" */ '@/components/Static/Introduction')
+  },
+  {
+    path: 'schedule',
+    name: 'Schedule',
+    component: () => import(/* webpackChunkName: "Schedule" */ '@/components/Static/Schedule')
+  },
+  {
+    path: 'faq',
+    name: 'FAQ',
+    component: () => import(/* webpackChunkName: "FAQ" */ '@/components/Static/FAQ')
+  },
+  {
+    path: 'serviceinfo',
+    name: 'Serviceinfo',
+    component: () => import(/* webpackChunkName: "Serviceinfo" */ '@/components/Static/Serviceinfo')
+  },
+  {
+    path: 'userinfo',
+    name: 'Userinfo',
+    component: () => import(/* webpackChunkName: "Userinfo" */ '@/components/Static/Userinfo')
+  }
+  ]
+}
 ]
 
 const router = new VueRouter({
