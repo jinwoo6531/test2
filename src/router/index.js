@@ -118,30 +118,36 @@ const routes = [{
     path: '/map',
     component: MapLayout,
     beforeEnter: requireAuth(),
-    children: [{
-        path: 'gunsan',
-        name: 'Gunsan',
-        component: () => import(/* webpackChunkName: "Gunsan" */ '@/components/Map/Gunsan.vue')
-      },
-      {
-        path: 'daegu',
-        name: 'Daegu',
-        component: () => import(/* webpackChunkName: "Daegu" */ '@/components/Map/Daegu.vue')
-      },
-      {
-        path: 'sejong',
-        name: 'Sejong',
-        component: () => import(/* webpackChunkName: "Sejong" */ '@/components/Map/Sejong.vue')
-      },
-      {
-        path: 'sangam',
-        name: 'Sangam',
-        component: () => import(/* webpackChunkName: "Sangam" */ '@/components/Map/Sangam.vue')
-      },
+    children: [
+      // {
+      //   path: 'gunsan',
+      //   name: 'Gunsan',
+      //   component: () => import(/* webpackChunkName: "Gunsan" */ '@/components/Map/Gunsan.vue')
+      // },
+      // {
+      //   path: 'daegu',
+      //   name: 'Daegu',
+      //   component: () => import(/* webpackChunkName: "Daegu" */ '@/components/Map/Daegu.vue')
+      // },
+      // {
+      //   path: 'sejong',
+      //   name: 'Sejong',
+      //   component: () => import(/* webpackChunkName: "Sejong" */ '@/components/Map/Sejong.vue')
+      // },
+      // {
+      //   path: 'sangam',
+      //   name: 'Sangam',
+      //   component: () => import(/* webpackChunkName: "Sangam" */ '@/components/Map/Sangam.vue')
+      // },
       {
         path: 'callingshuttle',
         name: 'CallingShuttle',
         component: () => import(/* webpackChunkName: "CallingShuttle" */ '@/components/Map/Callingshuttle.vue')
+      },
+      {
+        path: ':siteId',
+        name: 'Site',
+        component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue')
       }
     ]
   },

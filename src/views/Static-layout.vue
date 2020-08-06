@@ -69,7 +69,7 @@
                         </v-list-item>
                     </v-list-item-title>
 
-                    <v-list-item link to="/map/gunsan" class="ma-0">
+                    <v-list-item link to="/map/1" class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산 관광벨트
