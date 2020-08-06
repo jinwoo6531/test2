@@ -1,0 +1,10 @@
+{
+    "apps": [
+	{
+            "name": "vue-backend",
+            "script": "firebase",
+            "args" : "serve --host 0.0.0.0",
+            "cwd" : "/apps/vue-backend/functions"
+	}
+    ]
+}

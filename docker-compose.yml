@@ -1,6 +1,27 @@
 version: '3.7'
 
 services:
+  web:
+    build:
+      context: ./tasio_pro
+      dockerfile: Dockerfile.prod
+    volumes:
+      - tasio_pro:/app
+
+  express:
+    #restart: unless-stopped
+    #image: andreysenov/firebase-tools
+    image: keymetrics/pm2
+    ports:
+      - 5000:5000
+    build:
+      context: ./pm2
+      dockerfile: Dockerfile
+    tty: true 
+    volumes:
+      - ./pm2/vue-backend:/apps/vue-backend
+      - pm2:/apps/pm2        
+
   nginx:
     restart: unless-stopped
     image: staticfloat/nginx-certbot
@@ -11,12 +32,16 @@ services:
       CERTBOT_EMAIL: dwyug@aspringcloud.com
       # variable names are space-separated
       ENVSUBST_VARS: FQDN
-      FQDN: kiosk.aspringcloud.com
+      FQDN: check0.springcar.io
     volumes:
       - ./nginx:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
-      - ./tasio_kiosk:/data
+      - tasio_pro:/app
+    depends_on:
+      - web
+      - express
 
 volumes:
   letsencrypt:
-
+  tasio_pro:
+  pm2:
