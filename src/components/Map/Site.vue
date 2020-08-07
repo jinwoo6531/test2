@@ -159,7 +159,7 @@
                                 <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #E61773; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #E61773; box-sizing: border-box; letter-spacing: 0;" @click="overlay2 = false; onCancel('end');">
                                     취소
                                 </v-btn>
-                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay2=false; onChange();">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#E61773" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay2 = false; onChange();">
                                     선택하기
                                 </v-btn>
                             </v-card-actions>
@@ -263,6 +263,7 @@ export default {
         loading3: false,
         // station
         stationList: [],
+        waypoints3: [],
         waypoints2: [],
         waypoints: [],
         // vehicle
@@ -369,8 +370,31 @@ export default {
                 iconSize: [12, 12]
             });
 
-            for (let i = 0; i < this.waypoints2.length; i++) {
-                this.$utils.map.createMakerByXY(this.map, [this.waypoints2[i].lat, this.waypoints2[i].lng], {
+            this.waypoints3.push({
+                lat: this.stationList[0].lat,
+                lng: this.stationList[0].lon
+            }, {
+                lat: this.stationList[6].lat,
+                lng: this.stationList[6].lon
+            }, {
+                lat: this.stationList[1].lat,
+                lng: this.stationList[1].lon
+            }, {
+                lat: this.stationList[5].lat,
+                lng: this.stationList[5].lon
+            }, {
+                lat: this.stationList[2].lat,
+                lng: this.stationList[2].lon
+            }, {
+                lat: this.stationList[3].lat,
+                lng: this.stationList[3].lon
+            }, {
+                lat: this.stationList[4].lat,
+                lng: this.stationList[4].lon
+            });
+
+            for (let i = 0; i < this.waypoints3.length; i++) {
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                     icon: gifIcon
                 });
             }
@@ -414,6 +438,7 @@ export default {
                 draggableWaypoints: false,
                 showAlternatives: false,
                 routeWhileDragging: false,
+                fitSelectedRoutes: false,
                 lineOptions: {
                     draggable: false,
                     styles: [{
@@ -457,27 +482,29 @@ export default {
                     }
 
                     this.waypoints2.push({
-                        lat: this.stationList[0].lat,
-                        lng: this.stationList[0].lon
-                    }, {
-                        lat: this.stationList[6].lat,
-                        lng: this.stationList[6].lon
-                    }, {
-                        lat: this.stationList[1].lat,
-                        lng: this.stationList[1].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
-                        lat: this.stationList[2].lat,
-                        lng: this.stationList[2].lon
-                    }, {
-                        lat: this.stationList[3].lat,
-                        lng: this.stationList[3].lon
-                    }, {
-                        lat: this.stationList[4].lat,
-                        lng: this.stationList[4].lon
-                    });
+                            lat: this.stationList[0].lat,
+                            lng: this.stationList[0].lon
+                        }, {
+                            lat: this.stationList[6].lat,
+                            lng: this.stationList[6].lon
+                        }, {
+                            lat: this.stationList[1].lat,
+                            lng: this.stationList[1].lon
+                        },
+                        /* {
+                            lat: this.stationList[5].lat,
+                            lng: this.stationList[5].lon
+                        }, */
+                        {
+                            lat: this.stationList[2].lat,
+                            lng: this.stationList[2].lon
+                        }, {
+                            lat: this.stationList[3].lat,
+                            lng: this.stationList[3].lon
+                        }, {
+                            lat: this.stationList[4].lat,
+                            lng: this.stationList[4].lon
+                        });
 
                     for (var [i, arr2] of this.stationList.entries()) {
                         this.options.push({
@@ -644,6 +671,9 @@ export default {
 
             this.start = this.start_point.value;
             this.end = this.end_point.value;
+
+            console.log('start: ', this.start);
+            console.log('end: ', this.end);
 
             this.startName = this.start_point.name;
             this.endName = this.end_point.name;
@@ -860,9 +890,6 @@ export default {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
                     }, {
@@ -903,9 +930,6 @@ export default {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     })
@@ -925,9 +949,6 @@ export default {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     })
@@ -938,9 +959,6 @@ export default {
                     }, {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
                     }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
@@ -955,9 +973,6 @@ export default {
                     }, {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
                     }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
@@ -979,9 +994,6 @@ export default {
                         lat: this.stationList[3].lat,
                         lng: this.stationList[3].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     })
@@ -992,9 +1004,6 @@ export default {
                     }, {
                         lat: this.stationList[3].lat,
                         lng: this.stationList[3].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
                     }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
