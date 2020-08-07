@@ -3,7 +3,7 @@ version: '3.7'
 services:
   web:
     build:
-      context: ./tasio_pro
+      context: .
       dockerfile: Dockerfile.prod
     volumes:
       - tasio_pro:/app
