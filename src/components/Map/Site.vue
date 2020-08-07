@@ -263,6 +263,7 @@ export default {
         loading3: false,
         // station
         stationList: [],
+        waypoints2: [],
         waypoints: [],
         // vehicle
         vehicle: [],
@@ -368,15 +369,45 @@ export default {
                 iconSize: [12, 12]
             });
 
-            for (let i = 0; i < this.waypoints.length; i++) {
-                this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
+            for (let i = 0; i < this.waypoints2.length; i++) {
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints2[i].lat, this.waypoints2[i].lng], {
                     icon: gifIcon
                 });
             }
         },
 
-        addRouting(waypoints) {
+        addRouting(waypoints, borderColor, fullColor) {
             control = this.$utils.map.createRouting(this.map, {
+                waypoints: waypoints,
+                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                fitSelectedRoutes: false,
+                lineOptions: {
+                    draggable: false,
+                    styles: [{
+                            color: borderColor,
+                            weight: 5
+                        },
+                        {
+                            color: fullColor,
+                            weight: 2
+                        }
+                    ]
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function () {
+                    return null;
+                }
+            });
+        },
+
+        addRouting2(waypoints, borderColor, fullColor) {
+            this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
                 serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
                 addWaypoints: false,
@@ -386,9 +417,14 @@ export default {
                 lineOptions: {
                     draggable: false,
                     styles: [{
-                        color: '#E51973',
-                        weight: 5
-                    }]
+                            color: borderColor,
+                            weight: 6
+                        },
+                        {
+                            color: fullColor,
+                            weight: 2
+                        }
+                    ]
                 },
                 draggable: false,
                 autoRoute: true,
@@ -420,7 +456,7 @@ export default {
                         }
                     }
 
-                    this.waypoints.push({
+                    this.waypoints2.push({
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     }, {
@@ -441,7 +477,7 @@ export default {
                     }, {
                         lat: this.stationList[4].lat,
                         lng: this.stationList[4].lon
-                    })
+                    });
 
                     for (var [i, arr2] of this.stationList.entries()) {
                         this.options.push({
@@ -454,7 +490,7 @@ export default {
                     this.end_options = this.options;
 
                     await this.addMarker();
-                    await this.addRouting(this.waypoints);
+                    await this.addRouting2(this.waypoints2, '#00CFFF', '#FFFFFF');
                 }).catch(error => {
                     console.log('station (GET) error: ');
                     this.error = error;
@@ -601,7 +637,9 @@ export default {
 
         onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6);
+            if (this.waypoints.length > 0) {
+                control.spliceWaypoints(0, 6);
+            }
             this.waypoints = [];
 
             this.start = this.start_point.value;
@@ -610,7 +648,6 @@ export default {
             this.startName = this.start_point.name;
             this.endName = this.end_point.name;
 
-            
             this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
             this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
 
@@ -976,7 +1013,7 @@ export default {
             this.map.removeLayer(endIcon);
 
             // SET New Routing
-            this.addRouting(this.waypoints);
+            this.addRouting(this.waypoints, '#E51973', 'transparent');
             this.getStat2Sta();
         },
 
@@ -1108,7 +1145,7 @@ export default {
                     count: this.count,
                     minutes: this.minutes,
                     vehicle_id: this.vehicle_id
-                }           
+                }
             });
         },
 
