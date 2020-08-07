@@ -286,6 +286,7 @@ export default {
         loading3: false,
         // station
         stationList: [],
+        waypoints2: [],
         waypoints: [],
         // vehicle
         vehicle: [],
@@ -404,14 +405,14 @@ export default {
                 iconSize: [12, 12]
             });
 
-            for (let i = 0; i < this.waypoints.length; i++) {
-                this.$utils.map.createMakerByXY(this.map, [this.waypoints[i].lat, this.waypoints[i].lng], {
+            for (let i = 0; i < this.waypoints2.length; i++) {
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints2[i].lat, this.waypoints2[i].lng], {
                     icon: gifIcon
                 });
             }
         },
 
-        addRouting(waypoints) {
+        addRouting(waypoints, borderColor, fullColor) {
             control = this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
                 serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
@@ -419,12 +420,48 @@ export default {
                 draggableWaypoints: false,
                 showAlternatives: false,
                 routeWhileDragging: false,
+                fitSelectedRoutes: false,
                 lineOptions: {
                     draggable: false,
                     styles: [{
-                        color: '#E51973',
-                        weight: 5
-                    }]
+                            color: borderColor,
+                            weight: 5
+                        },
+                        {
+                            color: fullColor,
+                            weight: 2
+                        }
+                    ]
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function () {
+                    return null;
+                }
+            });
+        },
+
+        addRouting2(waypoints, borderColor, fullColor) {
+            this.$utils.map.createRouting(this.map, {
+                waypoints: waypoints,
+                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                fitSelectedRoutes: false,
+                lineOptions: {
+                    draggable: false,
+                    styles: [{
+                            color: borderColor,
+                            weight: 6
+                        },
+                        {
+                            color: fullColor,
+                            weight: 2
+                        }
+                    ]
                 },
                 draggable: false,
                 autoRoute: true,
@@ -457,7 +494,7 @@ export default {
                     }
 
                     if (this.siteId == 1) {
-                        this.waypoints.push({
+                        this.waypoints2.push({
                             lat: this.stationList[0].lat,
                             lng: this.stationList[0].lon
                         }, {
@@ -480,7 +517,7 @@ export default {
                             lng: this.stationList[4].lon
                         })
                     } else if (this.siteId == 2) {
-                        this.waypoints.push({
+                        this.waypoints2.push({
                             lat: 35.8363080000000000,
                             lng: 128.6815470000000000
                         }, {
@@ -497,7 +534,7 @@ export default {
                             lng: 128.6815470000000000
                         })
                     } else if (this.siteId == 3) {
-                        this.waypoints.push({
+                        this.waypoints2.push({
                             lat: 36.4993510000000000,
                             lng: 127.2706060000000000
                         }, {
@@ -505,7 +542,7 @@ export default {
                             lng: 127.2723150000000000
                         })
                     } else if (this.siteId == 4) {
-                        this.waypoints.push({
+                        this.waypoints2.push({
                             lat: 37.5793330000000000,
                             lng: 126.8890360000000000
                         }, {
@@ -534,7 +571,7 @@ export default {
                     this.end_options = this.options;
 
                     await this.addMarker();
-                    await this.addRouting(this.waypoints);
+                    await this.addRouting2(this.waypoints2, '#00CFFF', '#FFFFFF');
                 }).catch(error => {
                     console.log('station (GET) error: ');
                     this.error = error;
@@ -681,7 +718,9 @@ export default {
 
         onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6);
+            if (this.waypoints.length > 0) {
+                control.spliceWaypoints(0, 6);
+            }
             this.waypoints = [];
 
             this.start = this.start_point.value;
@@ -1079,7 +1118,7 @@ export default {
             this.map.removeLayer(endIcon);
 
             // SET New Routing
-            this.addRouting(this.waypoints);
+            this.addRouting(this.waypoints, '#E51973', 'transparent');
             this.getStat2Sta();
         },
 
