@@ -69,46 +69,10 @@
                         </v-list-item>
                     </v-list-item-title>
 
-                    <v-list-item link to="/map/1" class="ma-0">
+                    <v-list-item link to="/map/site" class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산 관광벨트
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item class="ma-0">
-                        <v-list-item-content>
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
-                                    대구 수성알파시티
-                                </v-badge>
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item class="ma-0">
-                        <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
-                                    세종 호수공원
-                                </v-badge>
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item class="ma-0">
-                        <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
-                                    세종 산학연클러스터 4-2
-                                </v-badge>
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item class="ma-0">
-                        <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
-                                    상암DMC홍보관
-                                </v-badge>
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>

@@ -45,7 +45,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import {
+    mapState
+} from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -54,8 +56,6 @@ export default {
     data: () => ({
         message: '타시오 자율주행 셔틀을 호출 중입니다.',
         ready: false,
-        isrefund: '',
-        latest_mid: '',
         displayName: '',
         status: 'disconnected',
         webSocketData: {},
@@ -71,8 +71,6 @@ export default {
         axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 this.displayName = response.data.displayName;
-                this.isrefund = response.data.isrefund;
-                this.latest_mid = response.data.latest_mid;
 
                 this.onOpenWebsocket();
                 this.onMessageWebSocket();
@@ -83,7 +81,6 @@ export default {
     },
 
     mounted() {
-        this.site = this.$route.query.site;
         this.start = this.$route.query.start;
         this.end = this.$route.query.end;
         this.station_startId = parseInt(this.$route.query.station_startId);
@@ -92,6 +89,7 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
+        this.vehicle_id = parseInt(this.$route.query.vehicle_id);
 
         this.ready = true;
 
@@ -103,7 +101,6 @@ export default {
             this.$router.replace({
                 name: "CallFail",
                 query: {
-                    site: this.site,
                     start: this.start,
                     end: this.end,
                     station_startId: this.station_startId,
@@ -112,7 +109,7 @@ export default {
                     endName: this.endName,
                     count: this.count,
                     minutes: this.minutes,
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    vehicle_id: parseInt(this.$route.query.vehicle_id)
                 }
             });
         }, 120000);
@@ -147,66 +144,12 @@ export default {
             // WebSocket Cancel
             this.cancleMessage();
             this.disconnect();
-            
-            if (this.isrefund == '0') {
-                axios({
-                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
-                    method: "post",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
-                        merchant_uid: this.latest_mid, // 주문번호 *
-                        reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 1000 * parseInt(this.count)
-                    }
-                }).then(() => {
-                    this.$toasted.show("호출이 취소되었습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
 
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                }).catch(error => {
-                    console.log('환불 실패', error)
-                    this.$toasted.show("환불을 실패하였습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                })
-            } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-
-                if (this.site == 1) {
-                    this.$router.replace('/map/gunsan');
-                } else if (this.site == 2) {
-                    this.$router.replace('/map/daegu');
-                } else if (this.site == 3) {
-                    this.$router.replace('/map/sejong');
-                } else if (this.site == 4) {
-                    this.$router.replace('/map/sangam');
-                }
-            }
+            this.$toasted.show("호출이 취소되었습니다.", {
+                theme: "bubble",
+                position: "top-center"
+            }).goAway(2000);
+            this.$router.replace('/map/site');
         },
 
         onOpenWebsocket() {
@@ -268,11 +211,11 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    vehicle_id: this.vehicle_id,
                     function: 'call',
-                    current_station_id: parseInt(this.$route.query.station_startId),
-                    target_station_id: parseInt(this.$route.query.station_endId),
-                    passenger: parseInt(this.$route.query.count),
+                    current_station_id: this.station_startId,
+                    target_station_id: this.station_endId,
+                    passenger: this.count,
                     passenger_name: this.displayName,
                     uid: this.uid
                 }
@@ -299,7 +242,7 @@ export default {
             };
 
             this.socket.send(JSON.stringify(this.webSocketData2));
-        },  
+        },
 
         disconnect() {
             this.socket.close();

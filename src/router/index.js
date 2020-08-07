@@ -113,7 +113,7 @@ const routes = [
   component: MapLayout,
   beforeEnter: requireAuth(),
   children: [{
-      path: ':siteId',
+      path: 'site',
       name: 'Site',
       component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue')
     },

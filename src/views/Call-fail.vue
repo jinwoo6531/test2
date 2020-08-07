@@ -23,34 +23,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import axios from 'axios'
-
 export default {
-    data: () => ({
-        isrefund: '',
-        latest_mid: '',
-    }),
-
-    computed: {
-        ...mapState(['uid'])
-    },
-
-    created() {
-        console.log('fail uid: ', this.uid);
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
-            .then(response => {
-                console.log(response)
-                this.isrefund = response.data.isrefund;
-                this.latest_mid = response.data.latest_mid;
-                console.log(this.latest_mid)
-            }).catch(error => {
-                console.log('User read: ', error);
-            })
-    },
-
     mounted() {
-        this.site = this.$route.query.site;
         this.start = this.$route.query.start;
         this.end = this.$route.query.end;
         this.station_startId = parseInt(this.$route.query.station_startId);
@@ -59,77 +33,22 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
-        this.vehicle_id = parseInt(this.$route.query.vehicle_id)
+        this.vehicle_id = parseInt(this.$route.query.vehicle_id);
     },
 
     methods: {
         goToBack() {
-            if (this.isrefund == '0') {
-                axios({
-                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
-                    method: "post",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
-                        merchant_uid: this.latest_mid, // 주문번호 *
-                        reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 1000 * parseInt(this.count)
-                    }
-                }).then(response => {
-                    console.log('환불 완료: ', response);
-                    this.$toasted.show("호출이 취소되었습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                }).catch(error => {
-                    console.log('환불 실패', error);
-                    this.$toasted.show("환불을 실패하였습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                })
-            } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-                if (this.site == 1) {
-                    this.$router.replace('/map/gunsan');
-                } else if (this.site == 2) {
-                    this.$router.replace('/map/daegu');
-                } else if (this.site == 3) {
-                    this.$router.replace('/map/sejong');
-                } else if (this.site == 4) {
-                    this.$router.replace('/map/sangam');
-                }
-            }
+            this.$toasted.show("호출이 취소되었습니다.", {
+                theme: "bubble",
+                position: "top-center"
+            }).goAway(2000);
+            this.$router.replace('/map/gunsan');
         },
 
         callAgain() {
             this.$router.replace({
                 name: "CallingLayout",
                 query: {
-                    site: this.site,
                     start: this.start,
                     end: this.end,
                     station_startId: this.station_startId,
