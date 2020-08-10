@@ -416,7 +416,15 @@ export default {
         async showNameDialog() {
             this.watch = false;
 
-            if (this.displayName == null) {
+            let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
+            var pattern_num = /[0-9]/;
+            // eslint-disable-next-line no-useless-escape
+            var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+
+            if (pattern_num.test(this.displayName) || pattern_spc.test(this.displayName) || pattern_char.test(this.displayName)) {
+                this.rules = "이름은 한글 또는 영문만 가능합니다.";
+                this.namedialog = true;
+            } else if (this.displayName == null) {
                 this.rules = '이름은 필수 항목입니다.';
                 this.namedialog = true;
             } else {
