@@ -1160,23 +1160,23 @@ export default {
         }
     },
 
-    watch: {
+    /* watch: {
         currentlocation() {
             for (let i = 0; i < this.stationList.length; i++) {
                 if (800 > calcDistance(this.stationList[i].lat, this.stationList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
                     this.success = true;
-                    // this.can = false;
+                    this.can = false;
                     break;
                 } else {
                     this.success = false;
-                    // this.can = true;
+                    this.can = true;
                     continue;
                 }
             }
 
             return this.success;
         }
-    },
+    } */
 
 }
 </script>
