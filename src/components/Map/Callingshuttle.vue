@@ -251,7 +251,7 @@ export default {
                     console.log(error)
                 })
 
-            setInterval(async function () {
+            this.etaTime = setInterval(async function () {
                 axios.get('/api/stations/')
                     .then(response => {
                         if (response.status == 200) {
@@ -290,15 +290,12 @@ export default {
                 iconUrl: require("../../assets/start-icon.svg"),
                 iconSize: [40, 40],
                 iconAnchor: [20, 40]
-            })
-
+            });
             let endIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/end-icon.svg"),
                 iconSize: [40, 40],
-                iconAnchor: [20, 40]
-            })
-            this.start = await parseInt(this.start);
-            this.end = await parseInt(this.end);
+                iconAnchor: [20, 40],
+            });
 
             if (this.start == 0) {
                 if (this.end == 6) {
@@ -506,7 +503,6 @@ export default {
                     })
                 }
             }
-
             if (this.start == 4) {
                 if (this.end == 2) {
                     this.waypoints.push({
@@ -584,7 +580,6 @@ export default {
                     })
                 }
             }
-
             if (this.start == 5) {
                 if (this.end == 0 || this.end == 6 || this.end == 1) {
                     this.waypoints.push({
@@ -614,17 +609,17 @@ export default {
                         lng: this.stationList[0].lon
                     })
                 }
-
-                this.map.removeLayer(this.start_icon)
-                this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
-                    icon: startIcon
-                });
-                this.map.removeLayer(this.end_icon)
-                this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
-                    icon: endIcon
-                });
-                this.map.removeLayer(endIcon);
             }
+
+            this.map.removeLayer(this.start_icon)
+            this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                icon: startIcon
+            });
+            this.map.removeLayer(this.end_icon)
+            this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                icon: endIcon
+            });
+            this.map.removeLayer(endIcon);
 
             this.$utils.map.createRouting(this.map, {
                 waypoints: this.waypoints,
@@ -732,6 +727,8 @@ export default {
             this.socket.close();
             this.status = "disconnected";
             console.log('socket', this.status);
+
+            clearInterval(this.etaTime);
         }
     }
 }
