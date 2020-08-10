@@ -6,10 +6,10 @@
                 <v-card class="pa-0 userwrap" flat tile>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="2" width="100%" height="100%" class="usertitle">
+                        <v-col cols="3" width="100%" height="100%" class="usertitle">
                             이름
                         </v-col>
-                        <v-col cols="8" height="100%" class="pl-4">
+                        <v-col cols="7" height="100%" class="pl-0">
                             {{ displayName }}
                         </v-col>
                         <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
@@ -42,10 +42,10 @@
                     </v-row>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="2" width="100%" height="100%" class="usertitle">
+                        <v-col cols="3" width="100%" height="100%" class="usertitle">
                             이메일
                         </v-col>
-                        <v-col cols="8" height="100%" class="pl-4">
+                        <v-col cols="7" height="100%" class="pl-0">
                             {{ email }}
                         </v-col>
                         <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
@@ -77,10 +77,10 @@
                     </v-row>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="2" width="100%" height="100%" class="usertitle">
+                        <v-col cols="3" width="100%" height="100%" class="usertitle">
                             성별
                         </v-col>
-                        <v-col cols="8" height="100%" class="pl-4">
+                        <v-col cols="7" height="100%" class="pl-0">
                             {{ gender }}
                         </v-col>
                         <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
@@ -120,10 +120,10 @@
                     </v-row>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="2" width="100%" height="100%" class="usertitle">
+                        <v-col cols="3" width="100%" height="100%" class="usertitle">
                             생일
                         </v-col>
-                        <v-col cols="8" height="100%" class="pl-4">
+                        <v-col cols="7" height="100%" class="pl-0">
                             {{ birth }}
                         </v-col>
                         <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
@@ -155,10 +155,10 @@
                     </v-row>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="2" width="100%" height="100%" class="usertitle">
+                        <v-col cols="3" width="100%" height="100%" class="usertitle">
                             전화번호
                         </v-col>
-                        <v-col cols="8" height="100%" class="pl-4">
+                        <v-col cols="9" height="100%" class="pl-0">
                             {{ getPhoneNumber }}
                         </v-col>
                     </v-row>
