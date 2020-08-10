@@ -495,9 +495,6 @@ export default {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
                     }, {
@@ -538,9 +535,6 @@ export default {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     })
@@ -560,9 +554,6 @@ export default {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     })
@@ -573,9 +564,6 @@ export default {
                     }, {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
                     }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
@@ -590,9 +578,6 @@ export default {
                     }, {
                         lat: this.stationList[2].lat,
                         lng: this.stationList[2].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
                     }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
@@ -614,9 +599,6 @@ export default {
                         lat: this.stationList[3].lat,
                         lng: this.stationList[3].lon
                     }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
-                    }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
                     })
@@ -627,9 +609,6 @@ export default {
                     }, {
                         lat: this.stationList[3].lat,
                         lng: this.stationList[3].lon
-                    }, {
-                        lat: this.stationList[5].lat,
-                        lng: this.stationList[5].lon
                     }, {
                         lat: this.stationList[0].lat,
                         lng: this.stationList[0].lon
