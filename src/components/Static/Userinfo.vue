@@ -242,9 +242,7 @@
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -316,6 +314,8 @@ export default {
     },
 
     computed: {
+        ...mapState(['uid']),
+
         ...mapGetters({
             user: "user"
         }),
@@ -395,7 +395,7 @@ export default {
 
     methods: {
         async getUser() {
-            await axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            await axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
                 .then(async response => {
                     this.displayName = response.data.displayName;
                     this.email = response.data.email;
@@ -421,8 +421,7 @@ export default {
                 this.namedialog = true;
             } else {
                 // 변경된 이름 저장
-                var uid = this.user.data.uid;
-                await this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(this.uid).update({
                     displayName: this.displayName
                 })
 
@@ -438,15 +437,14 @@ export default {
 
             var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
             if (!check.test(this.email)) {
-                this.rules = '이메일 형식을 지켜주세요.'
+                this.rules = '이메일 형식을 지켜주세요.';
                 this.emaildialog = true;
             } else if (this.email == null) {
-                this.rules = '이메일은 필수 항목입니다.'
+                this.rules = '이메일은 필수 항목입니다.';
                 this.emaildialog = true;
             } else {
                 // 변경된 이메일 저장
-                var uid = this.user.data.uid
-                await this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(this.uid).update({
                     email: this.email
                 });
 
@@ -459,8 +457,7 @@ export default {
         async showGenderDialog() {
             this.watch3 = false;
             // 변경된 성별 저장
-            var uid = this.user.data.uid;
-            await this.$firebase.firestore().collection('users').doc(uid).update({
+            await this.$firebase.firestore().collection('users').doc(this.uid).update({
                 gender: this.gender
             });
 
@@ -473,15 +470,14 @@ export default {
             this.watch2 = false;
 
             if (this.birth == null) {
-                this.rules = '생일은 필수 항목입니다.'
+                this.rules = '생일은 필수 항목입니다.';
                 this.birthdialog = true;
             } else if (this.birth.length > 7) {
-                this.rules = '6자로 입력해주세요.'
+                this.rules = '6자로 입력해주세요.';
                 this.birthdialog = true;
             } else {
                 // 변경된 생일 저장
-                var uid = this.user.data.uid;
-                await this.$firebase.firestore().collection('users').doc(uid).update({
+                await this.$firebase.firestore().collection('users').doc(this.uid).update({
                     birth: this.birth
                 });
 
@@ -493,7 +489,7 @@ export default {
         },
 
         nochangeDisplayName() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.displayName = response.data.displayName;
                     this.namedialog = false;
@@ -503,7 +499,7 @@ export default {
         },
 
         nochangeEmail() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.email = response.data.email;
                     this.emaildialog = false;
@@ -513,7 +509,7 @@ export default {
         },
 
         nochangeGender() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.gender = response.data.gender;
                     this.genderdialog = false;
@@ -523,7 +519,7 @@ export default {
         },
 
         nochangeBirth() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.birth = response.data.birth;
                     this.birthdialog = false;
@@ -544,11 +540,10 @@ export default {
 
         deleteUser() {
             if (this.inputPhoneNumber == this.deletePhoneNumber) {
-                console.log(this.user.data.uid)
-                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
+                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.uid)
                     .then(() => {
                         this.$router.replace('/goodbye');
-                    })
+                    });
             } else {
                 this.$toasted.show("휴대폰 번호를 확인해주세요!", {
                     theme: "bubble",
