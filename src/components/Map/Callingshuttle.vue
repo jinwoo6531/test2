@@ -159,13 +159,13 @@ export default {
             data
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
-            console.log('webSocketData: ', this.webSocketData);
+            console.log('CallingShuttle: ', this.webSocketData);
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
                 this.socket.close();
                 this.$router.replace({
                     name: 'Thanks'
                 });
-            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.uid == this.uid && this.webSocketData.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == 1) {
+            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.uid == this.uid && this.webSocketData.how.function == 'cancel_call' && this.webSocketData.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == 1) {
                 this.socket.close();
                 this.$router.replace({
                     name: 'AutoCancel'
