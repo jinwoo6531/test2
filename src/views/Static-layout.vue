@@ -7,7 +7,7 @@
                     <v-list-item-title class="title">
                         <img src="../assets/side-logo.svg">
                     </v-list-item-title>
-                    <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #E61773; margin-top: 10px;">
+                    <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #2E3990; margin-top: 10px;">
                         스프링클라우드 자율주행 셔틀
                     </v-list-item-subtitle>
                 </v-list-item-content>
@@ -50,13 +50,6 @@
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
-            <v-list-item link to="/introduction" class="pa-0">
-                <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                        타시오 소개
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
             <v-list-item class="boldMenu pa-0 mt-4">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
@@ -69,7 +62,7 @@
                         </v-list-item>
                     </v-list-item-title>
 
-                    <v-list-item link to="/map/site" class="ma-0">
+                    <v-list-item link to="/site" class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산 관광벨트
@@ -113,7 +106,8 @@
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%; text-align: center; line-height: 57px;">
                         <span flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
-                        <span flat v-if="this.$route.fullPath == '/introduction'" class="pa-0 static-title">타시오 소개</span>
+                        <span flat v-if="this.$route.fullPath == '/site'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
+                        <span flat v-if="this.$route.fullPath == '/callingshuttle'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
                         <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
                         <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
                         <span flat v-if="this.$route.fullPath == '/userinfo'" class="pa-0 static-title">내정보</span>
@@ -173,9 +167,10 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
-.v-badge__badge {
-    border-radius: 7px !important;
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none;
 }
 
 .v-navigation-drawer__content {
@@ -184,6 +179,10 @@ export default {
 
 .v-navigation-drawer__content::-webkit-scrollbar {
     display: none;
+}
+
+.v-badge__badge {
+    border-radius: 7px !important;
 }
 
 .v-list-item {
@@ -200,6 +199,12 @@ export default {
 
 .theme--light.v-list-item:hover::before {
     opacity: 0 !important;
+}
+
+.nav-icon {
+    position: relative;
+    z-index: 9;
+    width: 100%;
 }
 
 .static-title {
@@ -222,5 +227,138 @@ export default {
     background: transparent !important;
     position: absolute;
     bottom: 0;
+}
+
+.map-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#map-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+.selectBox {
+    width: 100%;
+    position: fixed;
+    z-index: 9;
+    bottom: 0;
+}
+
+.selectStationWrap {
+    width: 100%;
+    height: 90px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    text-align: center;
+}
+
+.divide-bar {
+    display: inline-block;
+    width: 100%;
+    border: 0.8px dashed #E0E0E0;
+}
+
+.callShuttle {
+    width: 100%;
+    border-radius: 0;
+    color: #FFF !important;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+}
+
+.person-modal {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    color: #2E3990 !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.count {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    color: #262626 !important;
+    margin: 0 29px;
+}
+
+.select-person-btn {
+    width: 100%;
+    height: 50px;
+    background: #2E3990 !important;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #FFFFFF !important;
+    position: absolute;
+    bottom: 0;
+}
+
+/* Current Location */
+#current_container {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.current_item {
+    border-radius: 50%;
+    width: 11px;
+    height: 11px;
+    background: #F82323;
+    z-index: 10;
+}
+
+.current_item2 {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    z-index: 9;
+}
+
+.current_circle {
+    border-radius: 50%;
+    background-color: #EB5757;
+    box-shadow: inset 0px 0px 4px rgba(255, 0, 0, 0.4);
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    opacity: 0;
+    animation: scaleIn 4s infinite cubic-bezier(.36, .11, .89, .32);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(.5, .5);
+        opacity: .5;
+    }
+
+    to {
+        transform: scale(2.5, 2.5);
+        opacity: 0;
+    }
 }
 </style>

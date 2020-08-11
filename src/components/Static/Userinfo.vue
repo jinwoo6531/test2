@@ -23,8 +23,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showNameDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showNameDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
 
@@ -32,7 +32,7 @@
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이름</v-card-title>
-                                            <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
+                                            <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#2E3990"></v-text-field>
                                             <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
@@ -59,15 +59,15 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch1 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showEmailDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch1 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showEmailDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">이메일</v-card-title>
-                                            <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
+                                            <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#2E3990"></v-text-field>
                                             <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
@@ -94,8 +94,8 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch3 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showGenderDialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch3 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showGenderDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -137,15 +137,15 @@
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch2 == false" disabled color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showBirthdialog" color="#E61773" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-if="watch2 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click="showBirthdialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
                                     <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
                                         <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
                                             <v-card-title class="pl-0 modify-title">생일</v-card-title>
-                                            <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#E61773"></v-text-field>
+                                            <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#2E3990"></v-text-field>
                                             <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
                                         </v-card>
                                     </v-row>
@@ -177,7 +177,7 @@
                                     <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소</v-btn>
                                 </v-col>
                                 <v-col style="height: 100%;">
-                                    <v-btn color="#E61773" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
+                                    <v-btn color="#2E3990" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
                                 </v-col>
                             </v-row>
                         </v-card-actions>
@@ -229,7 +229,7 @@
                             <v-flex xs12 sm12 md12 class="d-flex justify-center align-end">
                                 <v-footer padless absolute>
                                     <v-btn color="#E0E0E0" block depressed tile height="50px" class="pa-0" v-if="inputPhoneNumber.length == 0 || byeReason.value == undefined">탈퇴하기</v-btn>
-                                    <v-btn color="#E61773" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click="deleteUser" v-else>탈퇴하기</v-btn>
+                                    <v-btn color="#2E3990" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click="deleteUser" v-else>탈퇴하기</v-btn>
                                 </v-footer>
                             </v-flex>
                         </v-layout>
@@ -705,8 +705,8 @@ export default {
 }
 
 .box-radio-input input[type="radio"]:checked+span {
-    border: 1px solid #E61773;
-    background: #E61773;
+    border: 1px solid #2E3990;
+    background: #2E3990;
     color: #fff;
 }
 </style>

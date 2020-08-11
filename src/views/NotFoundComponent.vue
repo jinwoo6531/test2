@@ -22,7 +22,7 @@
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center pr-5 pl-5">
             <div style="width: 100%;">
-                <v-btn block depressed tile color="#E61773" height="50px" @click="goToBack" class="call-again-btn">이전 페이지 돌아가기</v-btn>
+                <v-btn block depressed tile color="#2E3990" height="50px" @click="goToBack" class="call-again-btn">이전 페이지 돌아가기</v-btn>
                 <v-card link to="/" color="transparent" flat tile class="try-again">메인 바로가기</v-card>
             </div>
         </v-flex>

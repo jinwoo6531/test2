@@ -4,7 +4,7 @@
         <v-row align="center" justify="center">
             <v-card color="transparent" flat>
                 <v-card-text class="text-center">
-                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                    <v-progress-circular indeterminate size="50" color="#2E3990"></v-progress-circular>
                 </v-card-text>
                 <v-card-text class="text-center" style="color: #FFF;">
                     인증 상태를 기다리는 중입니다.
@@ -33,11 +33,10 @@
                         </v-card>
                     </v-card>
                     <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
-                        <p class="SendInfo">{{ phoneN }} 로 SMS를 보냈습니다.</p>
+                        <p class="SendInfo">{{ this.doneTime }}</p>
                         <p class="RemainTime">{{ remainTime }}</p>
                     </v-flex>
-                    <v-flex class="pa-0 d-flex justify-space-between" xs12 sm12 md12>
-                        <p class="DoneTime">{{ this.doneTime }}</p>
+                    <v-flex class="pa-0" xs12 sm12 md12>
                         <p class="AgainBtn" text @click="sendOtp" v-if="isLoading == false">인증번호 다시 받기</p>
                         <p class="AgainBtn" text v-else>인증번호 다시 받기</p>
                     </v-flex>
@@ -46,9 +45,9 @@
             <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
-                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true || tryAgain == true">다음</v-btn>
-                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" disabled v-else-if="minutes <= 0 && seconds <= 0">다음</v-btn>
-                        <v-btn depressed tile color="#E61773" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
+                        <v-btn depressed tile color="#2E3990" width="100%" height="50px" class="auth-next" disabled v-if="!ready || isLoading == true || tryAgain == true">다음</v-btn>
+                        <v-btn depressed tile color="#2E3990" width="100%" height="50px" class="auth-next" disabled v-else-if="minutes <= 0 && seconds <= 0">다음</v-btn>
+                        <v-btn depressed tile color="#2E3990" width="100%" height="50px" class="auth-next" @click="verifyOtp" v-else>다음</v-btn>
                     </v-card>
                 </v-flex>
             </v-flex>
@@ -89,6 +88,8 @@ export default {
         let mid = this.$route.params.phoneNumber.substring(6, 10);
         let end = this.$route.params.phoneNumber.substring(10, 14);
         this.phoneN = start + "-" + mid + "-" + end;
+
+        this.doneTime = this.phoneN + '로 SMS를 보냈습니다.';
 
         this.timeOut();
     },
@@ -256,19 +257,14 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
-    color: #e61773;
-}
-
-.DoneTime {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    color: #eb5757;
+    color: #2E3990;
 }
 
 .AgainBtn {
+    width: 100%;
+    text-align: right;
     text-decoration-line: underline;
-    color: #e61773;
+    color: #2E3990;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;

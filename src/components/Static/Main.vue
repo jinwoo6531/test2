@@ -29,7 +29,7 @@ export default {
         cards: [{
             title: '<span style="width: 100%; text-align: center;">고군산<br>관광벨트</span>',
             src: require('../../assets/gunsan-btn.png'),
-            to: '/map/site',
+            to: '/site',
             disabled: false,
             gradient: undefined,
             color: 'transparent'

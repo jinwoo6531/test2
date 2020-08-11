@@ -4,7 +4,7 @@
         <v-row align="center" justify="center">
             <v-card color="transparent" flat>
                 <v-card-text class="text-center">
-                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
+                    <v-progress-circular indeterminate size="50" color="#2E3990"></v-progress-circular>
                 </v-card-text>
                 <v-card-text class="text-center" style="color: #FFF;">
                     인증 상태를 기다리는 중입니다.
@@ -32,8 +32,8 @@
             <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
-                        <v-btn depressed tile color="#E61773" id="sign-in-button" width="100%" height="50px" class="phone-next" disabled v-if="loading == true">인증번호 받기</v-btn>
-                        <v-btn depressed tile color="#E61773" id="sign-in-button" width="100%" height="50px" class="phone-next" @click="sendOtp" v-else>인증번호 받기</v-btn>
+                        <v-btn depressed tile color="#2E3990" id="sign-in-button" width="100%" height="50px" class="phone-next" disabled v-if="loading == true">인증번호 받기</v-btn>
+                        <v-btn depressed tile color="#2E3990" id="sign-in-button" width="100%" height="50px" class="phone-next" @click="sendOtp" v-else>인증번호 받기</v-btn>
                     </v-card>
                 </v-flex>
             </v-flex>

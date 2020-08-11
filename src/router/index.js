@@ -5,7 +5,6 @@ import AccessAgree from '@/views/Access-agree'
 import Walkthrough from '@/views/Walkthrough'
 import Welcome from '@/views/Welcome'
 import AuthLayout from '@/views/Auth-layout'
-import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
 import CallFail from '@/views/Call-fail'
@@ -109,22 +108,6 @@ const routes = [
   ]
 },
 {
-  path: '/map',
-  component: MapLayout,
-  beforeEnter: requireAuth(),
-  children: [{
-      path: 'site',
-      name: 'Site',
-      component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue')
-    },
-    {
-      path: 'callingshuttle',
-      name: 'CallingShuttle',
-      component: () => import(/* webpackChunkName: "CallingShuttle" */ '@/components/Map/Callingshuttle.vue')
-    }
-  ]
-},
-{
   path: '/',
   component: StaticLayout,
   beforeEnter: requireAuth(),
@@ -132,10 +115,16 @@ const routes = [
     path: '',
     name: 'Main',
     component: () => import(/* webpackChunkName: "Main" */ '@/components/Static/Main')
-  }, {
-    path: 'introduction',
-    name: 'Introduction',
-    component: () => import(/* webpackChunkName: "Introduction" */ '@/components/Static/Introduction')
+  }, 
+  {
+    path: 'site',
+    name: 'Site',
+    component: () => import(/* webpackChunkName: "Site" */ '@/components/Static/Site.vue')
+  },
+  {
+    path: 'callingshuttle',
+    name: 'CallingShuttle',
+    component: () => import(/* webpackChunkName: "CallingShuttle" */ '@/components/Static/Callingshuttle.vue')
   },
   {
     path: 'schedule',

@@ -16,8 +16,8 @@
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">성별</p>
                     <v-radio-group v-model="form.gender" row>
-                        <v-radio label="남성" :ripple="false" color="#E61773" value="남자"></v-radio>
-                        <v-radio label="여성" :ripple="false" color="#E61773" value="여자"></v-radio>
+                        <v-radio label="남성" :ripple="false" color="#2E3990" value="남자"></v-radio>
+                        <v-radio label="여성" :ripple="false" color="#2E3990" value="여자"></v-radio>
                     </v-radio-group>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
@@ -172,7 +172,7 @@ input::placeholder {
 .signupBtn {
     width: 100%;
     height: 50px;
-    background: #E61773;
+    background: #2E3990;
     border-radius: 2px;
     color: #FFF;
     font-size: 16px;

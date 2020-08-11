@@ -30,7 +30,7 @@
         </v-col>
     </v-row>
     <v-footer absolute style="margin-bottom: 24px; background: transparent;">
-        <v-btn block depressed :ripple="false" height="50px" color="#E61773" class="start-tasio" @click="startTasio">타시오 시작하기</v-btn>
+        <v-btn block depressed :ripple="false" height="50px" color="#2E3990" class="start-tasio" @click="startTasio">타시오 시작하기</v-btn>
     </v-footer>
 </v-container>
 </template>
@@ -68,7 +68,7 @@ export default {
     font-size: 18px;
     line-height: 26px;
     text-align: center;
-    color: #E61773;
+    color: #2E3990;
 }
 
 .start-tasio {
