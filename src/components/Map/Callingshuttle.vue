@@ -147,14 +147,7 @@ export default {
     },
 
     mounted() {
-        /* this.site = 1;
-        this.vehicle_id = 4;
-        this.start = 3;
-        this.end = 2;
-        this.count = 9; */
-
         this.socket = this.$route.params.socket;
-        this.site_id = parseInt(this.$route.params.site_id);
         this.vehicle_id = parseInt(this.$route.params.vehicle_id);
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
@@ -170,7 +163,7 @@ export default {
                 this.$router.replace({
                     name: 'Thanks'
                 });
-            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'safegaurd' && this.uid == this.uid && this.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == this.site_id) {
+            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'safegaurd' && this.how.uid == this.uid && this.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == 1) {
                 this.socket.close();
                 this.$router.replace({
                     name: 'AutoCancel'

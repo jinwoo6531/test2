@@ -89,7 +89,6 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
-        this.site_id = parseInt(this.$route.query.site_id);
         this.vehicle_id = parseInt(this.$route.query.vehicle_id);
 
         this.ready = true;

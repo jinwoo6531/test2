@@ -1150,7 +1150,6 @@ export default {
                     endName: this.endName,
                     count: this.count,
                     minutes: this.minutes,
-                    site_id: 1,
                     vehicle_id: this.vehicle_id
                 }
             });
