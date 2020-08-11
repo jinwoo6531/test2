@@ -152,18 +152,20 @@ export default {
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
+        
+        console.log(this.uid)
 
         this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
-            console.log('webSocketData: ', this.webSocketData.what);
+            console.log('webSocketData: ', this.webSocketData);
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
                 this.socket.close();
                 this.$router.replace({
                     name: 'Thanks'
                 });
-            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'safegaurd' && this.how.uid == this.uid && this.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == 1) {
+            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.uid == this.uid && this.webSocketData.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == 1) {
                 this.socket.close();
                 this.$router.replace({
                     name: 'AutoCancel'
