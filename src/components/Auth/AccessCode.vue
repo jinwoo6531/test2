@@ -33,7 +33,8 @@
                         </v-card>
                     </v-card>
                     <v-flex class="pa-0 pt-4 d-flex justify-space-between" xs12 sm12 md12>
-                        <p class="SendInfo">{{ this.doneTime }}</p>
+                        <p v-if="timeout == false" class="SendInfo">{{ this.doneTime }}</p>
+                        <p v-else class="SendAgain">{{ this.doneTime }}</p>
                         <p class="RemainTime">{{ remainTime }}</p>
                     </v-flex>
                     <v-flex class="pa-0" xs12 sm12 md12>
@@ -70,6 +71,7 @@ export default {
         remainTime: 0,
         ready: 0,
         tryAgain: false,
+        timeout: false,
         doneTime: ""
     }),
 
@@ -143,6 +145,7 @@ export default {
             this.remainTime = this.minutes + ":" + this.seconds;
             if (this.minutes <= 0 && this.seconds <= 0) {
                 this.timeStop();
+                this.timeout = true;
                 this.doneTime = "인증번호 유효시간이 만료 됐습니다.";
                 this.ready = '';
             }
@@ -253,6 +256,13 @@ export default {
     color: #bdbdbd;
 }
 
+.SendAgain {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #EB5757;
+}
+
 .RemainTime {
     font-style: normal;
     font-weight: normal;
@@ -264,7 +274,7 @@ export default {
     width: 100%;
     text-align: right;
     text-decoration-line: underline;
-    color: #2E3990;
+    color: #E61773;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;

@@ -13,14 +13,15 @@
 
                 <v-dialog v-model="serviceDialog" max-width="320">
                     <v-card>
-                        <v-toolbar flat tile color="transparent">
+                        <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="serviceDialog = false">
-                                <v-icon>mdi-close</v-icon>
+                            <v-btn icon @click="serviceDialog = false" height="100%">
+                                <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text class="pa-4 pt-2">
-                            <b>온리원 고군산 자율주행 셔틀 서비스 이용약관</b><br>
+                        <v-card-text class="pa-4 pt-0">
+                            <span class="privacy_title">서비스 이용약관</span><br>
+                            온리원 고군산 자율주행 셔틀 서비스 이용약관<br>
                             <br>
                             <b>제1조 (목적)</b><br>
                             본 약관은 군산시가 제공하는 관련 제반 서비스인 자율주행 셔틀 서비스(이하 “서비스”라 한다)의 이용과 관련하여 군산시와 회원과의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.<br>
@@ -212,14 +213,16 @@
 
                 <v-dialog v-model="privacyDialog" max-width="320">
                     <v-card>
-                        <v-toolbar flat tile color="transparent">
+                        <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="privacyDialog = false">
-                                <v-icon>mdi-close</v-icon>
+                            <v-btn icon @click="privacyDialog = false" height="100%">
+                                <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text class="pa-4 pt-2">
-                            <b>온리원 고군산 자율주행 셔틀 서비스 개인정보 처리방침</b><br>
+                        <v-card-text class="pa-4 pt-0">
+                            <span class="privacy_title">개인정보 처리방침</span><br>
+                            온리원 고군산 자율주행 셔틀 서비스 개인정보 처리방침<br>
+                            <br>
                             군산시는 군산시가 제공하는 관련 제반 서비스인 온리원 고군산 자율주행 셔틀 서비스(이하 “서비스”라 한다)의 이용과 관련하여 서비스 이용자(이하 “회원”라 한다)의 개인정보를 중요시하고, 정보통신망 이용촉진 및 정보보호 등에 관한 법률, 개인정보보호법, 통신비밀보호법, 전기통신사업법 등 정보통신서비스 제공자가 준수하여야 할 관련 법령상의 개인정보보호 규정을 준수하며, 관련 법령에 의거한 개인정보처리방침을 정하여 회원 권익 보호에 최선을 다하고 있습니다. 군산시는 개인정보 처리방침을 통하여 회원께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다. <br>
                             <br>
                             <b>제1조 (수집하는 개인정보의 항목 및 수집방법)</b><br>
@@ -325,14 +328,14 @@
 
                 <v-dialog v-model="marketingDialog" max-width="320">
                     <v-card>
-                        <v-toolbar flat tile color="transparent">
+                        <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="marketingDialog = false">
-                                <v-icon>mdi-close</v-icon>
+                            <v-btn icon @click="marketingDialog = false" height="100%">
+                                <v-icon color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text class="pa-4 pt-2">
-                            <b>마케팅 정보 수신 동의</b><br>
+                        <v-card-text class="pa-4 pt-0">
+                            <span class="privacy_title">마케팅 정보 수신 동의</span><br>
                             <br>
                             <b>제1조 (마케팅 정보 수신 동의)</b><br>
                             군산시는 개인정보보호법 및 정보통신망이용촉진및정보보호등에관한법률 등 관계법령에 따라 광고성정보를 전송하기 위해 수신자의 사전 수신동의를 받고 있으며, 광고성정보 수신자의 수신동의여부를 정기적으로 확인합니다.<br>
@@ -358,7 +361,7 @@
 
                 <v-card-text class="pa-0 pt-9 agree-content" style="float: left;">
                     <span style="float: left;">약관을 확인하였으며, 모두 동의합니다.</span>
-                    <v-checkbox :ripple="false" v-model="agree" class="pa-0 ma-0" color="#2E3990" style="display: inline-block; float: right;"></v-checkbox>
+                    <v-checkbox :ripple="false" v-model="agree" class="pa-0 ma-0" color="#2F80ED" style="display: inline-block; float: right;"></v-checkbox>
                 </v-card-text>
             </v-card>
         </v-flex>
@@ -410,6 +413,27 @@ export default {
 </script>
 
 <style scoped>
+.v-dialog {
+    border-radius: 10px !important;
+}
+
+.privacy_title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #2E3990;
+}
+
+.privacy_content {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 17px;
+    font-size: 12px !important;
+    color: #4F4F4F;
+}
+
 .agree-title {
     font-family: Noto Sans KR;
     font-style: normal;
