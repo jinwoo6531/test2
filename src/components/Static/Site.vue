@@ -306,9 +306,7 @@ export default {
         // ETA
         minutes: 0,
         // 타시오 호출
-        calldialog: false,
-        meth: '191029079116',
-        pay_method: 'card',
+        calldialog: false
     }),
 
     computed: {
@@ -356,6 +354,18 @@ export default {
     },
 
     updated() {
+        this.map.on('zoomend', function (e) {
+            this.zoomScale = e.sourceTarget._zoom;
+
+            if (this.zoomScale > 16) {
+                this.show_station = true;
+                console.log(this.zoomScale);
+            } else {
+                this.show_station = false;
+                console.log('여기서는 보여주지 말자!');
+            }
+        });
+
         if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
