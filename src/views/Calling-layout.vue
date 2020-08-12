@@ -149,7 +149,7 @@ export default {
                 theme: "bubble",
                 position: "top-center"
             }).goAway(2000);
-            this.$router.replace('/site');
+            this.$router.replace('/');
         },
 
         onOpenWebsocket() {

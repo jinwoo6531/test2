@@ -3,13 +3,13 @@
     <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
         <v-list dense>
             <v-list-item class="pl-0">
-                <v-list-item-content>
-                    <v-list-item-title class="title">
+                <v-list-item-content class="pa-0" style="padding-bottom: 20px !important;">
+                    <v-list-item-title class="title d-flex justify-space-between">
                         <img src="../assets/side-logo.svg">
+                        <v-btn width="14px" height="14px" icon @click="drawer = false">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
                     </v-list-item-title>
-                    <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #2E3990; margin-top: 10px;">
-                        스프링클라우드 자율주행 셔틀
-                    </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
 
@@ -50,28 +50,6 @@
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
-            <v-list-item class="boldMenu pa-0 mt-4">
-                <v-list-item-content class="pa-0">
-                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                        <v-list-item link to="/" class="pa-0">
-                            <v-list-item-content class="pa-0">
-                                <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                    전체 지역보기
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list-item-title>
-
-                    <v-list-item link to="/site" class="ma-0">
-                        <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
-                                고군산 관광벨트
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list-item-content>
-            </v-list-item>
-
             <v-list-item class="boldMenu pa-0 mt-4" link to="/schedule">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
@@ -79,7 +57,7 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            
+
             <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
@@ -106,7 +84,6 @@
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%; text-align: center; line-height: 57px;">
                         <span flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
-                        <span flat v-if="this.$route.fullPath == '/site'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
                         <span flat v-if="this.$route.fullPath == '/callingshuttle'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
                         <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
                         <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
@@ -128,7 +105,7 @@
             <v-divider v-if="this.$route.fullPath == '/serviceinfo'"></v-divider>
         </v-card>
 
-        <router-view style="margin-top: 57px;"></router-view>
+        <router-view style="padding-top: 57px;"></router-view>
     </v-content>
 </v-app>
 </template>

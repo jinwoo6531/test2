@@ -113,11 +113,6 @@ const routes = [
   beforeEnter: requireAuth(),
   children: [{
     path: '',
-    name: 'Main',
-    component: () => import(/* webpackChunkName: "Main" */ '@/components/Static/Main')
-  }, 
-  {
-    path: 'site',
     name: 'Site',
     component: () => import(/* webpackChunkName: "Site" */ '@/components/Static/Site.vue')
   },

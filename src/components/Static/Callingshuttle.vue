@@ -187,26 +187,6 @@ export default {
     },
 
     methods: {
-        /* setTime() {
-            let current = 0;
-            let countUp = setInterval(() => {
-                current++;
-
-                if (current == 300) {
-                    clearInterval(countUp);
-                    this.cancleMessage();
-                    this.disconnect();
-
-                    this.$router.replace({
-                        name: 'AutoCancel',
-                        query: {
-                            passenger_count: this.count
-                        }
-                    });
-                }
-            }, 1000);
-        }, */
-
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
