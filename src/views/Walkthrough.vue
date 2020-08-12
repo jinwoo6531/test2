@@ -48,7 +48,7 @@ export default {
 
     data: () => ({
         contents: [{
-                title: '<span style="width: 100%; text-align: center;">안녕하세요. 타시오 입니다.</span>'
+                title: '<span style="width: 100%; text-align: center;">온리원 고군산 자율주행 셔틀에 오신 것을<br>환영합니다.</span>'
             },
             {
                 title: '<span style="width: 100%; text-align: center;">출발지, 목적지를 선택하고<br>도착 예정 시간을 확인하세요.</span>'
