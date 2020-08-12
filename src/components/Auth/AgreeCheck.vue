@@ -19,8 +19,9 @@
                                 <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text class="pa-4 pt-0">
+                        <v-card-text class="pa-3 pt-0 privacy_content">
                             <span class="privacy_title">서비스 이용약관</span><br>
+                            <br>
                             온리원 고군산 자율주행 셔틀 서비스 이용약관<br>
                             <br>
                             <b>제1조 (목적)</b><br>
@@ -219,8 +220,9 @@
                                 <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text class="pa-4 pt-0">
+                        <v-card-text class="pa-3 pt-0 privacy_content">
                             <span class="privacy_title">개인정보 처리방침</span><br>
+                            <br>
                             온리원 고군산 자율주행 셔틀 서비스 개인정보 처리방침<br>
                             <br>
                             군산시는 군산시가 제공하는 관련 제반 서비스인 온리원 고군산 자율주행 셔틀 서비스(이하 “서비스”라 한다)의 이용과 관련하여 서비스 이용자(이하 “회원”라 한다)의 개인정보를 중요시하고, 정보통신망 이용촉진 및 정보보호 등에 관한 법률, 개인정보보호법, 통신비밀보호법, 전기통신사업법 등 정보통신서비스 제공자가 준수하여야 할 관련 법령상의 개인정보보호 규정을 준수하며, 관련 법령에 의거한 개인정보처리방침을 정하여 회원 권익 보호에 최선을 다하고 있습니다. 군산시는 개인정보 처리방침을 통하여 회원께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다. <br>
@@ -334,7 +336,7 @@
                                 <v-icon color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
-                        <v-card-text class="pa-4 pt-0">
+                        <v-card-text class="pa-3 pt-0 privacy_content">
                             <span class="privacy_title">마케팅 정보 수신 동의</span><br>
                             <br>
                             <b>제1조 (마케팅 정보 수신 동의)</b><br>
