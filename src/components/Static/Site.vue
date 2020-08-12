@@ -306,7 +306,8 @@ export default {
         // ETA
         minutes: 0,
         // 타시오 호출
-        calldialog: false
+        calldialog: false,
+        show_station: {}
     }),
 
     computed: {
@@ -333,7 +334,9 @@ export default {
         this.map = this.$utils.map.createMap('map-container', {
             zoomControl: false,
             routeWhileDragging: false,
-            attributionControl: false
+            attributionControl: false,
+            zoomDelta: 0.25,
+            zoomSnap: 0
         });
         // Open Street Map Layer Service Load
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
@@ -355,14 +358,11 @@ export default {
 
     updated() {
         this.map.on('zoomend', function (e) {
-            this.zoomScale = e.sourceTarget._zoom;
-
-            if (this.zoomScale > 16) {
-                this.show_station = true;
-                console.log(this.zoomScale);
+            var zoomScale = e.sourceTarget._zoom;
+            if (zoomScale > 16) {
+                this.map.removeLayer(this.show_station);
             } else {
-                this.show_station = false;
-                console.log('여기서는 보여주지 말자!');
+                this.map.addLayer(this.show_station);
             }
         });
 
@@ -404,7 +404,7 @@ export default {
             });
 
             for (let i = 0; i < this.waypoints3.length; i++) {
-                this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                this.show_station = this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                     icon: gifIcon
                 });
             }
