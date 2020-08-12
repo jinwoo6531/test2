@@ -14,7 +14,7 @@
             </v-list-item>
 
             <template v-if="user.data">
-                <v-list-item class="pa-0">
+                <v-list-item class="pa-0 pl-2">
                     <v-list-item-content>
                         <v-row class="ma-0" style="height: 30px;">
                             <v-col class="pa-0" cols="10">
@@ -50,8 +50,16 @@
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
-            <v-list-item class="boldMenu pa-0 mt-4" link to="/schedule">
-                <v-list-item-content class="pa-0">
+            <v-list-item class="boldMenu pa-0 mt-6" link to="/">
+                <v-list-item-content class="pa-0 pl-2">
+                    <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
+                        온리원 고군산
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/schedule">
+                <v-list-item-content class="pa-0 pl-2">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         운행 시간표
                     </v-list-item-title>
@@ -59,7 +67,7 @@
             </v-list-item>
 
             <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
-                <v-list-item-content class="pa-0">
+                <v-list-item-content class="pa-0 pl-2">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         서비스 정보
                     </v-list-item-title>
