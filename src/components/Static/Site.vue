@@ -357,14 +357,14 @@ export default {
     },
 
     updated() {
-        this.map.on('zoomend', function (e) {
-            var zoomScale = e.sourceTarget._zoom;
-            if (zoomScale > 16) {
-                this.map.removeLayer(this.show_station);
-            } else {
-                this.map.addLayer(this.show_station);
-            }
-        });
+        // this.map.on('zoomend', function (e) {
+        //     var zoomScale = e.sourceTarget._zoom;
+        //     if (zoomScale > 16) {
+        //         this.map.removeLayer(this.show_station);
+        //     } else {
+        //         this.map.addLayer(this.show_station);
+        //     }
+        // });
 
         if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
