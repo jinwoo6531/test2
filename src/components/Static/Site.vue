@@ -307,7 +307,9 @@ export default {
         minutes: 0,
         // 타시오 호출
         calldialog: false,
-        show_station: {}
+        zoomScale: {},
+        zoomMarker1: {},
+        zoomMarker2: {}
     }),
 
     computed: {
@@ -335,8 +337,6 @@ export default {
             zoomControl: false,
             routeWhileDragging: false,
             attributionControl: false,
-            zoomDelta: 0.25,
-            zoomSnap: 0
         });
         // Open Street Map Layer Service Load
         this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
@@ -354,18 +354,11 @@ export default {
                 lon: e.longitude
             }
         });
+
+        this.zoomEnd();
     },
 
     updated() {
-        // this.map.on('zoomend', function (e) {
-        //     var zoomScale = e.sourceTarget._zoom;
-        //     if (zoomScale > 16) {
-        //         this.map.removeLayer(this.show_station);
-        //     } else {
-        //         this.map.addLayer(this.show_station);
-        //     }
-        // });
-
         if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
             this.callBtn = true;
         } else {
@@ -374,8 +367,39 @@ export default {
     },
 
     methods: {
+        zoomEnd() {
+            this.map.on('zoomend', async e => {
+                this.zoomScale = await e.sourceTarget._zoom;
+
+                for (let i in this.stationList) {
+                    let zoomStatus = await this.$utils.map.createDiv({
+                        iconUrl: require("../../assets/station_icon.svg"),
+                        html: `<span style="display: inline-block; width: 100px;">${this.stationList[i].name}</span>`,
+                        className: 'dummy'
+                    });
+
+                    if (this.zoomScale < 16) {
+                        this.map.removeLayer(this.zoomMarker1);
+                        this.map.removeLayer(this.zoomMarker2);
+                    }
+
+                    if (this.zoomScale == 17) { // 이름 보여줘야되는 부분
+                        this.map.removeLayer(this.zoomMarker2);
+                        this.zoomMarker1 = await this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                            icon: zoomStatus
+                        });
+                    } else if (this.zoomScale == 18) {
+                        this.map.removeLayer(this.zoomMarker1);
+                        this.zoomMarker2 = await this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                            icon: zoomStatus
+                        });
+                    }
+                }
+            });
+        },
+
         addMarker() {
-            let gifIcon = this.$utils.map.createIcon({
+            this.zoomStatus = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12]
             });
@@ -404,8 +428,8 @@ export default {
             });
 
             for (let i = 0; i < this.waypoints3.length; i++) {
-                this.show_station = this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
-                    icon: gifIcon
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                    icon: this.zoomStatus
                 });
             }
         },

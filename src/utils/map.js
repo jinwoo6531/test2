@@ -21,7 +21,6 @@ const createDiv = options => {
     return $L.divIcon(options)
 }
 
-
 /**
  *
  * @param {Object} map
@@ -40,6 +39,12 @@ const updateMarkerByXY = (map, coordinate) => {
     let marker = $L.marker($L.latLng(coordinate[0], coordinate[1])).update(marker)
     marker.addTo(map)
     return marker
+}
+
+const createLayerGroup = (map) => {
+    let layerGroup = $L.layerGroup([])
+    layerGroup.addTo(map)
+    return layerGroup
 }
 
 // Leaflet Default Maker를 표시 할 수없는 문제 해결
@@ -64,5 +69,6 @@ export default {
     createDiv,
     createMakerByXY,
     createRouting,
-    updateMarkerByXY
+    updateMarkerByXY,
+    createLayerGroup
 }
