@@ -307,8 +307,7 @@ export default {
         minutes: 0,
         // 타시오 호출
         calldialog: false,
-        zoomScale: {},
-        zoomMarker1: {}
+        zoomScale: {}
     }),
 
     computed: {
@@ -375,7 +374,8 @@ export default {
                 for (let i in this.stationList) {
                     let zoomStatus = await this.$utils.map.createDiv({
                         iconUrl: require("../../assets/station_icon.svg"),
-                        html: `<span style="display: inline-block; width: 100px;">${this.stationList[i].name}</span>`,
+                        iconAnchor: [-10, 10],
+                        html: `<p style="font-family: Noto Sans KR; font-style: normal; white-space: nowrap; font-weight: 500; color: #E61773 !important; text-shadow: 2px 0 0 #FFF, -2px 0 0 #FFF, 0 2px 0 #FFF, 0 -2px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF;">${this.stationList[i].name}</p>`,
                         className: 'dummy'
                     });
 
@@ -385,7 +385,7 @@ export default {
                         });
                         marker.push(LamMarker);
                         this.map.addLayer(marker[i]);
-                    } 
+                    }
 
                     if (this.zoomScale <= 16) {
                         for (let i in marker) {
