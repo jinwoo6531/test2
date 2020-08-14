@@ -166,12 +166,12 @@
                         </v-card>
                     </v-overlay>
 
-                    <v-flex class="selectStationWrap" xs12 sm12 md12 lg12 xl12>
-                        <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
-                            <v-flex class="pa-0" xs2 sm2 md2>
+                    <v-flex class="selectStationWrap" xs12>
+                        <v-layout class="align-center ma-0" fill-height xs12 sm12>
+                            <v-flex class="pa-0">
                                 <img src="../../assets/arrow-icon.svg">
                             </v-flex>
-                            <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
+                            <v-flex class="pa-0 flex-wrap" style="width: 220px;">
                                 <div class="d-flex flex-column">
                                     <v-card style="text-align: left;" class="pl-2" :ripple="false" color="transparent" @click="overlay1 = !overlay1" flat>
                                         <span v-if="start < 0 || start_point.name==startTemp" class="select_station">{{ startTemp }}</span>
@@ -184,7 +184,7 @@
                                     </v-card>
                                 </div>
                             </v-flex>
-                            <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
+                            <v-flex class="pa-0" @click="switchDestination">
                                 <img src="../../assets/switch-icon.svg">
                             </v-flex>
                         </v-layout>
