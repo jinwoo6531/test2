@@ -36,8 +36,8 @@ const createMakerByXY = (map, coordinate, options = {}) => {
     return marker
 }
 
-const createMaker = (coordinate, options = {}) => {
-    let marker = $L.marker([coordinate[0], coordinate[1]], options)
+const createMaker = (coordinate, options = {}) => { // for Show Station when zoom in
+    let marker = new $L.marker([coordinate[0], coordinate[1]], options)
     return marker
 }
 

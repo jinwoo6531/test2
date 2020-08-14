@@ -367,6 +367,8 @@ export default {
 
     methods: {
         zoomEnd() {
+            var marker = new Array();
+
             this.map.on('zoomend', async e => {
                 this.zoomScale = await e.sourceTarget._zoom;
 
@@ -377,12 +379,18 @@ export default {
                         className: 'dummy'
                     });
 
-                    if (this.zoomScale > 17) { // 이름 보여줘야되는 부분
-                        this.zoomMarker1 = await this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                    if (this.zoomScale > 16) {
+                        var LamMarker = this.$utils.map.createMaker([this.waypoints3[i].lat, this.waypoints3[i].lng], {
                             icon: zoomStatus
                         });
-                    } else {
-                        this.map.removeLayer(this.zoomMarker1);
+                        marker.push(LamMarker);
+                        this.map.addLayer(marker[i]);
+                    } 
+
+                    if (this.zoomScale <= 16) {
+                        for (let i in marker) {
+                            this.map.removeLayer(marker[i]);
+                        }
                     }
                 }
             });
