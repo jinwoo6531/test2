@@ -76,8 +76,8 @@
         </v-list>
 
         <v-footer class="copyrightStyle nav-footer justify-left pa-0">
-            <span>COPYRIGHT@SPRINGCLOUD INC. <br>
-                ALL RIGHTS RESERVED.</span>
+            <span>Copyright &copy; GUNSANCITY.<br>
+                All right reserved</span>
         </v-footer>
     </v-navigation-drawer>
 
