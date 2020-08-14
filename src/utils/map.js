@@ -26,6 +26,7 @@ const createDiv = options => {
  * @param {Object} map
  * @param {Object} latLng
  * @param {Object} options
+ * @param {Object} markerGroup
  * 
  */
 
@@ -35,15 +36,19 @@ const createMakerByXY = (map, coordinate, options = {}) => {
     return marker
 }
 
+const createMaker = (coordinate, options = {}) => {
+    let marker = $L.marker([coordinate[0], coordinate[1]], options)
+    return marker
+}
+
 const updateMarkerByXY = (map, coordinate) => {
     let marker = $L.marker($L.latLng(coordinate[0], coordinate[1])).update(marker)
     marker.addTo(map)
     return marker
 }
 
-const createLayerGroup = (map) => {
-    let layerGroup = $L.layerGroup([])
-    layerGroup.addTo(map)
+const createLayerGroup = () => {
+    let layerGroup = new $L.layerGroup()
     return layerGroup
 }
 
@@ -68,6 +73,7 @@ export default {
     createIcon,
     createDiv,
     createMakerByXY,
+    createMaker,
     createRouting,
     updateMarkerByXY,
     createLayerGroup

@@ -308,8 +308,7 @@ export default {
         // 타시오 호출
         calldialog: false,
         zoomScale: {},
-        zoomMarker1: {},
-        zoomMarker2: {}
+        zoomMarker1: {}
     }),
 
     computed: {
@@ -378,21 +377,12 @@ export default {
                         className: 'dummy'
                     });
 
-                    if (this.zoomScale < 16) {
-                        this.map.removeLayer(this.zoomMarker1);
-                        this.map.removeLayer(this.zoomMarker2);
-                    }
-
-                    if (this.zoomScale == 17) { // 이름 보여줘야되는 부분
-                        this.map.removeLayer(this.zoomMarker2);
+                    if (this.zoomScale > 17) { // 이름 보여줘야되는 부분
                         this.zoomMarker1 = await this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                             icon: zoomStatus
                         });
-                    } else if (this.zoomScale == 18) {
+                    } else {
                         this.map.removeLayer(this.zoomMarker1);
-                        this.zoomMarker2 = await this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
-                            icon: zoomStatus
-                        });
                     }
                 }
             });
