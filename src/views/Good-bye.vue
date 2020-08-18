@@ -10,8 +10,8 @@
             <v-card class="text-center" color="transparent" flat tile>
                 <v-card-text class="goodbye-title">회원탈퇴가 완료 되었습니다.</v-card-text>
                 <v-card-text class="goodbye-sub">
-                    그동안 타시오를 이용해주셔서 <br>
-                    대단히 감사합니다. <br>
+                    그동안 온리원 고군산 자율주행 셔틀을<br>
+                    이용해주셔서 대단히 감사합니다. <br>
                     보다 나은 서비스로 다시 찾아 뵙겠습니다.
                 </v-card-text>
             </v-card>
