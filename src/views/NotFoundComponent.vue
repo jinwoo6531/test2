@@ -1,4 +1,4 @@
-<template>
+ <template>
 <v-container class="pa-0 ma-0 flex-wrap text-center" fluid grid-list-md fill-height>
     <v-layout row wrap>
         <v-flex xs12 sm12 md12 class="text-center pa-0">

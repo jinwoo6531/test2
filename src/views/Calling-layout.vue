@@ -265,7 +265,7 @@ export default {
 .gradient {
     width: 100%;
     height: 100%;
-    background: linear-gradient(208.69deg, #00CFFF 0.28%, #BE378B 66.62%, #2E3990 100.58%);
+    background: linear-gradient(208.69deg, #00CFFF 0.28%, #BE378B 66.62%, #E61773 100.58%);
     position: relative;
 }
 

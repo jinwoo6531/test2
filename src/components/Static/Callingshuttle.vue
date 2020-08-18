@@ -44,31 +44,47 @@
                 <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
                     <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
+
                     <v-dialog v-model="callcanceldialog" max-width="280">
-                        <v-card style="width: 280px; background-color: transparent;">
-                            <v-card flat class="dialog-background" style="background-color: transparent;">
-                                <v-card-text class="pa-3 text-center">
-                                    <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
-                                    <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">{{ payment }}<span style="font-size: 14px !important;">원</span></v-card-text>
+                        <v-card style="width: 280px;">
+                            <v-card-text class="text-center pa-0">
+                                <v-card-text class="pa-0 call-dialog-content">
+                                    셔틀 호출이 취소됩니다. <br>
+                                    정말 취소하시겠습니까?
                                 </v-card-text>
+                            </v-card-text>
 
-                                <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
-                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 {{ allPay }}원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
+                            <v-card flat class="pa-0 d-flex align-self-end">
+                                <v-container class="pa-0">
+                                    <v-row no-gutters>
+                                        <v-col>
+                                            <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
+                                        </v-col>
+                                        <v-col>
+                                            <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card>
+                        </v-card>
+                    </v-dialog>
+
+                    <v-dialog v-model="cancelCompleteDialog" max-width="280">
+                        <v-card style="width: 280px;">
+                            <v-card-text class="text-center pa-0">
+                                <v-card-text class="pa-0 call-dialog-content">
+                                    호출이 취소되었습니다.
                                 </v-card-text>
+                            </v-card-text>
 
-                                <v-card flat class="pa-0 d-flex align-self-end">
-                                    <v-container class="pa-0">
-                                        <v-row no-gutters>
-                                            <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
-                                            </v-col>
-                                            <v-col>
-                                                <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card>
+                            <v-card flat class="pa-0 d-flex align-self-end">
+                                <v-container class="pa-0">
+                                    <v-row no-gutters>
+                                        <v-col>
+                                            <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="goToMain">확인</v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
                             </v-card>
                         </v-card>
                     </v-dialog>
@@ -113,6 +129,7 @@ export default {
         vehicle_lat: '',
         vehicle_lon: '',
         owner: '',
+        cancelCompleteDialog: false
     }),
 
     computed: {
@@ -152,7 +169,7 @@ export default {
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
-        
+
         console.log(this.uid)
 
         this.socket.onmessage = ({
@@ -676,11 +693,12 @@ export default {
         callCancleBtn() {
             this.cancleMessage();
             this.disconnect();
+            this.callcanceldialog = false;
+            this.cancelCompleteDialog = true;
+        },
 
-            this.$toasted.show(`호출이 취소되었습니다.`, {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(2000);
+        goToMain() {
+            this.cancelCompleteDialog = false;
             this.$router.replace('/')
         },
 
@@ -776,52 +794,14 @@ export default {
     box-shadow: none !important;
 }
 
-.dialog-background {
-    width: 2801px;
-    /* height: 242px; */
-    background-image: url('~@/assets/call-cancel-dialog.png');
-}
-
-.call-dialog-title {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px !important;
-    color: #4F4F4F !important;
-}
-
-.call-dialog-subtitle {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px !important;
-    color: #BDBDBD !important;
-}
-
-.call-dialog-paymony {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px !important;
-    color: #EB5757 !important;
-}
-
 .call-dialog-content {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: normal;
-    font-size: 13px !important;
-    line-height: 19px;
+    font-size: 16px !important;
+    line-height: 17px;
     color: #262626 !important;
-}
-
-.call-dialog-subcontent {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px !important;
-    line-height: 19px;
-    color: #828282 !important;
+    padding: 39px 0 !important;
 }
 
 .call-cancel-dialog-btn {
