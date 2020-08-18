@@ -2,11 +2,17 @@ version: '3.7'
 
 services:
   web:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile.prod
+    ports:
+      - 9772:9772
+    environment:
+      - PORT=9772
     volumes:
-      - tasio_pro:/app
+      - ./tasio_pro:/app/tasio_pro
+      - /app/tasio_pro/node_modules
 
   express:
     #restart: unless-stopped
@@ -26,22 +32,22 @@ services:
     restart: unless-stopped
     image: staticfloat/nginx-certbot
     ports:
-      - 80:80
-      - 443:443
+      - 201:201
+      - 200:200
     environment:
       CERTBOT_EMAIL: dwyug@aspringcloud.com
       # variable names are space-separated
       ENVSUBST_VARS: FQDN
-      FQDN: check0.springcar.io
+      FQDN: tasio.dnamotiv.io
     volumes:
       - ./nginx:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
-      - tasio_pro:/app
+      - ./tasio-cert:/etc/letsencrypt/live/tasio.dnamotiv.io
+      - ./express-cert:/etc/letsencrypt/live/express.dnamotiv.io
     depends_on:
       - web
       - express
 
 volumes:
   letsencrypt:
-  tasio_pro:
   pm2:

@@ -15,7 +15,7 @@ WORKDIR /apps
 RUN npm install -g pm2
 WORKDIR /apps/pm2
 COPY pm2.json .
-CMD [ "pm2", "start", "pm2.json" ]
+CMD [ "pm2-runtime", "start", "pm2.json" ]
 
 # CMD ["firebase","login","--no-localhost"]
 #CMD [ "firebase", "serve","--host","0.0.0.0:3000" ]
