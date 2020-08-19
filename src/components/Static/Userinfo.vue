@@ -226,7 +226,8 @@
                             </v-flex>
                             <v-flex xs12 sm12 md12 class="d-flex justify-center align-end">
                                 <v-footer padless absolute>
-                                    <v-btn disabled block depressed tile height="50px" class="pa-0" v-if="inputPhoneNumber.length == 0 || byeReason.value == undefined || byeEtcReason.length == 0">탈퇴하기</v-btn>
+                                    <v-btn disabled block depressed tile height="50px" class="pa-0" v-if="inputPhoneNumber.length == 0 || byeReason.value == undefined || this.disabledButton == true">탈퇴하기</v-btn>
+                                    <v-btn disabled block depressed tile height="50px" class="pa-0" v-else-if="this.disabledButton === true">탈퇴하기</v-btn>
                                     <v-btn color="#2E3990" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click="deleteUser" v-else>탈퇴하기</v-btn>
                                 </v-footer>
                             </v-flex>
@@ -302,7 +303,8 @@ export default {
         inputPhoneNumber: '',
         byeReason: {},
         byeEtcReason: '',
-        errorRule: false
+        errorRule: false,
+        disabledButton: false
     }),
 
     created() {
@@ -369,8 +371,10 @@ export default {
             this.etc = true;
             if (this.byeEtcReason.length == 0) {
                 this.errorRule = true;
+                this.disabledButton = true;
             } else {
                 this.errorRule = false;
+                this.disabledButton = false;
             }
         } else if (this.byeReason.value == undefined) {
             this.etc = false;
@@ -536,7 +540,7 @@ export default {
 
         deleteUser() {
             if (this.inputPhoneNumber == this.deletePhoneNumber) {
-                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.uid)
+                axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/delete/' + this.uid)
                     .then(() => {
                         this.$router.replace('/goodbye');
                     });
