@@ -2,13 +2,12 @@
 <div id="faq">
     <v-container class="pa-0 ma-0 flex-wrap" style="background: #FFF;" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
-
-                <v-card flat xs12 sm12 md12 lg12 xl12>
-                    <v-card-text class="pa-4 faq-title">자주 묻는 질문</v-card-text>
-                </v-card>
+            <v-flex class="pa-0" xs12 style="width: 100%; height: 100%;">
 
                 <v-card class="pa-4" color="transparent" flat xs12>
+                    <v-card flat xs12 sm12 md12 lg12 xl12>
+                        <v-card-text class="pa-4 faq-title">자주 묻는 질문</v-card-text>
+                    </v-card>
                     <v-tabs v-model="tab" background-color="transparent" dark centered="centered" grow="grow">
 
                         <v-tab href="#tab-1" class="mr-2" style="background-color: #E4E4E4">일반 질문</v-tab>
@@ -17,17 +16,16 @@
                         <v-tab-item value="tab-1">
                             <v-card class="mt-5" flat tile>
                                 <v-expansion-panels accordion flat>
-                                    <v-expansion-panel style="border-bottom: 0.5px solid #BDBDBD;" v-for="(listItem, index) in items" :key="index">
-                                        <v-expansion-panel-header>Q{{ index + 1 }}. {{ listItem.subject }}</v-expansion-panel-header>
+                                    <v-expansion-panel style="border-bottom: 0.5px solid #BDBDBD;" v-for="(listItem, index) of visiblePages" :key="index">
+                                        <v-expansion-panel-header>Q{{ listItem.id }}. {{ listItem.subject }}</v-expansion-panel-header>
                                         <v-expansion-panel-content>
                                             {{ listItem.desc }}
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
                                 </v-expansion-panels>
                             </v-card>
-                            <v-divider></v-divider>
-                            <div class="text-xs-center pt-2">
-                                <!-- <v-pagination v-model="currendPage" :length="perPage" color="#2E3990"></v-pagination> -->
+                            <div class="text-xs-center">
+                                <v-pagination v-model="page" :length="Math.ceil(items.length / perPage)" color="#2E3990"></v-pagination>
                             </div>
                         </v-tab-item>
 
@@ -59,8 +57,8 @@ export default {
 
     data: () => ({
         tab: null,
-        currendPage: 1,
-        perPage: 3,
+        page: 1,
+        perPage: 9,
         items: [{
                 "id": 1,
                 "subject": "최대 몇 명까지 탑승 가능한가요?",
@@ -107,7 +105,25 @@ export default {
                 "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
             }
         ]
-    })
+    }),
+
+    computed: {
+        visiblePages() {
+            return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage); // 0부터 5까지 자르기, 5부터 9까지 자르기
+        },
+
+        // visibleId() {
+        //     return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage);
+        // },
+
+        // visibleTitle() {
+        //     return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage);
+        // },
+
+        // visibleContent() {
+        //     return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage);
+        // }
+    }
 }
 </script> 
 
