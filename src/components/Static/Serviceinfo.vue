@@ -5,7 +5,7 @@
             <v-flex class="pa-0 pl-6 pr-6" xs12 sm12 md12 style="width: 100%;">
                 <v-card flat tile color="transparent">
                     <v-card-text class="pa-0 service-title">애플리케이션 버전</v-card-text>
-                    <v-card-text class="pa-0 pb-1 service-content">v 0.3.00</v-card-text>
+                    <v-card-text class="pa-0 pb-1 service-content">v 1.1.0</v-card-text>
                     <v-card-text class="pa-0 pb-8 service-content">현재 최신 버전을 사용하고 있습니다.</v-card-text>
                 </v-card>
             </v-flex>
@@ -17,7 +17,7 @@
                     </v-card-text>
                     <v-dialog v-model="serviceDialog" max-width="320">
                         <v-card>
-                            <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
+                            <v-toolbar dense flat tile class="pa-0 pt-1" color="transparent" height="30px">
                                 <v-spacer></v-spacer>
                                 <v-btn icon @click="serviceDialog = false" height="100%">
                                     <v-icon color="#262626">mdi-close</v-icon>

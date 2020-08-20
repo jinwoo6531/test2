@@ -1192,7 +1192,7 @@ export default {
 
 <style scoped>
 .v-list .v-list-item--active {
-    background-color: rgba(46, 57, 144, 0.1) !important;
+    background-color: #EBF3FE !important;
 }
 
 /* 탑승 인원 */
