@@ -11,11 +11,8 @@
     <v-row no-gutters>
         <v-col xs="12" sm="12" md="12">
             <v-card class="pa-2 welcome-msg" color="transparent" flat>
-                자율주행 셔틀 타시오가
-                <br>
-                편안하게 모실게요!
-                <br><br>
-                준비 되셨나요?
+                온리원 고군산 자율주행 셔틀과 함께 <br>
+                즐거운 시간 보내세요!
             </v-card>
         </v-col>
     </v-row>
