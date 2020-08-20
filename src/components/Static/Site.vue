@@ -193,29 +193,7 @@
 
                 <!-- 타시오 호출 Dialog -->
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click="calldialog = true">호출하기</v-btn>
-                    <v-dialog v-model="calldialog" max-width="280">
-                        <v-card style="width: 280px; background-color: transparent;">
-                            <v-card flat class="dialog-background" style="background-color: transparent;">
-                                <v-card-text class="pa-3 text-center">
-                                    <v-card-text class="pa-0 call-dialog-title">타시오를 호출할게요.</v-card-text>
-                                </v-card-text>
-
-                                <v-card flat class="pa-0 d-flex align-self-end" style="padding-top: 7px !important;">
-                                    <v-container class="pa-0">
-                                        <v-row no-gutters>
-                                            <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="50px" @click="cancelCallDialog">취소</v-btn>
-                                            </v-col>
-                                            <v-col>
-                                                <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" @click="requestCallBtn">호출하기</v-btn>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card>
-                            </v-card>
-                        </v-card>
-                    </v-dialog>
+                    <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click="requestCallBtn">호출하기</v-btn>
                 </v-flex>
             </v-flex>
         </v-layout>
@@ -1251,74 +1229,6 @@ export default {
     font-weight: normal;
     font-size: 14px;
     color: #262626;
-}
-
-.call-dialog-title {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px !important;
-    color: #4F4F4F !important;
-}
-
-.call-dialog-subtitle {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px !important;
-    color: #BDBDBD !important;
-}
-
-.call-dialog-paymony {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px !important;
-    color: #EB5757 !important;
-}
-
-.price-people {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    color: #262626;
-}
-
-.call-dialog-content {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px !important;
-    line-height: 19px;
-    color: #4F4F4F !important;
-}
-
-.call-dialog-subcontent {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px !important;
-    line-height: 19px;
-    color: #828282 !important;
-}
-
-.call-cancel-dialog-btn {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px !important;
-    color: #262626 !important;
-    letter-spacing: 1px;
-}
-
-.call-dialog-btn {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px !important;
-    color: #FFFFFF !important;
-    letter-spacing: 1px;
 }
 
 .warningmsg {

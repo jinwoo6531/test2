@@ -4,10 +4,9 @@
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0" xs12 style="width: 100%; height: 100%;">
 
-                <v-card class="pa-4" color="transparent" flat xs12>
-                    <v-card flat xs12 sm12 md12 lg12 xl12>
-                        <v-card-text class="pa-4 faq-title">자주 묻는 질문</v-card-text>
-                    </v-card>
+                <v-card class="pa-4" color="transparent" style="width: 100%; height: 100%;" flat xs12>
+                    <v-card-text class="faq-title">자주 묻는 질문</v-card-text>
+                    
                     <v-tabs v-model="tab" background-color="transparent" dark centered="centered" grow="grow">
 
                         <v-tab href="#tab-1" class="mr-2" style="background-color: #E4E4E4">일반 질문</v-tab>
@@ -24,7 +23,7 @@
                                     </v-expansion-panel>
                                 </v-expansion-panels>
                             </v-card>
-                            <div class="text-xs-center">
+                            <div class="text-xs-center pt-6">
                                 <v-pagination v-model="page" :length="Math.ceil(items.length / perPage)" color="#2E3990"></v-pagination>
                             </div>
                         </v-tab-item>
@@ -58,7 +57,7 @@ export default {
     data: () => ({
         tab: null,
         page: 1,
-        perPage: 9,
+        perPage: 10,
         items: [{
                 "id": 1,
                 "subject": "최대 몇 명까지 탑승 가능한가요?",
@@ -140,6 +139,7 @@ export default {
     font-weight: 500;
     font-size: 18px;
     color: #262626 !important;
+    padding: 12px 0 30px 0;
 }
 
 .v-tabs-slider-wrapper,
