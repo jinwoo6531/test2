@@ -177,7 +177,7 @@
                                     <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click.native="signoutdialog = false">취소</v-btn>
                                 </v-col>
                                 <v-col style="height: 100%;">
-                                    <v-btn color="#2E3990" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
+                                    <v-btn color="#2E3990" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.native.prevent="signOut">로그아웃</v-btn>
                                 </v-col>
                             </v-row>
                         </v-card-actions>
