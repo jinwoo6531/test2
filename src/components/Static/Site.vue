@@ -313,13 +313,7 @@ export default {
     computed: {
         ...mapGetters({
             user: "user"
-        }),
-
-        totalPayment() {
-            let num = 1000 * this.count;
-            num = parseInt(num, 10);
-            return num.toLocaleString();
-        }
+        })
     },
 
     created() {
@@ -402,30 +396,12 @@ export default {
                 iconSize: [12, 12]
             });
 
-            this.waypoints3.push({
-                lat: this.stationList[0].lat,
-                lng: this.stationList[0].lon
-            }, {
-                lat: this.stationList[6].lat,
-                lng: this.stationList[6].lon
-            }, {
-                lat: this.stationList[1].lat,
-                lng: this.stationList[1].lon
-            }, {
-                lat: this.stationList[5].lat,
-                lng: this.stationList[5].lon
-            }, {
-                lat: this.stationList[2].lat,
-                lng: this.stationList[2].lon
-            }, {
-                lat: this.stationList[3].lat,
-                lng: this.stationList[3].lon
-            }, {
-                lat: this.stationList[4].lat,
-                lng: this.stationList[4].lon
-            });
-
-            for (let i = 0; i < this.waypoints3.length; i++) {
+            // Station Marker와 이름을 표시해주기 위한 waypoints
+            for (let i in this.stationList) {
+                this.waypoints3.push({
+                    lat: this.stationList[i].lat,
+                    lng: this.stationList[i].lon
+                })
                 this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                     icon: this.zoomStatus
                 });
@@ -513,6 +489,7 @@ export default {
                         }
                     }
 
+                    // 서비스 중인 경로 그려주기 위한 waypoints
                     this.waypoints2.push({
                             lat: this.stationList[0].lat,
                             lng: this.stationList[0].lon
