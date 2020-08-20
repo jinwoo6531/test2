@@ -22,9 +22,7 @@
         </v-row>
         <v-row no-gutters>
             <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                    {{ message }}
-                </v-card>
+                <v-card class="pa-2 text-center call-msg" color="transparent" v-html="message" flat></v-card>
             </v-col>
         </v-row>
         <v-row no-gutters>
@@ -54,7 +52,7 @@ export default {
     name: 'CallingLayout',
 
     data: () => ({
-        message: '타시오 자율주행 셔틀을 호출 중입니다.',
+        message: '자율주행 셔틀을<br/>호출하고 있어요',
         ready: false,
         displayName: '',
         status: 'disconnected',
@@ -94,7 +92,7 @@ export default {
         this.ready = true;
 
         this.waitTimer = setTimeout(() => {
-            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
+            this.message = '조금만 더 기다려주세요';
         }, 60000);
 
         this.failTimer = setTimeout(() => {
@@ -277,7 +275,6 @@ export default {
     line-height: 20px;
     text-align: center;
     color: #FFFFFF;
-    width: 100%;
     position: absolute;
     top: 16px;
     padding-left: 25px;
@@ -290,7 +287,6 @@ export default {
     font-size: 24px;
     line-height: 35px;
     color: #FFFFFF;
-    width: 232px;
     margin: 0 auto;
 }
 

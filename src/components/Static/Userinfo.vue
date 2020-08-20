@@ -241,7 +241,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import {
+    mapState,
+    mapGetters
+} from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -337,6 +340,27 @@ export default {
                 this.watch = true;
             } else {
                 this.watch = false;
+            }
+
+            let one_char = "";
+            const maxLength = 50;
+            let charLength = 0;
+
+            for (let i = 0; i < newval.length; i++) {
+                one_char = newval.charAt(i);
+
+                if (escape(one_char).length > 4) {
+                    charLength += 2;
+                } else {
+                    charLength += 1;
+                }
+            }
+
+            if (charLength > maxLength) {
+                this.rules = "한글 " + (maxLength / 2) + "자, 영문 " + maxLength + "자를 초과할 수 없습니다.";
+                this.watch = false;
+            } else {
+                this.rules = "";
             }
         },
 

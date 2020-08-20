@@ -1,13 +1,17 @@
 <template>
-<v-container style="height: 100%;">
+<v-container class="pt-0 pb-6 pl-6 pr-6 ma-0 flex-wrap" fluid grid-list-md fill-height>
     <v-layout wrap style="height: 100%;">
-        <v-flex class="pa-5" xs12 sm12 md12>
+        <v-flex xs12 class="pa-0 d-flex flex-column">
+            <div class="back-to-auth-code pb-6 pt-10" @click="goToBack">
+                <img src="../../assets/back-icon.svg">
+            </div>
+
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" v-model="form.name" @input="hangul" maxlength="25" autofocus placeholder="이름을 입력하세요." />
+                    <input type="text" id="name" name="name" v-model="form.name" @input="hangul" autofocus placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
@@ -25,7 +29,7 @@
                     <input type="number" id="birth" name="birth" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
                 <p class="error-message" style="margin-top: 15px;">{{ error }}</p>
-                <v-footer absolute style="margin-bottom: 24px; background: transparent;">
+                <v-footer absolute style="width: 100%; margin-bottom: 24px; background: transparent;">
                     <button class="signupBtn" type="submit">가입 완료하기</button>
                 </v-footer>
             </form>
@@ -65,27 +69,49 @@ export default {
     },
 
     methods: {
-        hangul() {
+        goToBack() {
+            this.$router.replace('/auth/agreecheck');
+        },
+
+        hangul(e) {
             let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
             var pattern_num = /[0-9]/;
             // eslint-disable-next-line no-useless-escape
             var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+            let one_char = "";
+            const maxLength = 50;
+            let charLength = 0;
+
+            for (let i = 0; i < e.target.value.length; i++) {
+                one_char = e.target.value.charAt(i);
+
+                if (escape(one_char).length > 4) {
+                    charLength += 2;
+                } else {
+                    charLength += 1;
+                }
+            }
 
             if (pattern_num.test(this.form.name) || pattern_spc.test(this.form.name) || pattern_char.test(this.form.name)) {
-                this.error = "이름은 한글 또는 영문만 가능합니다.";
                 this.form.name = "";
+                this.error = "이름은 한글 또는 영문만 가능합니다.";
             } else {
-                this.error = "";
+                if (charLength > maxLength) {
+                    this.error = "한글 " + (maxLength / 2) + "자, 영문 " + maxLength + "자를 초과할 수 없습니다.";
+                    this.form.name = "";
+                } else {
+                    this.error = "";
+                }
             }
         },
 
         submit(uid) {
             if (!this.form.name) {
-                this.error = "이름은 필수 항목입니다.";
+                this.error = "이름을 입력해주세요.";
                 return;
             }
             if (!this.form.email) {
-                this.error = "이메일은 필수 항목입니다.";
+                this.error = "이메일을 입력해주세요.";
                 return;
             }
             var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -95,16 +121,16 @@ export default {
             }
 
             if (!this.form.gender) {
-                this.error = "성별은 필수 선택항목입니다.";
+                this.error = "성별을 입력해주세요.";
                 return;
             }
             if (!this.form.birth) {
-                this.error = "생일은 필수 선택항목입니다.";
+                this.error = "생년월일을 입력해주세요.";
                 return;
             }
 
             if (this.form.birth.length > 6 || this.form.birth.length != 6) {
-                this.error = "생일은 6자로 입력해주세요.";
+                this.error = "생년월일은 6자리 숫자로 입력해주세요.";
                 return;
             }
 
