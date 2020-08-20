@@ -3,10 +3,10 @@
     <v-card flat tile>
         <p>JS and Android interactive</p>
 
-        <v-btn @click="invokeAppMethod">JS call App Method(Without parameters)</v-btn>
+        <v-btn @click.native="invokeAppMethod">JS call App Method(Without parameters)</v-btn>
         <br />
         <br />
-        <v-btn @click="sendInfoToJava">JS call App Method(Band parameters)</v-btn>
+        <v-btn @click.native="sendInfoToJava">JS call App Method(Band parameters)</v-btn>
     </v-card>
 </div>
 </template>

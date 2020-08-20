@@ -19,7 +19,7 @@
                         <v-card>
                             <v-toolbar dense flat tile class="pa-0 pt-1" color="transparent" height="30px">
                                 <v-spacer></v-spacer>
-                                <v-btn icon @click="serviceDialog = false" height="100%">
+                                <v-btn icon @click.native="serviceDialog = false" height="100%">
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -225,7 +225,7 @@
                     <v-card>
                         <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="privacyDialog = false" height="100%">
+                            <v-btn icon @click.native="privacyDialog = false" height="100%">
                                 <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>

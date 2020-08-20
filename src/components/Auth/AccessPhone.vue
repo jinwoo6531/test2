@@ -33,7 +33,7 @@
                 <v-flex xs12 sm12 md12 class="pa-0 justify-space-between">
                     <v-card class="text-left pa-0" color="transparent" flat tile>
                         <v-btn depressed tile color="#2E3990" id="sign-in-button" width="100%" height="50px" class="phone-next" disabled v-if="loading == true">인증번호 받기</v-btn>
-                        <v-btn depressed tile color="#2E3990" id="sign-in-button" width="100%" height="50px" class="phone-next" @click="sendOtp" v-else>인증번호 받기</v-btn>
+                        <v-btn depressed tile color="#2E3990" id="sign-in-button" width="100%" height="50px" class="phone-next" @click.native="sendOtp" v-else>인증번호 받기</v-btn>
                     </v-card>
                 </v-flex>
             </v-flex>

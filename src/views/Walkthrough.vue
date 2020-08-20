@@ -35,8 +35,8 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0 pt-0">
-            <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click="model++" v-if="change == 1">다음</v-btn>
-            <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click="model++" v-else>시작하기</v-btn>
+            <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click.native="model++" v-if="change == 1">다음</v-btn>
+            <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click.native="model++" v-else>시작하기</v-btn>
         </v-flex>
     </v-layout>
 </v-container>

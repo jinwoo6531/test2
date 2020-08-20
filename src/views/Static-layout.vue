@@ -6,7 +6,7 @@
                 <v-list-item-content class="pa-0" style="padding-bottom: 20px !important;">
                     <v-list-item-title class="title d-flex justify-space-between">
                         <img src="../assets/side-logo.svg">
-                        <v-btn width="14px" height="14px" icon @click="drawer = false">
+                        <v-btn width="14px" height="14px" icon @click.native="drawer = false">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </v-list-item-title>

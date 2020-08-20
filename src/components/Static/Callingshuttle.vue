@@ -43,7 +43,7 @@
 
                 <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
-                    <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
+                    <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click.native="callCancel">호출 취소하기</v-btn>
 
                     <v-dialog v-model="callcanceldialog" max-width="280">
                         <v-card style="width: 280px;">
@@ -58,10 +58,10 @@
                                 <v-container class="pa-0">
                                     <v-row no-gutters>
                                         <v-col>
-                                            <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
+                                            <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click.native="callcanceldialog = false">호출 유지하기</v-btn>
                                         </v-col>
                                         <v-col>
-                                            <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
+                                            <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click.native="callCancleBtn">호출 취소하기</v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -81,7 +81,7 @@
                                 <v-container class="pa-0">
                                     <v-row no-gutters>
                                         <v-col>
-                                            <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="goToMain">확인</v-btn>
+                                            <v-btn color="#2E3990" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click.native="goToMain">확인</v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-container>

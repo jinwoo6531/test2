@@ -17,7 +17,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
-            <v-btn block depressed tile color="#2E3990" height="50px" class="go-to-accessphone" @click="goToAccessphone">확인</v-btn>
+            <v-btn block depressed tile color="#2E3990" height="50px" class="go-to-accessphone" @click.native="goToAccessphone">확인</v-btn>
         </v-flex>
     </v-layout>
 </v-container>

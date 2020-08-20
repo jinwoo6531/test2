@@ -35,7 +35,7 @@
                     <p class="warningmsg" style="margin: 0;">셔틀이 출발지에 도착한 시점부터</p>
                     <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">5분 내</span> 탑승이 완료되지 않으면</p>
                     <p class="warningmsg" style="margin: 0;"><span style="color: #EB5757 !important;">호출이 자동 취소</span>되며 <span style="color: #EB5757 !important;">위약금이 발생</span>합니다.</p>
-                    <v-btn color="#2E3990" tile depressed class="pa-0 pl-3 pr-3 goReturn" :ripple="false" @click="goBackSite">운행지역 지도로 돌아가기</v-btn>
+                    <v-btn color="#2E3990" tile depressed class="pa-0 pl-3 pr-3 goReturn" :ripple="false" @click.native="goBackSite">운행지역 지도로 돌아가기</v-btn>
                 </v-card-text>
             </v-card>
         </v-row>
@@ -62,7 +62,7 @@
 
                         <v-card style="position: absolute; width: 100%; height: 100%;">
                             <v-toolbar color="transparent" style="position: fixed; width: 100%; top: 0; z-index: 3;" flat>
-                                <v-btn icon @click="closePersonDialog">
+                                <v-btn icon @click.native="closePersonDialog">
                                     <v-icon color="#262626">mdi-close</v-icon>
                                 </v-btn>
                             </v-toolbar>
@@ -72,7 +72,7 @@
                                     <v-card-text style="position: absolute; top: 158px; text-align: center; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">탑승인원 선택</v-card-text>
                                     <v-card class="d-flex justify-space-around" flat>
                                         <v-card :ripple="false" flat tile>
-                                            <v-btn :class="{ 'is-disabled1': isDisabled1 }" :ripple="false" @click="decrement" outlined color="#2E3990" fab>
+                                            <v-btn :class="{ 'is-disabled1': isDisabled1 }" :ripple="false" @click.native="decrement" outlined color="#2E3990" fab>
                                                 <v-icon dark>mdi-minus</v-icon>
                                             </v-btn>
                                         </v-card>
@@ -80,7 +80,7 @@
                                             <v-card-text class="count">{{ count }}</v-card-text>
                                         </v-card>
                                         <v-card flat tile :ripple="false">
-                                            <v-btn :class="{ 'is-disabled2': isDisabled2 }" :ripple="false" @click="increment" outlined color="#2E3990" fab>
+                                            <v-btn :class="{ 'is-disabled2': isDisabled2 }" :ripple="false" @click.native="increment" outlined color="#2E3990" fab>
                                                 <v-icon dark>mdi-plus</v-icon>
                                             </v-btn>
                                         </v-card>
@@ -89,7 +89,7 @@
                                 </v-row>
                             </v-container>
 
-                            <v-btn class="select-person-btn" @click="rideCount" depressed tile>선택완료</v-btn>
+                            <v-btn class="select-person-btn" @click.native="rideCount" depressed tile>선택완료</v-btn>
                         </v-card>
                     </v-dialog>
 
@@ -129,10 +129,10 @@
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #2E3990; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #2E3990; box-sizing: border-box; letter-spacing: 0;" @click="overlay1 = false; onCancel('start');">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #2E3990; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #2E3990; box-sizing: border-box; letter-spacing: 0;" @click.native="overlay1 = false; onCancel('start');">
                                     취소
                                 </v-btn>
-                                <v-btn class="pa-0 ma-0" tile depressed color="#2E3990" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay1 = false; onChange();">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#2E3990" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click.native="overlay1 = false; onChange();">
                                     선택하기
                                 </v-btn>
                             </v-card-actions>
@@ -156,10 +156,10 @@
                                 </v-list>
                             </v-card>
                             <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #2E3990; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #2E3990; box-sizing: border-box; letter-spacing: 0;" @click="overlay2 = false; onCancel('end');">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#FFF" style="width: 50%; height: 100%; color: #2E3990; font-style: normal; font-weight: 500; font-size: 16px; border-top: 0.5px solid #2E3990; box-sizing: border-box; letter-spacing: 0;" @click.native="overlay2 = false; onCancel('end');">
                                     취소
                                 </v-btn>
-                                <v-btn class="pa-0 ma-0" tile depressed color="#2E3990" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click="overlay2 = false; onChange();">
+                                <v-btn class="pa-0 ma-0" tile depressed color="#2E3990" style="width: 50%; height: 100%; font-style: normal; font-weight: 500; font-size: 16px; letter-spacing: 0;" @click.native="overlay2 = false; onChange();">
                                     선택하기
                                 </v-btn>
                             </v-card-actions>
@@ -193,7 +193,7 @@
 
                 <!-- 타시오 호출 Dialog -->
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
-                    <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click="requestCallBtn">호출하기</v-btn>
+                    <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click.native="requestCallBtn">호출하기</v-btn>
                 </v-flex>
             </v-flex>
         </v-layout>

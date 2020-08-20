@@ -15,7 +15,7 @@
                     <v-card>
                         <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="serviceDialog = false" height="100%">
+                            <v-btn icon @click.native="serviceDialog = false" height="100%">
                                 <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
@@ -216,7 +216,7 @@
                     <v-card>
                         <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="privacyDialog = false" height="100%">
+                            <v-btn icon @click.native="privacyDialog = false" height="100%">
                                 <v-icon  color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
@@ -332,7 +332,7 @@
                     <v-card>
                         <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click="marketingDialog = false" height="100%">
+                            <v-btn icon @click.native="marketingDialog = false" height="100%">
                                 <v-icon color="#262626">mdi-close</v-icon>
                             </v-btn>
                         </v-toolbar>
@@ -377,8 +377,8 @@
                         서비스 이용약관에 동의함으로써 이벤트, 혜택 등을 알려드리는 마케팅 정보 수신에 동의하게 됩니다.
                     </v-card-text>
                 </v-card>
-                <v-btn depressed tile :ripple="false" color="#2E3990" width="100%" height="50px" class="check-next" @click="goToWelcome" v-if="agree == true">다음</v-btn>
-                <v-btn depressed disabled tile color="#E0E0E0" width="100%" height="50px" class="check-next" @click="goToWelcome" v-else>다음</v-btn>
+                <v-btn depressed tile :ripple="false" color="#2E3990" width="100%" height="50px" class="check-next" @click.native="goToWelcome" v-if="agree == true">다음</v-btn>
+                <v-btn depressed disabled tile color="#E0E0E0" width="100%" height="50px" class="check-next" @click.native="goToWelcome" v-else>다음</v-btn>
             </v-flex>
         </v-flex>
     </v-layout>

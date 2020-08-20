@@ -16,7 +16,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
-            <v-btn block depressed tile color="#2E3990" height="50px" class="call-again-btn" @click="callAgain">다시 호출하기</v-btn>
+            <v-btn block depressed tile color="#2E3990" height="50px" class="call-again-btn" @click.native="callAgain">다시 호출하기</v-btn>
         </v-flex>
     </v-layout>
 </v-container>

@@ -18,13 +18,13 @@
                         <v-dialog v-model="namedialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                             <v-card flat tile>
                                 <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click="nochangeDisplayName" color="#262626">
+                                    <v-btn icon @click.native="nochangeDisplayName" color="#262626">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
                                         <v-btn text class="pa-0" v-if="watch == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showNameDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click.native="showNameDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
 
@@ -54,13 +54,13 @@
                         <v-dialog v-model="emaildialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                             <v-card flat tile>
                                 <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click="nochangeEmail" color="#262626">
+                                    <v-btn icon @click.native="nochangeEmail" color="#262626">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
                                         <v-btn text class="pa-0" v-if="watch1 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showEmailDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click.native="showEmailDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -89,13 +89,13 @@
                         <v-dialog v-model="genderdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                             <v-card flat tile>
                                 <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click="nochangeGender" color="#262626">
+                                    <v-btn icon @click.native="nochangeGender" color="#262626">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
                                         <v-btn text class="pa-0" v-if="watch3 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showGenderDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click.native="showGenderDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -132,13 +132,13 @@
                         <v-dialog v-model="birthdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                             <v-card flat tile>
                                 <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click="nochangeBirth" color="#262626">
+                                    <v-btn icon @click.native="nochangeBirth" color="#262626">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
                                         <v-btn text class="pa-0" v-if="watch2 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click="showBirthdialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
+                                        <v-btn text class="pa-0" v-else @click.native="showBirthdialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
                                 <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
@@ -167,14 +167,14 @@
             </v-flex>
 
             <v-flex xs12 sm12 md12 class="pa-0" style="border-top: 0.5px solid #E0E0E0; border-bottom: 0.5px solid #E0E0E0;">
-                <v-btn class="pa-3 signout" color="#FFF" block tile depressed @click="signoutdialog = true">로그아웃</v-btn>
+                <v-btn class="pa-3 signout" color="#FFF" block tile depressed @click.native="signoutdialog = true">로그아웃</v-btn>
                 <v-dialog v-model="signoutdialog" width="268px" height="170px">
                     <v-card flat tile>
                         <v-card-text class="signout-text">로그아웃 하시겠습니까?</v-card-text>
                         <v-card-actions class="pa-0" style="height: 50px">
                             <v-row no-gutters style="height: 100%;">
                                 <v-col style="height: 100%;">
-                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click="signoutdialog = false">취소</v-btn>
+                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click.native="signoutdialog = false">취소</v-btn>
                                 </v-col>
                                 <v-col style="height: 100%;">
                                     <v-btn color="#2E3990" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.prevent="signOut">로그아웃</v-btn>
@@ -192,7 +192,7 @@
             <v-dialog v-model="deleteUserdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                 <v-card flat tile>
                     <v-toolbar flat tile dense color="transparent">
-                        <v-btn icon @click="deleteUserdialog = false" color="#262626">
+                        <v-btn icon @click.native="deleteUserdialog = false" color="#262626">
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                     </v-toolbar>
@@ -228,7 +228,7 @@
                                 <v-footer padless absolute>
                                     <v-btn disabled block depressed tile height="50px" class="pa-0" v-if="inputPhoneNumber.length == 0 || byeReason.value == undefined || this.disabledButton == true">탈퇴하기</v-btn>
                                     <v-btn disabled block depressed tile height="50px" class="pa-0" v-else-if="this.disabledButton === true">탈퇴하기</v-btn>
-                                    <v-btn color="#2E3990" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click="deleteUser" v-else>탈퇴하기</v-btn>
+                                    <v-btn color="#2E3990" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click.native="deleteUser" v-else>탈퇴하기</v-btn>
                                 </v-footer>
                             </v-flex>
                         </v-layout>

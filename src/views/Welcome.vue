@@ -27,7 +27,7 @@
         </v-col>
     </v-row>
     <v-footer absolute style="margin-bottom: 24px; background: transparent;">
-        <v-btn block depressed :ripple="false" height="50px" color="#2E3990" class="start-tasio" @click="startTasio">타시오 시작하기</v-btn>
+        <v-btn block depressed :ripple="false" height="50px" color="#2E3990" class="start-tasio" @click.native="startTasio">타시오 시작하기</v-btn>
     </v-footer>
 </v-container>
 </template>
