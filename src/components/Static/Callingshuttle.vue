@@ -49,7 +49,7 @@
                         <v-card style="width: 280px;">
                             <v-card-text class="text-center pa-0">
                                 <v-card-text class="pa-0 call-dialog-content">
-                                    셔틀 호출이 취소됩니다. <br>
+                                    셔틀 호출이 취소됩니다.
                                     정말 취소하시겠습니까?
                                 </v-card-text>
                             </v-card-text>
@@ -782,7 +782,7 @@ export default {
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
-    color: #2E3990;
+    color: #E61773;
 }
 
 .call-cancel-btn {
@@ -795,6 +795,8 @@ export default {
 }
 
 .call-dialog-content {
+    width: 162px;
+    margin: 0 auto;
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: normal;
