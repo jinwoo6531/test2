@@ -11,7 +11,7 @@
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
-                    <input type="text" id="name" name="name" v-model="form.name" @input="hangul" autofocus placeholder="이름을 입력하세요." />
+                    <input type="text" id="name" name="name" maxLength="50" v-model="form.name" @input="hangul" autofocus placeholder="이름을 입력하세요." />
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                     <p style="margin-top: 22px;">이메일</p>
@@ -79,7 +79,7 @@ export default {
             // eslint-disable-next-line no-useless-escape
             var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
             let one_char = "";
-            const maxLength = 50;
+            // const maxLength = 50;
             let charLength = 0;
 
             for (let i = 0; i < e.target.value.length; i++) {
@@ -96,9 +96,8 @@ export default {
                 this.form.name = "";
                 this.error = "이름은 한글 또는 영문만 가능합니다.";
             } else {
-                if (charLength > maxLength) {
-                    this.error = "한글 " + (maxLength / 2) + "자, 영문 " + maxLength + "자를 초과할 수 없습니다.";
-                    this.form.name = "";
+                if (charLength > 50) {
+                    this.form.name = this.form.name.substring(0, 50);
                 } else {
                     this.error = "";
                 }
