@@ -3,47 +3,18 @@
     <v-container class="pa-0 ma-0 flex-wrap" style="background: #FFF;" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
             <v-flex class="pa-0" xs12 style="width: 100%; height: 100%;">
+                <v-expansion-panels accordion flat>
+                    <v-expansion-panel style="border-bottom: 0.5px solid #BDBDBD;" v-for="(listItem, index) of visiblePages" :key="index">
+                        <v-expansion-panel-header>Q{{ listItem.id }}. {{ listItem.subject }}</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            {{ listItem.desc }}
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
 
-                <v-card class="pa-4" color="transparent" style="width: 100%; height: 100%;" flat xs12>
-                    <v-card-text class="faq-title">자주 묻는 질문</v-card-text>
-                    
-                    <v-tabs v-model="tab" background-color="transparent" dark centered="centered" grow="grow">
-
-                        <v-tab href="#tab-1" class="mr-2" style="background-color: #E4E4E4">일반 질문</v-tab>
-                        <v-tab href="#tab-2" class="ml-2" style="background-color: #E4E4E4" disabled>기술 질문</v-tab>
-
-                        <v-tab-item value="tab-1">
-                            <v-card class="mt-5" flat tile>
-                                <v-expansion-panels accordion flat>
-                                    <v-expansion-panel style="border-bottom: 0.5px solid #BDBDBD;" v-for="(listItem, index) of visiblePages" :key="index">
-                                        <v-expansion-panel-header>Q{{ listItem.id }}. {{ listItem.subject }}</v-expansion-panel-header>
-                                        <v-expansion-panel-content>
-                                            {{ listItem.desc }}
-                                        </v-expansion-panel-content>
-                                    </v-expansion-panel>
-                                </v-expansion-panels>
-                            </v-card>
-                            <div class="text-xs-center pt-6">
-                                <v-pagination v-model="page" :length="Math.ceil(items.length / perPage)" color="#2E3990"></v-pagination>
-                            </div>
-                        </v-tab-item>
-
-                        <v-tab-item value="tab-2">
-                            <v-card class="mt-5" flat tile>
-                                <v-expansion-panels accordion flat="flat">
-                                    <v-expansion-panel style="border-bottom: 0.5px solid #BDBDBD;" v-for="(item, i) in 10" :key="i">
-                                        <v-expansion-panel-header>Item</v-expansion-panel-header>
-                                        <v-expansion-panel-content>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        </v-expansion-panel-content>
-                                    </v-expansion-panel>
-                                </v-expansion-panels>
-                            </v-card>
-                            <v-divider></v-divider>
-                            <!-- <v-pagination v-model="curPageNum2" :length="numOfPages2" class="pt-5" color="#2E3990"></v-pagination> -->
-                        </v-tab-item>
-                    </v-tabs>
-                </v-card>
+                <div class="pagination"  >
+                    <v-pagination v-model="page" :length="Math.ceil(items.length / perPage)" color="#2E3990"></v-pagination>
+                </div>
             </v-flex>
         </v-layout>
     </v-container>
@@ -56,6 +27,7 @@ export default {
 
     data: () => ({
         tab: null,
+        pagination_show: false,
         page: 1,
         perPage: 10,
         items: [{
@@ -102,26 +74,24 @@ export default {
                 "id": 9,
                 "subject": "최대 몇 m까지 장애물을 감지할 수 있나요?",
                 "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
+            },
+            {
+                "id": 10,
+                "subject": "최대 몇 m까지 장애물을 감지할 수 있나요?",
+                "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
+            },
+            {
+                "id": 11,
+                "subject": "최대 몇 m까지 장애물을 감지할 수 있나요?",
+                "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
             }
         ]
     }),
 
     computed: {
         visiblePages() {
-            return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage); // 0부터 5까지 자르기, 5부터 9까지 자르기
-        },
-
-        // visibleId() {
-        //     return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage);
-        // },
-
-        // visibleTitle() {
-        //     return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage);
-        // },
-
-        // visibleContent() {
-        //     return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage);
-        // }
+            return this.items.slice((this.page - 1) * this.perPage, this.page * this.perPage); // 0부터 10까지 자르기, 10부터 20까지 자르기
+        }
     }
 }
 </script> 
@@ -142,31 +112,13 @@ export default {
     padding: 12px 0 30px 0;
 }
 
-.v-tabs-slider-wrapper,
-.v-tabs-slider {
-    display: none;
-}
-
-.v-tab {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 18px;
-    color: #FFFFFF;
-}
-
-.v-tab--active {
-    background: #888888 !important;
-    color: #FFF !important;
-}
-
 .mdi-chevron-down::before {
     display: none;
 }
 
 .v-expansion-panel-content__wrap {
     background: #F2F2F2;
-    padding: 24px 16px !important;
+    padding: 15px 40px !important;
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: normal;
@@ -176,5 +128,12 @@ export default {
 
 button:focus {
     outline: 0;
+}
+
+.pagination {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 </style>
