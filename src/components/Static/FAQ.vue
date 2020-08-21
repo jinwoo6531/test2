@@ -12,7 +12,7 @@
                     </v-expansion-panel>
                 </v-expansion-panels>
 
-                <div class="pagination"  >
+                <div class="pagination">
                     <v-pagination v-model="page" :length="Math.ceil(items.length / perPage)" color="#2E3990"></v-pagination>
                 </div>
             </v-flex>
@@ -27,7 +27,6 @@ export default {
 
     data: () => ({
         tab: null,
-        pagination_show: false,
         page: 1,
         perPage: 10,
         items: [{
@@ -72,16 +71,6 @@ export default {
             },
             {
                 "id": 9,
-                "subject": "최대 몇 m까지 장애물을 감지할 수 있나요?",
-                "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
-            },
-            {
-                "id": 10,
-                "subject": "최대 몇 m까지 장애물을 감지할 수 있나요?",
-                "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
-            },
-            {
-                "id": 11,
                 "subject": "최대 몇 m까지 장애물을 감지할 수 있나요?",
                 "desc": "3D 라이다 기준 100m 이며, 2D 라이다 기준으로 전후방 50m, 2D 라이다 측면 25m 감지 가능합니다."
             }
@@ -132,7 +121,7 @@ button:focus {
 
 .pagination {
     position: fixed;
-    bottom: 0;
+    bottom: 20px;
     left: 50%;
     transform: translate(-50%, 0);
 }
