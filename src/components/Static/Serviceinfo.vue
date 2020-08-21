@@ -16,7 +16,7 @@
                     <v-card-text class="pa-0 pt-4 pb-3 service-content" style="border-bottom: 0.5px solid #E0E0E0;">
                         <v-sheet class="pl-6 pr-6" color="transparent" @click="servicePolicy">서비스 이용약관</v-sheet>
                     </v-card-text>
-                    <v-dialog v-model="serviceDialog" scrollable width="336px" content-class="vdialognew">
+                    <v-dialog v-model="serviceDialog" scrollable width="336px">
                         <v-card flat tile color="#FFF">
                             <v-card-title class="pa-0" style="height: 30px;">
                                 <v-spacer></v-spacer>
@@ -24,7 +24,7 @@
                                     <v-img src="../../assets/closing-btn.svg"></v-img>
                                 </v-btn>
                             </v-card-title>
-                            <v-card-text class="pa-3 pt-0">
+                            <v-card-text class="pa-3 pt-0 privacy_content">
                                 <span class="privacy_title">서비스 이용약관</span><br>
                                 <br>
                                 온리원 고군산 자율주행 셔틀 서비스 이용약관<br>
@@ -228,7 +228,7 @@
                                     <v-img src="../../assets/closing-btn.svg"></v-img>
                                 </v-btn>
                             </v-card-title>
-                            <v-card-text class="pa-3 pt-0">
+                            <v-card-text class="pa-3 pt-0 privacy_content">
                                 <span class="privacy_title">개인정보 처리방침</span><br>
                                 <br>
                                 온리원 고군산 자율주행 셔틀 서비스 개인정보 처리방침<br>
@@ -347,7 +347,7 @@
                                     <v-img src="../../assets/closing-btn.svg"></v-img>
                                 </v-btn>
                             </v-card-title>
-                            <v-card-text class="pa-3 pt-0">
+                            <v-card-text class="pa-3 pt-0 privacy_content">
                                 <span class="privacy_title">마케팅 정보 수신 동의</span><br>
                                 <br>
                                 <b>제1조 (마케팅 정보 수신 동의)</b><br>
@@ -488,6 +488,5 @@ export default {
     line-height: 17px;
     font-size: 12px !important;
     color: #4F4F4F;
-    padding-top: 50px !important;
 }
 </style>

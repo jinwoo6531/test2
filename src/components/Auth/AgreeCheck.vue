@@ -19,7 +19,7 @@
                                 <v-img src="../../assets/closing-btn.svg"></v-img>
                             </v-btn>
                         </v-card-title>
-                        <v-card-text class="pa-3 pt-0">
+                        <v-card-text class="pa-3 pt-0 privacy_content">
                             <span class="privacy_title">서비스 이용약관</span><br>
                             <br>
                             온리원 고군산 자율주행 셔틀 서비스 이용약관<br>
@@ -220,7 +220,7 @@
                                 <v-img src="../../assets/closing-btn.svg"></v-img>
                             </v-btn>
                         </v-card-title>
-                        <v-card-text class="pa-3 pt-0">
+                        <v-card-text class="pa-3 pt-0 privacy_content">
                             <span class="privacy_title">개인정보 처리방침</span><br>
                             <br>
                             온리원 고군산 자율주행 셔틀 서비스 개인정보 처리방침<br>
@@ -336,7 +336,7 @@
                                 <v-img src="../../assets/closing-btn.svg"></v-img>
                             </v-btn>
                         </v-card-title>
-                        <v-card-text class="pa-3 pt-0">
+                        <v-card-text class="pa-3 pt-0 privacy_content">
                             <span class="privacy_title">마케팅 정보 수신 동의</span><br>
                             <br>
                             <b>제1조 (마케팅 정보 수신 동의)</b><br>
