@@ -11,15 +11,15 @@
                     에 동의하시겠습니까?
                 </v-card-text>
 
-                <v-dialog v-model="serviceDialog" max-width="320">
-                    <v-card>
-                        <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
+                <v-dialog v-model="serviceDialog" scrollable max-width="320px">
+                    <v-card flat tile color="#FFF">
+                        <v-card-title class="pa-0" style="padding: 5px !important;">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click.native="serviceDialog = false" height="100%">
-                                <v-icon  color="#262626">mdi-close</v-icon>
+                            <v-btn icon @click.native="serviceDialog = false">
+                                <v-icon color="#262626">mdi-close</v-icon>
                             </v-btn>
-                        </v-toolbar>
-                        <v-card-text class="pa-3 pt-0 privacy_content">
+                        </v-card-title>
+                        <v-card-text>
                             <span class="privacy_title">서비스 이용약관</span><br>
                             <br>
                             온리원 고군산 자율주행 셔틀 서비스 이용약관<br>
@@ -212,15 +212,15 @@
                     </v-card>
                 </v-dialog>
 
-                <v-dialog v-model="privacyDialog" max-width="320">
-                    <v-card>
-                        <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
+                <v-dialog v-model="privacyDialog" scrollable max-width="320px">
+                    <v-card flat tile color="#FFF">
+                        <v-card-title class="pa-0" style="padding: 5px !important;">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click.native="privacyDialog = false" height="100%">
-                                <v-icon  color="#262626">mdi-close</v-icon>
+                            <v-btn icon @click.native="privacyDialog = false">
+                                <v-icon color="#262626">mdi-close</v-icon>
                             </v-btn>
-                        </v-toolbar>
-                        <v-card-text class="pa-3 pt-0 privacy_content">
+                        </v-card-title>
+                        <v-card-text>
                             <span class="privacy_title">개인정보 처리방침</span><br>
                             <br>
                             온리원 고군산 자율주행 셔틀 서비스 개인정보 처리방침<br>
@@ -328,15 +328,15 @@
                     </v-card>
                 </v-dialog>
 
-                <v-dialog v-model="marketingDialog" max-width="320">
-                    <v-card>
-                        <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
+                <v-dialog v-model="marketingDialog" scrollable max-width="320px">
+                    <v-card flat tile color="#FFF">
+                        <v-card-title class="pa-0" style="padding: 5px !important;">
                             <v-spacer></v-spacer>
-                            <v-btn icon @click.native="marketingDialog = false" height="100%">
+                            <v-btn icon @click.native="marketingDialog = false">
                                 <v-icon color="#262626">mdi-close</v-icon>
                             </v-btn>
-                        </v-toolbar>
-                        <v-card-text class="pa-3 pt-0 privacy_content">
+                        </v-card-title>
+                        <v-card-text>
                             <span class="privacy_title">마케팅 정보 수신 동의</span><br>
                             <br>
                             <b>제1조 (마케팅 정보 수신 동의)</b><br>
