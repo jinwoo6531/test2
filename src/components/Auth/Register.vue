@@ -121,7 +121,7 @@ export default {
             }
 
             if (!this.form.gender) {
-                this.error = "성별을 입력해주세요.";
+                this.error = "성별을 선택해주세요.";
                 return;
             }
             if (!this.form.birth) {
