@@ -406,6 +406,7 @@ export default {
         } else {
             this.etc = false;
             this.errorRule = false;
+            this.disabledButton = false;
         }
     },
 

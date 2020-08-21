@@ -156,6 +156,12 @@ export default {
 }
 </script>
 
+<style scoped>
+.v-list .v-list-item--active {
+    color: transparent;
+}
+</style>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
@@ -180,10 +186,6 @@ export default {
 
 .v-list-item {
     padding-right: 0 !important;
-}
-
-.v-list .v-list-item--active {
-    color: transparent;
 }
 
 .v-ripple__container {
