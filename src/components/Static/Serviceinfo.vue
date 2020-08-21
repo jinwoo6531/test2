@@ -217,9 +217,6 @@
                     <v-card-text class="pa-0 pb-3 service-content" style="border-bottom: 0.5px solid #E0E0E0; padding-top: 10px !important;">
                         <v-sheet class="pl-6 pr-6" color="transparent" @click="privacyPolicy">개인정보 처리방침</v-sheet>
                     </v-card-text>
-                    <v-card-text class="pa-0 pt-3 service-content" style="padding-bottom: 30px !important;">
-                        <v-sheet class="pl-6 pr-6" color="transparent" @click="privacyPolicy">위치기반서비스 이용약관</v-sheet>
-                    </v-card-text>
                     <v-dialog v-model="privacyDialog" max-width="320">
                         <v-card>
                             <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
@@ -335,14 +332,50 @@
                             </v-card-text>
                         </v-card>
                     </v-dialog>
+                    <v-card-text class="pa-0 pt-3 service-content" style="padding-bottom: 30px !important;">
+                        <v-sheet class="pl-6 pr-6" color="transparent" @click="marketingPolicy">마케팅 정보 수신 동의</v-sheet>
+                    </v-card-text>
+                    <v-dialog v-model="marketingDialog" max-width="320">
+                        <v-card>
+                            <v-toolbar dense flat tile class="pt-1" color="transparent" height="30px">
+                                <v-spacer></v-spacer>
+                                <v-btn icon @click.native="marketingDialog = false" height="100%">
+                                    <v-icon color="#262626">mdi-close</v-icon>
+                                </v-btn>
+                            </v-toolbar>
+                            <v-card-text class="pa-3 pt-0 privacy_content">
+                                <span class="privacy_title">마케팅 정보 수신 동의</span><br>
+                                <br>
+                                <b>제1조 (마케팅 정보 수신 동의)</b><br>
+                                군산시는 개인정보보호법 및 정보통신망이용촉진및정보보호등에관한법률 등 관계법령에 따라 광고성정보를 전송하기 위해 수신자의 사전 수신동의를 받고 있으며, 광고성정보 수신자의 수신동의여부를 정기적으로 확인합니다.<br>
+                                <br>
+                                <b>제2조 (전송방법)</b><br>
+                                이용자의 모바일 App Push, 핸드폰 문자메시지(SMS), Email 등을 통해 전달될 수 있습니다.<br>
+                                <br>
+                                <b>제3조 (전송내용)</b><br>
+                                발송되는 마케팅 정보는 수신자에게 회사와 관련하여 제공하는 혜택(포인트, 쿠폰 등) 정보, 각종 이벤트 정보 등 광고성 정보로 관련 법의 규정을 준수하여 발송됩니다. 단, 광고성 정보 이외 의무적으로 안내되어야 하는 정보성 내용은 수신동의 여부와 무관하게 제공됩니다.<br>
+                                <br>
+                                <b>제4조 (철회안내)</b><br>
+                                이용자는 수신 동의 이후에라도 의사에 따라 동의를 철회할 수 있습니다.<br>
+                                <br>
+                                <b>제5조 (수신동의 변경)</b><br>
+                                고객센터(031-778-8346)을 통해 수신동의를 변경(동의/철회)할 수 있습니다.<br>
+                                <br>
+                                <b>제6조 (개인정보 이용 상세내용)</b><br>
+                                이용하는 개인정보 - 보유 이용 목적<br>
+                                휴대전화번호,이메일주소 - 혜택 정보,각종 이벤트 정보 등 광고성 정보 제공<br>
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
+
                 </v-card>
             </v-flex>
             <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%;">
                 <v-card flat tile color="transparent">
-                    <v-card-text class="pa-0 service-title pl-6 pr-6">회사 정보</v-card-text>
+                    <v-card-text class="pa-0 service-title pl-6 pr-6">운영사 정보</v-card-text>
                     <table style="width: 100%; border-bottom: 0.5px solid #E0E0E0;">
                         <tr class="service-table-title">
-                            <td style="padding-top: 9px; padding-left: 24px;">회사명</td>
+                            <td style="padding-top: 9px; padding-left: 24px;">운영업체명</td>
                             <td style="text-align: right; padding-right: 24px;">대표</td>
                         </tr>
                         <tr class="service-content">
@@ -354,11 +387,9 @@
                     <table style="width: 100%; border-bottom: 0.5px solid #E0E0E0;">
                         <tr class="service-table-title">
                             <td style="padding-top: 9px; padding-left: 24px;">사업자등록번호</td>
-                            <td style="text-align: right; padding-right: 24px;">통신판매업신고</td>
                         </tr>
                         <tr class="service-content">
                             <td style="padding-bottom: 13px; padding-left: 24px;">155-88-00685</td>
-                            <td style="text-align: right; padding-bottom: 13px; padding-right: 24px;">155-88-00685</td>
                         </tr>
                     </table>
 
@@ -393,7 +424,8 @@
 export default {
     data: () => ({
         serviceDialog: false,
-        privacyDialog: false
+        privacyDialog: false,
+        marketingDialog: false
     }),
 
     methods: {
@@ -403,6 +435,10 @@ export default {
 
         privacyPolicy() {
             this.privacyDialog = true;
+        },
+
+        marketingPolicy() {
+            this.marketingDialog = true;
         }
     }
 }

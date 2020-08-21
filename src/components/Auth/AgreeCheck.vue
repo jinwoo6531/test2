@@ -6,7 +6,7 @@
                 <v-card-title class="pa-0 pb-4 agree-title">약관에 동의해주세요.</v-card-title>
                 <v-card-text class="pa-0 agree-content">
                     <span style="text-decoration-line: underline; color: #2E3990;" @click="servicePolicy">서비스 이용약관, </span>
-                    <span style="text-decoration-line: underline; color: #2E3990;" @click="privacyPolicy">개인정보 처리방침, 위치기반서비스 이용약관, </span>
+                    <span style="text-decoration-line: underline; color: #2E3990;" @click="privacyPolicy">개인정보 처리방침, </span>
                     <span style="text-decoration-line: underline; color: #2E3990;" @click="marketingInformation">마케팅 정보 수신 동의</span>
                     에 동의하시겠습니까?
                 </v-card-text>
