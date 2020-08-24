@@ -152,7 +152,9 @@ export default {
 
         onOpenWebsocket() {
             this.socket = new WebSocket("wss://222.114.39.8:11511", {
-                rejectUnauthorized: false
+                rejectUnauthorized: false,
+		protocolVersion: 8,
+  		origin: 'https://222.114.39.8:11511'
             });
             // this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
