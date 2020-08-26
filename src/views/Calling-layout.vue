@@ -151,9 +151,10 @@ export default {
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("wss://222.114.39.8:11511", ["soap","wamp"],{
-                rejectUnauthorized: false
-            });
+            // this.socket = new WebSocket("wss://ws.tasio.io:11511", [],{
+            //    rejectUnauthorized: false
+            //});
+            this.socket = new WebSocket("wss://ws.tasio.io:11511", [] );
             // this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
