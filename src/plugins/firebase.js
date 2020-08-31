@@ -16,7 +16,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
   await store.dispatch("fetchUser", user)
   // console.log('user level check: ', user)
   if (user) {
-    axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + user.uid)
+    axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + user.uid)
       .then(response => {
         if (response.data.level == 2) {
           router.replace({

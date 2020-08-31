@@ -412,7 +412,7 @@ export default {
 
     methods: {
         async getUser() {
-            await axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
+            await axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
                 .then(async response => {
                     this.displayName = response.data.displayName;
                     this.email = response.data.email;
@@ -514,7 +514,7 @@ export default {
         },
 
         nochangeDisplayName() {
-            axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
+            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.displayName = response.data.displayName;
                     this.namedialog = false;
@@ -524,7 +524,7 @@ export default {
         },
 
         nochangeEmail() {
-            axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
+            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.email = response.data.email;
                     this.emaildialog = false;
@@ -534,7 +534,7 @@ export default {
         },
 
         nochangeGender() {
-            axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
+            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.gender = response.data.gender;
                     this.genderdialog = false;
@@ -544,7 +544,7 @@ export default {
         },
 
         nochangeBirth() {
-            axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
+            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
                 .then(response => {
                     this.birth = response.data.birth;
                     this.birthdialog = false;
@@ -565,7 +565,7 @@ export default {
 
         deleteUser() {
             if (this.inputPhoneNumber == this.deletePhoneNumber) {
-                axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/delete/' + this.uid)
+                axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/delete/' + this.uid)
                     .then(() => {
                         this.$router.replace('/goodbye');
                     });

@@ -152,7 +152,7 @@ export default {
     created() {
         this.getStation();
 
-        axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
+        axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
                 this.displayName = response.data.displayName;

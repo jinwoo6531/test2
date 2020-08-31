@@ -88,7 +88,7 @@ const actions = {
     commit('loading', true)
     window.confirmationResult.confirm(otp)
       .then(result => {
-        axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + result.user.uid)
+        axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + result.user.uid)
           .then(response => {
             Vue.toasted.show("인증이 완료되었습니다.", {
               theme: "bubble",
@@ -119,7 +119,7 @@ const actions = {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
       this.state.uid = user.uid;
-      axios.get('https://express.dnamotiv.io:200/shuttle-9d5cb/us-central1/app/api/read/' + user.uid)
+      axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + user.uid)
         .then(async response => {
           await commit("SET_USER", {
             uid: user.uid,
