@@ -432,6 +432,11 @@ export default {
         marketingDialog: false
     }),
 
+    created() {
+        this.currentversion = this.$route.query.currentversion;
+        alert('currentversion: ', this.currentversion);
+    },
+
     methods: {
         servicePolicy() {
             this.serviceDialog = true;
