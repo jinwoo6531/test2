@@ -12,6 +12,10 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'App',
 
+    created() {
+        console.log('currentversion app: ', this.$route.query.currentversion);
+    },
+
     computed: {
         ...mapGetters(['isLoading']),
         ...mapGetters({
