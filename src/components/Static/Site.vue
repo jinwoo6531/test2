@@ -301,7 +301,7 @@ export default {
         this.start = parseInt(this.start);
         this.end = parseInt(this.end);
 
-        console.log('currentversion site: ', this.$route.query.currentversion);
+        console.log('currentversion site: ', this.$route.query);
     },
 
     mounted() {
@@ -336,6 +336,9 @@ export default {
         } else {
             this.callBtn = false;
         }
+
+
+        console.log('currentversion site update: ', this.$route.query);
     },
 
     methods: {

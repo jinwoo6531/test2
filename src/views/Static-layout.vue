@@ -136,6 +136,10 @@ export default {
         drawer: null,
     }),
 
+    created() {
+        console.log('currentversion static: ', this.$route.query.currentversion);
+    },
+
     computed: {
         ...mapGetters({
             user: "user"
