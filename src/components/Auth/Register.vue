@@ -131,7 +131,7 @@ export default {
         },
 
         async get() {
-            await axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            await axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
         }
     }
 };
