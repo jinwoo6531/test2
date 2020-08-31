@@ -434,7 +434,7 @@ export default {
 
     created() {
         this.currentversion = this.$route.query.currentversion;
-        alert('currentversion: ', this.currentversion);
+        console.log('currentversion: ', this.currentversion);
     },
 
     methods: {
