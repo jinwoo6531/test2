@@ -137,7 +137,10 @@ export default {
     }),
 
     created() {
-        console.log('currentversion static: ', this.$route.query.currentversion);
+        console.log('pushalarmmode: ', this.$route.query.pushalarmmode);
+        console.log('currentversion: ', this.$route.query.currentversion);
+        console.log('updateversion: ', this.$route.query.updateversion);
+        console.log('token: ', this.$route.query.token);
     },
 
     computed: {

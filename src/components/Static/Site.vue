@@ -300,8 +300,6 @@ export default {
 
         this.start = parseInt(this.start);
         this.end = parseInt(this.end);
-
-        console.log('currentversion site: ', this.$route.query);
     },
 
     mounted() {
