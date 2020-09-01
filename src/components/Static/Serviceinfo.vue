@@ -5,7 +5,7 @@
             <v-flex class="pa-0 pl-6 pr-6" xs12 sm12 md12 style="width: 100%;">
                 <v-card flat tile color="transparent">
                     <v-card-text class="pa-0 service-title">애플리케이션 버전</v-card-text>
-                    <v-card-text class="pa-0 pb-1 service-content">v 1.1.0</v-card-text>
+                    <!-- <v-card-text class="pa-0 pb-1 service-content">v 1.1.0</v-card-text> -->
                     <v-card-text class="pa-0 pb-8 service-content">현재 최신 버전을 사용하고 있습니다.</v-card-text>
                 </v-card>
             </v-flex>
