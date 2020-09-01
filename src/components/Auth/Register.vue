@@ -8,30 +8,34 @@
 
             <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
             <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
-            <form @submit.prevent="submit">
-                <v-flex xs12 sm12 md12>
+            <form @submit.prevent="submit" style="height: 100%;">
+                <v-flex xs12 style="height: 20%;">
                     <p>이름</p>
                     <input type="text" id="name" name="name" maxLength="50" v-model="form.name" @input="hangul" autofocus placeholder="이름을 입력하세요." />
                 </v-flex>
-                <v-flex xs12 sm12 md12>
+                <v-flex xs12 style="height: 20%;">
                     <p style="margin-top: 22px;">이메일</p>
                     <input type="email" id="email" name="email" autofocus v-model="form.email" placeholder="이메일 주소를 입력하세요." />
                 </v-flex>
-                <v-flex xs12 sm12 md12>
+                <v-flex xs12 style="height: 20%;">
                     <p style="margin-top: 22px;">성별</p>
                     <v-radio-group v-model="form.gender" row>
                         <v-radio label="남성" :ripple="false" color="#2E3990" value="남자"></v-radio>
                         <v-radio label="여성" :ripple="false" color="#2E3990" value="여자"></v-radio>
                     </v-radio-group>
                 </v-flex>
-                <v-flex xs12 sm12 md12>
+                <v-flex xs12 style="height: 20%;">
                     <p style="margin-top: 22px;">생년월일</p>
                     <input type="number" id="birth" name="birth" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
                 </v-flex>
-                <p class="error-message" style="margin-top: 15px;">{{ error }}</p>
-                <v-footer absolute style="width: 100%; margin-bottom: 24px; background: transparent;">
-                    <button class="signupBtn" type="submit">가입 완료하기</button>
-                </v-footer>
+                <v-flex xs12 class="d-flex align-end pb-0" style="height: 20%;">
+                    <v-flex xs12 class="pa-0 justify-space-between">
+                        <p class="error-message" style="margin-top: 15px;">{{ error }}</p>
+                        <v-card class="pa-0" color="transparent" style="width: 100%;" flat tile>
+                            <button class="signupBtn" type="submit">가입 완료하기</button>
+                        </v-card>
+                    </v-flex>
+                </v-flex>
             </form>
         </v-flex>
     </v-layout>
