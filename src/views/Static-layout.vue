@@ -74,13 +74,13 @@
                 </v-list-item-content>
             </v-list-item>
             
-            <!-- <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
                 <v-list-item-content class="pa-0 pl-2">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         서비스 정보
                     </v-list-item-title>
                 </v-list-item-content>
-            </v-list-item> -->
+            </v-list-item>
         </v-list>
 
         <v-footer class="copyrightStyle nav-footer justify-left pa-0">
