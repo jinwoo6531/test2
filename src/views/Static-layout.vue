@@ -137,9 +137,6 @@ export default {
     }),
 
     created() {
-        alert(this.$route.query.pushalarmmode)
-        alert(this.$route.query.currentversion)
-        alert(this.$route.query.updateversion)
         alert(this.$route.query.token)
         console.log('pushalarmmode: ', this.$route.query.pushalarmmode);
         console.log('currentversion: ', this.$route.query.currentversion);
