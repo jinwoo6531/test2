@@ -99,7 +99,7 @@
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%; text-align: center; line-height: 57px;">
-                        <span flat v-if="this.$route.fullPath == '/'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
+                        <span flat v-if="this.$route.name == 'Site'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
                         <span flat v-if="this.$route.fullPath == '/callingshuttle'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 10px;" /></span>
                         <span flat v-if="this.$route.fullPath == '/schedule'" class="pa-0 static-title">운행 시간표</span>
                         <span flat v-if="this.$route.fullPath == '/faq'" class="pa-0 static-title">자주 묻는 질문</span>
