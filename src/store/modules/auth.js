@@ -94,7 +94,6 @@ const actions = {
               theme: "bubble",
               position: "top-center"
             }).goAway(2000);
-            // alert('인증이 완료되었습니다.')
             if (response.data.level == 1) {
               router.replace('/')
             } else {
