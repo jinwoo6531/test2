@@ -285,7 +285,9 @@ export default {
         minutes: 0,
         // 타시오 호출
         calldialog: false,
-        zoomScale: {}
+        zoomScale: {},
+
+        ok: false
     }),
 
     computed: {
@@ -335,7 +337,6 @@ export default {
             this.callBtn = false;
         }
 
-
         console.log('currentversion site update: ', this.$route.query);
     },
 
@@ -383,8 +384,15 @@ export default {
                     lat: this.stationList[i].lat,
                     lng: this.stationList[i].lon
                 })
-                this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
-                    icon: this.zoomStatus
+
+                var markersLayer = this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                    icon: this.zoomStatus,
+                    name: this.stationList[i].name
+                });
+
+                markersLayer.on("click", function (event) {
+                    var clickedMarker = event;
+                    console.log(clickedMarker.target.options.name, clickedMarker.latlng);
                 });
             }
         },
