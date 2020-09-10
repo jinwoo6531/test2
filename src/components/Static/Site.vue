@@ -287,7 +287,9 @@ export default {
         calldialog: false,
         zoomScale: {},
 
-        ok: false
+        ok: false,
+
+        clickmarker: false
     }),
 
     computed: {
@@ -372,6 +374,13 @@ export default {
             });
         },
 
+        createButton(label) {
+            var btn = this.$utils.map.createDomUitl.create('button');
+            btn.setAttribute('type', 'button');
+            btn.innerHTML = label;
+            return btn;
+        },
+
         addMarker() {
             this.zoomStatus = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
@@ -390,11 +399,52 @@ export default {
                     name: this.stationList[i].name
                 });
 
-                markersLayer.on("click", function (event) {
-                    var clickedMarker = event;
-                    console.log(clickedMarker.target.options.name, clickedMarker.latlng);
+                /* var popupContents = document.createElement("div");
+                var spanNode = document.createElement("span");
+                popupContents.appendChild(spanNode);
+                popupContents.setAttribute('class', 'popup-span')
+
+                console.log('popupContents', popupContents)
+
+                let editButton = document.createElement("button");
+                editButton.on('click', function () {
+                    popupContents.getElementsByClassName('popup-span')
+                });
+
+                popupContents.appendChild(editButton);
+                var customPopup =  popupContents[0];
+                var customOptions = {
+                    'maxWidth': '500',
+                    'className': 'custom'
+                }
+                markersLayer.bindPopup(customPopup, customOptions).addTo(this.map); */
+
+                // var customStation = this.stationList[i].name;
+                // var customPopup = "<button class='startBtn' onclick= " + this.test(); + ">출발지</button>";
+                // markersLayer.on("click", function () {
+                    // var customPopup = customStation + '<br />' + "<button onclick=" + this.test() + ">출발지</button>";
+                    // var customOptions = {
+                    //     'maxWidth': '500',
+                    //    'className': 'custom'
+                    //}
+                    //markersLayer.bindPopup(customPopup, customOptions).addTo(this.map);
+
+                    // var clickedMarker = event;
+                    // console.log(clickedMarker.target.options.name, clickedMarker.latlng);
+                // });
+
+                var customPopup = "<button class='startBtn'>출발지</button>";
+                markersLayer.bindPopup(customPopup).on("popupopen", (e) => {
+                    console.log(e);
+                    e.popup._content.addEventListener('click', function(e) {
+                        console.log(e)
+                    })
                 });
             }
+        },
+
+        test() {
+            alert("testing");
         },
 
         addRouting(waypoints, borderColor, fullColor) {
