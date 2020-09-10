@@ -289,7 +289,8 @@ export default {
 
         ok: false,
 
-        clickmarker: false
+        clickmarker: false,
+        startBtn: '<button onclick="hello()"></button>'
     }),
 
     computed: {
@@ -374,13 +375,6 @@ export default {
             });
         },
 
-        createButton(label) {
-            var btn = this.$utils.map.createDomUitl.create('button');
-            btn.setAttribute('type', 'button');
-            btn.innerHTML = label;
-            return btn;
-        },
-
         addMarker() {
             this.zoomStatus = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
@@ -399,52 +393,56 @@ export default {
                     name: this.stationList[i].name
                 });
 
-                /* var popupContents = document.createElement("div");
-                var spanNode = document.createElement("span");
-                popupContents.appendChild(spanNode);
-                popupContents.setAttribute('class', 'popup-span')
-
-                console.log('popupContents', popupContents)
-
-                let editButton = document.createElement("button");
-                editButton.on('click', function () {
-                    popupContents.getElementsByClassName('popup-span')
-                });
-
-                popupContents.appendChild(editButton);
-                var customPopup =  popupContents[0];
-                var customOptions = {
-                    'maxWidth': '500',
-                    'className': 'custom'
-                }
-                markersLayer.bindPopup(customPopup, customOptions).addTo(this.map); */
-
-                // var customStation = this.stationList[i].name;
-                // var customPopup = "<button class='startBtn' onclick= " + this.test(); + ">출발지</button>";
-                // markersLayer.on("click", function () {
-                    // var customPopup = customStation + '<br />' + "<button onclick=" + this.test() + ">출발지</button>";
-                    // var customOptions = {
-                    //     'maxWidth': '500',
-                    //    'className': 'custom'
-                    //}
-                    //markersLayer.bindPopup(customPopup, customOptions).addTo(this.map);
-
-                    // var clickedMarker = event;
-                    // console.log(clickedMarker.target.options.name, clickedMarker.latlng);
-                // });
-
-                var customPopup = "<button class='startBtn'>출발지</button>";
-                markersLayer.bindPopup(customPopup).on("popupopen", (e) => {
-                    console.log(e);
-                    e.popup._content.addEventListener('click', function(e) {
-                        console.log(e)
-                    })
-                });
+                markersLayer.on('click', this.layerClickHandler);
             }
         },
 
-        test() {
-            alert("testing");
+        layerClickHandler(e) {
+            var marker = e.target;
+            var properties = e.target;
+            
+            // eslint-disable-next-line no-prototype-builtins
+            if (marker.hasOwnProperty('_popup')) {
+                marker.unbindPopup();
+            }
+
+            var template = 
+                '<p id="stationName"></p>\
+                 <form>\
+                    <table>\
+                        <tr>\
+                            <th>출발지:</th>\
+                            <td id="value-start"></td>\
+                        </tr>\
+                        <tr>\
+                            <th>도착지:</th>\
+                            <td id="value-end"></td>\
+                        </tr>\
+                    </table>\
+                    <button id="startBtn" type="button">출발지</button>\
+                    <button id="endBtn" type="button">도착지</button>\
+                </form>';
+
+            marker.bindPopup(template);
+            marker.openPopup();
+
+            this.$utils.map.getDomUtil('stationName').textContent = e.target.options.name;
+            this.$utils.map.getDomUtil('value-start').textContent = properties.start; // 1. 사실은 여기에 binding할건 아니지
+            this.$utils.map.getDomUtil('value-end').textContent = properties.end;
+
+            var startSubmit = this.$utils.map.getDomUtil('startBtn');
+            this.$utils.map.createDomEvent.addListener(startSubmit, 'click', function (e) {
+                properties.start = '출발지당'; // 2. 그래서 얘도 필요는 없고 정류장 list랑 바인딩해야해
+                console.log('e: ', e)
+                marker.closePopup();
+            });
+            
+            var endSubmit = this.$utils.map.getDomUtil('endBtn');
+            this.$utils.map.createDomEvent.addListener(endSubmit, 'click', function (e) {
+                properties.end = '도착지당';
+                console.log('e: ', e)
+                marker.closePopup();
+            });
         },
 
         addRouting(waypoints, borderColor, fullColor) {

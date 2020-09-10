@@ -52,6 +52,28 @@ const createLayerGroup = () => {
     return layerGroup
 }
 
+const createPopup = (map, options) => {
+    let popup = $L.popup(options);
+    popup.addTo(map);
+    return popup;
+  };
+
+const createDomUtil = (element) => {
+    let dom = $L.DomUtil.create(element);
+    return dom;
+}
+const createDomEvent = $L.DomEvent;
+
+const getDomUtil = (element) => {
+    let dom = $L.DomUtil.get(element);
+    return dom;
+}
+
+const geo = (options) => {
+    let g = $L.geoJson(options);
+    return g
+}
+
 // Leaflet Default Maker를 표시 할 수없는 문제 해결
 import icon from "leaflet/dist/images/marker-icon.png"
 import iconShadow from "leaflet/dist/images/marker-shadow.png"
@@ -76,5 +98,10 @@ export default {
     createMaker,
     createRouting,
     updateMarkerByXY,
-    createLayerGroup
+    createLayerGroup,
+    createPopup,
+    createDomUtil,
+    createDomEvent,
+    getDomUtil,
+    geo
 }
