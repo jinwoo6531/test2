@@ -120,7 +120,7 @@
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
                                 <v-list light tile style="padding: 8px 0 22px 0;">
                                     <v-list-item-group color="#2E3990">
-                                        <v-list-item class="pa-0" v-for="item in start_options" @click="clk(item,'start')" :key="item.value">
+                                        <v-list-item class="pa-0" v-for="item in start_options" @click="clk(item, 'start')" :key="item.value">
                                             <v-list-item-content>
                                                 <v-list-item-title v-text="item.name" style="color: #333;"></v-list-item-title>
                                             </v-list-item-content>
@@ -220,6 +220,7 @@ function deg2rad(deg) {
 function rad2deg(rad) {
     return (rad * 180 / Math.PI);
 }
+
 import {
     mapGetters
 } from 'vuex'
@@ -390,7 +391,8 @@ export default {
 
                 var markersLayer = this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                     icon: this.zoomStatus,
-                    name: this.stationList[i].name
+                    name: this.stationList[i].name,
+                    value: i
                 });
 
                 markersLayer.on('click', this.layerClickHandler);
@@ -398,27 +400,40 @@ export default {
         },
 
         layerClickHandler(e) {
+            // REMOVE Default Routing
+            if (this.waypoints.length > 0) {
+                control.spliceWaypoints(0, 6);
+            }
+            this.waypoints = [];
+
+            let self = this;
             var marker = e.target;
-            var properties = e.target;
-            
+            // var properties = e.target;
+            var marker_lat = marker._latlng.lat;
+            var marker_lng = marker._latlng.lng;
+            // var marker_leaflet_id = marker._leaflet_id;
+            var marker_map = marker._map;
+            var util_map = this.$utils.map;
+
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
             // eslint-disable-next-line no-prototype-builtins
             if (marker.hasOwnProperty('_popup')) {
                 marker.unbindPopup();
             }
 
-            var template = 
+            var template =
                 '<p id="stationName"></p>\
                  <form>\
-                    <table>\
-                        <tr>\
-                            <th>출발지:</th>\
-                            <td id="value-start"></td>\
-                        </tr>\
-                        <tr>\
-                            <th>도착지:</th>\
-                            <td id="value-end"></td>\
-                        </tr>\
-                    </table>\
                     <button id="startBtn" type="button">출발지</button>\
                     <button id="endBtn" type="button">도착지</button>\
                 </form>';
@@ -426,23 +441,370 @@ export default {
             marker.bindPopup(template);
             marker.openPopup();
 
-            this.$utils.map.getDomUtil('stationName').textContent = e.target.options.name;
-            this.$utils.map.getDomUtil('value-start').textContent = properties.start; // 1. 사실은 여기에 binding할건 아니지
-            this.$utils.map.getDomUtil('value-end').textContent = properties.end;
+            this.$utils.map.getDomUtil('stationName').textContent = marker.options.name;
 
             var startSubmit = this.$utils.map.getDomUtil('startBtn');
-            this.$utils.map.createDomEvent.addListener(startSubmit, 'click', function (e) {
-                properties.start = '출발지당'; // 2. 그래서 얘도 필요는 없고 정류장 list랑 바인딩해야해
-                console.log('e: ', e)
+
+            this.$utils.map.createDomEvent.addListener(startSubmit, 'click', function () {
+                marker_map.removeLayer(self.start_icon);
+                self.start_icon = util_map.createMakerByXY(marker_map, [marker_lat, marker_lng], {
+                    icon: startIcon
+                });
+
+                // self.clk(self.start_options, 'start');
+
+                self.start = marker.options.value;
+                self.start = parseInt(self.start);
+                self.start_point.name = marker.options.name;
+                self.start_point.value = marker.options.value;
+                self.start_options = self.options.filter(opt => opt.value != self.end_point.value);
+
+                self.startName = self.start_point.name;
+                self.station_startId = self.stationList[self.start].id;
+
                 marker.closePopup();
             });
-            
+
             var endSubmit = this.$utils.map.getDomUtil('endBtn');
-            this.$utils.map.createDomEvent.addListener(endSubmit, 'click', function (e) {
-                properties.end = '도착지당';
-                console.log('e: ', e)
+            this.$utils.map.createDomEvent.addListener(endSubmit, 'click', function () {
+                marker_map.removeLayer(self.end_icon);
+                self.end_icon = util_map.createMakerByXY(marker_map, [marker_lat, marker_lng], {
+                    icon: endIcon
+                });
+
+                // self.clk(self.end_options, 'end');
+
+                self.end = marker.options.value;
+                self.end = parseInt(self.end);
+                self.end_point.name = marker.options.name;
+                self.end_point.value = marker.options.value;
+                self.end_options = self.options.filter(opt => opt.value != self.start_point.value);
+
+                self.endName = self.end_point.name;
+                self.station_endId = self.stationList[self.end].id;
+
                 marker.closePopup();
             });
+
+            console.log('start', self.start)
+            console.log('end', self.end)
+
+            if (self.start == 0) {
+                if (self.end == 6) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    })
+                } else if (self.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    })
+                } else if (self.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    })
+                } else if (self.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                } else if (self.end == 2 || self.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                }
+            }
+            if (self.start == 6) {
+                if (self.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    })
+                } else if (self.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    })
+                } else if (self.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                } else if (self.end == 2 || self.end == 5 || self.end == 0) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                }
+            }
+            if (self.start == 1) {
+                if (self.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    })
+                } else if (self.end == 4 || self.end == 2 || self.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                } else if (self.end == 0 || self.end == 6) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                }
+            }
+            if (self.start == 3) {
+                if (self.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                } else if (self.end == 2) {
+                    this.waypoints.push({
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                } else if (self.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                } else if (self.end == 0 || self.end == 6 || self.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    })
+                }
+            }
+
+            if (self.start == 4) {
+                if (self.end == 2) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    })
+                } else if (self.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon
+                    })
+                } else if (self.end == 0 || self.end == 6 || self.end == 1 || self.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                }
+            }
+            if (self.start == 2) {
+                if (self.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon
+                    })
+                } else if (self.end == 0 || self.end == 6 || self.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                } else if (self.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                } else if (self.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                }
+            }
+
+            if (self.start == 5) {
+                if (self.end == 0 || self.end == 6 || self.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                } else if (self.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                } else if (self.end == 4 || self.end == 2) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon
+                    })
+                }
+            }
+            this.addRouting(this.waypoints, '#E51973', 'transparent');
         },
 
         addRouting(waypoints, borderColor, fullColor) {
@@ -701,7 +1063,10 @@ export default {
 
         // options
         clk(item, mode) {
+            console.log('실행!')
             mode == "start" ? this.start_point = item : this.end_point = item;
+            console.log('SATART', this.start_point)
+            console.log('ED', this.end_point)
         },
 
         onCancel(state) {
