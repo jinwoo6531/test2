@@ -389,13 +389,14 @@ export default {
                     lng: this.stationList[i].lon
                 })
 
-                var markersLayer = this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                // var markersLayer = 
+                this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                     icon: this.zoomStatus,
                     name: this.stationList[i].name,
                     value: i
                 });
 
-                markersLayer.on('click', this.layerClickHandler);
+                // markersLayer.on('click', this.layerClickHandler);
             }
         },
 
@@ -462,8 +463,8 @@ export default {
                 marker.closePopup();
                 this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
 
-                console.log(this.start_options)
-                console.log(this.end_options)
+                console.log(this.start_options);
+                console.log(this.end_options);
 
                 // this.clk(this.start_options, 'start');
                 // this.onCancel('start');

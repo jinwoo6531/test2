@@ -200,7 +200,7 @@
                         <v-layout wrap class="pa-6">
                             <v-flex xs12 sm12 md12 class="d-flex justify-left align-start">
                                 <v-card color="transparent" flat tile class="pb-6 bye-title">
-                                    타시오와 작별인가요...?
+                                    정말 떠나시나요?
                                 </v-card>
                             </v-flex>
                             <v-flex xs12 sm12 md12 class="d-flex justify-left align-center">
