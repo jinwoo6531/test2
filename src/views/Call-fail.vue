@@ -11,7 +11,6 @@
         </v-flex>
         <v-flex xs12 class="d-flex justify-center align-start text-center">
             <v-card class="text-center" color="transparent" flat tile>
-                <v-card-text class="cant-call pt-0">셔틀을 호출할 수 없습니다.<br>불편을 드려 죄송합니다.</v-card-text>
                 <v-card-text class="cant-call-sub">응답 가능한 셔틀을 확인할 수 없습니다.<br>더 좋은 서비스 제공을 위해 노력하겠습니다.</v-card-text>
             </v-card>
         </v-flex>
