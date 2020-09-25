@@ -406,10 +406,10 @@ export default {
             // console.log('layerClickHandler end_options: ', this.end_options);
 
             // REMOVE Default Routing
-            if (this.waypoints.length > 0) {
-                control.spliceWaypoints(0, 6);
-            }
-            this.waypoints = [];
+            // if (this.waypoints.length > 0) {
+            //     control.spliceWaypoints(0, 6);
+            // }
+            // this.waypoints = [];
 
             var marker = e.target;
             var marker_lat = marker._latlng.lat;
@@ -475,6 +475,11 @@ export default {
 
                 // this.clk(this.start_point, 'start');
                 // this.onCancel('start');
+
+                if (this.waypoints.length > 0) {
+                    control.spliceWaypoints(0, 6);
+                }
+                this.waypoints = [];
 
                 if (this.start >= 0 && this.end >= 0) {
                     if (this.start == 0) {
@@ -826,6 +831,11 @@ export default {
 
                 // this.clk(this.end_point, 'end');
                 // this.onCancel('end');
+
+                if (this.waypoints.length > 0) {
+                    control.spliceWaypoints(0, 6);
+                }
+                this.waypoints = [];
 
                 if (this.start >= 0 && this.end >= 0) {
                     if (this.start == 0) {
@@ -1963,7 +1973,7 @@ export default {
 .leaflet-popup-content-wrapper {
     width: 120px;
     height: 100px;
-    text-align: center; 
+    text-align: center;
 }
 
 .leaflet-popup-content {
