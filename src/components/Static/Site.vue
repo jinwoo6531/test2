@@ -1968,7 +1968,7 @@ export default {
 
 .leaflet-popup-content {
     width: 100% !important;
-    padding: 4px 15px 10px;
+    padding: 4px 0px 10px;
     margin: 0 !important;
 }
 
