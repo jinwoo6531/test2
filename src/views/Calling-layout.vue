@@ -91,9 +91,9 @@ export default {
 
         this.ready = true;
 
-        this.waitTimer = setTimeout(() => {
+        /* this.waitTimer = setTimeout(() => {
             this.message = '조금만 더 기다려주세요';
-        }, 60000);
+        }, 60000); */
 
         this.failTimer = setTimeout(() => {
             this.$router.replace({
@@ -110,7 +110,7 @@ export default {
                     vehicle_id: parseInt(this.$route.query.vehicle_id)
                 }
             });
-        }, 120000);
+        }, 60000);
     },
 
     watch: {

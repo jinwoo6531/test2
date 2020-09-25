@@ -431,12 +431,13 @@ export default {
                 marker.unbindPopup();
             }
 
+            // <img src='../../assets/click_start_btn.png' />
             var template =
-                '<p id="stationName"></p>\
-                 <form>\
-                    <button id="startBtn" type="button">출발지</button>\
-                    <button id="endBtn" type="button">도착지</button>\
-                </form>';
+                `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 13px; margin: 14px 0 7px 0 !important;"></p>
+                 <form>
+                    <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">출발지로 설정</button> <br>
+                    <button id="endBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
+                </form>`;
 
             marker.bindPopup(template);
             marker.openPopup();
@@ -1958,7 +1959,35 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.leaflet-popup-content-wrapper {
+    width: 120px;
+    text-align: center; 
+}
+
+.leaflet-popup-content {
+    width: 100% !important;
+    padding: 4px 15px 10px;
+    margin: 0 !important;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: #515151;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    color: #FFFFFF;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    padding: 1px 5px 0 0 !important;
+    text-align: center;
+    width: 20px !important;
+    height: 20px !important;
+    font: 20px/20px Noto Sans !important;
+    color: #FFFFFF !important;
+    font-weight: 100 !important;
+}
+</style><style scoped>
 .v-list .v-list-item--active {
     background-color: #EBF3FE !important;
 }
