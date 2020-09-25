@@ -301,6 +301,7 @@ export default {
     },
 
     created() {
+        console.log('')
         this.getStation();
         this.getVehicle();
 
@@ -1207,10 +1208,11 @@ export default {
                                 });
                             }
                         }
-
+                        console.log('Station API Load');
                         this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
                             this.loading = false;
+                            console.log('s loading false');
                         }
                     }
 
@@ -1282,9 +1284,12 @@ export default {
                             vehicle_arr.push(vehicle_data[i].id);
                             this.vehicle_id = vehicle_arr[0];
 
+                            console.log('Vehicle API Load');
+
                             this.loading2 = false;
                             if (this.loading1 == false && this.loading2 == false) {
                                 this.loading = false;
+                                console.log('v loading false');
                             }
                         }
                     }
