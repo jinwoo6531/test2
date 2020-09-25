@@ -120,7 +120,7 @@
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
                                 <v-list light tile style="padding: 8px 0 22px 0;">
                                     <v-list-item-group color="#2E3990">
-                                        <v-list-item class="pa-0" v-for="item in start_options" @click="clk(item, 'start')" :key="item.value">
+                                        <v-list-item class="pa-0" v-for="(item, index) in start_options" @click="clk(item, 'start')" :key="index">
                                             <v-list-item-content>
                                                 <v-list-item-title v-text="item.name" style="color: #333;"></v-list-item-title>
                                             </v-list-item-content>
@@ -147,7 +147,7 @@
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
                                 <v-list light tile style="padding: 8px 0 22px 0;">
                                     <v-list-item-group color="#2E3990">
-                                        <v-list-item class="pa-0" v-for="item2 in end_options" @click="clk(item2, 'end')" :key="item2.value">
+                                        <v-list-item class="pa-0" v-for="(item2, index) in end_options" @click="clk(item2, 'end')" :key="index">
                                             <v-list-item-content>
                                                 <v-list-item-title v-text="item2.name" style="color: #333;"></v-list-item-title>
                                             </v-list-item-content>
@@ -272,6 +272,7 @@ export default {
             name: '도착지 선택하기',
             value: -1
         },
+        global_options: [],
         options: [],
         start_options: [],
         end_options: [],
@@ -341,8 +342,6 @@ export default {
         } else {
             this.callBtn = false;
         }
-
-        console.log('currentversion site update: ', this.$route.query);
     },
 
     methods: {
@@ -390,18 +389,22 @@ export default {
                     lng: this.stationList[i].lon
                 })
 
-                // var markersLayer = 
-                this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                var markersLayer = this.$utils.map.createMakerByXY(this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
                     icon: this.zoomStatus,
                     name: this.stationList[i].name,
                     value: i
                 });
 
-                // markersLayer.on('click', this.layerClickHandler);
+                markersLayer.on('click', this.layerClickHandler);
             }
         },
 
         layerClickHandler(e) {
+            // console.log('layerClickHandler global_options: ', this.global_options);
+            // console.log('layerClickHandler options: ', this.options);
+            // console.log('layerClickHandler start_options: ', this.start_options);
+            // console.log('layerClickHandler end_options: ', this.end_options);
+
             // REMOVE Default Routing
             if (this.waypoints.length > 0) {
                 control.spliceWaypoints(0, 6);
@@ -411,12 +414,6 @@ export default {
             var marker = e.target;
             var marker_lat = marker._latlng.lat;
             var marker_lng = marker._latlng.lng;
-
-            // this.start = this.start_point.value;
-            // this.end = this.end_point.value;
-
-            // this.startName = this.start_point.name;
-            // this.endName = this.end_point.name;
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -454,6 +451,13 @@ export default {
                     icon: startIcon
                 });
 
+                // 중복 방지
+                this.start = -1;
+                this.start_point = {
+                    name: '출발지 선택하기',
+                    value: -1
+                };
+
                 this.start = Number(marker.options.value);
                 this.start_point.name = marker.options.name;
                 this.start_point.value = marker.options.value;
@@ -462,12 +466,13 @@ export default {
                 this.station_startId = this.stationList[this.start].id;
 
                 marker.closePopup();
+
+                // console.log('layerClickHandler options: ', this.options, 'Start name: ', this.start_point);
                 this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
+                this.options = this.global_options;
+                console.log('layerClickHandler end_options click: ', this.end_options);
 
-                console.log(this.start_options);
-                console.log(this.end_options);
-
-                // this.clk(this.start_options, 'start');
+                // this.clk(this.start_point, 'start');
                 // this.onCancel('start');
 
                 if (this.start >= 0 && this.end >= 0) {
@@ -797,6 +802,13 @@ export default {
                     icon: endIcon
                 });
 
+                // 중복 방지
+                this.end = -1;
+                this.end_point = {
+                    name: '도착지 선택하기',
+                    value: -1
+                };
+
                 this.end = Number(marker.options.value);
                 this.end_point.name = marker.options.name;
                 this.end_point.value = marker.options.value;
@@ -805,12 +817,13 @@ export default {
                 this.station_endId = this.stationList[this.end].id;
 
                 marker.closePopup();
+                // console.log('layerClickHandler start_options: ', this.start_options);
+                // console.log('layerClickHandler options: ', this.options, 'End name: ', this.end_point);
                 this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
+                this.options = this.global_options;
+                console.log('layerClickHandler start_options: ', this.start_options);
 
-                console.log(this.start_options)
-                console.log(this.end_options)
-
-                // this.clk(this.end_options, 'end');
+                // this.clk(this.end_point, 'end');
                 // this.onCancel('end');
 
                 if (this.start >= 0 && this.end >= 0) {
@@ -1210,11 +1223,12 @@ export default {
                             }
                         }
                         console.log('Station API Response');
-                        this.loading1 = false;
+                        /* this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
                             this.loading = false;
                             console.log('Station loading False');
-                        }
+                        } */
+                        this.loading = false;
                     }
 
                     // 서비스 중인 경로 그려주기 위한 waypoints
@@ -1244,11 +1258,18 @@ export default {
                         });
 
                     for (var [i, arr2] of this.stationList.entries()) {
+                        this.global_options.push({
+                            name: arr2.name,
+                            value: i
+                        });
+
                         this.options.push({
                             name: arr2.name,
                             value: i
                         });
                     }
+
+                    // console.log('global_options: ', this.global_options);
 
                     this.start_options = this.options;
                     this.end_options = this.options;
@@ -1288,11 +1309,11 @@ export default {
 
                             console.log('Vehicle API Response');
 
-                            this.loading2 = false;
+                            /* this.loading2 = false;
                             if (this.loading1 == false && this.loading2 == false) {
                                 this.loading = false;
                                 console.log('Vehicle loading False');
-                            }
+                            } */
                         }
                     }
                 }).catch(error => {
@@ -1397,10 +1418,14 @@ export default {
         // options
         clk(item, mode) {
             mode == "start" ? this.start_point = item : this.end_point = item;
+            console.log('clk mode: ', mode);
+            console.log('clk itme: ', item);
         },
 
         onCancel(state) {
-            state == 'start' ? this.start_point = this.options.find(i => i.value === this.start) : this.end_point = this.options.find(i => i.value === this.end);
+            state == 'start' ? this.start_point = this.start_options.find(i => i.value === this.start) : this.end_point = this.end_options.find(i => i.value === this.end);
+            console.log(this.start_point)
+            console.log(this.end_point)
         },
 
         onChange() {
@@ -1416,8 +1441,18 @@ export default {
             this.startName = this.start_point.name;
             this.endName = this.end_point.name;
 
-            this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
-            this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
+            // console.log('onChange global_options: ', this.global_options);
+            // console.log('onChange options: ', this.options, 'End name: ', this.end_point.name)
+            this.start_options = this.options.filter(opt => opt.value != this.end_point.value)
+            this.options = this.global_options;
+            console.log('onChange start_options: ', this.start_options)
+
+            // console.log('onChange global_options: ', this.global_options);
+            // console.log('onChange end_options: ', this.end_options)
+            // console.log('onChange options: ', this.options, 'Start name: ', this.start_point.name)
+            this.end_options = this.options.filter(opt => opt.value != this.start_point.value)
+            this.options = this.global_options;
+            console.log('onChange end_options: ', this.end_options)
 
             // for webSocket
             this.station_startId = this.stationList[this.start].id;
@@ -1754,7 +1789,6 @@ export default {
             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
                 icon: startIcon
             });
-            console.log('change', this.start_icon)
             this.map.removeLayer(this.end_icon)
             this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
                 icon: endIcon
