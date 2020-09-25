@@ -1195,6 +1195,7 @@ export default {
         },
 
         async getStation() {
+            console.log('Station API request');
             await axios.get('/api/stations/')
                 .then(async response => {
                     if (response.status == 200) {
@@ -1208,11 +1209,11 @@ export default {
                                 });
                             }
                         }
-                        console.log('Station API Load');
+                        console.log('Station API Response');
                         this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
                             this.loading = false;
-                            console.log('s loading false');
+                            console.log('Station loading False');
                         }
                     }
 
@@ -1262,6 +1263,7 @@ export default {
         },
 
         getVehicle() {
+            console.log('Vehicle API request');
             axios.get('/api/vehicles/')
                 .then(async response => {
                     var vehicle_arr = [];
@@ -1284,12 +1286,12 @@ export default {
                             vehicle_arr.push(vehicle_data[i].id);
                             this.vehicle_id = vehicle_arr[0];
 
-                            console.log('Vehicle API Load');
+                            console.log('Vehicle API Response');
 
                             this.loading2 = false;
                             if (this.loading1 == false && this.loading2 == false) {
                                 this.loading = false;
-                                console.log('v loading false');
+                                console.log('Vehicle loading False');
                             }
                         }
                     }
