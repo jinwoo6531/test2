@@ -433,7 +433,7 @@ export default {
 
             // <img src='../../assets/click_start_btn.png' />
             var template =
-                `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 13px; margin: 14px 0 7px 0 !important;"></p>
+                `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 13px; margin: 14px 0 15px 0 !important;"></p>
                  <form>
                     <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">출발지로 설정</button> <br>
                     <button id="endBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
@@ -1962,6 +1962,7 @@ export default {
 <style>
 .leaflet-popup-content-wrapper {
     width: 120px;
+    height: 100px;
     text-align: center; 
 }
 
