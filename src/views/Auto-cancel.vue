@@ -12,8 +12,8 @@
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center pa-6 pb-4">
             <v-card color="transparent" flat tile>
                 <v-card-text class="auto-cancel-content pa-0">
-                    셔틀이 출발지에 도착한 후 <br>
-                    5분이 지났지만 탑승이 확인되지 않았어요.<br>
+                    셔틀이 출발지에 도착했지만 <br>
+                    탑승이 확인되지 않았어요. <br>
                     <br>
                     다음에 다시 이용해주세요.
                 </v-card-text>

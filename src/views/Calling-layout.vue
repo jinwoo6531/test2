@@ -91,10 +91,6 @@ export default {
 
         this.ready = true;
 
-        /* this.waitTimer = setTimeout(() => {
-            this.message = '조금만 더 기다려주세요';
-        }, 60000); */
-
         this.failTimer = setTimeout(() => {
             this.$router.replace({
                 name: "CallFail",
