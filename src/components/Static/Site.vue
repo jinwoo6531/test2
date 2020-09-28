@@ -1970,7 +1970,7 @@ export default {
 
 <style>
 .leaflet-popup-content-wrapper {
-    width: 120px;
+    width: 130px;
     height: 100px;
     text-align: center;
 }
