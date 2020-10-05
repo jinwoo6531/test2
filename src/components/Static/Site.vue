@@ -1795,11 +1795,11 @@ export default {
                 }
             }
 
-            this.map.removeLayer(this.start_icon)
+            this.map.removeLayer(this.start_icon);
             this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
                 icon: startIcon
             });
-            this.map.removeLayer(this.end_icon)
+            this.map.removeLayer(this.end_icon);
             this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
                 icon: endIcon
             });
@@ -1812,7 +1812,16 @@ export default {
 
         switchDestination() {
             var change = 0;
-            var temp = 0;
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
 
             if (this.start_point.value == -1 && this.end_point.value == -1) {
                 change = this.start_point;
@@ -1823,12 +1832,31 @@ export default {
                 this.start_point = this.end_point;
                 this.end_point = change;
 
-                temp = this.start;
-                this.start = this.end;
-                this.end = temp;
+                if (this.start !== -1 && this.end !== -1) {
+                    let temp = this.start;
+                    this.start = this.end;
+                    this.end = temp;
 
-                console.log('start: ', this.start, 'this.end: ', this.end);
-                this.onChange();
+                    this.onChange();
+                } else if (this.start === -1) { // 도착지만 선택된 경우
+                    let temp = this.end;
+                    this.end = this.start;
+                    this.start = temp;
+
+                    this.map.removeLayer(this.end_icon); // 도착지 아이콘 지워주고 출발지 아이콘으로 바꿔주기
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                        icon: startIcon
+                    });
+                } else if (this.end === -1) {
+                    let temp = this.start;
+                    this.start = this.end;
+                    this.end = temp;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                        icon: endIcon
+                    });
+                }
             }
         },
 
