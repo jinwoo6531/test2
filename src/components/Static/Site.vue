@@ -437,7 +437,7 @@ export default {
             }
 
             if (select_start == marker.options.name || select_end == marker.options.name) {
-                console.log('popup을 열 수 없어~');
+                console.log('같은 정류장은 선택이 불가능합니다.');
             } else {
                 var template =
                     `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;"></p>
@@ -1449,12 +1449,16 @@ export default {
 
             if (mode === 'start') {
                 this.start_point = item;
+                select_start = this.start_point.name;
+
                 this.map.removeLayer(this.start_icon);
                 this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start_point.value].lat, this.stationList[this.start_point.value].lon], {
                     icon: startIcon
                 });
             } else {
                 this.end_point = item;
+                select_end = this.end_point.name;
+
                 this.map.removeLayer(this.end_icon);
                 this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end_point.value].lat, this.stationList[this.end_point.value].lon], {
                     icon: endIcon
