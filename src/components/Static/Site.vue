@@ -473,7 +473,7 @@ export default {
                 console.log('layerClickHandler end_options click: ', this.end_options);
 
                 // this.clk(this.start_point, 'start');
-                // this.onCancel('start');
+                this.onCancel('start');
 
                 if (this.waypoints.length > 0) {
                     control.spliceWaypoints(0, 6);
@@ -829,7 +829,7 @@ export default {
                 console.log('layerClickHandler start_options: ', this.start_options);
 
                 // this.clk(this.end_point, 'end');
-                // this.onCancel('end');
+                this.onCancel('end');
 
                 if (this.waypoints.length > 0) {
                     control.spliceWaypoints(0, 6);
@@ -1434,8 +1434,8 @@ export default {
 
         onCancel(state) {
             state == 'start' ? this.start_point = this.start_options.find(i => i.value === this.start) : this.end_point = this.end_options.find(i => i.value === this.end);
-            console.log(this.start_point)
-            console.log(this.end_point)
+            console.log(this.start_point.name)
+            console.log(this.end_point.name)
         },
 
         onChange() {
