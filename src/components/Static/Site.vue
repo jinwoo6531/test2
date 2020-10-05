@@ -1160,7 +1160,7 @@ export default {
         addRouting(waypoints, borderColor, fullColor) {
             control = this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
+                serviceUrl: 'https://osrm.springgo.io:900/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
@@ -1190,7 +1190,7 @@ export default {
         addRouting2(waypoints, borderColor, fullColor) {
             this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
+                serviceUrl: 'https://osrm.springgo.io:900/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
@@ -1811,6 +1811,8 @@ export default {
         },
 
         switchDestination() {
+            console.log('start_point: ', this.start_point.name)
+            console.log('end_point: ', this.end_point.name)
             var change = 0;
             if (this.start_point.value == -1 && this.end_point.value == -1) {
                 change = this.start_point;
@@ -1820,6 +1822,20 @@ export default {
                 change = this.start_point;
                 this.start_point = this.end_point;
                 this.end_point = change;
+
+                if (this.start_icon.length > 1) {
+                    this.map.removeLayer(this.start_icon);
+                }
+
+                if (this.end_icon.length > 1) {
+                    this.map.removeLayer(this.end_icon);
+                }
+                let temp = this.start_icon;
+                this.start_icon = this.end_icon;
+                this.end_icon = temp;
+
+                console.log('switch start_point: ', change.name)
+                console.log('switch end_point: ', this.start_point.name)
                 this.onChange();
             }
         },

@@ -24,8 +24,9 @@ Vue.prototype.$utils = utils
 Vue.config.productionTip = false
 
 // baseURL 기본값을 정의한다
-axios.defaults.baseURL = 'https://test.aspringcloud.com'
-// axios.defaults.baseURL = 'http://192.168.200.13:8000' // 회사 내부 서버
+// axios.defaults.baseURL = 'https://test.aspringcloud.com'
+axios.defaults.baseURL = 'https://gunsanapi.tasio.io:300' // 회사 외부 API
+// axios.defaults.baseURL = 'http://192.168.200.13:8000' // 회사 내부 API
 // 모든 요청에 추가할 헤더 설정
 var username = 'admin@aspringcloud.com'
 var password = 'spring#007'
