@@ -190,7 +190,7 @@
                     </v-flex>
                 </v-flex>
 
-                <!-- 타시오 호출 Dialog -->
+                <!-- 호출 Dialog -->
                 <v-flex class="pa-0 mt-1" v-if="callBtn">
                     <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click.native="requestCallBtn">호출하기</v-btn>
                 </v-flex>
@@ -1425,13 +1425,63 @@ export default {
 
         // options
         clk(item, mode) {
-            mode == "start" ? this.start_point = item : this.end_point = item;
+            // mode == "start" ? this.start_point = item : this.end_point = item;
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (mode === 'start') {
+                this.start_point = item;
+                this.map.removeLayer(this.start_icon);
+                this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start_point.value].lat, this.stationList[this.start_point.value].lon], {
+                    icon: startIcon
+                });
+            } else {
+                this.end_point = item;
+                this.map.removeLayer(this.end_icon);
+                this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end_point.value].lat, this.stationList[this.end_point.value].lon], {
+                    icon: endIcon
+                });
+            }
             console.log('clk mode: ', mode);
             console.log('clk itme: ', item);
+            console.log('clk start: ', this.start);
+            console.log('clk end: ', this.end);
         },
 
         onCancel(state) {
-            state == 'start' ? this.start_point = this.start_options.find(i => i.value === this.start) : this.end_point = this.end_options.find(i => i.value === this.end);
+            // state == 'start' ? this.start_point = this.start_options.find(i => i.value === this.start) : this.end_point = this.end_options.find(i => i.value === this.end);
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (state === 'start') {
+                this.start_point = this.start_options.find(i => i.value === this.start);
+                this.map.removeLayer(this.start_icon);
+                this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                    icon: startIcon
+                });
+            } else {
+                this.end_point = this.end_options.find(i => i.value === this.end);
+                this.map.removeLayer(this.end_icon);
+                this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                    icon: endIcon
+                });
+            }
         },
 
         onChange() {
