@@ -470,7 +470,6 @@ export default {
                 // console.log('layerClickHandler options: ', this.options, 'Start name: ', this.start_point);
                 this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
                 this.options = this.global_options;
-                console.log('layerClickHandler end_options click: ', this.end_options);
 
                 // this.clk(this.start_point, 'start');
                 this.onCancel('start');
@@ -826,7 +825,6 @@ export default {
                 // console.log('layerClickHandler options: ', this.options, 'End name: ', this.end_point);
                 this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
                 this.options = this.global_options;
-                console.log('layerClickHandler start_options: ', this.start_options);
 
                 // this.clk(this.end_point, 'end');
                 this.onCancel('end');
@@ -1434,8 +1432,6 @@ export default {
 
         onCancel(state) {
             state == 'start' ? this.start_point = this.start_options.find(i => i.value === this.start) : this.end_point = this.end_options.find(i => i.value === this.end);
-            console.log(this.start_point.name)
-            console.log(this.end_point.name)
         },
 
         onChange() {
@@ -1823,7 +1819,13 @@ export default {
                 iconAnchor: [20, 40],
             });
 
-            if (this.start_point.value == -1 && this.end_point.value == -1) {
+            console.log('start_options: ', this.start_options);
+            console.log('end_options: ', this.end_options);
+            console.log('start: ', this.start);
+            console.log('end: ', this.end);
+
+            // if (this.start_point.value == -1 && this.end_point.value == -1) {
+            if (this.start == -1 && this.end == -1) {
                 change = this.start_point;
                 this.start_point = this.end_point;
                 this.end_point = change;
@@ -1838,12 +1840,16 @@ export default {
                     this.end = temp;
 
                     this.onChange();
-                } else if (this.start === -1) { // 도착지만 선택된 경우
+                } else if (this.start === -1) {
                     let temp = this.end;
                     this.end = this.start;
                     this.start = temp;
 
-                    this.map.removeLayer(this.end_icon); // 도착지 아이콘 지워주고 출발지 아이콘으로 바꿔주기
+                    let temp_options = this.end_options;
+                    this.end_options = this.start_options;
+                    this.start_options = temp_options;
+
+                    this.map.removeLayer(this.end_icon);
                     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
                         icon: startIcon
                     });
@@ -1851,6 +1857,10 @@ export default {
                     let temp = this.start;
                     this.start = this.end;
                     this.end = temp;
+
+                    let temp_options = this.start_options;
+                    this.start_options = this.end_options;
+                    this.end_options = temp_options;
 
                     this.map.removeLayer(this.start_icon);
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
