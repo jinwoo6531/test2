@@ -1472,15 +1472,19 @@ export default {
             if (state === 'start') {
                 this.start_point = this.start_options.find(i => i.value === this.start);
                 this.map.removeLayer(this.start_icon);
-                this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
-                    icon: startIcon
-                });
+                if (this.start !== -1) {
+                    this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                        icon: startIcon
+                    });
+                }
             } else {
                 this.end_point = this.end_options.find(i => i.value === this.end);
                 this.map.removeLayer(this.end_icon);
-                this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
-                    icon: endIcon
-                });
+                if (this.end !== -1) {
+                    this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                        icon: endIcon
+                    });
+                }
             }
         },
 
@@ -1511,8 +1515,12 @@ export default {
             console.log('onChange end_options: ', this.end_options)
 
             // for webSocket
-            this.station_startId = this.stationList[this.start].id;
-            this.station_endId = this.stationList[this.end].id;
+            if (this.start !== -1) {
+                this.station_startId = this.stationList[this.start].id;
+            }
+            if (this.end !== -1) {
+                this.station_endId = this.stationList[this.end].id;
+            }
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -1842,18 +1850,22 @@ export default {
             }
 
             this.map.removeLayer(this.start_icon);
-            this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
-                icon: startIcon
-            });
+            if (this.start !== -1) {
+                this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                    icon: startIcon
+                });
+            }
             this.map.removeLayer(this.end_icon);
-            this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
-                icon: endIcon
-            });
+            if (this.end !== -1) {
+                this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                    icon: endIcon
+                });
+            }
             this.map.removeLayer(endIcon);
 
             // SET New Routing
             this.addRouting(this.waypoints, '#E51973', 'transparent');
-            this.getStat2Sta();
+            if (this.start !== -1 && this.end !== -1) this.getStat2Sta();
         },
 
         switchDestination() {
