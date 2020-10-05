@@ -209,7 +209,8 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: this.vehicle_id,
+                    vehicle_id: 4,
+                    // vehicle_id: this.vehicle_id,
                     function: 'call',
                     current_station_id: this.station_startId,
                     target_station_id: this.station_endId,
