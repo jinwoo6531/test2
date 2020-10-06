@@ -249,7 +249,7 @@ export default {
         waypoints: [],
         // vehicle
         vehicle: [],
-        vehicle_id: 0,
+        vehicle_id: 4,
         // 탑승인원
         dialog: false,
         callBtn: false,
@@ -304,7 +304,6 @@ export default {
     },
 
     created() {
-        console.log('')
         this.getStation();
         this.getVehicle();
 
@@ -338,11 +337,37 @@ export default {
         this.zoomEnd();
     },
 
-    updated() {
-        if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
-            this.callBtn = true;
-        } else {
-            this.callBtn = false;
+    watch: {
+        /* currentlocation() {
+            for (let i = 0; i < this.stationList.length; i++) {
+                if (800 > calcDistance(this.stationList[i].lat, this.stationList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                    this.success = true;
+                    this.can = false;
+                    break;
+                } else {
+                    this.success = false;
+                    this.can = true;
+                    continue;
+                }
+            }
+
+            return this.success;
+        }, */
+
+        temp() {
+            this.start >= 0 && this.end >= 0 ? this.callBtn = true : this.callBtn = false;
+        },
+
+        start() {
+            console.log('start change: ', this.start);
+            this.getStat2Sta();
+            this.temp >= 1 && this.end >= 0 ? this.callBtn = true : this.callBtn = false;
+        },
+
+        end() {
+            console.log('end change', this.end);
+            this.getStat2Sta();
+            this.temp >= 1 && this.start >= 0 ? this.callBtn = true : this.callBtn = false;
         }
     },
 
@@ -417,8 +442,8 @@ export default {
             var marker_lat = marker._latlng.lat;
             var marker_lng = marker._latlng.lng;
 
-            console.log('select_start: ', select_start);
-            console.log('select_end: ', select_end);
+            // console.log('select_start: ', select_start);
+            // console.log('select_end: ', select_end);
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -1227,10 +1252,12 @@ export default {
         },
 
         async getStation() {
-            console.log('Station API request');
+            console.log('Request /api/stations/');
             await axios.get('/api/stations/')
                 .then(async response => {
                     if (response.status == 200) {
+                        console.log('Response /api/stations/');
+
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
@@ -1241,7 +1268,6 @@ export default {
                                 });
                             }
                         }
-                        console.log('Station API Response');
                         /* this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
                             this.loading = false;
@@ -1303,9 +1329,10 @@ export default {
         },
 
         getVehicle() {
-            console.log('Vehicle API request');
+            console.log('Request /api/vehicles/');
             axios.get('/api/vehicles/')
                 .then(async response => {
+                    console.log('Response /api/vehicles/');
                     var vehicle_arr = [];
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
@@ -1324,9 +1351,7 @@ export default {
                                 });
                             }
                             vehicle_arr.push(vehicle_data[i].id);
-                            this.vehicle_id = vehicle_arr[0];
-
-                            console.log('Vehicle API Response');
+                            // this.vehicle_id = vehicle_arr[0];
 
                             /* this.loading2 = false;
                             if (this.loading1 == false && this.loading2 == false) {
@@ -1338,9 +1363,10 @@ export default {
                 }).catch(error => {
                     console.log(error);
                 })
-            setInterval(async function () {
+            this.callVehicle = setInterval(async function () {
                 axios.get('/api/vehicles/')
                     .then(response => {
+                        console.log('Site Response setInterval vehicle');
                         var vehicle_data = response.data.sort(function (a, b) {
                             return a.id < b.id ? -1 : 1;
                         })
@@ -1875,7 +1901,7 @@ export default {
 
             // SET New Routing
             this.addRouting(this.waypoints, '#E51973', 'transparent');
-            if (this.start !== -1 && this.end !== -1) this.getStat2Sta();
+            // if (this.start !== -1 && this.end !== -1) this.getStat2Sta();
         },
 
         switchDestination() {
@@ -2031,13 +2057,15 @@ export default {
         // ETA
         getStat2Sta() {
             var stat = JSON.parse(this.stationList[this.start].stat2sta);
-            var start_station = JSON.parse(this.stationList[this.start].id);
-            var end_station = JSON.parse(this.stationList[this.end].id);
+            if (this.start !== -1) var start_station = JSON.parse(this.stationList[this.start].id);
+            if (this.end !== -1) var end_station = JSON.parse(this.stationList[this.end].id);
             this.minutes = stat[start_station][end_station];
         },
 
         // 타시오 호출
         requestCallBtn() {
+            clearInterval(this.callVehicle);
+
             this.$router.replace({
                 name: "CallingLayout",
                 query: {
@@ -2057,26 +2085,7 @@ export default {
         cancelCallDialog() {
             this.calldialog = false;
         }
-    },
-
-    /* watch: {
-        currentlocation() {
-            for (let i = 0; i < this.stationList.length; i++) {
-                if (800 > calcDistance(this.stationList[i].lat, this.stationList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    this.success = true;
-                    this.can = false;
-                    break;
-                } else {
-                    this.success = false;
-                    this.can = true;
-                    continue;
-                }
-            }
-
-            return this.success;
-        }
-    } */
-
+    }
 }
 </script>
 

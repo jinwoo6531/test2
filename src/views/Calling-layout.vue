@@ -136,7 +136,7 @@ export default {
     methods: {
         callCancelModal() {
             // WebSocket Cancel
-            this.cancleMessage();
+            this.cancelMessage();
             this.disconnect();
 
             this.$toasted.show("호출이 취소되었습니다.", {
@@ -147,11 +147,11 @@ export default {
         },
 
         onOpenWebsocket() {
-            // this.socket = new WebSocket("wss://websocket.springgo.io:11511", [],{
+            // this.socket = new WebSocket("wss://ws.tasio.io:11511", [],{
             //    rejectUnauthorized: false
             //});
-            this.socket = new WebSocket("wss://websocket.springgo.io:11511", [] );
-            // this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket = new WebSocket("wss://ws.tasio.io:11511", [] );
+            // this.socket = new WebSocket("wss://websocket.springgo.io:11511", [] ); // 바뀐 군산 url
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
@@ -209,8 +209,7 @@ export default {
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: 4,
-                    // vehicle_id: this.vehicle_id,
+                    vehicle_id: this.vehicle_id,
                     function: 'call',
                     current_station_id: this.station_startId,
                     target_station_id: this.station_endId,
@@ -223,14 +222,14 @@ export default {
             this.socket.send(JSON.stringify(this.webSocketData));
         },
 
-        cancleMessage() {
+        cancelMessage() {
             this.webSocketData2 = {
                 where: '',
                 who: 'tasio_id',
                 what: 'EVENT',
                 how: {
                     type: 'ondemand',
-                    vehicle_id: parseInt(this.$route.query.vehicle_id),
+                    vehicle_id: this.vehicle_id,
                     function: 'cancel_call',
                     current_station_id: parseInt(this.$route.query.station_startId),
                     target_station_id: parseInt(this.$route.query.station_endId),

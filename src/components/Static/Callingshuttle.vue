@@ -151,6 +151,7 @@ export default {
 
     created() {
         this.getStation();
+        this.getVehicle();
 
         axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
             .then(response => {
@@ -169,8 +170,6 @@ export default {
         this.start = this.$route.params.current_station_id;
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
-
-        console.log('sdjfhasdkfjh', this.uid)
 
         this.socket.onmessage = ({
             data
@@ -219,6 +218,7 @@ export default {
         },
 
         getStation() {
+            console.log('Request /api/stations/');
             axios.get('/api/stations/')
                 .then(response => {
                     if (response.status == 200) {
@@ -236,8 +236,10 @@ export default {
                         this.startName = this.stationList[this.start].name;
                         this.endName = this.stationList[this.end].name;
 
-                        this.getVehicle();
-                        this.getEta();
+                        // this.getVehicle();
+                        // this.getEta();
+
+                        console.log('Response /api/stations/');
 
                         // Map View Center Load
                         this.map.setView([35.809484, 126.4091], 15);
@@ -273,10 +275,11 @@ export default {
 
         getEta() {
             var eta = JSON.parse(this.stationList[this.start].eta);
+            // console.log('eta: ', eta);
 
             for (let [key, value] of Object.entries(eta)) {
                 if (key == this.vehicle_id) {
-                    console.log(key, ', ', value);
+                    // console.log(key, ', ', value);
                     this.minutes = parseInt(value);
                     break;
                 }
@@ -644,8 +647,11 @@ export default {
         },
 
         getVehicle() { // 배차된 셔틀만 보여주면 된다.
+            console.log('Request /api/vehicles/');
             axios.get('/api/vehicles/')
                 .then(async response => {
+                    console.log('Response /api/vehicles/');
+
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
                     });
@@ -663,7 +669,6 @@ export default {
                             this.vehicle_lon = arr.lon;
                         }
                     }
-                    
                     this.getVehicleUser();
 
                     if (this.vehicle_lat != null || this.vehicle_lon != null || this.vehicle_lat != undefined || this.vehicle_lon != undefined) {
@@ -672,6 +677,8 @@ export default {
                             icon: vehicleIcon
                         });
                     }
+
+
                 }).catch(error => {
                     console.log('Vehicle Error: ', error);
                 })
@@ -690,8 +697,10 @@ export default {
         },
 
         getVehicleUser() {
+            console.log('Request /api/users/');
             axios.get(`/api/users/${this.vehicle_user}`)
                 .then(response => {
+                    console.log('Response /api/users/');
                     this.owner = response.data.username;
                 }).catch(error => {
                     console.log('/api/user/ Error: ', error);

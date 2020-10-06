@@ -85,7 +85,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.$route.params.phoneNumber);
+        // console.log(this.$route.params.phoneNumber);
         let start = this.$route.params.phoneNumber.substring(3, 6);
         let mid = this.$route.params.phoneNumber.substring(6, 10);
         let end = this.$route.params.phoneNumber.substring(10, 14);
@@ -99,9 +99,9 @@ export default {
     watch: {
         remainTime(val) {
             if (val.indexOf('-') == -1) {
-                console.log('-가 없어!', val);
+                console.log('Check - no', val);
             } else {
-                console.log('-가 있어!', val);
+                // console.log('Check - yes', val);
                 this.$router.go(-1);
             }
         }
