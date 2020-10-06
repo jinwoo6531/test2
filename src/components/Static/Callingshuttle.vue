@@ -686,6 +686,15 @@ export default {
             }.bind(this), 1000);
         },
 
+        getVehicleUser() {
+            axios.get(`/api/users/${this.vehicle_user}`)
+                .then(response => {
+                    this.owner = response.data.username;
+                }).catch(error => {
+                    console.log('/api/user/ Error: ', error);
+                });
+        },
+
         callCancel() {
             this.callcanceldialog = true;
         },
