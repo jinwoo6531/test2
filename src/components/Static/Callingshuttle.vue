@@ -170,14 +170,14 @@ export default {
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
 
-        console.log(this.uid)
+        console.log('sdjfhasdkfjh', this.uid)
 
         this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
             console.log('CallingShuttle: ', this.webSocketData);
-            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
+            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived' && this.webSocketData.how.uid == this.uid) {
                 this.socket.close();
                 this.$router.replace({
                     name: 'Thanks'
@@ -621,7 +621,7 @@ export default {
 
             this.$utils.map.createRouting(this.map, {
                 waypoints: this.waypoints,
-                serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
+                serviceUrl: 'https://osrm.springgo.io:900/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
