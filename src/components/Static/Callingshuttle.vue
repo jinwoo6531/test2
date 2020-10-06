@@ -663,6 +663,9 @@ export default {
                             this.vehicle_lon = arr.lon;
                         }
                     }
+                    
+                    this.getVehicleUser();
+
                     if (this.vehicle_lat != null || this.vehicle_lon != null || this.vehicle_lat != undefined || this.vehicle_lon != undefined) {
                         this.vehicle = await this.$utils.map.createMakerByXY(this.map, [this.vehicle_lat, this.vehicle_lon], {
                             draggable: false,
