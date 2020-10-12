@@ -624,7 +624,7 @@ export default {
 
             this.$utils.map.createRouting(this.map, {
                 waypoints: this.waypoints,
-                serviceUrl: 'https://osrm.springgo.io:900/route/v1',
+                serviceUrl: 'https://osrmserver.springgo.io/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,

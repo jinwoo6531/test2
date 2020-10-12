@@ -5,7 +5,7 @@
             <v-card xs12 sm12 md12 color="transparent" width="100%" flat tile>
                 <img src="../assets/access-logo.svg">
                 <v-card-text class="pt-7 pb-8 access-title">
-                    타시오 서비스 이용시 필요한 접근 권한 안내
+                    서비스 이용시 필요한 접근 권한 안내
                 </v-card-text>
                 <v-divider color="#828282"></v-divider>
             </v-card>

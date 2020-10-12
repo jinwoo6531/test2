@@ -194,7 +194,7 @@ export default {
                     current_station_id: 9,
                     target_station_id: 10,
                     passenger: 2,
-                    passenger_name: "타시오",
+                    passenger_name: "테스트",
                     uid: this.uid
                 }
             };

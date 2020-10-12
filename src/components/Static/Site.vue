@@ -113,7 +113,7 @@
                     <v-overlay :z-index="zIndex" :value="overlay1">
                         <v-card style="width: 290px; height: 376px;" color="#FFF">
                             <v-card-text class="pa-0" style="color: #333; height: 37px;">
-                                <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">출발지</span>
+                                <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; display: inline-block; padding: 9px 0 8px 14px;">출발지</span>
                             </v-card-text>
                             <v-divider style="width: 262px; margin: 0 auto; border-color: #E0E0E0;"></v-divider>
                             <v-card class="pa-0" color="#FFF" style="width: 100%; height: 289px; overflow: scroll; text-align: center;" tile flat>
@@ -250,6 +250,7 @@ export default {
         // vehicle
         vehicle: [],
         vehicle_id: 4,
+        callVehicle: 0,
         // 탑승인원
         dialog: false,
         callBtn: false,
@@ -287,7 +288,7 @@ export default {
         success: true,
         // ETA
         minutes: 0,
-        // 타시오 호출
+        // 호출
         calldialog: false,
         zoomScale: {},
 
@@ -432,12 +433,6 @@ export default {
             // console.log('layerClickHandler start_options: ', this.start_options);
             // console.log('layerClickHandler end_options: ', this.end_options);
 
-            // REMOVE Default Routing
-            // if (this.waypoints.length > 0) {
-            //     control.spliceWaypoints(0, 6);
-            // }
-            // this.waypoints = [];
-
             var marker = e.target;
             var marker_lat = marker._latlng.lat;
             var marker_lng = marker._latlng.lng;
@@ -505,7 +500,6 @@ export default {
                     this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
                     this.options = this.global_options;
 
-                    // this.clk(this.start_point, 'start');
                     this.onCancel('start');
 
                     if (this.waypoints.length > 0) {
@@ -861,7 +855,6 @@ export default {
                     this.start_options = this.options.filter(opt => opt.value != this.end_point.value);
                     this.options = this.global_options;
 
-                    // this.clk(this.end_point, 'end');
                     this.onCancel('end');
 
                     if (this.waypoints.length > 0) {
@@ -1194,7 +1187,7 @@ export default {
         addRouting(waypoints, borderColor, fullColor) {
             control = this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'https://osrm.springgo.io:900/route/v1',
+                serviceUrl: 'https://osrmserver.springgo.io/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
@@ -1224,7 +1217,7 @@ export default {
         addRouting2(waypoints, borderColor, fullColor) {
             this.$utils.map.createRouting(this.map, {
                 waypoints: waypoints,
-                serviceUrl: 'https://osrm.springgo.io:900/route/v1',
+                serviceUrl: 'https://osrmserver.springgo.io/route/v1',
                 addWaypoints: false,
                 draggableWaypoints: false,
                 showAlternatives: false,
@@ -2056,13 +2049,13 @@ export default {
 
         // ETA
         getStat2Sta() {
-            var stat = JSON.parse(this.stationList[this.start].stat2sta);
+            if (this.start !== -1) var stat = JSON.parse(this.stationList[this.start].stat2sta);
             if (this.start !== -1) var start_station = JSON.parse(this.stationList[this.start].id);
             if (this.end !== -1) var end_station = JSON.parse(this.stationList[this.end].id);
             this.minutes = stat[start_station][end_station];
         },
 
-        // 타시오 호출
+        // 셔틀 호출
         requestCallBtn() {
             clearInterval(this.callVehicle);
 
