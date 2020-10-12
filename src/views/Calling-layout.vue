@@ -150,8 +150,8 @@ export default {
             // this.socket = new WebSocket("wss://ws.tasio.io:11511", [],{
             //    rejectUnauthorized: false
             //});
-            this.socket = new WebSocket("wss://ws.tasio.io:11511", [] );
-            // this.socket = new WebSocket("wss://websocket.springgo.io:11511", [] ); // 바뀐 군산 url
+            // this.socket = new WebSocket("wss://ws.tasio.io:11511", [] );
+            this.socket = new WebSocket("wss://websocket.springgo.io:11511", [] ); // 바뀐 군산 url
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
