@@ -357,18 +357,21 @@ export default {
 
         temp() {
             this.start >= 0 && this.end >= 0 ? this.callBtn = true : this.callBtn = false;
+            // if (this.start == -1 || this.end == -1) {
+            //     this.callBtn = false;
+            // }
         },
 
         start() {
             console.log('start change: ', this.start);
             this.getStat2Sta();
-            this.temp >= 1 && this.end >= 0 ? this.callBtn = true : this.callBtn = false;
+            this.temp >= 1 && this.start >= 0 && this.end >= 0 ? this.callBtn = true : this.callBtn = false;
         },
 
         end() {
             console.log('end change', this.end);
             this.getStat2Sta();
-            this.temp >= 1 && this.start >= 0 ? this.callBtn = true : this.callBtn = false;
+            this.temp >= 1 && this.start >= 0 && this.end >= 0 ? this.callBtn = true : this.callBtn = false;
         }
     },
 

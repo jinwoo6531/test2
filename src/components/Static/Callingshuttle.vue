@@ -171,6 +171,8 @@ export default {
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
 
+        console.log('vehicle id: ', this.vehicle_id);
+
         this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
@@ -660,6 +662,8 @@ export default {
                         iconSize: [32, 32]
                     });
 
+                    console.log('vehicle_data: ', vehicle_data)
+
                     for (var arr of vehicle_data) {
                         if (this.vehicle_id == arr.id) {
                             this.vehicle_name = arr.name;
@@ -702,6 +706,7 @@ export default {
                 .then(response => {
                     console.log('Response /api/users/');
                     this.owner = response.data.username;
+                    console.log('owner: ', this.owner);
                 }).catch(error => {
                     console.log('/api/user/ Error: ', error);
                 });
@@ -720,7 +725,7 @@ export default {
 
         goToMain() {
             this.cancelCompleteDialog = false;
-            this.$router.replace('/')
+            this.$router.replace('/');
         },
 
         cancleMessage() {
