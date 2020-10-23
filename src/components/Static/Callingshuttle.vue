@@ -652,7 +652,7 @@ export default {
             console.log('Request /api/vehicles/');
             axios.get('/api/vehicles/')
                 .then(async response => {
-                    console.log('Response /api/vehicles/');
+                    console.log('Response /api/vehicles/', response);
 
                     var vehicle_data = response.data.sort(function (a, b) {
                         return a.id < b.id ? -1 : 1
@@ -663,6 +663,7 @@ export default {
                     });
 
                     console.log('vehicle_data: ', vehicle_data)
+                    console.log('vehicle_id: ', this.vehicle_id)
 
                     for (var arr of vehicle_data) {
                         if (this.vehicle_id == arr.id) {
@@ -682,17 +683,14 @@ export default {
                         });
                     }
 
-
                 }).catch(error => {
                     console.log('Vehicle Error: ', error);
                 })
             setInterval(async function () {
                 axios.get('/api/vehicles/')
                     .then(() => {
-                        if (this.vehicle_site == 1) {
-                            if (this.vehicle_lat != null || this.vehicle_lon != null || this.vehicle_lat != undefined || this.vehicle_lon != undefined) {
-                                this.vehicle.setLatLng([this.vehicle_lat, this.vehicle_lon]);
-                            }
+                        if (this.vehicle_lat != null || this.vehicle_lon != null || this.vehicle_lat != undefined || this.vehicle_lon != undefined) {
+                            this.vehicle.setLatLng([this.vehicle_lat, this.vehicle_lon]);
                         }
                     }).catch(error => {
                         console.log('SetInterval Error: ', error);
