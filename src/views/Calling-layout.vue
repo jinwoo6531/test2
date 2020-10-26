@@ -12,9 +12,9 @@
             <br>
             <span>{{ endName }}</span>
         </div>
-        <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
+        <!-- <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
             호출 취소하기
-        </v-card>
+        </v-card> -->
         <v-row no-gutters>
             <v-col xs="12" sm="12" md="12">
                 <v-card color="transparent" flat></v-card>
