@@ -691,6 +691,8 @@ export default {
                     .then(() => {
                         if (this.vehicle_lat != null || this.vehicle_lon != null || this.vehicle_lat != undefined || this.vehicle_lon != undefined) {
                             this.vehicle.setLatLng([this.vehicle_lat, this.vehicle_lon]);
+                            // console.log(this.vehicle_lat);
+                            // console.log(this.vehicle_lon);
                         }
                     }).catch(error => {
                         console.log('SetInterval Error: ', error);
