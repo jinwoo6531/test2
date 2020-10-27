@@ -1368,11 +1368,11 @@ export default {
                         })
                         var vehicleCount = Object.keys(vehicle_data).length;
                         for (let i = 0; i < vehicleCount; i++) {
-                            if (vehicle_data[i].site == 1) {
+                            // if (vehicle_data[i].site == 1) {
                                 if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
                                     this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
                                 }
-                            }
+                            // }
                         }
                     }).catch(error => {
                         console.log(error);

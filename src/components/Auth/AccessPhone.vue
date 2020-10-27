@@ -62,7 +62,7 @@ export default {
 
     methods: {
         async sendOtp() {
-            this.loading = true
+            this.loading = true;
 
             if (this.phNo.length != 11) {
                 this.$toasted.show("전화번호 형식을 지켜주세요!", {
@@ -70,7 +70,7 @@ export default {
                     position: "top-center"
                 }).goAway(2000);
                 
-                this.loading = false
+                this.loading = false;
             } else {
                 let countryCode = "+82"; // Korea
                 this.phoneNumber = await countryCode + this.phNo
@@ -83,8 +83,8 @@ export default {
                             params: {
                                 phoneNumber: this.phoneNumber
                             }
-                        })
-                        this.loading = false
+                        });
+                        this.loading = false;
                     }
                 })
             }

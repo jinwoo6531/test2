@@ -86,6 +86,7 @@ export default {
             } else {
                 this.change = 1;
             }
+            console.log(this.model, this.change);
         }
     },
 
