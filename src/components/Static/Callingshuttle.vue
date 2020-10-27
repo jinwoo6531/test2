@@ -45,7 +45,7 @@
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
                     <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click.native="callCancel">호출 취소하기</v-btn>
 
-                    <v-dialog v-model="callcanceldialog" max-width="280">
+                    <v-dialog v-model="callcanceldialog" persistent max-width="280">
                         <v-card style="width: 280px;">
                             <v-card-text class="text-center pa-0">
                                 <v-card-text class="pa-0 call-dialog-content">
@@ -69,7 +69,7 @@
                         </v-card>
                     </v-dialog>
 
-                    <v-dialog v-model="cancelCompleteDialog" max-width="280">
+                    <v-dialog v-model="cancelCompleteDialog" persistent max-width="280">
                         <v-card style="width: 280px;">
                             <v-card-text class="text-center pa-0">
                                 <v-card-text class="pa-0 call-dialog-content">
