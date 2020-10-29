@@ -13,7 +13,7 @@
         </v-row>
     </v-container>
 
-    <v-container fluid v-if="loading3 == true" style="display: flex; position: absolute; margin-top: -57px; height: 100%; pointer-events: inherit !important; z-index: 20;">
+    <v-container fluid v-if="getLocationLoading == true" style="display: flex; position: absolute; margin-top: -57px; height: 100%; pointer-events: inherit !important; z-index: 20;">
         <v-row align="center" justify="center">
             <v-card color="#FFF" flat>
                 <v-card-text class="text-center">
@@ -110,7 +110,7 @@
                         </v-card>
                     </v-card>
 
-                    <v-overlay :z-index="zIndex" :value="overlay1">
+                    <v-overlay :z-index="10" :value="overlay1">
                         <v-card style="width: 290px; height: 376px;" color="#FFF">
                             <v-card-text class="pa-0" style="color: #333; height: 37px;">
                                 <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; display: inline-block; padding: 9px 0 8px 14px;">출발지</span>
@@ -137,7 +137,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-overlay>
-                    <v-overlay :z-index="zIndex" :value="overlay2">
+                    <v-overlay :z-index="10" :value="overlay2">
                         <v-card style="width: 290px; height: 376px;" color="#FFF">
                             <v-card-text class="pa-0" style="color: #333; height: 37px;">
                                 <span style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px;display: inline-block; padding: 9px 0 8px 14px;">도착지</span>
@@ -239,9 +239,7 @@ export default {
         },
         // loading
         loading: true,
-        loading1: true,
-        loading2: true,
-        loading3: false,
+        getLocationLoading: false,
         // station
         stationList: [],
         waypoints3: [],
@@ -250,7 +248,6 @@ export default {
         // vehicle
         vehicle: [],
         vehicle_id: 4,
-        callVehicle: 0,
         // 탑승인원
         dialog: false,
         callBtn: false,
@@ -259,7 +256,6 @@ export default {
         isDisabled1: true,
         isDisabled2: false,
         // overlay
-        zIndex: 10,
         overlay1: false,
         overlay2: false,
         // options
@@ -1257,12 +1253,14 @@ export default {
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
-                            if (station_result[i].site == 1) {
+                            // if (station_result[i].site == 1) {
                                 this.stationList.push(station_result[i]);
                                 this.stationList = this.stationList.sort(function (a, b) {
                                     return a.id < b.id ? -1 : 1;
                                 });
-                            }
+
+                                console.log(this.stationList)
+                            // }
                         }
                         /* this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
@@ -1359,7 +1357,7 @@ export default {
                 }).catch(error => {
                     console.log(error);
                 })
-            this.callVehicle = setInterval(async function () {
+            setInterval(async function () {
                 axios.get('/api/vehicles/')
                     .then(response => {
                         console.log('Site Response setInterval vehicle');
@@ -1960,7 +1958,7 @@ export default {
 
         // Location
         getLocation() {
-            this.loading3 = true;
+            this.getLocationLoading = true;
             var count = 0;
 
             this.map.locate({
@@ -1979,7 +1977,7 @@ export default {
                     this.res = false; // stopLocation()
 
                     if (!this.usermarker) {
-                        this.loading3 = false;
+                        this.getLocationLoading = false;
                         e.target._locateOptions.setView = false;
 
                         let currentUser = this.$utils.map.createDiv({
@@ -1997,12 +1995,12 @@ export default {
                 } else {
                     count = 0;
                     this.can = true;
-                    this.loading3 = false;
+                    this.getLocationLoading = false;
                     this.res = true;
                 }
             }).on('locationerror', error => {
                 console.log('Location error:', error);
-                this.loading3 = false;
+                this.getLocationLoading = false;
 
                 if (count == 0) {
                     this.$toasted.error("사용자의 위치를 받아올 수 없습니다.", {
@@ -2060,8 +2058,6 @@ export default {
 
         // 셔틀 호출
         requestCallBtn() {
-            clearInterval(this.callVehicle);
-
             this.$router.replace({
                 name: "CallingLayout",
                 query: {

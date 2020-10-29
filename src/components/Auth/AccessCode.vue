@@ -64,9 +64,6 @@ import { mapGetters } from 'vuex'
 export default {
     data: () => ({
         otp: null,
-        isDisabled: false,
-        isError: false,
-        shouldResetOTP: false,
         phoneN: "",
         remainTime: 0,
         ready: 0,
@@ -118,7 +115,7 @@ export default {
         },
 
         handleOnComplete(value) {
-            this.ready = value
+            this.ready = value;
             this.tryAgain = false;
         },
 

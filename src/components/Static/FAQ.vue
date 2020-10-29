@@ -26,7 +26,6 @@ export default {
     name: 'faq',
 
     data: () => ({
-        tab: null,
         page: 1,
         perPage: 10,
         items: [{

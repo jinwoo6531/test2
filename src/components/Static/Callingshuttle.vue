@@ -114,14 +114,10 @@ export default {
         endName: '',
         start_icon: {},
         end_icon: {},
-        setLat: '',
-        setLon: '',
         waypoints: [],
         callcanceldialog: false,
         webSocketData: {},
         webSocketData2: {},
-        isrefund: '',
-        latest_mid: '',
         minutes: 0,
         vehicle_site: 0,
         vehicle_name: '',
@@ -171,13 +167,11 @@ export default {
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
 
-        console.log('vehicle id: ', this.vehicle_id);
-
         this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
-            console.log('CallingShuttle: ', this.webSocketData);
+            console.log('CallingShuttle: ', this.webSocketData.what, this.webSocketData);
             if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived' && this.webSocketData.how.uid == this.uid) {
                 this.socket.close();
                 this.$router.replace({
@@ -253,20 +247,11 @@ export default {
                     console.log(error)
                 })
 
-            this.etaTime = setInterval(async function () {
+            // this.etaTime = 
+            setInterval(async function () {
                 axios.get('/api/stations/')
                     .then(response => {
                         if (response.status == 200) {
-                            let station_result = response.data;
-                            let station_count = Object.keys(station_result).length;
-                            for (let i = 0; i < station_count; i++) {
-                                if (station_result[i].site == 1) {
-                                    this.stationList.push(station_result[i]);
-                                    this.stationList = this.stationList.sort(function (a, b) {
-                                        return a.id < b.id ? -1 : 1;
-                                    });
-                                }
-                            }
                             this.getEta();
                         }
                     }).catch(error => {
@@ -277,11 +262,12 @@ export default {
 
         getEta() {
             var eta = JSON.parse(this.stationList[this.start].eta);
-            // console.log('eta: ', eta);
+            console.log('출발지 id, name: ', this.stationList[this.start].id, this.stationList[this.start].name);
+            console.log('eta: ', eta);
 
             for (let [key, value] of Object.entries(eta)) {
                 if (key == this.vehicle_id) {
-                    // console.log(key, ', ', value);
+                    console.log(key, ', ', value);
                     this.minutes = parseInt(value);
                     break;
                 }
@@ -753,7 +739,7 @@ export default {
             this.status = "disconnected";
             console.log('socket', this.status);
 
-            clearInterval(this.etaTime);
+            // clearInterval(this.etaTime);
         }
     }
 }

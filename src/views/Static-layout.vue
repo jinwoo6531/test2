@@ -1,4 +1,4 @@
-<template>
+ <template>
 <v-app class="static">
     <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
         <v-list dense>
