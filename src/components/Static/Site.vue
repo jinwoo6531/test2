@@ -1253,14 +1253,10 @@ export default {
                         let station_result = response.data;
                         let station_count = Object.keys(station_result).length;
                         for (let i = 0; i < station_count; i++) {
-                            // if (station_result[i].site == 1) {
-                                this.stationList.push(station_result[i]);
-                                this.stationList = this.stationList.sort(function (a, b) {
-                                    return a.id < b.id ? -1 : 1;
-                                });
-
-                                console.log(this.stationList)
-                            // }
+                            this.stationList.push(station_result[i]);
+                            this.stationList = this.stationList.sort(function (a, b) {
+                                return a.id < b.id ? -1 : 1;
+                            });
                         }
                         /* this.loading1 = false;
                         if (this.loading1 == false && this.loading2 == false) {
@@ -1367,9 +1363,9 @@ export default {
                         var vehicleCount = Object.keys(vehicle_data).length;
                         for (let i = 0; i < vehicleCount; i++) {
                             // if (vehicle_data[i].site == 1) {
-                                if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
-                                    this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
-                                }
+                            if (vehicle_data[i].lat != null || vehicle_data[i].lon != null || vehicle_data[i].lat != undefined || vehicle_data[i].lon != undefined) {
+                                this.vehicle[i].setLatLng([vehicle_data[i].lat, vehicle_data[i].lon]);
+                            }
                             // }
                         }
                     }).catch(error => {

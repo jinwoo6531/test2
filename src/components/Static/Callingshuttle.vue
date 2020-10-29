@@ -252,6 +252,7 @@ export default {
                 axios.get('/api/stations/')
                     .then(response => {
                         if (response.status == 200) {
+                            this.eta = JSON.parse(response.data[this.start].eta);
                             this.getEta();
                         }
                     }).catch(error => {
@@ -261,11 +262,7 @@ export default {
         },
 
         getEta() {
-            var eta = JSON.parse(this.stationList[this.start].eta);
-            console.log('출발지 id, name: ', this.stationList[this.start].id, this.stationList[this.start].name);
-            console.log('eta: ', eta);
-
-            for (let [key, value] of Object.entries(eta)) {
+            for (let [key, value] of Object.entries(this.eta)) {
                 if (key == this.vehicle_id) {
                     console.log(key, ', ', value);
                     this.minutes = parseInt(value);
