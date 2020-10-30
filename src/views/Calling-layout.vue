@@ -89,8 +89,7 @@ export default {
         this.minutes = this.$route.query.minutes;
         this.vehicle_id = parseInt(this.$route.query.vehicle_id);
 
-        console.log('sfdlkj', this.station_startId)
-        console.log('start', this.start)
+        console.log('start', this.start);
 
         this.ready = true;
 

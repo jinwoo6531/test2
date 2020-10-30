@@ -41,7 +41,7 @@
                     </v-list-item>
                 </v-list>
 
-                <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
+                <span class="arrive-time">{{ minutes }}</span><span v-if="minutes !== '시간계산 중'" style="color: #828282;"> 셔틀이 출발지에 도착합니다.</span>
                 <v-card-actions class="pa-0 pt-5 call-cancel-btn">
                     <v-btn style="height: 50px;" color="#2E3990" class="callShuttle" @click.native="callCancel">호출 취소하기</v-btn>
 
@@ -118,7 +118,7 @@ export default {
         callcanceldialog: false,
         webSocketData: {},
         webSocketData2: {},
-        minutes: 0,
+        minutes: '시간계산 중',
         vehicle_site: 0,
         vehicle_name: '',
         vehicle_user: '',
@@ -265,7 +265,7 @@ export default {
             for (let [key, value] of Object.entries(this.eta)) {
                 if (key == this.vehicle_id) {
                     console.log(key, ', ', value);
-                    this.minutes = parseInt(value);
+                    this.minutes = '약 ' + parseInt(value) + '분 후';
                     break;
                 }
             }
