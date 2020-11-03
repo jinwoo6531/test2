@@ -12,9 +12,9 @@
             <br>
             <span>{{ endName }}</span>
         </div>
-        <!-- <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
+        <v-card v-if="cancelBtn" class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
             호출 취소하기
-        </v-card> -->
+        </v-card>
         <v-row no-gutters>
             <v-col xs="12" sm="12" md="12">
                 <v-card color="transparent" flat></v-card>
@@ -58,7 +58,8 @@ export default {
         status: 'disconnected',
         webSocketData: {},
         webSocketData2: {},
-        timeCount: 0
+        timeCount: 0,
+        cancelBtn: false
     }),
 
     computed: {
@@ -74,8 +75,7 @@ export default {
                 this.onMessageWebSocket();
             }).catch(error => {
                 console.log('User read: ', error);
-            })
-
+            });
     },
 
     mounted() {
@@ -89,9 +89,13 @@ export default {
         this.minutes = this.$route.query.minutes;
         this.vehicle_id = parseInt(this.$route.query.vehicle_id);
 
-        console.log('start', this.start);
-
         this.ready = true;
+
+         setTimeout(() => {
+            this.cancelBtn = true;
+            console.log(this.cancelBtn);
+        }, 6000);
+
 
         this.failTimer = setTimeout(() => {
             this.$router.replace({

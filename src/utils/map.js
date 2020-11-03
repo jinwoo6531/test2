@@ -41,12 +41,6 @@ const createMaker = (coordinate, options = {}) => { // for Show Station when zoo
     return marker
 }
 
-const updateMarkerByXY = (map, coordinate) => {
-    let marker = $L.marker($L.latLng(coordinate[0], coordinate[1])).update(marker)
-    marker.addTo(map)
-    return marker
-}
-
 const createDomEvent = $L.DomEvent;
 
 const getDomUtil = (element) => {
@@ -76,7 +70,6 @@ export default {
     createMakerByXY,
     createMaker,
     createRouting,
-    updateMarkerByXY,
     createDomEvent,
     getDomUtil,
 }
