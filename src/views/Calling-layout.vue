@@ -112,7 +112,7 @@ export default {
                     vehicle_id: parseInt(this.$route.query.vehicle_id)
                 }
             });
-        }, 60000);
+        }, 10000);
     },
 
     watch: {
