@@ -1483,6 +1483,7 @@ export default {
         },
 
         onCancel(state) {
+            console.log('start_point: ', this.start_point, 'end_point: ', this.end_point);
             // state == 'start' ? this.start_point = this.start_options.find(i => i.value === this.start) : this.end_point = this.end_options.find(i => i.value === this.end);
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -1496,7 +1497,8 @@ export default {
             });
 
             if (state === 'start') {
-                this.start_point = this.start_options.find(i => i.value === this.start);
+                this.start_point.value == -1 ? this.overlay1 = false : this.start_point = this.start_options.find(i => i.value === this.start);
+                
                 this.map.removeLayer(this.start_icon);
                 if (this.start !== -1) {
                     this.start_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
@@ -1504,7 +1506,8 @@ export default {
                     });
                 }
             } else {
-                this.end_point = this.end_options.find(i => i.value === this.end);
+                this.end_point.value == -1 ? this.overlay2 = false : this.end_point = this.end_options.find(i => i.value === this.end);
+                
                 this.map.removeLayer(this.end_icon);
                 if (this.end !== -1) {
                     this.end_icon = this.$utils.map.createMakerByXY(this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
@@ -1520,23 +1523,21 @@ export default {
                 control.spliceWaypoints(0, 6);
             }
             this.waypoints = [];
-
+            
             this.start = this.start_point.value;
-            this.end = this.end_point.value;
-
             this.startName = this.start_point.name;
+            this.end = this.end_point.value;
             this.endName = this.end_point.name;
 
-            // console.log('onChange global_options: ', this.global_options);
-            // console.log('onChange options: ', this.options, 'End name: ', this.end_point.name)
+            console.log('onChange global_options: ', this.global_options);
+            console.log('onChange End name: ', this.end_point.name, this.end_point.value);
             this.start_options = this.options.filter(opt => opt.value != this.end_point.value)
             this.options = this.global_options;
             console.log('onChange start_options: ', this.start_options)
 
-            // console.log('onChange global_options: ', this.global_options);
-            // console.log('onChange end_options: ', this.end_options)
-            // console.log('onChange options: ', this.options, 'Start name: ', this.start_point.name)
-            this.end_options = this.options.filter(opt => opt.value != this.start_point.value)
+            console.log('onChange global_options: ', this.global_options);
+            console.log('onChange Start name: ', this.start_point.name, this.start_point.value);
+            this.end_options = this.options.filter(opt => opt.value != this.start_point.value);
             this.options = this.global_options;
             console.log('onChange end_options: ', this.end_options)
 
