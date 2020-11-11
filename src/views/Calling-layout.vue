@@ -103,6 +103,7 @@ export default {
             this.$router.replace({
                 name: "CallFail",
                 query: {
+                    socket: this.socket,
                     start: this.start,
                     end: this.end,
                     station_startId: this.station_startId,
@@ -114,6 +115,8 @@ export default {
                     vehicle_id: parseInt(this.$route.query.vehicle_id)
                 }
             });
+
+            this.disconnect();
         }, 10000);
     },
 
@@ -167,9 +170,6 @@ export default {
         },
 
         onMessageWebSocket() {
-            // let start = this.start;
-            // let end = this.end;
-            // let passenger = this.count;
             this.socket.onmessage = ({
                 data
             }) => { // websocket에 있는 정보들을 받는다.
@@ -262,7 +262,7 @@ export default {
     },
 
     destroyed() {
-        this.disconnect();
+        // this.disconnect();
         clearTimeout(this.waitTimer);
         clearTimeout(this.failTimer);
     }
