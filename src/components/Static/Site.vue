@@ -84,7 +84,7 @@
                                             </v-btn>
                                         </v-card>
                                     </v-card>
-                                    <v-card-text class="select-max mt-9">탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text>
+                                    <v-card-text class="select-max mt-9">탑승인원은 최대 6명까지 선택 가능합니다.</v-card-text>
                                 </v-row>
                             </v-container>
 
@@ -1375,7 +1375,7 @@ export default {
                 this.isDisabled1 = false;
             }
 
-            if (this.count >= 14) {
+            if (this.count >= 6) {
                 this.isDisabled2 = true;
             } else {
                 this.isDisabled2 = false;
@@ -1411,9 +1411,9 @@ export default {
                 this.isDisabled1 = false;
             }
 
-            if (this.count >= 14) {
+            if (this.count >= 6) {
                 this.isDisabled2 = true;
-                this.count = 14;
+                this.count = 6;
             } else {
                 this.isDisabled2 = false;
             }
@@ -1422,9 +1422,9 @@ export default {
         increment() {
             this.count += 1;
 
-            if (this.count >= 14) {
+            if (this.count >= 6) {
                 this.isDisabled2 = true;
-                this.count = 14;
+                this.count = 6;
             } else {
                 this.isDisabled2 = false;
             }

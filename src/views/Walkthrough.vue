@@ -99,7 +99,7 @@ export default {
     methods: {
         jump() {
             this.$router.replace('/auth/accessphone')
-            // window.androidinfo.showInfoFromJs("name0")
+            window.androidinfo.showInfoFromJs("name0")
             // this.$toasted.show(gh)
         },
 
