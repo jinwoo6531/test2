@@ -89,6 +89,8 @@ export default {
         this.minutes = this.$route.query.minutes;
         this.vehicle_id = parseInt(this.$route.query.vehicle_id);
 
+        console.log('start ', this.start, 'end ', this.end, 'count ', this.count);
+
         this.ready = true;
 
          setTimeout(() => {
@@ -165,12 +167,16 @@ export default {
         },
 
         onMessageWebSocket() {
+            // let start = this.start;
+            // let end = this.end;
+            // let passenger = this.count;
             this.socket.onmessage = ({
                 data
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log(this.webSocketData.what, 'webSocketData: ', this.webSocketData);
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go' && this.webSocketData.how.uid == this.uid) {
+                    console.log('Check', this.start, this.end, this.count)
                     this.$router.replace({
                         name: "CallingShuttle",
                         params: {
@@ -256,7 +262,7 @@ export default {
     },
 
     destroyed() {
-        // this.disconnect();
+        this.disconnect();
         clearTimeout(this.waitTimer);
         clearTimeout(this.failTimer);
     }
