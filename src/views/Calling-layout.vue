@@ -74,8 +74,8 @@ export default {
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
 
-                this.onOpenWebsocket();
-                this.onMessageWebSocket();
+                this.onOpenWebsocket(); // 웹소켓 연결
+                this.onMessageWebSocket(); // 메시지 보내기
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -83,23 +83,27 @@ export default {
     },
 
     mounted() {
-        this.site = this.$route.query.site;
-        this.start = this.$route.query.start;
-        this.end = this.$route.query.end;
-        this.station_startId = parseInt(this.$route.query.station_startId);
-        this.station_endId = parseInt(this.$route.query.station_endId);
-        this.startName = this.$route.query.startName;
-        this.endName = this.$route.query.endName;
-        this.count = this.$route.query.count;
-        this.minutes = this.$route.query.minutes;
+        // Site.vue -> Calling-layout.vue -> Callingshuttle.vue 페이지 이동을 하며 파라미터 전달
+        this.site = this.$route.query.site; // 지역
+        this.start = this.$route.query.start; // 출발지
+        this.end = this.$route.query.end; // 도착지
+        this.station_startId = parseInt(this.$route.query.station_startId); // 출발지 id
+        this.station_endId = parseInt(this.$route.query.station_endId); // 도착지 id
+        this.startName = this.$route.query.startName; // 출발지 명
+        this.endName = this.$route.query.endName; // 도착지 명
+        this.count = this.$route.query.count; // 인원수
+        this.minutes = this.$route.query.minutes; // 소요시간
 
         this.ready = true;
 
+        // 1분 경과한 경우
         this.waitTimer = setTimeout(() => {
             this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
         }, 60000);
 
+        // 2분 경과한 경우 호출 자동 취소 처리
         this.failTimer = setTimeout(() => {
+            // 자동취소 페이지로 이동
             this.$router.replace({
                 name: "CallFail",
                 query: {
@@ -143,11 +147,13 @@ export default {
     },
 
     methods: {
+        // 호출 취소
         callCancelModal() {
             // WebSocket Cancel
             this.cancleMessage();
-            this.disconnect();
+            this.disconnect(); // Web socket disconnect
             
+            // 전액 환불
             if (this.isrefund == '0') {
                 axios({
                     url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -223,6 +229,7 @@ export default {
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log(this.webSocketData.what, 'webSocketData: ', this.webSocketData);
+                // 다음 조건에 만족하는 EVENT 받은 경우 배차 완료 페이지로 이동
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go' && this.webSocketData.how.uid == this.uid) {
                     this.$router.replace({
                         name: "CallingShuttle",
@@ -241,27 +248,8 @@ export default {
             };
         },
 
-        /* sendMessage() { // 테스트용
-            this.webSocketData = {
-                where: '',
-                who: 'tasio_id',
-                what: 'EVENT',
-                how: {
-                    type: 'ondemand',
-                    vehicle_id: 4,
-                    function: 'call',
-                    current_station_id: 9,
-                    target_station_id: 10,
-                    passenger: 2,
-                    passenger_name: "타시오",
-                    uid: this.uid
-                }
-            };
-
-            this.socket.send(JSON.stringify(this.webSocketData));
-        }, */
-
-        sendMessage() { // ondemand 측에서 보내줘야 할 데이터
+        // 타시오 측에서 보내줘야 할 데이터
+        sendMessage() {
             this.webSocketData = {
                 where: '',
                 who: 'tasio_id',
@@ -281,6 +269,7 @@ export default {
             this.socket.send(JSON.stringify(this.webSocketData));
         },
 
+        // 호출 취소를 요청한 경우 보내주는 메시지
         cancleMessage() {
             this.webSocketData2 = {
                 where: '',
@@ -301,6 +290,7 @@ export default {
             this.socket.send(JSON.stringify(this.webSocketData2));
         },  
 
+        // Web socket 연결 해제
         disconnect() {
             this.socket.close();
             this.status = "disconnected";

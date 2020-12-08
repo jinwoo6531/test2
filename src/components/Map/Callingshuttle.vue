@@ -1,7 +1,7 @@
 <template>
 <v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
     <v-layout row wrap class="ma-0">
-        <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
+        <v-flex class="pa-0 persentH" xs12 sm12 md12>
             <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
         </v-flex>
         <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
@@ -121,11 +121,13 @@ export default {
         }),
         ...mapState(['uid']),
 
+        // 전액 환불 (100%)
         allPay() {
             let pay = 1000 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
+        // 부분 환불 (50%)
         payment() {
             let pay = 500 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -137,7 +139,6 @@ export default {
 
         axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
-                console.log(response)
                 this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
@@ -149,12 +150,6 @@ export default {
     },
 
     mounted() {
-        /* this.site = 1;
-        this.vehicle_id = 4;
-        this.start = 3;
-        this.end = 2;
-        this.count = 9; */
-
         this.socket = this.$route.params.socket;
         this.vehicle_id = parseInt(this.$route.params.vehicle_id);
         this.site = this.$route.params.site_id;
@@ -162,6 +157,7 @@ export default {
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
 
+        // 셔틀이 출발지에 도착한 경우 배차 완료 및 서비스 종료 페이지로 이동
         this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
@@ -178,7 +174,7 @@ export default {
             }
         };
 
-        // 5분이상 지연될 경우 자동취소 페이지로 진입
+        // 셔틀이 출발지에 도착했는데 5분이상 사용자가 탑승하지 않아 지연될 경우 자동취소 페이지로 진입
         // this.setTime();
 
         this.map = this.$utils.map.createMap('map-container', {
@@ -212,6 +208,7 @@ export default {
             }, 1000);
         }, */
 
+        // 정류장 마커 표시
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
@@ -226,6 +223,7 @@ export default {
             }
         },
 
+        // 정류장 API Request & Response
         getStation() {
             axios.get('/api/stations/')
                 .then(response => {
@@ -288,18 +286,21 @@ export default {
             }.bind(this), 10000);
         },
 
+
+        // ETA API
         getEta() {
             var eta = JSON.parse(this.stationList[this.start].eta);
 
             for (let [key, value] of Object.entries(eta)) {
-                if (key == this.vehicle_id) {
+                if (key == this.vehicle_id) { // 셔틀의 id와 ETA의 key 값이 같은 값의 value 가져오기
                     console.log(key, ', ', value);
-                    this.minutes = parseInt(value);
+                    this.minutes = parseInt(value); // value가 예상 도착 시간
                     break;
                 }
             }
         },
 
+        // 출발지 아이콘, 도착지 아이콘 및 요청 경로 표시
         async getRouting() {
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -738,6 +739,7 @@ export default {
                 }
             }
 
+            // 경로 표시하기
             this.$utils.map.createRouting(this.map, {
                 waypoints: this.waypoints,
                 serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
@@ -759,9 +761,10 @@ export default {
                     return null;
                 }
             })
-            this.addMarker()
+            this.addMarker(); // 정류장 마커 표시
         },
 
+        // 셔틀 API Request & Response
         getVehicle() { // 배차된 셔틀만 보여주면 된다.
             axios.get('/api/vehicles/')
                 .then(async response => {
@@ -788,11 +791,11 @@ export default {
                             icon: vehicleIcon
                         });
                     }
-                    this.getVehicleUser();
+                    this.getVehicleUser(); // 셔틀의 안전요원 정보 요청
                 }).catch(error => {
                     console.log('Vehicle Error: ', error);
                 })
-            setInterval(async function () {
+            setInterval(async function () { // 실시간 셔틀 위치 업데이트
                 axios.get('/api/vehicles/')
                     .then(() => {
                         if (this.vehicle_site == this.site) {
@@ -809,16 +812,18 @@ export default {
         getVehicleUser() {
             axios.get(`/api/users/${this.vehicle_user}`)
                 .then(response => {
-                    this.owner = response.data.username;
+                    this.owner = response.data.username; // 안전요원의 이름 저장
                 }).catch(error => {
                     console.log('/api/user/ Error: ', error);
                 });
         },
 
+        // 호출 취소하기 버튼 모달 표시
         callCancel() {
             this.callcanceldialog = true;
         },
 
+        // 호출 취소를 할 경우 환불 정책
         callCancleBtn() {
             this.cancleMessage();
             this.disconnect();
@@ -860,6 +865,7 @@ export default {
 
         },
 
+        // 호출 취소할 경우 안전요원에게 보내주는 메시지
         cancleMessage() {
             this.webSocketData2 = {
                 where: '',
@@ -880,6 +886,7 @@ export default {
             this.socket.send(JSON.stringify(this.webSocketData2));
         },
 
+        // Websocket 연결 끊기
         disconnect() {
             this.socket.close();
             this.status = "disconnected";

@@ -28,7 +28,7 @@ const requireAuth = () => (to, from, next) => {
 }
 
 const routes = [
-// {
+// { // Native <-> Web 통신 테스트 페이지
 //   path: '/webview',
 //   name: 'Webview',
 //   component: Webview

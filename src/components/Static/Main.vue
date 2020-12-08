@@ -2,7 +2,7 @@
 <div id="main">
     <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0 mt-12 mb-12 main-title" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
+            <v-flex class="pa-0 mt-12 mb-12 main-title persentH" xs12 sm12 md12>
                 탑승하실 지역을 선택하세요
             </v-flex>
             <v-flex>

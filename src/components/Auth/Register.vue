@@ -2,8 +2,8 @@
 <v-container style="height: 100%;">
     <v-layout wrap style="height: 100%;">
         <v-flex class="pa-5" xs12 sm12 md12>
-            <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
-            <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
+            <h3 class="auth-title">이제 마지막 단계예요.</h3>
+            <p class="auth-content" style="margin-top: 12px;">제가 모시게 될 고객님은 어떤 분인가요?</p>
             <form @submit.prevent="submit">
                 <v-flex xs12 sm12 md12>
                     <p>이름</p>
@@ -138,21 +138,6 @@ export default {
 </script>
 
 <style scoped>
-.RegisterTitle {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
-    color: #262626;
-}
-
-.RegisterSubTitle {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    margin-top: 12px;
-    color: #828282;
-}
-
 input {
     width: 100%;
     height: 40px;

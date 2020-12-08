@@ -2,7 +2,7 @@
 <div id="userinfo">
     <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0 pt-8 pb-5" xs12 sm12 md12 style="width: 100%; height: 100%;">
+            <v-flex class="pa-0 pt-8 pb-5 persentH" xs12 sm12 md12>
                 <v-card class="pa-0 userwrap" flat tile>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
