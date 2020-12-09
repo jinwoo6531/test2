@@ -1,729 +1,1203 @@
 <template>
-<div id="userinfo">
-    <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
-        <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0 pt-8 pb-5" xs12 sm12 md12 style="width: 100%; height: 100%;">
-                <v-card class="pa-0 userwrap" flat tile>
-                    <v-divider color="#E0E0E0"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="3" width="100%" height="100%" class="usertitle">
-                            이름
-                        </v-col>
-                        <v-col cols="7" height="100%" class="pl-0">
-                            {{ displayName }}
-                        </v-col>
-                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
-                            <img src="../../assets/modify-icon.svg" @click="namedialog = true" width="14px" height="14px">
-                        </v-col>
-                        <v-dialog v-model="namedialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-                            <v-card flat tile>
-                                <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click.native="nochangeDisplayName" color="#262626">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                    <v-spacer></v-spacer>
-                                    <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click.native="showNameDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                    </v-toolbar-items>
-                                </v-toolbar>
-
-                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
-                                            <v-card-title class="pl-0 modify-title">이름</v-card-title>
-                                            <v-text-field v-model="displayName" required filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#2E3990"></v-text-field>
-                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
-                                        </v-card>
-                                    </v-row>
-                                </v-container>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
-                    <v-divider color="#E0E0E0"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="3" width="100%" height="100%" class="usertitle">
-                            이메일
-                        </v-col>
-                        <v-col cols="7" height="100%" class="pl-0">
-                            {{ email }}
-                        </v-col>
-                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
-                            <img src="../../assets/modify-icon.svg" @click="emaildialog = true" width="14px" height="14px">
-                        </v-col>
-                        <v-dialog v-model="emaildialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-                            <v-card flat tile>
-                                <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click.native="nochangeEmail" color="#262626">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                    <v-spacer></v-spacer>
-                                    <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch1 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click.native="showEmailDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                    </v-toolbar-items>
-                                </v-toolbar>
-                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
-                                            <v-card-title class="pl-0 modify-title">이메일</v-card-title>
-                                            <v-text-field v-model="email" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#2E3990"></v-text-field>
-                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
-                                        </v-card>
-                                    </v-row>
-                                </v-container>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
-                    <v-divider color="#E0E0E0"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="3" width="100%" height="100%" class="usertitle">
-                            성별
-                        </v-col>
-                        <v-col cols="7" height="100%" class="pl-0">
-                            {{ gender }}
-                        </v-col>
-                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
-                            <img src="../../assets/modify-icon.svg" @click="genderdialog = true" width="14px" height="14px">
-                        </v-col>
-                        <v-dialog v-model="genderdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-                            <v-card flat tile>
-                                <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click.native="nochangeGender" color="#262626">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                    <v-spacer></v-spacer>
-                                    <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch3 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click.native="showGenderDialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                    </v-toolbar-items>
-                                </v-toolbar>
-                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
-                                            <v-card-title class="pl-0 modify-title" style="padding-bottom: 52px !important;">성별</v-card-title>
-                                            <div style="width: 100%">
-                                                <label class="box-radio-input">
-                                                    <input type="radio" name="gender" value="남자" v-model="gender">
-                                                    <span>남자</span>
-                                                </label>
-                                                <label class="box-radio-input">
-                                                    <input type="radio" name="gender" value="여자" v-model="gender">
-                                                    <span>여자</span>
-                                                </label>
-                                            </div>
-                                        </v-card>
-                                    </v-row>
-                                </v-container>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
-                    <v-divider color="#E0E0E0"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="3" width="100%" height="100%" class="usertitle">
-                            생일
-                        </v-col>
-                        <v-col cols="7" height="100%" class="pl-0">
-                            {{ birth }}
-                        </v-col>
-                        <v-col cols="2" height="100%" style="text-align: right; padding-right: 12px;">
-                            <img src="../../assets/modify-icon.svg" @click="birthdialog = true" width="14px" height="14px">
-                        </v-col>
-                        <v-dialog v-model="birthdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-                            <v-card flat tile>
-                                <v-toolbar flat tile dense color="transparent">
-                                    <v-btn icon @click.native="nochangeBirth" color="#262626">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                    <v-spacer></v-spacer>
-                                    <v-toolbar-items>
-                                        <v-btn text class="pa-0" v-if="watch2 == false" disabled color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                        <v-btn text class="pa-0" v-else @click.native="showBirthdialog" color="#2E3990" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px;">저장</v-btn>
-                                    </v-toolbar-items>
-                                </v-toolbar>
-                                <v-container class="pa-0 ma-0 flex-wrap" style="background: transparent;">
-                                    <v-row align="center" justify="center" class="pb-8 ma-0" width="100%">
-                                        <v-card flat tile width="100%" class="pa-6" style="margin-top: 110px;">
-                                            <v-card-title class="pl-0 modify-title">생일</v-card-title>
-                                            <v-text-field type="number" v-model="birth" filled clearable autofocus background-color="rgba(230, 23, 115, 0.1)" color="#2E3990"></v-text-field>
-                                            <v-card-text class="pa-0" style="color: #EB5757;">{{ rules }}</v-card-text>
-                                        </v-card>
-                                    </v-row>
-                                </v-container>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
-                    <v-divider color="#E0E0E0"></v-divider>
-                    <v-row no-gutters class="pa-3 pl-6" width="100%">
-                        <v-col cols="3" width="100%" height="100%" class="usertitle">
-                            전화번호
-                        </v-col>
-                        <v-col cols="9" height="100%" class="pl-0">
-                            {{ getPhoneNumber }}
-                        </v-col>
-                    </v-row>
-                </v-card>
-                <v-divider color="#E0E0E0"></v-divider>
-            </v-flex>
-
-            <v-flex xs12 sm12 md12 class="pa-0" style="border-top: 0.5px solid #E0E0E0; border-bottom: 0.5px solid #E0E0E0;">
-                <v-btn class="pa-3 signout" color="#FFF" block tile depressed @click.native="signoutdialog = true">로그아웃</v-btn>
-                <v-dialog v-model="signoutdialog" width="268px" height="170px">
-                    <v-card flat tile>
-                        <v-card-text class="signout-text">로그아웃 하시겠습니까?</v-card-text>
-                        <v-card-actions class="pa-0" style="height: 50px">
-                            <v-row no-gutters style="height: 100%;">
-                                <v-col style="height: 100%;">
-                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 logout-btn" style="color: #262626 !important;" @click.native="signoutdialog = false">취소</v-btn>
-                                </v-col>
-                                <v-col style="height: 100%;">
-                                    <v-btn color="#2E3990" tile depressed class="pa-0 logout-btn" style="color: #FFFFFF !important;" @click.native.prevent="signOut">로그아웃</v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-            </v-flex>
-
-            <v-flex xs12 sm12 md12 class="pr-6 d-flex justify-end bye-tasio" @click="deleteUserdialog = true">
-                <span>회원탈퇴</span>
-            </v-flex>
-
-            <v-dialog v-model="deleteUserdialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <!-- 개인정보 조회 및 수정 페이지 -->
+  <div id="userinfo">
+    <v-container
+      class="pa-0 ma-0 flex-wrap"
+      fluid
+      justify-center
+      grid-list-md
+      fill-height
+    >
+      <v-layout row wrap class="ma-0">
+        <v-flex
+          class="pa-0 pt-8 pb-5"
+          xs12
+          sm12
+          md12
+          style="width: 100%; height: 100%"
+        >
+          <v-card class="pa-0 userwrap" flat tile>
+            <v-divider color="#E0E0E0"></v-divider>
+            <v-row no-gutters class="pa-3 pl-6" width="100%">
+              <v-col cols="3" width="100%" height="100%" class="usertitle">
+                이름
+              </v-col>
+              <v-col cols="7" height="100%" class="pl-0">
+                {{ displayName }}
+              </v-col>
+              <v-col
+                cols="2"
+                height="100%"
+                style="text-align: right; padding-right: 12px"
+              >
+                <img
+                  src="../../assets/modify-icon.svg"
+                  @click="namedialog = true"
+                  width="14px"
+                  height="14px"
+                />
+              </v-col>
+              <v-dialog
+                v-model="namedialog"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
                 <v-card flat tile>
-                    <v-toolbar flat tile dense color="transparent">
-                        <v-btn icon @click.native="deleteUserdialog = false" color="#262626">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                    </v-toolbar>
-                    <v-container class="pa-0 ma-0" fluid fill-height style="background: transparent;">
-                        <v-layout wrap class="pa-6">
-                            <v-flex xs12 sm12 md12 class="d-flex justify-left align-start">
-                                <v-card color="transparent" flat tile class="pb-6 bye-title">
-                                    정말 떠나시나요?
-                                </v-card>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12 class="d-flex justify-left align-center">
-                                <v-card class="text-left" color="transparent" flat tile>
-                                    <v-card-text class="pa-0 bye-content">
-                                        이렇게 떠나시다니 너무 슬프네요. <br>
-                                        왜 떠나는지 알려주신다면 <br>
-                                        서비스 개선을 위해 더욱 힘쓸게요!
-                                    </v-card-text>
-                                </v-card>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12 class="d-flex justify-left align-top">
-                                <v-card class="text-left" color="transparent" flat tile width="100%">
-                                    <v-card-text class="pa-0 pt-8 pb-2 bye-subcontent">
-                                        본인 확인을 위해 <br>
-                                        회원가입 시 사용한 휴대전화번호를 입력해주세요.
-                                    </v-card-text>
-                                    <v-text-field type="number" v-model="inputPhoneNumber" label="휴대전화 번호를 입력해주세요" color="#828282" class="pb-2 bye-check-field" single-line outlined flat full-width hide-details></v-text-field>
-                                    <v-select v-model="byeReason" :items="secession" item-text="title" item-value="value" label="탈퇴 사유를 선택해주세요" color="#828282" class="bye-check-field" item-color="#828282" return-object single-line outlined flat full-width hide-details></v-select>
-                                    <v-text-field v-model="byeEtcReason" label="기타 사유를 입력해주세요." color="#828282" class="bye-check-field pt-2" v-if="etc == true" single-line outlined flat full-width hide-details></v-text-field>
-                                    <v-card-text class="pa-0 pt-2 error-rule" v-if="errorRule == true">기타 사유를 입력해주세요.</v-card-text>
-                                </v-card>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12 class="d-flex justify-center align-end">
-                                <v-footer padless absolute>
-                                    <v-btn disabled block depressed tile height="50px" class="pa-0" v-if="inputPhoneNumber.length == 0 || byeReason.value == undefined || this.disabledButton == true">탈퇴하기</v-btn>
-                                    <v-btn disabled block depressed tile height="50px" class="pa-0" v-else-if="this.disabledButton === true">탈퇴하기</v-btn>
-                                    <v-btn color="#2E3990" style="color: #FFF !important;" block depressed tile height="50px" class="pa-0" @click.native="deleteUser" v-else>탈퇴하기</v-btn>
-                                </v-footer>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
+                  <v-toolbar flat tile dense color="transparent">
+                    <v-btn
+                      icon
+                      @click.native="nochangeDisplayName"
+                      color="#262626"
+                    >
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-if="watch == false"
+                        disabled
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-else
+                        @click.native="showNameDialog"
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                    </v-toolbar-items>
+                  </v-toolbar>
+
+                  <v-container
+                    class="pa-0 ma-0 flex-wrap"
+                    style="background: transparent"
+                  >
+                    <v-row
+                      align="center"
+                      justify="center"
+                      class="pb-8 ma-0"
+                      width="100%"
+                    >
+                      <v-card
+                        flat
+                        tile
+                        width="100%"
+                        class="pa-6"
+                        style="margin-top: 110px"
+                      >
+                        <v-card-title class="pl-0 modify-title"
+                          >이름</v-card-title
+                        >
+                        <v-text-field
+                          v-model="displayName"
+                          required
+                          filled
+                          clearable
+                          autofocus
+                          background-color="rgba(230, 23, 115, 0.1)"
+                          color="#2E3990"
+                        ></v-text-field>
+                        <v-card-text class="pa-0" style="color: #eb5757">{{
+                          rules
+                        }}</v-card-text>
+                      </v-card>
+                    </v-row>
+                  </v-container>
                 </v-card>
-            </v-dialog>
-        </v-layout>
+              </v-dialog>
+            </v-row>
+            <v-divider color="#E0E0E0"></v-divider>
+            <v-row no-gutters class="pa-3 pl-6" width="100%">
+              <v-col cols="3" width="100%" height="100%" class="usertitle">
+                이메일
+              </v-col>
+              <v-col cols="7" height="100%" class="pl-0">
+                {{ email }}
+              </v-col>
+              <v-col
+                cols="2"
+                height="100%"
+                style="text-align: right; padding-right: 12px"
+              >
+                <img
+                  src="../../assets/modify-icon.svg"
+                  @click="emaildialog = true"
+                  width="14px"
+                  height="14px"
+                />
+              </v-col>
+              <v-dialog
+                v-model="emaildialog"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
+                <v-card flat tile>
+                  <v-toolbar flat tile dense color="transparent">
+                    <v-btn icon @click.native="nochangeEmail" color="#262626">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-if="watch1 == false"
+                        disabled
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-else
+                        @click.native="showEmailDialog"
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                    </v-toolbar-items>
+                  </v-toolbar>
+                  <v-container
+                    class="pa-0 ma-0 flex-wrap"
+                    style="background: transparent"
+                  >
+                    <v-row
+                      align="center"
+                      justify="center"
+                      class="pb-8 ma-0"
+                      width="100%"
+                    >
+                      <v-card
+                        flat
+                        tile
+                        width="100%"
+                        class="pa-6"
+                        style="margin-top: 110px"
+                      >
+                        <v-card-title class="pl-0 modify-title"
+                          >이메일</v-card-title
+                        >
+                        <v-text-field
+                          v-model="email"
+                          filled
+                          clearable
+                          autofocus
+                          background-color="rgba(230, 23, 115, 0.1)"
+                          color="#2E3990"
+                        ></v-text-field>
+                        <v-card-text class="pa-0" style="color: #eb5757">{{
+                          rules
+                        }}</v-card-text>
+                      </v-card>
+                    </v-row>
+                  </v-container>
+                </v-card>
+              </v-dialog>
+            </v-row>
+            <v-divider color="#E0E0E0"></v-divider>
+            <v-row no-gutters class="pa-3 pl-6" width="100%">
+              <v-col cols="3" width="100%" height="100%" class="usertitle">
+                성별
+              </v-col>
+              <v-col cols="7" height="100%" class="pl-0">
+                {{ gender }}
+              </v-col>
+              <v-col
+                cols="2"
+                height="100%"
+                style="text-align: right; padding-right: 12px"
+              >
+                <img
+                  src="../../assets/modify-icon.svg"
+                  @click="genderdialog = true"
+                  width="14px"
+                  height="14px"
+                />
+              </v-col>
+              <v-dialog
+                v-model="genderdialog"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
+                <v-card flat tile>
+                  <v-toolbar flat tile dense color="transparent">
+                    <v-btn icon @click.native="nochangeGender" color="#262626">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-if="watch3 == false"
+                        disabled
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-else
+                        @click.native="showGenderDialog"
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                    </v-toolbar-items>
+                  </v-toolbar>
+                  <v-container
+                    class="pa-0 ma-0 flex-wrap"
+                    style="background: transparent"
+                  >
+                    <v-row
+                      align="center"
+                      justify="center"
+                      class="pb-8 ma-0"
+                      width="100%"
+                    >
+                      <v-card
+                        flat
+                        tile
+                        width="100%"
+                        class="pa-6"
+                        style="margin-top: 110px"
+                      >
+                        <v-card-title
+                          class="pl-0 modify-title"
+                          style="padding-bottom: 52px !important"
+                          >성별</v-card-title
+                        >
+                        <div style="width: 100%">
+                          <label class="box-radio-input">
+                            <input
+                              type="radio"
+                              name="gender"
+                              value="남자"
+                              v-model="gender"
+                            />
+                            <span>남자</span>
+                          </label>
+                          <label class="box-radio-input">
+                            <input
+                              type="radio"
+                              name="gender"
+                              value="여자"
+                              v-model="gender"
+                            />
+                            <span>여자</span>
+                          </label>
+                        </div>
+                      </v-card>
+                    </v-row>
+                  </v-container>
+                </v-card>
+              </v-dialog>
+            </v-row>
+            <v-divider color="#E0E0E0"></v-divider>
+            <v-row no-gutters class="pa-3 pl-6" width="100%">
+              <v-col cols="3" width="100%" height="100%" class="usertitle">
+                생일
+              </v-col>
+              <v-col cols="7" height="100%" class="pl-0">
+                {{ birth }}
+              </v-col>
+              <v-col
+                cols="2"
+                height="100%"
+                style="text-align: right; padding-right: 12px"
+              >
+                <img
+                  src="../../assets/modify-icon.svg"
+                  @click="birthdialog = true"
+                  width="14px"
+                  height="14px"
+                />
+              </v-col>
+              <v-dialog
+                v-model="birthdialog"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
+                <v-card flat tile>
+                  <v-toolbar flat tile dense color="transparent">
+                    <v-btn icon @click.native="nochangeBirth" color="#262626">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-if="watch2 == false"
+                        disabled
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                      <v-btn
+                        text
+                        class="pa-0"
+                        v-else
+                        @click.native="showBirthdialog"
+                        color="#2E3990"
+                        style="
+                          font-family: Noto Sans KR;
+                          font-style: normal;
+                          font-weight: 500;
+                          font-size: 18px;
+                        "
+                        >저장</v-btn
+                      >
+                    </v-toolbar-items>
+                  </v-toolbar>
+                  <v-container
+                    class="pa-0 ma-0 flex-wrap"
+                    style="background: transparent"
+                  >
+                    <v-row
+                      align="center"
+                      justify="center"
+                      class="pb-8 ma-0"
+                      width="100%"
+                    >
+                      <v-card
+                        flat
+                        tile
+                        width="100%"
+                        class="pa-6"
+                        style="margin-top: 110px"
+                      >
+                        <v-card-title class="pl-0 modify-title"
+                          >생일</v-card-title
+                        >
+                        <v-text-field
+                          type="number"
+                          v-model="birth"
+                          filled
+                          clearable
+                          autofocus
+                          background-color="rgba(230, 23, 115, 0.1)"
+                          color="#2E3990"
+                        ></v-text-field>
+                        <v-card-text class="pa-0" style="color: #eb5757">{{
+                          rules
+                        }}</v-card-text>
+                      </v-card>
+                    </v-row>
+                  </v-container>
+                </v-card>
+              </v-dialog>
+            </v-row>
+            <v-divider color="#E0E0E0"></v-divider>
+            <v-row no-gutters class="pa-3 pl-6" width="100%">
+              <v-col cols="3" width="100%" height="100%" class="usertitle">
+                전화번호
+              </v-col>
+              <v-col cols="9" height="100%" class="pl-0">
+                {{ getPhoneNumber }}
+              </v-col>
+            </v-row>
+          </v-card>
+          <v-divider color="#E0E0E0"></v-divider>
+        </v-flex>
+
+        <v-flex
+          xs12
+          sm12
+          md12
+          class="pa-0"
+          style="
+            border-top: 0.5px solid #e0e0e0;
+            border-bottom: 0.5px solid #e0e0e0;
+          "
+        >
+          <v-btn
+            class="pa-3 signout"
+            color="#FFF"
+            block
+            tile
+            depressed
+            @click.native="signoutdialog = true"
+            >로그아웃</v-btn
+          >
+          <v-dialog v-model="signoutdialog" width="268px" height="170px">
+            <v-card flat tile>
+              <v-card-text class="signout-text"
+                >로그아웃 하시겠습니까?</v-card-text
+              >
+              <v-card-actions class="pa-0" style="height: 50px">
+                <v-row no-gutters style="height: 100%">
+                  <v-col style="height: 100%">
+                    <v-btn
+                      color="#FAFAFA"
+                      tile
+                      depressed
+                      class="pa-0 logout-btn"
+                      style="color: #262626 !important"
+                      @click.native="signoutdialog = false"
+                      >취소</v-btn
+                    >
+                  </v-col>
+                  <v-col style="height: 100%">
+                    <v-btn
+                      color="#2E3990"
+                      tile
+                      depressed
+                      class="pa-0 logout-btn"
+                      style="color: #ffffff !important"
+                      @click.native.prevent="signOut"
+                      >로그아웃</v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-flex>
+
+        <v-flex
+          xs12
+          sm12
+          md12
+          class="pr-6 d-flex justify-end bye-tasio"
+          @click="deleteUserdialog = true"
+        >
+          <span>회원탈퇴</span>
+        </v-flex>
+
+        <v-dialog
+          v-model="deleteUserdialog"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+        >
+          <v-card flat tile>
+            <v-toolbar flat tile dense color="transparent">
+              <v-btn
+                icon
+                @click.native="deleteUserdialog = false"
+                color="#262626"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-container
+              class="pa-0 ma-0"
+              fluid
+              fill-height
+              style="background: transparent"
+            >
+              <v-layout wrap class="pa-6">
+                <v-flex xs12 sm12 md12 class="d-flex justify-left align-start">
+                  <v-card color="transparent" flat tile class="pb-6 bye-title">
+                    정말 떠나시나요?
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 sm12 md12 class="d-flex justify-left align-center">
+                  <v-card class="text-left" color="transparent" flat tile>
+                    <v-card-text class="pa-0 bye-content">
+                      이렇게 떠나시다니 너무 슬프네요. <br />
+                      왜 떠나는지 알려주신다면 <br />
+                      서비스 개선을 위해 더욱 힘쓸게요!
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 sm12 md12 class="d-flex justify-left align-top">
+                  <v-card
+                    class="text-left"
+                    color="transparent"
+                    flat
+                    tile
+                    width="100%"
+                  >
+                    <v-card-text class="pa-0 pt-8 pb-2 bye-subcontent">
+                      본인 확인을 위해 <br />
+                      회원가입 시 사용한 휴대전화번호를 입력해주세요.
+                    </v-card-text>
+                    <v-text-field
+                      type="number"
+                      v-model="inputPhoneNumber"
+                      label="휴대전화 번호를 입력해주세요"
+                      color="#828282"
+                      class="pb-2 bye-check-field"
+                      single-line
+                      outlined
+                      flat
+                      full-width
+                      hide-details
+                    ></v-text-field>
+                    <v-select
+                      v-model="byeReason"
+                      :items="secession"
+                      item-text="title"
+                      item-value="value"
+                      label="탈퇴 사유를 선택해주세요"
+                      color="#828282"
+                      class="bye-check-field"
+                      item-color="#828282"
+                      return-object
+                      single-line
+                      outlined
+                      flat
+                      full-width
+                      hide-details
+                    ></v-select>
+                    <v-text-field
+                      v-model="byeEtcReason"
+                      label="기타 사유를 입력해주세요."
+                      color="#828282"
+                      class="bye-check-field pt-2"
+                      v-if="etc == true"
+                      single-line
+                      outlined
+                      flat
+                      full-width
+                      hide-details
+                    ></v-text-field>
+                    <v-card-text
+                      class="pa-0 pt-2 error-rule"
+                      v-if="errorRule == true"
+                      >기타 사유를 입력해주세요.</v-card-text
+                    >
+                  </v-card>
+                </v-flex>
+                <v-flex xs12 sm12 md12 class="d-flex justify-center align-end">
+                  <v-footer padless absolute>
+                    <v-btn
+                      disabled
+                      block
+                      depressed
+                      tile
+                      height="50px"
+                      class="pa-0"
+                      v-if="
+                        inputPhoneNumber.length == 0 ||
+                        byeReason.value == undefined ||
+                        this.disabledButton == true
+                      "
+                      >탈퇴하기</v-btn
+                    >
+                    <v-btn
+                      disabled
+                      block
+                      depressed
+                      tile
+                      height="50px"
+                      class="pa-0"
+                      v-else-if="this.disabledButton === true"
+                      >탈퇴하기</v-btn
+                    >
+                    <v-btn
+                      color="#2E3990"
+                      style="color: #fff !important"
+                      block
+                      depressed
+                      tile
+                      height="50px"
+                      class="pa-0"
+                      @click.native="deleteUser"
+                      v-else
+                      >탈퇴하기</v-btn
+                    >
+                  </v-footer>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card>
+        </v-dialog>
+      </v-layout>
     </v-container>
-</div>
+  </div>
 </template>
 
 <script>
-import {
-    mapState,
-    mapGetters
-} from 'vuex';
-import axios from 'axios';
+import { mapState, mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
-    name: 'Userinfo',
+  name: "Userinfo",
 
-    data: () => ({
-        watch: false,
-        watch1: false,
-        watch2: false,
-        watch3: false,
-        namedialog: false,
-        emaildialog: false,
-        genderdialog: false,
-        birthdialog: false,
-        displayName: '',
-        email: '',
-        gender: '',
-        birth: '',
-        phone: '',
-        rules: '',
+  data: () => ({
+    watch: false,
+    watch1: false,
+    watch2: false,
+    watch3: false,
+    namedialog: false,
+    emaildialog: false,
+    genderdialog: false,
+    birthdialog: false,
+    displayName: "",
+    email: "",
+    gender: "",
+    birth: "",
+    phone: "",
+    rules: "",
 
-        displayNameTemp: '',
-        emailTemp: '',
-        birthTemp: '',
-        genderTemp: '',
+    displayNameTemp: "",
+    emailTemp: "",
+    birthTemp: "",
+    genderTemp: "",
 
-        signoutdialog: false,
-        deleteUserdialog: false,
-        etc: false, // 기타 사유 field
-        secession: [{
-                title: '사용 빈도가 낮습니다.',
-                value: '1'
-            },
-            {
-                title: '이용이 불편하고 장애가 많습니다.',
-                value: '2'
-            },
-            {
-                title: '휴대전화번호가 변경됩니다.',
-                value: '3'
-            },
-            {
-                title: '걷는 것을 선호합니다.',
-                value: '4'
-            },
-            {
-                title: '자율주행 셔틀 속도가 너무 느립니다.',
-                value: '5'
-            },
-            {
-                title: '특별한 이유가 없습니다.',
-                value: '6'
-            },
-            {
-                title: '기타',
-                value: '7'
-            }
-        ],
-        inputPhoneNumber: '',
-        byeReason: {},
-        byeEtcReason: '',
-        errorRule: false,
-        disabledButton: false
+    signoutdialog: false,
+    deleteUserdialog: false,
+    etc: false, // 기타 사유 field
+    secession: [
+      {
+        title: "사용 빈도가 낮습니다.",
+        value: "1",
+      },
+      {
+        title: "이용이 불편하고 장애가 많습니다.",
+        value: "2",
+      },
+      {
+        title: "휴대전화번호가 변경됩니다.",
+        value: "3",
+      },
+      {
+        title: "걷는 것을 선호합니다.",
+        value: "4",
+      },
+      {
+        title: "자율주행 셔틀 속도가 너무 느립니다.",
+        value: "5",
+      },
+      {
+        title: "특별한 이유가 없습니다.",
+        value: "6",
+      },
+      {
+        title: "기타",
+        value: "7",
+      },
+    ],
+    inputPhoneNumber: "",
+    byeReason: {},
+    byeEtcReason: "",
+    errorRule: false,
+    disabledButton: false,
+  }),
+
+  created() {
+    this.getUser();
+  },
+
+  computed: {
+    ...mapState(["uid"]),
+
+    ...mapGetters({
+      user: "user",
     }),
 
-    created() {
-        this.getUser();
+    getPhoneNumber() {
+      let start = String(this.user.data.phoneNumber).substring(3, 5);
+      let mid = String(this.user.data.phoneNumber).substring(5, 9);
+      let end = String(this.user.data.phoneNumber).substring(9, 13);
+      return "0" + start + "-" + mid + "-" + end;
     },
 
-    computed: {
-        ...mapState(['uid']),
-
-        ...mapGetters({
-            user: "user"
-        }),
-
-        getPhoneNumber() {
-            let start = String(this.user.data.phoneNumber).substring(3, 5);
-            let mid = String(this.user.data.phoneNumber).substring(5, 9);
-            let end = String(this.user.data.phoneNumber).substring(9, 13);
-            return '0' + start + '-' + mid + '-' + end;
-        },
-
-        deletePhoneNumber() {
-            let start = String(this.user.data.phoneNumber).substring(3, 13);
-            return '0' + start;
-        }
+    deletePhoneNumber() {
+      let start = String(this.user.data.phoneNumber).substring(3, 13);
+      return "0" + start;
     },
+  },
 
-    watch: {
-        displayName(newval) {
-            if (newval != this.displayNameTemp) {
-                this.watch = true;
-            } else {
-                this.watch = false;
-            }
+  watch: {
+    // 값 수정
+    // 현재 값과 변경 값이 같다면 저장 버튼 비활성화
+    // 공백인 경우  error
+    displayName(newval) {
+      if (newval != this.displayNameTemp) {
+        this.watch = true;
+      } else {
+        this.watch = false;
+      }
 
-            let one_char = "";
-            const maxLength = 50;
-            let charLength = 0;
+      let one_char = "";
+      const maxLength = 50;
+      let charLength = 0;
 
-            for (let i = 0; i < newval.length; i++) {
-                one_char = newval.charAt(i);
+      for (let i = 0; i < newval.length; i++) {
+        one_char = newval.charAt(i);
 
-                if (escape(one_char).length > 4) {
-                    charLength += 2;
-                } else {
-                    charLength += 1;
-                }
-            }
-
-            if (charLength > maxLength) {
-                this.rules = "한글 " + (maxLength / 2) + "자, 영문 " + maxLength + "자를 초과할 수 없습니다.";
-                this.watch = false;
-            } else {
-                this.rules = "";
-            }
-        },
-
-        email(newval) {
-            if (newval != this.emailTemp) {
-                this.watch1 = true;
-            } else {
-                this.watch1 = false;
-            }
-        },
-
-        birth(newval) {
-            if (newval != this.birthTemp) {
-                this.watch2 = true;
-            } else {
-                this.watch2 = false;
-            }
-        },
-
-        gender(newval) {
-            if (newval != this.genderTemp) {
-                this.watch3 = true;
-            } else {
-                this.watch3 = false;
-            }
-        }
-    },
-
-    updated() {
-        // 기타 사유를 선택한 경우
-        if (this.byeReason.value == 7) {
-            this.etc = true;
-            if (this.byeEtcReason.length == 0) {
-                this.errorRule = true;
-                this.disabledButton = true;
-            } else {
-                this.errorRule = false;
-                this.disabledButton = false;
-            }
-        } else if (this.byeReason.value == undefined) {
-            this.etc = false;
-            this.errorRule = false;
+        if (escape(one_char).length > 4) {
+          charLength += 2; // 한글 최대 25자
         } else {
-            this.etc = false;
-            this.errorRule = false;
-            this.disabledButton = false;
+          charLength += 1; // 영어 최대 50자
         }
+      }
+
+      if (charLength > maxLength) {
+        this.rules =
+          "한글 " +
+          maxLength / 2 +
+          "자, 영문 " +
+          maxLength +
+          "자를 초과할 수 없습니다.";
+        this.watch = false;
+      } else {
+        this.rules = "";
+      }
     },
 
-    methods: {
-        async getUser() {
-            await axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
-                .then(async response => {
-                    this.displayName = response.data.displayName;
-                    this.email = response.data.email;
-                    this.gender = response.data.gender;
-                    this.birth = response.data.birth;
+    email(newval) {
+      if (newval != this.emailTemp) {
+        this.watch1 = true;
+      } else {
+        this.watch1 = false;
+      }
+    },
 
-                    this.displayNameTemp = this.displayName;
-                    this.emailTemp = this.email;
-                    this.birthTemp = this.birth;
-                    this.genderTemp = response.data.gender;
+    birth(newval) {
+      if (newval != this.birthTemp) {
+        this.watch2 = true;
+      } else {
+        this.watch2 = false;
+      }
+    },
 
-                    this.user.data.displayName = this.displayName;
-                }).catch(error => {
-                    console.log('User read: ', error);
-                })
-        },
+    gender(newval) {
+      if (newval != this.genderTemp) {
+        this.watch3 = true;
+      } else {
+        this.watch3 = false;
+      }
+    },
+  },
 
-        async showNameDialog() {
-            this.watch = false;
-
-            let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
-            var pattern_num = /[0-9]/;
-            // eslint-disable-next-line no-useless-escape
-            var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
-
-            if (pattern_num.test(this.displayName) || pattern_spc.test(this.displayName) || pattern_char.test(this.displayName)) {
-                this.rules = "이름은 한글 또는 영문만 가능합니다.";
-                this.namedialog = true;
-            } else if (this.displayName == null) {
-                this.rules = '이름은 필수 항목입니다.';
-                this.namedialog = true;
-            } else {
-                // 변경된 이름 저장
-                await this.$firebase.firestore().collection('users').doc(this.uid).update({
-                    displayName: this.displayName
-                })
-
-                this.rules = await '';
-                this.namedialog = await false;
-            }
-
-            await this.getUser();
-        },
-
-        async showEmailDialog() {
-            this.watch1 = false;
-
-            var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-            if (!check.test(this.email)) {
-                this.rules = '이메일 형식을 지켜주세요.';
-                this.emaildialog = true;
-            } else if (this.email == null) {
-                this.rules = '이메일은 필수 항목입니다.';
-                this.emaildialog = true;
-            } else {
-                // 변경된 이메일 저장
-                await this.$firebase.firestore().collection('users').doc(this.uid).update({
-                    email: this.email
-                });
-
-                this.rules = await '';
-                this.emaildialog = await false;
-            }
-            await this.getUser();
-        },
-
-        async showGenderDialog() {
-            this.watch3 = false;
-            // 변경된 성별 저장
-            await this.$firebase.firestore().collection('users').doc(this.uid).update({
-                gender: this.gender
-            });
-
-            this.genderdialog = await false;
-
-            await this.getUser();
-        },
-
-        async showBirthdialog() {
-            this.watch2 = false;
-
-            if (this.birth == null) {
-                this.rules = '생일은 필수 항목입니다.';
-                this.birthdialog = true;
-            } else if (this.birth.length > 7) {
-                this.rules = '6자로 입력해주세요.';
-                this.birthdialog = true;
-            } else {
-                // 변경된 생일 저장
-                await this.$firebase.firestore().collection('users').doc(this.uid).update({
-                    birth: this.birth
-                });
-
-                this.rules = await '';
-                this.birthdialog = await false;
-            }
-
-            await this.getUser();
-        },
-
-        nochangeDisplayName() {
-            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
-                .then(response => {
-                    this.displayName = response.data.displayName;
-                    this.namedialog = false;
-                });
-            this.rules = '';
-            this.watch = false;
-        },
-
-        nochangeEmail() {
-            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
-                .then(response => {
-                    this.email = response.data.email;
-                    this.emaildialog = false;
-                });
-            this.rules = '';
-            this.watch = false;
-        },
-
-        nochangeGender() {
-            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
-                .then(response => {
-                    this.gender = response.data.gender;
-                    this.genderdialog = false;
-                });
-            this.rules = '';
-            this.watch = false;
-        },
-
-        nochangeBirth() {
-            axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/' + this.uid)
-                .then(response => {
-                    this.birth = response.data.birth;
-                    this.birthdialog = false;
-                });
-            this.rules = '';
-            this.watch = false;
-        },
-
-        signOut() {
-            this.$firebase.auth().signOut()
-                .then(() => {
-                    this.$toasted.show("로그아웃 되었습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                });
-        },
-
-        deleteUser() {
-            if (this.inputPhoneNumber == this.deletePhoneNumber) {
-                axios.get('https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/delete/' + this.uid)
-                    .then(() => {
-                        this.$router.replace('/goodbye');
-                    });
-            } else {
-                this.$toasted.show("휴대폰 번호를 확인해주세요!", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-            }
-        }
+  updated() {
+    // 기타 사유를 선택한 경우
+    if (this.byeReason.value == 7) {
+      this.etc = true;
+      if (this.byeEtcReason.length == 0) {
+        this.errorRule = true;
+        this.disabledButton = true;
+      } else {
+        this.errorRule = false;
+        this.disabledButton = false;
+      }
+    } else if (this.byeReason.value == undefined) {
+      this.etc = false;
+      this.errorRule = false;
+    } else {
+      this.etc = false;
+      this.errorRule = false;
+      this.disabledButton = false;
     }
-}
+  },
+
+  methods: {
+    //   현재 사용자의 정보를 가져오는 API
+    async getUser() {
+      await axios
+        .get(
+          "https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/" +
+            this.uid
+        )
+        .then(async (response) => {
+          this.displayName = response.data.displayName;
+          this.email = response.data.email;
+          this.gender = response.data.gender;
+          this.birth = response.data.birth;
+
+          this.displayNameTemp = this.displayName;
+          this.emailTemp = this.email;
+          this.birthTemp = this.birth;
+          this.genderTemp = response.data.gender;
+
+          this.user.data.displayName = this.displayName;
+        })
+        .catch((error) => {
+          console.log("User read: ", error);
+        });
+    },
+
+    async showNameDialog() {
+      this.watch = false;
+
+      let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
+      var pattern_num = /[0-9]/;
+      // eslint-disable-next-line no-useless-escape
+      var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+
+      if (
+        pattern_num.test(this.displayName) ||
+        pattern_spc.test(this.displayName) ||
+        pattern_char.test(this.displayName)
+      ) {
+        this.rules = "이름은 한글 또는 영문만 가능합니다.";
+        this.namedialog = true;
+      } else if (this.displayName == null) {
+        this.rules = "이름은 필수 항목입니다.";
+        this.namedialog = true;
+      } else {
+        // 변경된 이름 저장
+        await this.$firebase
+          .firestore()
+          .collection("users")
+          .doc(this.uid)
+          .update({
+            displayName: this.displayName,
+          });
+
+        this.rules = await "";
+        this.namedialog = await false;
+      }
+
+      await this.getUser();
+    },
+
+    async showEmailDialog() {
+      this.watch1 = false;
+
+      var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+      if (!check.test(this.email)) {
+        this.rules = "이메일 형식을 지켜주세요.";
+        this.emaildialog = true;
+      } else if (this.email == null) {
+        this.rules = "이메일은 필수 항목입니다.";
+        this.emaildialog = true;
+      } else {
+        // 변경된 이메일 저장
+        await this.$firebase
+          .firestore()
+          .collection("users")
+          .doc(this.uid)
+          .update({
+            email: this.email,
+          });
+
+        this.rules = await "";
+        this.emaildialog = await false;
+      }
+      await this.getUser();
+    },
+
+    async showGenderDialog() {
+      this.watch3 = false;
+      // 변경된 성별 저장
+      await this.$firebase
+        .firestore()
+        .collection("users")
+        .doc(this.uid)
+        .update({
+          gender: this.gender,
+        });
+
+      this.genderdialog = await false;
+
+      await this.getUser();
+    },
+
+    async showBirthdialog() {
+      this.watch2 = false;
+
+      if (this.birth == null) {
+        this.rules = "생일은 필수 항목입니다.";
+        this.birthdialog = true;
+      } else if (this.birth.length > 7) {
+        this.rules = "6자로 입력해주세요.";
+        this.birthdialog = true;
+      } else {
+        // 변경된 생일 저장
+        await this.$firebase
+          .firestore()
+          .collection("users")
+          .doc(this.uid)
+          .update({
+            birth: this.birth,
+          });
+
+        this.rules = await "";
+        this.birthdialog = await false;
+      }
+
+      await this.getUser();
+    },
+
+    nochangeDisplayName() {
+      axios
+        .get(
+          "https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/" +
+            this.uid
+        )
+        .then((response) => {
+          this.displayName = response.data.displayName;
+          this.namedialog = false;
+        });
+      this.rules = "";
+      this.watch = false;
+    },
+
+    nochangeEmail() {
+      axios
+        .get(
+          "https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/" +
+            this.uid
+        )
+        .then((response) => {
+          this.email = response.data.email;
+          this.emaildialog = false;
+        });
+      this.rules = "";
+      this.watch = false;
+    },
+
+    nochangeGender() {
+      axios
+        .get(
+          "https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/" +
+            this.uid
+        )
+        .then((response) => {
+          this.gender = response.data.gender;
+          this.genderdialog = false;
+        });
+      this.rules = "";
+      this.watch = false;
+    },
+
+    nochangeBirth() {
+      axios
+        .get(
+          "https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/read/" +
+            this.uid
+        )
+        .then((response) => {
+          this.birth = response.data.birth;
+          this.birthdialog = false;
+        });
+      this.rules = "";
+      this.watch = false;
+    },
+
+    signOut() {
+      this.$firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$toasted
+            .show("로그아웃 되었습니다.", {
+              theme: "bubble",
+              position: "top-center",
+            })
+            .goAway(2000);
+        });
+    },
+
+    deleteUser() {
+      if (this.inputPhoneNumber == this.deletePhoneNumber) {
+        axios
+          .get(
+            "https://ondemand.tasio.io:400/shuttle-9d5cb/us-central1/app/api/delete/" +
+              this.uid
+          )
+          .then(() => {
+            this.$router.replace("/goodbye");
+          });
+      } else {
+        this.$toasted
+          .show("휴대폰 번호를 확인해주세요!", {
+            theme: "bubble",
+            position: "top-center",
+          })
+          .goAway(2000);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
 .userwrap {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    color: #262626;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #262626;
 }
 
 .usertitle {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    color: #555555;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #555555;
 }
 
 .signout {
-    border-radius: 2px !important;
-    height: 46px !important;
-    text-align: center;
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    color: #555555;
+  border-radius: 2px !important;
+  height: 46px !important;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #555555;
 }
 
 .signout-text {
-    padding: 47px 0 !important;
-    text-align: center;
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px !important;
-    color: #262626 !important;
-
+  padding: 47px 0 !important;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px !important;
+  color: #262626 !important;
 }
 
 .logout-btn {
-    width: 100%;
-    height: 100% !important;
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px !important;
+  width: 100%;
+  height: 100% !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px !important;
 }
 
 .bye-tasio {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    color: #BDBDBD;
-    padding-top: 10px !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  color: #bdbdbd;
+  padding-top: 10px !important;
 }
 
 .save-update {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    color: #FFFFFF;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #ffffff;
 }
 
 /* Modify Dialog */
 .modify-title {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px !important;
-    color: #333333 !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px !important;
+  color: #333333 !important;
 }
 
 /* Bye tasio */
 .bye-title {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px !important;
-    color: #262626 !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px !important;
+  color: #262626 !important;
 }
 
 .bye-content {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px !important;
-    color: #555555 !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px !important;
+  color: #555555 !important;
 }
 
 .bye-subcontent {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 23px !important;
-    color: #262626 !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 23px !important;
+  color: #262626 !important;
 }
 
 .bye-check-field {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px !important;
-    color: #BDBDBD !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px !important;
+  color: #bdbdbd !important;
 }
 
 .error-rule {
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px !important;
-    color: #EB5757 !important;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px !important;
+  color: #eb5757 !important;
 }
 
 /* radio */
 .box-radio-input {
-    display: inline-block;
-    width: 50%;
+  display: inline-block;
+  width: 50%;
 }
 
 .box-radio-input input[type="radio"] {
-    display: none;
+  display: none;
 }
 
-.box-radio-input input[type="radio"]+span {
-    display: inline-block;
-    background: none;
-    border: 1px solid #FDE8F1;
-    text-align: center;
-    width: 100%;
-    height: 56px;
-    line-height: 56px;
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    cursor: pointer;
+.box-radio-input input[type="radio"] + span {
+  display: inline-block;
+  background: none;
+  border: 1px solid #fde8f1;
+  text-align: center;
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-.box-radio-input input[type="radio"]:checked+span {
-    border: 1px solid #2E3990;
-    background: #2E3990;
-    color: #fff;
+.box-radio-input input[type="radio"]:checked + span {
+  border: 1px solid #2e3990;
+  background: #2e3990;
+  color: #fff;
 }
 </style>

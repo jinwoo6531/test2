@@ -1,4 +1,5 @@
 <template>
+<!-- 서비스 정보 페이지 -->
 <div id="service-info">
     <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout wrap class="ma-0 pt-5">
