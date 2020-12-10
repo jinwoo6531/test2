@@ -1,45 +1,46 @@
 <template>
-<v-container class="pa-0 ma-0 flex-wrap text-center" style="background-color: #FFF;" fluid grid-list-md fill-height>
-    <v-layout wrap class="pa-6 ma-0">
-        <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
-            <v-card class="jump-btn" flat @click="jump" v-if="change == 1">건너뛰기</v-card>
-            <v-card class="jump-btn" flat @click="jump" v-else></v-card>
-        </v-flex>
-
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
-            <v-card color="transparent" width="100%" flat tile>
-                <v-carousel v-model="model" :continuous="false" :cycle="cycle" :show-arrows="false" hide-delimiters>
-                    <v-carousel-item v-for="(content, i) in contents" :key="i">
-                        <v-sheet height="70%" tile>
-                            <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
-                                <img :src="require(`../assets/step${i + 1}.gif`)" />
-                            </v-row>
-                        </v-sheet>
-                        <v-sheet height="20%" tile>
-                            <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
-                                <v-card class="text-center carousel-content-title" color="transparent" flat tile v-html="content.title"></v-card>
-                            </v-row>
-                        </v-sheet>
-                        <v-sheet height="10%" tile>
-                            <v-row class="fill-height pt-10" align="end" justify="center" style="background: #FFF">
-                                <img :src="require(`../assets/walk-dot${i + 1}.svg`)" />
-                            </v-row>
-                        </v-sheet>
-                    </v-carousel-item>
-                </v-carousel>
-            </v-card>
-        </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center" style="display: none !important;">
-            <v-card class="text-center" color="transparent" flat tile style="display: none;">
-                <v-card-text style="display: none;">{{ isLargerThanTen }}</v-card-text>
-            </v-card>
-        </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0 pt-0">
-            <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click.native="model++" v-if="change == 1">다음</v-btn>
-            <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click.native="model++" v-else>시작하기</v-btn>
-        </v-flex>
-    </v-layout>
-</v-container>
+<!-- 워크스루 페이지 -->
+    <v-container class="pa-0 ma-0 flex-wrap text-center" style="background-color: #FFF;" fluid grid-list-md fill-height>
+        <v-layout wrap class="pa-6 ma-0">
+            <v-flex xs12 sm12 md12 lg12 xl2 class="d-flex justify-end">
+                <v-card class="jump-btn" flat @click="jump" v-if="change == 1">건너뛰기</v-card>
+                <v-card class="jump-btn" flat @click="jump" v-else></v-card>
+            </v-flex>
+    
+            <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">
+                <v-card color="transparent" width="100%" flat tile>
+                    <v-carousel v-model="model" :continuous="false" :cycle="cycle" :show-arrows="false" hide-delimiters>
+                        <v-carousel-item v-for="(content, i) in contents" :key="i">
+                            <v-sheet height="70%" tile>
+                                <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
+                                    <img :src="require(`../assets/step${i + 1}.gif`)" />
+                                </v-row>
+                            </v-sheet>
+                            <v-sheet height="20%" tile>
+                                <v-row class="fill-height" align="center" justify="center" style="background: #FFF">
+                                    <v-card class="text-center carousel-content-title" color="transparent" flat tile v-html="content.title"></v-card>
+                                </v-row>
+                            </v-sheet>
+                            <v-sheet height="10%" tile>
+                                <v-row class="fill-height pt-10" align="end" justify="center" style="background: #FFF">
+                                    <img :src="require(`../assets/walk-dot${i + 1}.svg`)" />
+                                </v-row>
+                            </v-sheet>
+                        </v-carousel-item>
+                    </v-carousel>
+                </v-card>
+            </v-flex>
+            <v-flex xs12 sm12 md12 class="d-flex justify-center align-center text-center" style="display: none !important;">
+                <v-card class="text-center" color="transparent" flat tile style="display: none;">
+                    <v-card-text style="display: none;">{{ isLargerThanTen }}</v-card-text>
+                </v-card>
+            </v-flex>
+            <v-flex xs12 sm12 md12 class="d-flex justify-center align-end pb-0 pt-0">
+                <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click.native="model++" v-if="change == 1">다음</v-btn>
+                <v-btn block depressed tile color="#2E3990" height="50px" class="next-btn" @click.native="model++" v-else>시작하기</v-btn>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -74,9 +75,10 @@ export default {
         // };
     },
 
-    mounted() {
+    // mounted() {
+        // Android와 통신 TEST
         // window.callJsFunction = this.callJsFunction
-    },
+    // },
 
     watch: {
         model() {
@@ -86,21 +88,19 @@ export default {
             } else {
                 this.change = 1;
             }
-            console.log(this.model, this.change);
         }
     },
 
     computed: {
-        isLargerThanTen: function () {
+        isLargerThanTen: function() {
             return this.model > 2 ? this.$router.replace('/auth/accessphone') : `${this.model}번째 페이지 입니다.`
         }
     },
 
     methods: {
         jump() {
-            this.$router.replace('/auth/accessphone')
-            window.androidinfo.showInfoFromJs("name0")
-            // this.$toasted.show(gh)
+            this.$router.replace('/auth/accessphone');
+            // window.androidinfo.showInfoFromJs("name");
         },
 
         // callJsFunction(str) {

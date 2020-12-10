@@ -1,26 +1,25 @@
 <template>
-<v-container class="pa-0 ma-0 flex-wrap text-center" fluid fill-height>
-    <v-layout wrap class="ma-0">
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center pb-0 mt-10">
-            <v-card color="transparent" flat tile>
-                <img src="../assets/goodbyeok.svg">
-            </v-card>
-        </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex justify-center align-start text-center">
-            <v-card class="text-center" color="transparent" flat tile>
-                <v-card-text class="goodbye-title">회원탈퇴가 완료 되었습니다.</v-card-text>
-                <v-card-text class="goodbye-sub">
-                    그동안 온리원 고군산 자율주행 셔틀을<br>
-                    이용해주셔서 대단히 감사합니다. <br>
-                    보다 나은 서비스로 다시 찾아 뵙겠습니다.
-                </v-card-text>
-            </v-card>
-        </v-flex>
-        <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
-            <v-btn block depressed tile color="#2E3990" height="50px" class="go-to-accessphone" @click.native="goToAccessphone">확인</v-btn>
-        </v-flex>
-    </v-layout>
-</v-container>
+    <!-- 회원 탈퇴 페이지 -->
+    <v-container class="pa-0 ma-0 flex-wrap text-center" fluid fill-height>
+        <v-layout wrap class="ma-0">
+            <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center pb-0 mt-10">
+                <v-card color="transparent" flat tile>
+                    <img src="../assets/goodbyeok.svg">
+                </v-card>
+            </v-flex>
+            <v-flex xs12 sm12 md12 class="d-flex justify-center align-start text-center">
+                <v-card class="text-center" color="transparent" flat tile>
+                    <v-card-text class="goodbye-title">회원탈퇴가 완료 되었습니다.</v-card-text>
+                    <v-card-text class="goodbye-sub">
+                        그동안 온리원 고군산 자율주행 셔틀을<br> 이용해주셔서 대단히 감사합니다. <br> 보다 나은 서비스로 다시 찾아 뵙겠습니다.
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+            <v-flex xs12 sm12 md12 class="d-flex align-end pb-0">
+                <v-btn block depressed tile color="#2E3990" height="50px" class="go-to-accessphone" @click.native="goToAccessphone">확인</v-btn>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>

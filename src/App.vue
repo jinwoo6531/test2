@@ -1,9 +1,9 @@
 <template>
-<v-app id="goGunsan" style="width: 100%; height: 100%; background: #FAFAFA;">
-    <v-content>
-        <router-view></router-view>
-    </v-content>
-</v-app>
+    <v-app id="goGunsan" style="width: 100%; height: 100%; background: #FAFAFA;">
+        <v-content>
+            <router-view></router-view>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'App',
-    
+
     computed: {
         ...mapGetters(['isLoading']),
         ...mapGetters({
@@ -24,7 +24,6 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
-
 #goGunsan {
     background: #FAFAFA !important;
     font-family: 'Noto Sans KR', sans-serif;
@@ -43,6 +42,7 @@ export default {
 }
 
 /* Navigation-drawer */
+
 .boldMenu {
     margin-top: 20px;
 }
@@ -61,7 +61,7 @@ export default {
 .v-btn:hover:before,
 .v-btn:focus:before {
     background-color: transparent;
-}   
+}
 
 .v-card:hover:before,
 .v-card:focus:before {

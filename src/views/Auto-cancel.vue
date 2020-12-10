@@ -1,4 +1,5 @@
 <template>
+<!-- 자동 취소 페이지 -->
 <v-container class="pa-0 ma-0 flex-wrap text-center" style="background-color: #FFF;" fluid grid-list-md fill-height>
     <v-layout wrap class="ma-0">
         <v-flex xs12 sm12 md12 class="d-flex justify-center align-end text-center">

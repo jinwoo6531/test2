@@ -1,187 +1,160 @@
 <template>
-  <div id="site">
-    <!-- 정류장 API 요청 후 응답이 오기 전까지 로딩 딤 -->
-    <v-container
-      fluid
-      v-if="loading == true"
-      style="
-        display: flex;
-        position: absolute;
-        margin-top: -57px;
-        background: rgba(0, 0, 0, 0.5);
-        height: 100%;
-        pointer-events: inherit !important;
-        z-index: 20;
-      "
-    >
-      <v-row align="center" justify="center">
-        <v-card color="transparent" flat>
-          <v-card-text class="text-center">
-            <v-progress-circular
-              indeterminate
-              size="50"
-              color="#2E3990"
-            ></v-progress-circular>
-          </v-card-text>
-          <v-card-text class="text-center" style="color: #fff">
-            페이지 불러오는 중...
-          </v-card-text>
-        </v-card>
-      </v-row>
-    </v-container>
-
-    <!-- 사용자의 위치를 불러올 때의 로딩 딤 -->
-    <v-container
-      fluid
-      v-if="getLocationLoading == true"
-      style="
-        display: flex;
-        position: absolute;
-        margin-top: -57px;
-        height: 100%;
-        pointer-events: inherit !important;
-        z-index: 20;
-      "
-    >
-      <v-row align="center" justify="center">
-        <v-card color="#FFF" flat>
-          <v-card-text class="text-center">
-            <v-progress-circular
-              indeterminate
-              size="50"
-              color="#2E3990"
-            ></v-progress-circular>
-          </v-card-text>
-          <v-card-text class="text-center" style="color: #2e3990">
-            위치 받아오는 중...
-          </v-card-text>
-        </v-card>
-      </v-row>
-    </v-container>
-
-    <v-container
-      fluid
-      v-if="can == true"
-      color="transparent"
-      style="
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        position: absolute;
-        height: 100%;
-        margin-top: -57px;
-        pointer-events: inherit !important;
-        z-index: 20;
-      "
-    >
-      <v-row align="center" justify="center">
-        <v-card
-          style="
-            margin-top: -57px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.7);
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-          "
-          flat
-          tile
-        >
-          <v-card-text class="text-center pa-0">
-            <img src="../../assets/warning.svg" style="padding-top: 20px" />
-            <p
-              style="
-                letter-spacing: -1px;
-                margin: 0;
-                padding-top: 6px;
-                padding-bottom: 24px;
-                font-size: 18px;
-                font-weight: 500;
-                color: #262626;
-              "
-            >
-              이 곳은 운행지역에서 너무 멀어요!
-            </p>
-            <p class="warningmsg" style="margin: 0">
-              셔틀이 출발지에 도착한 뒤 탑승이 완료되지 않으면
-            </p>
-            <p class="warningmsg" style="margin: 0">
-              <span style="color: #eb5757 !important">호출이 자동 취소</span
-              >됩니다.
-            </p>
-            <v-btn
-              color="#2E3990"
-              tile
-              depressed
-              class="pa-0 pl-3 pr-3 goReturn"
-              :ripple="false"
-              @click.native="goBackSite"
-              >운행지역 지도로 돌아가기</v-btn
-            >
-          </v-card-text>
-        </v-card>
-      </v-row>
-    </v-container>
-
-    <v-container
-      class="map-container pa-0 ma-0 flex-wrap"
-      fluid
-      justify-center
-      grid-list-md
-      fill-height
-    >
-      <v-layout row wrap class="ma-0">
-        <v-flex
-          class="pa-0"
-          xs12
-          sm12
-          md12
-          lg12
-          xl12
-          style="width: 100%; height: 100%"
-        >
-          <v-card
-            id="map-container"
-            class="pa-0 ma-0"
-            style="width: 100% height: 100%"
-            outlined
-            tile
-          ></v-card>
-        </v-flex>
-
-        <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
-          <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
-            <v-dialog
-              v-model="dialog"
-              fullscreen
-              hide-overlay
-              transition="dialog-bottom-transition"
-            >
-              <template v-slot:activator="{ on }">
-                <span style="display: inline-block; width: 70%">
-                  <v-btn
-                    class="pa-0 person-modal"
-                    color="#fff"
-                    v-on="on"
-                    :ripple="false"
-                  >
-                    <img src="../../assets/person-count.svg" />
-                    <span
-                      v-if="temp >= 1"
-                      style="padding-left: 12px"
-                      @click="selectPerson"
-                      >탑승인원 {{ temp }}명</span
-                    >
-                    <span
-                      v-else
-                      @click="beforeSelectPerson"
-                      style="
+    <div id="site">
+        <!-- 정류장 API 요청 후 응답이 오기 전까지 로딩 딤 -->
+        <v-container fluid v-if="loading == true" style="
+                display: flex;
+                position: absolute;
+                margin-top: -57px;
+                background: rgba(0, 0, 0, 0.5);
+                height: 100%;
+                pointer-events: inherit !important;
+                z-index: 20;
+              ">
+            <v-row align="center" justify="center">
+                <v-card color="transparent" flat>
+                    <v-card-text class="text-center">
+                        <v-progress-circular indeterminate size="50" color="#2E3990"></v-progress-circular>
+                    </v-card-text>
+                    <v-card-text class="text-center" style="color: #fff">
+                        페이지 불러오는 중...
+                    </v-card-text>
+                </v-card>
+            </v-row>
+        </v-container>
+    
+        <!-- 사용자의 위치를 불러올 때의 로딩 딤 -->
+        <v-container fluid v-if="getLocationLoading == true" style="
+                display: flex;
+                position: absolute;
+                margin-top: -57px;
+                height: 100%;
+                pointer-events: inherit !important;
+                z-index: 20;
+              ">
+            <v-row align="center" justify="center">
+                <v-card color="#FFF" flat>
+                    <v-card-text class="text-center">
+                        <v-progress-circular indeterminate size="50" color="#2E3990"></v-progress-circular>
+                    </v-card-text>
+                    <v-card-text class="text-center" style="color: #2e3990">
+                        위치 받아오는 중...
+                    </v-card-text>
+                </v-card>
+            </v-row>
+        </v-container>
+    
+        <v-container fluid v-if="can == true" color="transparent" style="
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                position: absolute;
+                height: 100%;
+                margin-top: -57px;
+                pointer-events: inherit !important;
+                z-index: 20;
+              ">
+            <v-row align="center" justify="center">
+                <v-card style="
+                    margin-top: -57px;
+                    width: 100%;
+                    background: rgba(255, 255, 255, 0.7);
+                    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+                  " flat tile>
+                    <v-card-text class="text-center pa-0">
+                        <img src="../../assets/warning.svg" style="padding-top: 20px" />
+                        <p style="
+                        letter-spacing: -1px;
+                        margin: 0;
+                        padding-top: 6px;
+                        padding-bottom: 24px;
+                        font-size: 18px;
+                        font-weight: 500;
                         color: #262626;
-                        padding-left: 12px;
-                        letter-spacing: 0.5px;
-                      "
-                      >탑승인원 선택</span
+                      ">
+                            이 곳은 운행지역에서 너무 멀어요!
+                        </p>
+                        <p class="warningmsg" style="margin: 0">
+                            셔틀이 출발지에 도착한 뒤 탑승이 완료되지 않으면
+                        </p>
+                        <p class="warningmsg" style="margin: 0">
+                            <span style="color: #eb5757 !important">호출이 자동 취소</span
+                      >됩니다.
+                    </p>
+                    <v-btn
+                      color="#2E3990"
+                      tile
+                      depressed
+                      class="pa-0 pl-3 pr-3 goReturn"
+                      :ripple="false"
+                      @click.native="goBackSite"
+                      >운행지역 지도로 돌아가기</v-btn
                     >
-                  </v-btn>
-                </span>
-              </template>
+                  </v-card-text>
+                </v-card>
+              </v-row>
+            </v-container>
+        
+            <v-container
+              class="map-container pa-0 ma-0 flex-wrap"
+              fluid
+              justify-center
+              grid-list-md
+              fill-height
+            >
+              <v-layout row wrap class="ma-0">
+                <v-flex
+                  class="pa-0"
+                  xs12
+                  sm12
+                  md12
+                  lg12
+                  xl12
+                  style="width: 100%; height: 100%"
+                >
+                  <v-card
+                    id="map-container"
+                    class="pa-0 ma-0"
+                    style="width: 100% height: 100%"
+                    outlined
+                    tile
+                  ></v-card>
+                </v-flex>
+        
+                <v-flex class="pa-0 selectBox" xs12 sm12 md12 lg12 xl12>
+                  <v-flex class="pa-4 pt-0" xs12 sm12 md12 lg12 xl12>
+                    <v-dialog
+                      v-model="dialog"
+                      fullscreen
+                      hide-overlay
+                      transition="dialog-bottom-transition"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <span style="display: inline-block; width: 70%">
+                          <v-btn
+                            class="pa-0 person-modal"
+                            color="#fff"
+                            v-on="on"
+                            :ripple="false"
+                          >
+                            <img src="../../assets/person-count.svg" />
+                            <span
+                              v-if="temp >= 1"
+                              style="padding-left: 12px"
+                              @click="selectPerson"
+                              >탑승인원 {{ temp }}명</span
+                            >
+                            <span
+                              v-else
+                              @click="beforeSelectPerson"
+                              style="
+                                color: #262626;
+                                padding-left: 12px;
+                                letter-spacing: 0.5px;
+                              "
+                              >탑승인원 선택</span
+                            >
+                          </v-btn>
+                        </span>
+</template>
 
               <v-card style="position: absolute; width: 100%; height: 100%">
                 <v-toolbar
@@ -584,25 +557,25 @@
 <script>
 // 사용자의 위치와 모든 정류장 사이의 거리 계산
 function calcDistance(lat1, lon1, lat2, lon2) {
-  var theta = lon1 - lon2;
-  var dist =
-    Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.cos(deg2rad(theta));
-  dist = Math.acos(dist);
-  dist = rad2deg(dist);
-  dist = dist * 60 * 1.1515;
-  dist = dist * 1.609344;
-  return Number(dist * 1000).toFixed(2);
+    var theta = lon1 - lon2;
+    var dist =
+        Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) +
+        Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.cos(deg2rad(theta));
+    dist = Math.acos(dist);
+    dist = rad2deg(dist);
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344;
+    return Number(dist * 1000).toFixed(2);
 }
 
 function deg2rad(deg) {
-  return (deg * Math.PI) / 180;
+    return (deg * Math.PI) / 180;
 }
 
 function rad2deg(rad) {
-  return (rad * 180) / Math.PI;
+    return (rad * 180) / Math.PI;
 }
 
 // 지도에서 출발지, 도착지를 선택한 경우
@@ -614,2491 +587,2138 @@ import axios from "axios";
 var control;
 
 export default {
-  data: () => ({
-    map: null,
-    OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+    data: () => ({
+        map: null,
+        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
 
-    // 사용자의 위치 (Object)
-    currentlocation: {
-      lat: "",
-      lon: "",
-    },
+        // 사용자의 위치 (Object)
+        currentlocation: {
+            lat: "",
+            lon: "",
+        },
 
-    // loading
-    loading: true,
-    getLocationLoading: false,
+        // loading
+        loading: true,
+        getLocationLoading: false,
 
-    // station
-    stationList: [],
-    waypoints3: [],
-    waypoints2: [],
-    waypoints: [],
+        // station
+        stationList: [],
+        waypoints3: [],
+        waypoints2: [],
+        waypoints: [],
 
-    // vehicle
-    vehicle: [],
-    vehicle_id: 4,
+        // vehicle
+        vehicle: [],
+        vehicle_id: 4,
 
-    // 탑승인원
-    dialog: false,
-    callBtn: false,
-    temp: 0,
-    count: 1,
-    isDisabled1: true,
-    isDisabled2: false,
+        // 탑승인원
+        dialog: false,
+        callBtn: false,
+        temp: 0,
+        count: 1,
+        isDisabled1: true,
+        isDisabled2: false,
 
-    // overlay
-    overlay1: false,
-    overlay2: false,
+        // overlay
+        overlay1: false,
+        overlay2: false,
 
-    // options
-    startTemp: "출발지 선택하기",
-    endTemp: "도착지 선택하기",
-    start: -1,
-    end: -1,
-    start_point: {
-      name: "출발지 선택하기",
-      value: -1,
-    },
-    end_point: {
-      name: "도착지 선택하기",
-      value: -1,
-    },
-    global_options: [],
-    options: [],
-    start_options: [],
-    end_options: [],
-    start_icon: {},
-    end_icon: {},
+        // options
+        startTemp: "출발지 선택하기",
+        endTemp: "도착지 선택하기",
+        start: -1,
+        end: -1,
+        start_point: {
+            name: "출발지 선택하기",
+            value: -1,
+        },
+        end_point: {
+            name: "도착지 선택하기",
+            value: -1,
+        },
+        global_options: [],
+        options: [],
+        start_options: [],
+        end_options: [],
+        start_icon: {},
+        end_icon: {},
 
-    // Location
-    can: false,
-    res: true,
-    usermarker: "",
-    success: true,
+        // Location
+        can: false,
+        res: true,
+        usermarker: "",
+        success: true,
 
-    // ETA
-    minutes: 0,
+        // ETA
+        minutes: 0,
 
-    // 호출
-    calldialog: false,
-    zoomScale: {},
+        // 호출
+        calldialog: false,
+        zoomScale: {},
 
-    ok: false,
+        ok: false,
 
-    clickmarker: false,
-    startBtn: '<button onclick="hello()"></button>',
-  }),
-
-  computed: {
-    ...mapGetters({
-      user: "user",
+        clickmarker: false,
+        startBtn: '<button onclick="hello()"></button>',
     }),
-  },
 
-  created() {
-    this.getStation();
-    this.getVehicle();
-
-    this.start = parseInt(this.start);
-    this.end = parseInt(this.end);
-  },
-
-  mounted() {
-    this.map = this.$utils.map.createMap("map-container", {
-      zoomControl: false,
-      routeWhileDragging: false,
-      attributionControl: false,
-    });
-    // Open Street Map Layer Service Load
-    this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
-
-    // Map View Center Load
-    this.map.setView([35.812484, 126.4101], 15);
-
-    // current location
-    this.map
-      .locate({
-        setView: false,
-        enableHighAccuracy: true,
-      })
-      .on("locationfound", (e) => {
-        this.currentlocation = {
-          lat: e.latitude,
-          lon: e.longitude,
-        };
-      });
-
-    this.zoomEnd();
-  },
-
-  watch: {
-    //   현재 위치가 모든 정류장에서 800km에서 벗어났을 때 서비스 불가능 모달 창
-    /* currentlocation() {
-            for (let i = 0; i < this.stationList.length; i++) {
-                if (800 > calcDistance(this.stationList[i].lat, this.stationList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
-                    this.success = true;
-                    this.can = false;
-                    break;
-                } else {
-                    this.success = false;
-                    this.can = true;
-                    continue;
-                }
-            }
-
-            return this.success;
-        }, */
-
-    temp() {
-      this.start >= 0 && this.end >= 0
-        ? (this.callBtn = true)
-        : (this.callBtn = false);
+    computed: {
+        ...mapGetters({
+            user: "user",
+        }),
     },
 
-    // 지도상에서 출발지 선택
-    start() {
-      this.getStat2Sta();
-      //   출발지, 도착지가 모두 표시된 상태의 경우만 호출 가능 버튼 활성화
-      this.temp >= 1 && this.start >= 0 && this.end >= 0
-        ? (this.callBtn = true)
-        : (this.callBtn = false);
+    created() {
+        this.getStation();
+        this.getVehicle();
+
+        this.start = parseInt(this.start);
+        this.end = parseInt(this.end);
     },
 
-    // 지도상에서 도착지 선택
-    end() {
-      this.getStat2Sta();
-      //   출발지, 도착지가 모두 표시된 상태의 경우만 호출 가능 버튼 활성화
-      this.temp >= 1 && this.start >= 0 && this.end >= 0
-        ? (this.callBtn = true)
-        : (this.callBtn = false);
-    },
-  },
-
-  methods: {
-    //   정류장 명 표시
-    zoomEnd() {
-      var marker = new Array();
-
-      this.map.on("zoomend", async (e) => {
-        this.zoomScale = await e.sourceTarget._zoom;
-
-        for (let i in this.stationList) {
-          let zoomStatus = await this.$utils.map.createDiv({
-            iconUrl: require("../../assets/station_icon.svg"),
-            iconAnchor: [-10, 10],
-            html: `<p style="font-family: Noto Sans KR; font-style: normal; white-space: nowrap; font-weight: 500; color: #E61773 !important; text-shadow: 2px 0 0 #FFF, -2px 0 0 #FFF, 0 2px 0 #FFF, 0 -2px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF;">${this.stationList[i].name}</p>`,
-            className: "dummy",
-          });
-
-          // 줌 값이 16보다 큰 경우 정류장 명 표시
-          if (this.zoomScale > 16) {
-            var LamMarker = this.$utils.map.createMaker(
-              [this.waypoints3[i].lat, this.waypoints3[i].lng],
-              {
-                icon: zoomStatus,
-              }
-            );
-            marker.push(LamMarker);
-            this.map.addLayer(marker[i]);
-          }
-
-          // 줌 값이 16보다 작은 경우 정류장 명 remove
-          if (this.zoomScale <= 16) {
-            for (let i in marker) {
-              this.map.removeLayer(marker[i]);
-            }
-          }
-        }
-      });
-    },
-
-    // 정류장 마커
-    addMarker() {
-      this.zoomStatus = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/station_icon.svg"),
-        iconSize: [12, 12],
-      });
-
-      // Station Marker와 이름을 표시해주기 위한 waypoints
-      for (let i in this.stationList) {
-        this.waypoints3.push({
-          lat: this.stationList[i].lat,
-          lng: this.stationList[i].lon,
+    mounted() {
+        this.map = this.$utils.map.createMap("map-container", {
+            zoomControl: false,
+            routeWhileDragging: false,
+            attributionControl: false,
         });
+        // Open Street Map Layer Service Load
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
 
-        var markersLayer = this.$utils.map.createMakerByXY(
-          this.map,
-          [this.waypoints3[i].lat, this.waypoints3[i].lng],
-          {
-            icon: this.zoomStatus,
-            name: this.stationList[i].name,
-            value: i,
-          }
-        );
+        // Map View Center Load
+        this.map.setView([35.812484, 126.4101], 15);
 
-        markersLayer.on("click", this.layerClickHandler);
-      }
+        // current location
+        this.map
+            .locate({
+                setView: false,
+                enableHighAccuracy: true,
+            })
+            .on("locationfound", (e) => {
+                this.currentlocation = {
+                    lat: e.latitude,
+                    lon: e.longitude,
+                };
+            });
+
+        this.zoomEnd();
     },
 
-    // 지도상에서 정류장을 터치했을 때
-    layerClickHandler(e) {
-      // console.log('global_options: ', this.global_options);
-      // console.log('options: ', this.options);
-      // console.log('start_options: ', this.start_options);
-      // console.log('end_options: ', this.end_options);
+    watch: {
+        //   현재 위치가 모든 정류장에서 800km에서 벗어났을 때 서비스 불가능 모달 창
+        /* currentlocation() {
+                for (let i = 0; i < this.stationList.length; i++) {
+                    if (800 > calcDistance(this.stationList[i].lat, this.stationList[i].lon, this.currentlocation.lat, this.currentlocation.lon)) {
+                        this.success = true;
+                        this.can = false;
+                        break;
+                    } else {
+                        this.success = false;
+                        this.can = true;
+                        continue;
+                    }
+                }
 
-      var marker = e.target;
-      var marker_lat = marker._latlng.lat;
-      var marker_lng = marker._latlng.lng;
+                return this.success;
+            }, */
 
-      // console.log('select_start: ', select_start);
-      // console.log('select_end: ', select_end);
+        temp() {
+            this.start >= 0 && this.end >= 0 ?
+                (this.callBtn = true) :
+                (this.callBtn = false);
+        },
 
-      // 출발지 아이콘 생성
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
+        // 지도상에서 출발지 선택
+        start() {
+            this.getStat2Sta();
+            //   출발지, 도착지가 모두 표시된 상태의 경우만 호출 가능 버튼 활성화
+            this.temp >= 1 && this.start >= 0 && this.end >= 0 ?
+                (this.callBtn = true) :
+                (this.callBtn = false);
+        },
 
-      // 도착지 아이콘 생성
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
+        // 지도상에서 도착지 선택
+        end() {
+            this.getStat2Sta();
+            //   출발지, 도착지가 모두 표시된 상태의 경우만 호출 가능 버튼 활성화
+            this.temp >= 1 && this.start >= 0 && this.end >= 0 ?
+                (this.callBtn = true) :
+                (this.callBtn = false);
+        },
+    },
 
-      // eslint-disable-next-line no-prototype-builtins
-      if (marker.hasOwnProperty("_popup")) {
-        marker.unbindPopup();
-      }
+    methods: {
+        //   정류장 명 표시
+        zoomEnd() {
+            var marker = new Array();
 
-      // 지도상에서 같은 정류장을 선택했을 경우
-      if (
-        select_start == marker.options.name ||
-        select_end == marker.options.name
-      ) {
-        console.log("같은 정류장은 선택이 불가능합니다.");
-      } else {
-        //   아닌 경우는 popup 창을 띄워준다.
-        var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;"></p>
+            this.map.on("zoomend", async (e) => {
+                this.zoomScale = await e.sourceTarget._zoom;
+
+                for (let i in this.stationList) {
+                    let zoomStatus = await this.$utils.map.createDiv({
+                        iconUrl: require("../../assets/station_icon.svg"),
+                        iconAnchor: [-10, 10],
+                        html: `<p style="font-family: Noto Sans KR; font-style: normal; white-space: nowrap; font-weight: 500; color: #E61773 !important; text-shadow: 2px 0 0 #FFF, -2px 0 0 #FFF, 0 2px 0 #FFF, 0 -2px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF;">${this.stationList[i].name}</p>`,
+                        className: "dummy",
+                    });
+
+                    // 줌 값이 16보다 큰 경우 정류장 명 표시
+                    if (this.zoomScale > 16) {
+                        var LamMarker = this.$utils.map.createMaker(
+                            [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                                icon: zoomStatus,
+                            }
+                        );
+                        marker.push(LamMarker);
+                        this.map.addLayer(marker[i]);
+                    }
+
+                    // 줌 값이 16보다 작은 경우 정류장 명 remove
+                    if (this.zoomScale <= 16) {
+                        for (let i in marker) {
+                            this.map.removeLayer(marker[i]);
+                        }
+                    }
+                }
+            });
+        },
+
+        // 정류장 마커
+        addMarker() {
+            this.zoomStatus = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/station_icon.svg"),
+                iconSize: [12, 12],
+            });
+
+            // Station Marker와 이름을 표시해주기 위한 waypoints
+            for (let i in this.stationList) {
+                this.waypoints3.push({
+                    lat: this.stationList[i].lat,
+                    lng: this.stationList[i].lon,
+                });
+
+                var markersLayer = this.$utils.map.createMakerByXY(
+                    this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                        icon: this.zoomStatus,
+                        name: this.stationList[i].name,
+                        value: i,
+                    }
+                );
+
+                markersLayer.on("click", this.layerClickHandler);
+            }
+        },
+
+        // 지도상에서 정류장을 터치했을 때
+        layerClickHandler(e) {
+            // console.log('global_options: ', this.global_options);
+            // console.log('options: ', this.options);
+            // console.log('start_options: ', this.start_options);
+            // console.log('end_options: ', this.end_options);
+
+            var marker = e.target;
+            var marker_lat = marker._latlng.lat;
+            var marker_lng = marker._latlng.lng;
+
+            // console.log('select_start: ', select_start);
+            // console.log('select_end: ', select_end);
+
+            // 출발지 아이콘 생성
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            // 도착지 아이콘 생성
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            // eslint-disable-next-line no-prototype-builtins
+            if (marker.hasOwnProperty("_popup")) {
+                marker.unbindPopup();
+            }
+
+            // 지도상에서 같은 정류장을 선택했을 경우
+            if (
+                select_start == marker.options.name ||
+                select_end == marker.options.name
+            ) {
+                console.log("같은 정류장은 선택이 불가능합니다.");
+            } else {
+                //   아닌 경우는 popup 창을 띄워준다.
+                var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;"></p>
                  <form>
                     <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>
                     <button id="endBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
                 </form>`;
 
-        marker.bindPopup(template);
-        marker.openPopup();
+                marker.bindPopup(template);
+                marker.openPopup();
 
-        this.$utils.map.getDomUtil("stationName").textContent =
-          marker.options.name;
+                this.$utils.map.getDomUtil("stationName").textContent =
+                    marker.options.name;
 
-        var startSubmit = this.$utils.map.getDomUtil("startBtn");
+                var startSubmit = this.$utils.map.getDomUtil("startBtn");
 
-        // 지도상에서 정류장을 출발지로 선택했을 경우
-        this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
-          select_start = marker.options.name;
-          this.map.removeLayer(this.start_icon);
-          this.start_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [marker_lat, marker_lng],
-            {
-              icon: startIcon,
+                // 지도상에서 정류장을 출발지로 선택했을 경우
+                this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
+                    select_start = marker.options.name;
+                    this.map.removeLayer(this.start_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map, [marker_lat, marker_lng], {
+                            icon: startIcon,
+                        }
+                    );
+
+                    // 중복 방지
+                    this.start = -1;
+                    this.start_point = {
+                        name: "출발지 선택하기",
+                        value: -1,
+                    };
+
+                    this.start = Number(marker.options.value);
+                    this.start_point.name = marker.options.name;
+                    this.start_point.value = marker.options.value;
+
+                    this.startName = marker.options.name;
+                    this.station_startId = this.stationList[this.start].id;
+
+                    marker.closePopup();
+
+                    // console.log('layerClickHandler options: ', this.options, 'Start name: ', this.start_point);
+
+                    //   출발지에서 선택한 값은 도착지에서 선택할 수 없다.
+                    this.end_options = this.options.filter(
+                        (opt) => opt.value != this.start_point.value
+                    );
+                    this.options = this.global_options;
+
+                    this.onCancel("start");
+
+                    if (this.waypoints.length > 0) {
+                        control.spliceWaypoints(0, 6);
+                    }
+                    this.waypoints = [];
+
+                    // 선택한 정류장에 따라 경로 표시
+                    // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
+                    if (this.start >= 0 && this.end >= 0) {
+                        if (this.start == 0) {
+                            if (this.end == 6) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                });
+                            } else if (this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2 || this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 6) {
+                            if (this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2 || this.end == 5 || this.end == 0) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 1) {
+                            if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4 || this.end == 2 || this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 3) {
+                            if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+
+                        if (this.start == 4) {
+                            if (this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                });
+                            } else if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                });
+                            } else if (
+                                this.end == 0 ||
+                                this.end == 6 ||
+                                this.end == 1 ||
+                                this.end == 3
+                            ) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 2) {
+                            if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+
+                        if (this.start == 5) {
+                            if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 4 || this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+                    }
+                    this.addRouting(this.waypoints, "#E51973", "transparent");
+                });
+
+                var endSubmit = this.$utils.map.getDomUtil("endBtn");
+
+                // 지도상에서 정류장을 도착지로 지정한 경우
+                this.$utils.map.createDomEvent.addListener(endSubmit, "click", () => {
+                    select_end = marker.options.name;
+                    this.map.removeLayer(this.end_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map, [marker_lat, marker_lng], {
+                            icon: endIcon,
+                        }
+                    );
+
+                    // 중복 방지
+                    this.end = -1;
+                    this.end_point = {
+                        name: "도착지 선택하기",
+                        value: -1,
+                    };
+
+                    this.end = Number(marker.options.value);
+                    this.end_point.name = marker.options.name;
+                    this.end_point.value = marker.options.value;
+
+                    this.endName = marker.options.name;
+                    this.station_endId = this.stationList[this.end].id;
+
+                    marker.closePopup();
+                    // console.log('layerClickHandler start_options: ', this.start_options);
+                    // console.log('layerClickHandler options: ', this.options, 'End name: ', this.end_point);
+
+                    //   도착지에서 선택한 정류장은 출발지에서 선택할 수 없다.
+                    this.start_options = this.options.filter(
+                        (opt) => opt.value != this.end_point.value
+                    );
+                    this.options = this.global_options;
+
+                    this.onCancel("end");
+
+                    if (this.waypoints.length > 0) {
+                        control.spliceWaypoints(0, 6);
+                    }
+                    this.waypoints = [];
+
+                    // 선택한 정류장에 따라 경로 표시
+                    // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
+                    if (this.start >= 0 && this.end >= 0) {
+                        if (this.start == 0) {
+                            if (this.end == 6) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                });
+                            } else if (this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2 || this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 6) {
+                            if (this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2 || this.end == 5 || this.end == 0) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 1) {
+                            if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4 || this.end == 2 || this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 3) {
+                            if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+
+                        if (this.start == 4) {
+                            if (this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                });
+                            } else if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                });
+                            } else if (
+                                this.end == 0 ||
+                                this.end == 6 ||
+                                this.end == 1 ||
+                                this.end == 3
+                            ) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 2) {
+                            if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+
+                        if (this.start == 5) {
+                            if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 4 || this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+                    }
+                    this.addRouting(this.waypoints, "#E51973", "transparent");
+                });
             }
-          );
-
-          // 중복 방지
-          this.start = -1;
-          this.start_point = {
-            name: "출발지 선택하기",
-            value: -1,
-          };
-
-          this.start = Number(marker.options.value);
-          this.start_point.name = marker.options.name;
-          this.start_point.value = marker.options.value;
-
-          this.startName = marker.options.name;
-          this.station_startId = this.stationList[this.start].id;
-
-          marker.closePopup();
-
-          // console.log('layerClickHandler options: ', this.options, 'Start name: ', this.start_point);
-
-          //   출발지에서 선택한 값은 도착지에서 선택할 수 없다.
-          this.end_options = this.options.filter(
-            (opt) => opt.value != this.start_point.value
-          );
-          this.options = this.global_options;
-
-          this.onCancel("start");
-
-          if (this.waypoints.length > 0) {
-            control.spliceWaypoints(0, 6);
-          }
-          this.waypoints = [];
-
-          // 선택한 정류장에 따라 경로 표시
-          // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
-          if (this.start >= 0 && this.end >= 0) {
-            if (this.start == 0) {
-              if (this.end == 6) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  }
-                );
-              } else if (this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  }
-                );
-              } else if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 2 || this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 6) {
-              if (this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  }
-                );
-              } else if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 2 || this.end == 5 || this.end == 0) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 1) {
-              if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  }
-                );
-              } else if (this.end == 4 || this.end == 2 || this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 0 || this.end == 6) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 3) {
-              if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 2) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 0 || this.end == 6 || this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-
-            if (this.start == 4) {
-              if (this.end == 2) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  }
-                );
-              } else if (this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  }
-                );
-              } else if (
-                this.end == 0 ||
-                this.end == 6 ||
-                this.end == 1 ||
-                this.end == 3
-              ) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 2) {
-              if (this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  }
-                );
-              } else if (this.end == 0 || this.end == 6 || this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              }
-            }
-
-            if (this.start == 5) {
-              if (this.end == 0 || this.end == 6 || this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 4 || this.end == 2) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              }
-            }
-          }
-          this.addRouting(this.waypoints, "#E51973", "transparent");
-        });
-
-        var endSubmit = this.$utils.map.getDomUtil("endBtn");
-
-        // 지도상에서 정류장을 도착지로 지정한 경우
-        this.$utils.map.createDomEvent.addListener(endSubmit, "click", () => {
-          select_end = marker.options.name;
-          this.map.removeLayer(this.end_icon);
-          this.end_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [marker_lat, marker_lng],
-            {
-              icon: endIcon,
-            }
-          );
-
-          // 중복 방지
-          this.end = -1;
-          this.end_point = {
-            name: "도착지 선택하기",
-            value: -1,
-          };
-
-          this.end = Number(marker.options.value);
-          this.end_point.name = marker.options.name;
-          this.end_point.value = marker.options.value;
-
-          this.endName = marker.options.name;
-          this.station_endId = this.stationList[this.end].id;
-
-          marker.closePopup();
-          // console.log('layerClickHandler start_options: ', this.start_options);
-          // console.log('layerClickHandler options: ', this.options, 'End name: ', this.end_point);
-
-          //   도착지에서 선택한 정류장은 출발지에서 선택할 수 없다.
-          this.start_options = this.options.filter(
-            (opt) => opt.value != this.end_point.value
-          );
-          this.options = this.global_options;
-
-          this.onCancel("end");
-
-          if (this.waypoints.length > 0) {
-            control.spliceWaypoints(0, 6);
-          }
-          this.waypoints = [];
-
-          // 선택한 정류장에 따라 경로 표시
-          // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
-          if (this.start >= 0 && this.end >= 0) {
-            if (this.start == 0) {
-              if (this.end == 6) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  }
-                );
-              } else if (this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  }
-                );
-              } else if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 2 || this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 6) {
-              if (this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  }
-                );
-              } else if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 2 || this.end == 5 || this.end == 0) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[6].lat,
-                    lng: this.stationList[6].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 1) {
-              if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  }
-                );
-              } else if (this.end == 4 || this.end == 2 || this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 0 || this.end == 6) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[1].lat,
-                    lng: this.stationList[1].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 3) {
-              if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 2) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              } else if (this.end == 0 || this.end == 6 || this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  }
-                );
-              }
-            }
-
-            if (this.start == 4) {
-              if (this.end == 2) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  }
-                );
-              } else if (this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  }
-                );
-              } else if (
-                this.end == 0 ||
-                this.end == 6 ||
-                this.end == 1 ||
-                this.end == 3
-              ) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              }
-            }
-            if (this.start == 2) {
-              if (this.end == 5) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  }
-                );
-              } else if (this.end == 0 || this.end == 6 || this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 4) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[2].lat,
-                    lng: this.stationList[2].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              }
-            }
-
-            if (this.start == 5) {
-              if (this.end == 0 || this.end == 6 || this.end == 1) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[5].lat,
-                    lng: this.stationList[5].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 3) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              } else if (this.end == 4 || this.end == 2) {
-                this.waypoints.push(
-                  {
-                    lat: this.stationList[4].lat,
-                    lng: this.stationList[4].lon,
-                  },
-                  {
-                    lat: this.stationList[3].lat,
-                    lng: this.stationList[3].lon,
-                  },
-                  {
-                    lat: this.stationList[0].lat,
-                    lng: this.stationList[0].lon,
-                  }
-                );
-              }
-            }
-          }
-          this.addRouting(this.waypoints, "#E51973", "transparent");
-        });
-      }
-    },
-
-    // 서비스 경로 그려주기
-    addRouting(waypoints, borderColor, fullColor) {
-      control = this.$utils.map.createRouting(this.map, {
-        waypoints: waypoints,
-        serviceUrl: "https://osrmserver.springgo.io/route/v1",
-        addWaypoints: false,
-        draggableWaypoints: false,
-        showAlternatives: false,
-        routeWhileDragging: false,
-        fitSelectedRoutes: false,
-        lineOptions: {
-          draggable: false,
-          styles: [
-            {
-              color: borderColor,
-              weight: 5,
-            },
-            {
-              color: fullColor,
-              weight: 2,
-            },
-          ],
         },
-        draggable: false,
-        autoRoute: true,
-        show: false,
-        createMarker: function () {
-          return null;
-        },
-      });
-    },
 
-    // 정류장 선택 전 전체 서비스 경로 그려주기
-    addRouting2(waypoints, borderColor, fullColor) {
-      this.$utils.map.createRouting(this.map, {
-        waypoints: waypoints,
-        serviceUrl: "https://osrmserver.springgo.io/route/v1",
-        addWaypoints: false,
-        draggableWaypoints: false,
-        showAlternatives: false,
-        routeWhileDragging: false,
-        fitSelectedRoutes: false,
-        lineOptions: {
-          draggable: false,
-          styles: [
-            {
-              color: borderColor,
-              weight: 6,
-            },
-            {
-              color: fullColor,
-              weight: 2,
-            },
-          ],
-        },
-        draggable: false,
-        autoRoute: true,
-        show: false,
-        createMarker: function () {
-          return null;
-        },
-      });
-    },
-
-    // 정류장 API Request & Response
-    async getStation() {
-      console.log("Request /api/stations/");
-      await axios
-        .get("/api/stations/")
-        .then(async (response) => {
-          if (response.status == 200) {
-            console.log("Response /api/stations/");
-
-            let station_result = response.data;
-            let station_count = Object.keys(station_result).length;
-            for (let i = 0; i < station_count; i++) {
-              this.stationList.push(station_result[i]);
-              //   정류장을 id 값에 따른 정렬
-              this.stationList = this.stationList.sort(function (a, b) {
-                return a.id < b.id ? -1 : 1;
-              });
-            }
-
-            // 로딩 딤 종료
-            this.loading = false;
-          }
-
-          // 서비스 중인 경로 그려주기 위한 waypoints
-          this.waypoints2.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-
-          for (var [i, arr2] of this.stationList.entries()) {
-            // filter되지 않는 options
-            this.global_options.push({
-              name: arr2.name,
-              value: i,
-            });
-
-            // start_options와 end_options filter에 이용
-            this.options.push({
-              name: arr2.name,
-              value: i,
-            });
-          }
-
-          // 출발지 리스트를 위한 배열
-          this.start_options = this.options;
-          //   도착지 리스트를 위한 배열
-          this.end_options = this.options;
-
-          await this.addMarker();
-          await this.addRouting2(this.waypoints2, "#00CFFF", "#FFFFFF");
-        })
-        .catch((error) => {
-          this.error = error;
-          console.log("station (GET) error: ", error);
-        });
-    },
-
-    // 셔틀 API Request & Response
-    getVehicle() {
-      console.log("Request /api/vehicles/");
-      axios
-        .get("/api/vehicles/")
-        .then(async (response) => {
-          console.log("Response /api/vehicles/");
-          var vehicle_arr = [];
-          var vehicle_data = response.data.sort(function (a, b) {
-            return a.id < b.id ? -1 : 1;
-          });
-          var vehicleCount = Object.keys(vehicle_data).length;
-          for (let i = 0; i < vehicleCount; i++) {
-            if (vehicle_data[i].site == 1) {
-              var vehicleIcon = this.$utils.map.createIcon({
-                iconUrl: require("../../assets/vehicle1.svg"),
-                iconSize: [32, 32],
-              });
-              if (
-                vehicle_data[i].lat != null ||
-                vehicle_data[i].lon != null ||
-                vehicle_data[i].lat != undefined ||
-                vehicle_data[i].lon != undefined
-              ) {
-                this.vehicle[i] = await this.$utils.map.createMakerByXY(
-                  this.map,
-                  [vehicle_data[i].lat, vehicle_data[i].lon],
-                  {
+        // 서비스 경로 그려주기
+        addRouting(waypoints, borderColor, fullColor) {
+            control = this.$utils.map.createRouting(this.map, {
+                waypoints: waypoints,
+                serviceUrl: "https://osrmserver.springgo.io/route/v1",
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                fitSelectedRoutes: false,
+                lineOptions: {
                     draggable: false,
-                    icon: vehicleIcon,
-                  }
-                );
-              }
-              vehicle_arr.push(vehicle_data[i].id);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      // 셔틀은 1초마다 위치를 업데이트 해주어야 한다.
-      // 비동기 처리를 위해 async-await를 사용
-      setInterval(
-        async function () {
-          axios
-            .get("/api/vehicles/")
-            .then((response) => {
-              //   console.log("Site Response setInterval vehicle");
-
-              var vehicle_data = response.data.sort(function (a, b) {
-                return a.id < b.id ? -1 : 1;
-              });
-              var vehicleCount = Object.keys(vehicle_data).length;
-
-              for (let i = 0; i < vehicleCount; i++) {
-                //   셔틀의 위치 정보가 있는 경우 위치 업데이트
-                if (
-                  vehicle_data[i].lat != null ||
-                  vehicle_data[i].lon != null ||
-                  vehicle_data[i].lat != undefined ||
-                  vehicle_data[i].lon != undefined
-                ) {
-                  this.vehicle[i].setLatLng([
-                    vehicle_data[i].lat,
-                    vehicle_data[i].lon,
-                  ]);
-                }
-              }
-            })
-            .catch((error) => {
-              console.log(error);
+                    styles: [{
+                            color: borderColor,
+                            weight: 5,
+                        },
+                        {
+                            color: fullColor,
+                            weight: 2,
+                        },
+                    ],
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function() {
+                    return null;
+                },
             });
-        }.bind(this),
-        1000
-      );
-    },
-
-    // 탑승인원
-    selectPerson() {
-      if (this.count < 2) {
-        this.isDisabled1 = true;
-      } else {
-        this.isDisabled1 = false;
-      }
-
-      if (this.count >= 6) {
-        this.isDisabled2 = true;
-      } else {
-        this.isDisabled2 = false;
-      }
-    },
-
-    async beforeSelectPerson() {
-      if (this.count == 0) {
-        this.count = 1;
-        this.isDisabled1 = true;
-        this.isDisabled2 = false;
-      }
-    },
-
-    closePersonDialog() {
-      this.dialog = false;
-      if (this.temp != 0) {
-        this.count = this.temp;
-      } else {
-        this.count = 1;
-        this.isDisabled1 = true;
-        this.isDisabled2 = false;
-      }
-    },
-
-    decrement() {
-      this.count -= 1;
-
-      if (this.count < 2) {
-        this.isDisabled1 = true;
-        this.count = 1;
-      } else {
-        this.isDisabled1 = false;
-      }
-
-      if (this.count >= 6) {
-        this.isDisabled2 = true;
-        this.count = 6;
-      } else {
-        this.isDisabled2 = false;
-      }
-    },
-
-    increment() {
-      this.count += 1;
-
-      if (this.count >= 6) {
-        this.isDisabled2 = true;
-        this.count = 6;
-      } else {
-        this.isDisabled2 = false;
-      }
-
-      if (this.count <= 1) {
-        this.isDisabled1 = true;
-        this.count = 1;
-      } else {
-        this.isDisabled1 = false;
-      }
-    },
-
-    rideCount() {
-      this.temp = this.count;
-      this.dialog = false;
-    },
-
-    // options
-    clk(item, mode) {
-      // mode == "start" ? this.start_point = item : this.end_point = item;
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      if (mode === "start") {
-        this.start_point = item;
-        select_start = this.start_point.name;
-
-        this.map.removeLayer(this.start_icon);
-        this.start_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [
-            this.stationList[this.start_point.value].lat,
-            this.stationList[this.start_point.value].lon,
-          ],
-          {
-            icon: startIcon,
-          }
-        );
-      } else {
-        this.end_point = item;
-        select_end = this.end_point.name;
-
-        this.map.removeLayer(this.end_icon);
-        this.end_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [
-            this.stationList[this.end_point.value].lat,
-            this.stationList[this.end_point.value].lon,
-          ],
-          {
-            icon: endIcon,
-          }
-        );
-      }
-    },
-
-    // 정류장 선택 취소
-    onCancel(state) {
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      if (state === "start") {
-        this.start_point.value == -1
-          ? (this.overlay1 = false)
-          : (this.start_point = this.start_options.find(
-              (i) => i.value === this.start
-            ));
-
-        this.map.removeLayer(this.start_icon);
-        if (this.start !== -1) {
-          this.start_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [
-              this.stationList[this.start].lat,
-              this.stationList[this.start].lon,
-            ],
-            {
-              icon: startIcon,
-            }
-          );
-        }
-      } else {
-        this.end_point.value == -1
-          ? (this.overlay2 = false)
-          : (this.end_point = this.end_options.find(
-              (i) => i.value === this.end
-            ));
-
-        this.map.removeLayer(this.end_icon);
-        if (this.end !== -1) {
-          this.end_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [this.stationList[this.end].lat, this.stationList[this.end].lon],
-            {
-              icon: endIcon,
-            }
-          );
-        }
-      }
-    },
-
-    // 정류장 선택 및 변경
-    onChange() {
-      // REMOVE Default Routing
-      if (this.waypoints.length > 0) {
-        control.spliceWaypoints(0, 6);
-      }
-      this.waypoints = [];
-
-      this.start = this.start_point.value; // for webSocket
-      this.startName = this.start_point.name;
-      this.end = this.end_point.value; // for webSocket
-      this.endName = this.end_point.name;
-
-      // 출발지에서 선택된 정류장은 도착지로 선택할 수 없다.
-      this.start_options = this.options.filter(
-        (opt) => opt.value != this.end_point.value
-      );
-      this.options = this.global_options; // global_options는 값을 변경하지 않는다. 오로직 해당 지역의 정류장 전체를 가지고 있는 배열
-
-      // 도착지에서 선택된 정류장은 출발지로 선택할 수 없다.
-      this.end_options = this.options.filter(
-        (opt) => opt.value != this.start_point.value
-      );
-      this.options = this.global_options; // global_options는 값을 변경하지 않는다. 오로직 해당 지역의 정류장 전체를 가지고 있는 배열
-
-      // for webSocket
-      if (this.start !== -1) {
-        this.station_startId = this.stationList[this.start].id;
-      }
-      if (this.end !== -1) {
-        this.station_endId = this.stationList[this.end].id;
-      }
-
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      // 선택한 정류장에 따른 경로 지정
-      if (this.start == 0) {
-        if (this.end == 6) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            }
-          );
-        } else if (this.end == 1) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            }
-          );
-        } else if (this.end == 3) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            }
-          );
-        } else if (this.end == 4) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        } else if (this.end == 2 || this.end == 5) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        }
-      }
-      if (this.start == 6) {
-        if (this.end == 1) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            }
-          );
-        } else if (this.end == 3) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            }
-          );
-        } else if (this.end == 4) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        } else if (this.end == 2 || this.end == 5 || this.end == 0) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[6].lat,
-              lng: this.stationList[6].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        }
-      }
-      if (this.start == 1) {
-        if (this.end == 3) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            }
-          );
-        } else if (this.end == 4 || this.end == 2 || this.end == 5) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        } else if (this.end == 0 || this.end == 6) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[1].lat,
-              lng: this.stationList[1].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        }
-      }
-      if (this.start == 3) {
-        if (this.end == 4) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        } else if (this.end == 2) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        } else if (this.end == 5) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[5].lat,
-              lng: this.stationList[5].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        } else if (this.end == 0 || this.end == 6 || this.end == 1) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            }
-          );
-        }
-      }
-
-      if (this.start == 4) {
-        if (this.end == 2) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            }
-          );
-        } else if (this.end == 5) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[5].lat,
-              lng: this.stationList[5].lon,
-            }
-          );
-        } else if (
-          this.end == 0 ||
-          this.end == 6 ||
-          this.end == 1 ||
-          this.end == 3
-        ) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        }
-      }
-      if (this.start == 2) {
-        if (this.end == 5) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[5].lat,
-              lng: this.stationList[5].lon,
-            }
-          );
-        } else if (this.end == 0 || this.end == 6 || this.end == 1) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        } else if (this.end == 3) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        } else if (this.end == 4) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[2].lat,
-              lng: this.stationList[2].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        }
-      }
-
-      if (this.start == 5) {
-        if (this.end == 0 || this.end == 6 || this.end == 1) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[5].lat,
-              lng: this.stationList[5].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        } else if (this.end == 3) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        } else if (this.end == 4 || this.end == 2) {
-          this.waypoints.push(
-            {
-              lat: this.stationList[4].lat,
-              lng: this.stationList[4].lon,
-            },
-            {
-              lat: this.stationList[3].lat,
-              lng: this.stationList[3].lon,
-            },
-            {
-              lat: this.stationList[0].lat,
-              lng: this.stationList[0].lon,
-            }
-          );
-        }
-      }
-
-      this.map.removeLayer(this.start_icon);
-      if (this.start !== -1) {
-        this.start_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [this.stationList[this.start].lat, this.stationList[this.start].lon],
-          {
-            icon: startIcon,
-          }
-        );
-      }
-      this.map.removeLayer(this.end_icon);
-      if (this.end !== -1) {
-        this.end_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [this.stationList[this.end].lat, this.stationList[this.end].lon],
-          {
-            icon: endIcon,
-          }
-        );
-      }
-      this.map.removeLayer(endIcon);
-
-      // SET New Routing
-      this.addRouting(this.waypoints, "#E51973", "transparent");
-    },
-
-    // 출발지 도착지 Swap
-    switchDestination() {
-      var change = 0;
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      if (this.start == -1 && this.end == -1) {
-        change = this.start_point;
-        this.start_point = this.end_point;
-        this.end_point = change;
-      } else {
-        change = this.start_point;
-        this.start_point = this.end_point;
-        this.end_point = change;
-
-        if (this.start !== -1 && this.end !== -1) {
-          let temp = this.start;
-          this.start = this.end;
-          this.end = temp;
-
-          this.onChange();
-        } else if (this.start === -1) {
-          let temp = this.end;
-          this.end = this.start;
-          this.start = temp;
-
-          let temp_options = this.end_options;
-          this.end_options = this.start_options;
-          this.start_options = temp_options;
-
-          this.map.removeLayer(this.end_icon);
-          this.start_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [
-              this.stationList[this.start].lat,
-              this.stationList[this.start].lon,
-            ],
-            {
-              icon: startIcon,
-            }
-          );
-        } else if (this.end === -1) {
-          let temp = this.start;
-          this.start = this.end;
-          this.end = temp;
-
-          let temp_options = this.start_options;
-          this.start_options = this.end_options;
-          this.end_options = temp_options;
-
-          this.map.removeLayer(this.start_icon);
-          this.end_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [this.stationList[this.end].lat, this.stationList[this.end].lon],
-            {
-              icon: endIcon,
-            }
-          );
-        }
-      }
-    },
-
-    // Location
-    getLocation() {
-      this.getLocationLoading = true;
-      var count = 0;
-
-      this.map
-        .locate({
-          setView: true,
-          watch: true,
-          enableHighAccuracy: true,
-        })
-        .on("locationfound", (e) => {
-          // 사용자 위치 가져오기
-          // 사용자 위치 정보를 객체 형태로 저장
-          this.currentlocation = {
-            lat: e.latitude,
-            lon: e.longitude,
-          };
-
-          if (this.compareLocatoin() == true) {
-            count = 0;
-            this.can = false; // 운행지역 모달
-            this.res = false; // stopLocation()
-
-            if (!this.usermarker) {
-              this.getLocationLoading = false;
-              e.target._locateOptions.setView = false;
-
-              let currentUser = this.$utils.map.createDiv({
-                html:
-                  "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
-                iconSize: [0, 0],
-              });
-
-              // 사용자의 현재 위치 마커 생성
-              return (this.usermarker = this.$utils.map.createMakerByXY(
-                this.map,
-                [e.latitude, e.longitude],
-                {
-                  icon: currentUser,
-                }
-              ));
-            } else {
-              return this.usermarker.setLatLng(e.latlng);
-            }
-          } else {
-            count = 0;
-            this.can = true;
-            this.getLocationLoading = false;
-            this.res = true;
-          }
-        })
-        .on("locationerror", (error) => {
-          console.log("Location error:", error);
-          this.getLocationLoading = false;
-
-          if (count == 0) {
-            this.$toasted
-              .error("사용자의 위치를 받아올 수 없습니다.", {
-                position: "top-center",
-              })
-              .goAway(1000);
-          }
-
-          count = count + 1; // 토스트 팝업 복수 방지
-
-          if (this.usermarker) {
-            this.map.removeLayer(this.usermarker);
-            return (this.usermarker = null);
-          }
-        });
-    },
-
-    // 현재 위치 가져오기 종료
-    stopLocation() {
-      this.res = true; // getLocation()
-      this.map.stopLocate();
-      this.map.setView([35.812484, 126.4101], 15);
-
-      if (this.usermarker != null || this.usermarker != undefined) {
-        this.map.removeLayer(this.usermarker);
-        this.usermarker = null;
-      }
-    },
-
-    // 사용자가 800km 이내에 있는지 확인
-    compareLocatoin() {
-      this.success = false;
-      for (let i = 0; i < this.stationList.length; i++) {
-        // 하나 정류장에라도 가까이 있으면 success true
-        if (
-          800 >
-          calcDistance(
-            this.stationList[i].lat,
-            this.stationList[i].lon,
-            this.currentlocation.lat,
-            this.currentlocation.lon
-          )
-        ) {
-          this.success = true;
-          break;
-        } else {
-          this.success = false;
-          continue;
-        }
-      }
-      return this.success;
-    },
-
-    goBackSite() {
-      this.can = false;
-      this.stopLocation();
-    },
-
-    // ETA
-    getStat2Sta() {
-      if (this.start !== -1)
-        var stat = JSON.parse(this.stationList[this.start].stat2sta);
-      if (this.start !== -1)
-        var start_station = JSON.parse(this.stationList[this.start].id);
-      if (this.end !== -1)
-        var end_station = JSON.parse(this.stationList[this.end].id);
-      this.minutes = stat[start_station][end_station];
-    },
-
-    // 셔틀 호출
-    requestCallBtn() {
-      this.$router.replace({
-        name: "CallingLayout",
-        query: {
-          start: this.start,
-          end: this.end,
-          station_startId: this.station_startId,
-          station_endId: this.station_endId,
-          startName: this.startName,
-          endName: this.endName,
-          count: this.count,
-          minutes: this.minutes,
-          vehicle_id: this.vehicle_id,
         },
-      });
-    },
 
-    cancelCallDialog() {
-      this.calldialog = false;
+        // 정류장 선택 전 전체 서비스 경로 그려주기
+        addRouting2(waypoints, borderColor, fullColor) {
+            this.$utils.map.createRouting(this.map, {
+                waypoints: waypoints,
+                serviceUrl: "https://osrmserver.springgo.io/route/v1",
+                addWaypoints: false,
+                draggableWaypoints: false,
+                showAlternatives: false,
+                routeWhileDragging: false,
+                fitSelectedRoutes: false,
+                lineOptions: {
+                    draggable: false,
+                    styles: [{
+                            color: borderColor,
+                            weight: 6,
+                        },
+                        {
+                            color: fullColor,
+                            weight: 2,
+                        },
+                    ],
+                },
+                draggable: false,
+                autoRoute: true,
+                show: false,
+                createMarker: function() {
+                    return null;
+                },
+            });
+        },
+
+        // 정류장 API Request & Response
+        async getStation() {
+            console.log("Request /api/stations/");
+            await axios
+                .get("/api/stations/")
+                .then(async (response) => {
+                    if (response.status == 200) {
+                        console.log("Response /api/stations/");
+
+                        let station_result = response.data;
+                        let station_count = Object.keys(station_result).length;
+                        for (let i = 0; i < station_count; i++) {
+                            this.stationList.push(station_result[i]);
+                            //   정류장을 id 값에 따른 정렬
+                            this.stationList = this.stationList.sort(function(a, b) {
+                                return a.id < b.id ? -1 : 1;
+                            });
+                        }
+
+                        // 로딩 딤 종료
+                        this.loading = false;
+                    }
+
+                    // 서비스 중인 경로 그려주기 위한 waypoints
+                    this.waypoints2.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+
+                    for (var [i, arr2] of this.stationList.entries()) {
+                        // filter되지 않는 options
+                        this.global_options.push({
+                            name: arr2.name,
+                            value: i,
+                        });
+
+                        // start_options와 end_options filter에 이용
+                        this.options.push({
+                            name: arr2.name,
+                            value: i,
+                        });
+                    }
+
+                    // 출발지 리스트를 위한 배열
+                    this.start_options = this.options;
+                    //   도착지 리스트를 위한 배열
+                    this.end_options = this.options;
+
+                    await this.addMarker();
+                    await this.addRouting2(this.waypoints2, "#00CFFF", "#FFFFFF");
+                })
+                .catch((error) => {
+                    this.error = error;
+                    console.log("station (GET) error: ", error);
+                });
+        },
+
+        // 셔틀 API Request & Response
+        getVehicle() {
+            console.log("Request /api/vehicles/");
+            axios
+                .get("/api/vehicles/")
+                .then(async (response) => {
+                    console.log("Response /api/vehicles/");
+                    var vehicle_arr = [];
+                    var vehicle_data = response.data.sort(function(a, b) {
+                        return a.id < b.id ? -1 : 1;
+                    });
+                    var vehicleCount = Object.keys(vehicle_data).length;
+                    for (let i = 0; i < vehicleCount; i++) {
+                        if (vehicle_data[i].site == 1) {
+                            var vehicleIcon = this.$utils.map.createIcon({
+                                iconUrl: require("../../assets/vehicle1.svg"),
+                                iconSize: [32, 32],
+                            });
+                            if (
+                                vehicle_data[i].lat != null ||
+                                vehicle_data[i].lon != null ||
+                                vehicle_data[i].lat != undefined ||
+                                vehicle_data[i].lon != undefined
+                            ) {
+                                this.vehicle[i] = await this.$utils.map.createMakerByXY(
+                                    this.map, [vehicle_data[i].lat, vehicle_data[i].lon], {
+                                        draggable: false,
+                                        icon: vehicleIcon,
+                                    }
+                                );
+                            }
+                            vehicle_arr.push(vehicle_data[i].id);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+            // 셔틀은 1초마다 위치를 업데이트 해주어야 한다.
+            // 비동기 처리를 위해 async-await를 사용
+            setInterval(
+                async function() {
+                    axios
+                        .get("/api/vehicles/")
+                        .then((response) => {
+                            //   console.log("Site Response setInterval vehicle");
+
+                            var vehicle_data = response.data.sort(function(a, b) {
+                                return a.id < b.id ? -1 : 1;
+                            });
+                            var vehicleCount = Object.keys(vehicle_data).length;
+
+                            for (let i = 0; i < vehicleCount; i++) {
+                                //   셔틀의 위치 정보가 있는 경우 위치 업데이트
+                                if (
+                                    vehicle_data[i].lat != null ||
+                                    vehicle_data[i].lon != null ||
+                                    vehicle_data[i].lat != undefined ||
+                                    vehicle_data[i].lon != undefined
+                                ) {
+                                    this.vehicle[i].setLatLng([
+                                        vehicle_data[i].lat,
+                                        vehicle_data[i].lon,
+                                    ]);
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }.bind(this),
+                1000
+            );
+        },
+
+        // 탑승인원
+        selectPerson() {
+            if (this.count < 2) {
+                this.isDisabled1 = true;
+            } else {
+                this.isDisabled1 = false;
+            }
+
+            if (this.count >= 6) {
+                this.isDisabled2 = true;
+            } else {
+                this.isDisabled2 = false;
+            }
+        },
+
+        async beforeSelectPerson() {
+            if (this.count == 0) {
+                this.count = 1;
+                this.isDisabled1 = true;
+                this.isDisabled2 = false;
+            }
+        },
+
+        closePersonDialog() {
+            this.dialog = false;
+            if (this.temp != 0) {
+                this.count = this.temp;
+            } else {
+                this.count = 1;
+                this.isDisabled1 = true;
+                this.isDisabled2 = false;
+            }
+        },
+
+        decrement() {
+            this.count -= 1;
+
+            if (this.count < 2) {
+                this.isDisabled1 = true;
+                this.count = 1;
+            } else {
+                this.isDisabled1 = false;
+            }
+
+            if (this.count >= 6) {
+                this.isDisabled2 = true;
+                this.count = 6;
+            } else {
+                this.isDisabled2 = false;
+            }
+        },
+
+        increment() {
+            this.count += 1;
+
+            if (this.count >= 6) {
+                this.isDisabled2 = true;
+                this.count = 6;
+            } else {
+                this.isDisabled2 = false;
+            }
+
+            if (this.count <= 1) {
+                this.isDisabled1 = true;
+                this.count = 1;
+            } else {
+                this.isDisabled1 = false;
+            }
+        },
+
+        rideCount() {
+            this.temp = this.count;
+            this.dialog = false;
+        },
+
+        // options
+        clk(item, mode) {
+            // mode == "start" ? this.start_point = item : this.end_point = item;
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (mode === "start") {
+                this.start_point = item;
+                select_start = this.start_point.name;
+
+                this.map.removeLayer(this.start_icon);
+                this.start_icon = this.$utils.map.createMakerByXY(
+                    this.map, [
+                        this.stationList[this.start_point.value].lat,
+                        this.stationList[this.start_point.value].lon,
+                    ], {
+                        icon: startIcon,
+                    }
+                );
+            } else {
+                this.end_point = item;
+                select_end = this.end_point.name;
+
+                this.map.removeLayer(this.end_icon);
+                this.end_icon = this.$utils.map.createMakerByXY(
+                    this.map, [
+                        this.stationList[this.end_point.value].lat,
+                        this.stationList[this.end_point.value].lon,
+                    ], {
+                        icon: endIcon,
+                    }
+                );
+            }
+        },
+
+        // 정류장 선택 취소
+        onCancel(state) {
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (state === "start") {
+                this.start_point.value == -1 ?
+                    (this.overlay1 = false) :
+                    (this.start_point = this.start_options.find(
+                        (i) => i.value === this.start
+                    ));
+
+                this.map.removeLayer(this.start_icon);
+                if (this.start !== -1) {
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map, [
+                            this.stationList[this.start].lat,
+                            this.stationList[this.start].lon,
+                        ], {
+                            icon: startIcon,
+                        }
+                    );
+                }
+            } else {
+                this.end_point.value == -1 ?
+                    (this.overlay2 = false) :
+                    (this.end_point = this.end_options.find(
+                        (i) => i.value === this.end
+                    ));
+
+                this.map.removeLayer(this.end_icon);
+                if (this.end !== -1) {
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                            icon: endIcon,
+                        }
+                    );
+                }
+            }
+        },
+
+        // 정류장 선택 및 변경
+        onChange() {
+            // REMOVE Default Routing
+            if (this.waypoints.length > 0) {
+                control.spliceWaypoints(0, 6);
+            }
+            this.waypoints = [];
+
+            this.start = this.start_point.value; // for webSocket
+            this.startName = this.start_point.name;
+            this.end = this.end_point.value; // for webSocket
+            this.endName = this.end_point.name;
+
+            // 출발지에서 선택된 정류장은 도착지로 선택할 수 없다.
+            this.start_options = this.options.filter(
+                (opt) => opt.value != this.end_point.value
+            );
+            this.options = this.global_options; // global_options는 값을 변경하지 않는다. 오로직 해당 지역의 정류장 전체를 가지고 있는 배열
+
+            // 도착지에서 선택된 정류장은 출발지로 선택할 수 없다.
+            this.end_options = this.options.filter(
+                (opt) => opt.value != this.start_point.value
+            );
+            this.options = this.global_options; // global_options는 값을 변경하지 않는다. 오로직 해당 지역의 정류장 전체를 가지고 있는 배열
+
+            // for webSocket
+            if (this.start !== -1) {
+                this.station_startId = this.stationList[this.start].id;
+            }
+            if (this.end !== -1) {
+                this.station_endId = this.stationList[this.end].id;
+            }
+
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            // 선택한 정류장에 따른 경로 지정
+            if (this.start == 0) {
+                if (this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    });
+                } else if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    });
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    });
+                } else if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                } else if (this.end == 2 || this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                }
+            }
+            if (this.start == 6) {
+                if (this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    });
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    });
+                } else if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                } else if (this.end == 2 || this.end == 5 || this.end == 0) {
+                    this.waypoints.push({
+                        lat: this.stationList[6].lat,
+                        lng: this.stationList[6].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                }
+            }
+            if (this.start == 1) {
+                if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    });
+                } else if (this.end == 4 || this.end == 2 || this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                } else if (this.end == 0 || this.end == 6) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[1].lat,
+                        lng: this.stationList[1].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                }
+            }
+            if (this.start == 3) {
+                if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                } else if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    });
+                }
+            }
+
+            if (this.start == 4) {
+                if (this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    });
+                } else if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon,
+                    });
+                } else if (
+                    this.end == 0 ||
+                    this.end == 6 ||
+                    this.end == 1 ||
+                    this.end == 3
+                ) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                }
+            }
+            if (this.start == 2) {
+                if (this.end == 5) {
+                    this.waypoints.push({
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon,
+                    });
+                } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                } else if (this.end == 4) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[2].lat,
+                        lng: this.stationList[2].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                }
+            }
+
+            if (this.start == 5) {
+                if (this.end == 0 || this.end == 6 || this.end == 1) {
+                    this.waypoints.push({
+                        lat: this.stationList[5].lat,
+                        lng: this.stationList[5].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                } else if (this.end == 3) {
+                    this.waypoints.push({
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                } else if (this.end == 4 || this.end == 2) {
+                    this.waypoints.push({
+                        lat: this.stationList[4].lat,
+                        lng: this.stationList[4].lon,
+                    }, {
+                        lat: this.stationList[3].lat,
+                        lng: this.stationList[3].lon,
+                    }, {
+                        lat: this.stationList[0].lat,
+                        lng: this.stationList[0].lon,
+                    });
+                }
+            }
+
+            this.map.removeLayer(this.start_icon);
+            if (this.start !== -1) {
+                this.start_icon = this.$utils.map.createMakerByXY(
+                    this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                        icon: startIcon,
+                    }
+                );
+            }
+            this.map.removeLayer(this.end_icon);
+            if (this.end !== -1) {
+                this.end_icon = this.$utils.map.createMakerByXY(
+                    this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                        icon: endIcon,
+                    }
+                );
+            }
+            this.map.removeLayer(endIcon);
+
+            // SET New Routing
+            this.addRouting(this.waypoints, "#E51973", "transparent");
+        },
+
+        // 출발지 도착지 Swap
+        switchDestination() {
+            var change = 0;
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (this.start == -1 && this.end == -1) {
+                change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+            } else {
+                change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+
+                if (this.start !== -1 && this.end !== -1) {
+                    let temp = this.start;
+                    this.start = this.end;
+                    this.end = temp;
+
+                    this.onChange();
+                } else if (this.start === -1) {
+                    let temp = this.end;
+                    this.end = this.start;
+                    this.start = temp;
+
+                    let temp_options = this.end_options;
+                    this.end_options = this.start_options;
+                    this.start_options = temp_options;
+
+                    this.map.removeLayer(this.end_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map, [
+                            this.stationList[this.start].lat,
+                            this.stationList[this.start].lon,
+                        ], {
+                            icon: startIcon,
+                        }
+                    );
+                } else if (this.end === -1) {
+                    let temp = this.start;
+                    this.start = this.end;
+                    this.end = temp;
+
+                    let temp_options = this.start_options;
+                    this.start_options = this.end_options;
+                    this.end_options = temp_options;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                            icon: endIcon,
+                        }
+                    );
+                }
+            }
+        },
+
+        // Location
+        getLocation() {
+            this.getLocationLoading = true;
+            var count = 0;
+
+            this.map
+                .locate({
+                    setView: true,
+                    watch: true,
+                    enableHighAccuracy: true,
+                })
+                .on("locationfound", (e) => {
+                    // 사용자 위치 가져오기
+                    // 사용자 위치 정보를 객체 형태로 저장
+                    this.currentlocation = {
+                        lat: e.latitude,
+                        lon: e.longitude,
+                    };
+
+                    if (this.compareLocatoin() == true) {
+                        count = 0;
+                        this.can = false; // 운행지역 모달
+                        this.res = false; // stopLocation()
+
+                        if (!this.usermarker) {
+                            this.getLocationLoading = false;
+                            e.target._locateOptions.setView = false;
+
+                            let currentUser = this.$utils.map.createDiv({
+                                html: "<div id='current_container'><div class='current_item'></div><div class='current_item2'></div><div class='current_circle' style='animation-delay: -3s'></div><div class='current_circle' style='animation-delay: -2s'></div><div class='current_circle' style='animation-delay: -1s'></div><div class='current_circle' style='animation-delay: 0s'></div></div>",
+                                iconSize: [0, 0],
+                            });
+
+                            // 사용자의 현재 위치 마커 생성
+                            return (this.usermarker = this.$utils.map.createMakerByXY(
+                                this.map, [e.latitude, e.longitude], {
+                                    icon: currentUser,
+                                }
+                            ));
+                        } else {
+                            return this.usermarker.setLatLng(e.latlng);
+                        }
+                    } else {
+                        count = 0;
+                        this.can = true;
+                        this.getLocationLoading = false;
+                        this.res = true;
+                    }
+                })
+                .on("locationerror", (error) => {
+                    console.log("Location error:", error);
+                    this.getLocationLoading = false;
+
+                    if (count == 0) {
+                        this.$toasted
+                            .error("사용자의 위치를 받아올 수 없습니다.", {
+                                position: "top-center",
+                            })
+                            .goAway(1000);
+                    }
+
+                    count = count + 1; // 토스트 팝업 복수 방지
+
+                    if (this.usermarker) {
+                        this.map.removeLayer(this.usermarker);
+                        return (this.usermarker = null);
+                    }
+                });
+        },
+
+        // 현재 위치 가져오기 종료
+        stopLocation() {
+            this.res = true; // getLocation()
+            this.map.stopLocate();
+            this.map.setView([35.812484, 126.4101], 15);
+
+            if (this.usermarker != null || this.usermarker != undefined) {
+                this.map.removeLayer(this.usermarker);
+                this.usermarker = null;
+            }
+        },
+
+        // 사용자가 800km 이내에 있는지 확인
+        compareLocatoin() {
+            this.success = false;
+            for (let i = 0; i < this.stationList.length; i++) {
+                // 하나 정류장에라도 가까이 있으면 success true
+                if (
+                    800 >
+                    calcDistance(
+                        this.stationList[i].lat,
+                        this.stationList[i].lon,
+                        this.currentlocation.lat,
+                        this.currentlocation.lon
+                    )
+                ) {
+                    this.success = true;
+                    break;
+                } else {
+                    this.success = false;
+                    continue;
+                }
+            }
+            return this.success;
+        },
+
+        goBackSite() {
+            this.can = false;
+            this.stopLocation();
+        },
+
+        // ETA
+        getStat2Sta() {
+            if (this.start !== -1)
+                var stat = JSON.parse(this.stationList[this.start].stat2sta);
+            if (this.start !== -1)
+                var start_station = JSON.parse(this.stationList[this.start].id);
+            if (this.end !== -1)
+                var end_station = JSON.parse(this.stationList[this.end].id);
+            this.minutes = stat[start_station][end_station];
+        },
+
+        // 셔틀 호출
+        requestCallBtn() {
+            this.$router.replace({
+                name: "CallingLayout",
+                query: {
+                    start: this.start,
+                    end: this.end,
+                    station_startId: this.station_startId,
+                    station_endId: this.station_endId,
+                    startName: this.startName,
+                    endName: this.endName,
+                    count: this.count,
+                    minutes: this.minutes,
+                    vehicle_id: this.vehicle_id,
+                },
+            });
+        },
+
+        cancelCallDialog() {
+            this.calldialog = false;
+        },
     },
-  },
 };
 </script>
 
 <style>
 .leaflet-popup-content-wrapper {
-  width: 130px;
-  height: 100px;
-  text-align: center;
+    width: 130px;
+    height: 100px;
+    text-align: center;
 }
 
 .leaflet-popup-content {
-  width: 100% !important;
-  padding: 4px 0px 10px;
-  margin: 0 !important;
+    width: 100% !important;
+    padding: 4px 0px 10px;
+    margin: 0 !important;
 }
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: #515151;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
-  color: #ffffff;
+    background: #515151;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
-  padding: 1px 5px 0 0 !important;
-  text-align: center;
-  width: 20px !important;
-  height: 20px !important;
-  font: 20px/20px Noto Sans !important;
-  color: #ffffff !important;
-  font-weight: 100 !important;
+    padding: 1px 5px 0 0 !important;
+    text-align: center;
+    width: 20px !important;
+    height: 20px !important;
+    font: 20px/20px Noto Sans !important;
+    color: #ffffff !important;
+    font-weight: 100 !important;
 }
-</style><style scoped>
+</style>
+
+<style scoped>
 .v-list .v-list-item--active {
-  background-color: #ebf3fe !important;
+    background-color: #ebf3fe !important;
 }
 
 /* 탑승 인원 */
+
 .is-disabled1 {
-  color: #bdbdbd !important;
+    color: #bdbdbd !important;
 }
 
 .is-disabled2 {
-  color: #bdbdbd !important;
+    color: #bdbdbd !important;
 }
 
 .v-dialog {
-  border-radius: 0 !important;
-  box-shadow: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 .dialog-background {
-  width: 2801px;
-  background-image: url("~@/assets/call-dialog.png");
+    width: 2801px;
+    background-image: url("~@/assets/call-dialog.png");
 }
 
 .person-modal {
-  font-family: Noto Sans KR !important;
-  font-style: normal !important;
-  font-weight: normal !important;
-  font-size: 13px !important;
-  line-height: 19px;
-  padding-left: 12px !important;
-  padding-right: 14px !important;
+    font-family: Noto Sans KR !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 13px !important;
+    line-height: 19px;
+    padding-left: 12px !important;
+    padding-right: 14px !important;
 }
 
 .select-max {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  text-align: center;
-  color: #bdbdbd;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    color: #bdbdbd;
 }
 
 .select-person-btn {
-  height: 50px !important;
+    height: 50px !important;
 }
 
 .select_station {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  color: #bdbdbd;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #bdbdbd;
 }
 
 .sel_station {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #262626;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #262626;
 }
 
 .warningmsg {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px !important;
-  color: #262626;
-  letter-spacing: -0.5px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px !important;
+    color: #262626;
+    letter-spacing: -0.5px;
 }
 
 .goReturn {
-  width: 196px;
-  height: 41px !important;
-  background: #2e3990;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px !important;
-  color: #ffffff !important;
-  border-radius: 0;
-  margin-top: 15px !important;
-  margin-bottom: 18px !important;
-  letter-spacing: 0px;
+    width: 196px;
+    height: 41px !important;
+    background: #2e3990;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px !important;
+    color: #ffffff !important;
+    border-radius: 0;
+    margin-top: 15px !important;
+    margin-bottom: 18px !important;
+    letter-spacing: 0px;
 }
 
 .paymentMethod {
-  position: relative;
-  width: 154px !important;
-  height: 65px !important;
-  border: 1.5px solid #2e3990 !important;
-  box-sizing: border-box !important;
-  background: transparent !important;
-  border-radius: 8px !important;
-
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px !important;
-  color: #2e3990 !important;
-  letter-spacing: -0.1px;
+    position: relative;
+    width: 154px !important;
+    height: 65px !important;
+    border: 1.5px solid #2e3990 !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border-radius: 8px !important;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px !important;
+    color: #2e3990 !important;
+    letter-spacing: -0.1px;
 }
 
 .v-btn:before {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 </style>

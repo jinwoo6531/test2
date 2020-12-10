@@ -1,55 +1,59 @@
- <template>
-<v-app class="static">
-    <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
-        <v-list dense>
-            <v-list-item class="pl-0">
-                <v-list-item-content class="pa-0" style="padding-bottom: 20px !important;">
-                    <v-list-item-title class="title d-flex justify-space-between">
-                        <img src="../assets/side-logo.svg">
-                        <v-btn width="14px" height="14px" icon @click.native="drawer = false">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <template v-if="user.data">
-                <v-list-item class="pa-0 pl-2">
-                    <v-list-item-content>
-                        <v-row class="ma-0" style="height: 30px;">
-                            <v-col class="pa-0" cols="10">
-                                <v-row class="ma-0">
-                                    <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                        {{ user.data.displayName }}님
-                                    </v-col>
-                                </v-row>
-                                <v-row class="ma-0">
-                                    <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
-                                        {{ getPhoneNumber }}
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                            <v-col class="pa-0" cols="2" style="width: 100%; height: 100%; line-height: 34px; text-align: center;">
-                                <router-link to="/userinfo">
-                                    <img src="../assets/setting.svg" />
-                                </router-link>
-                            </v-col>
-                        </v-row>
-                    </v-list-item-content>
-                </v-list-item>
-            </template>
-            <template v-else>
-                <v-list-item link to="/auth/accessphone" class="pa-0">
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            로그인
+<template>
+    <!-- 메인 레이아웃을 위한 파일 -->
+    <v-app class="static">
+        <!-- 사이드 바 -->
+        <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
+            <v-list dense>
+                <v-list-item class="pl-0">
+                    <v-list-item-content class="pa-0" style="padding-bottom: 20px !important;">
+                        <v-list-item-title class="title d-flex justify-space-between">
+                            <img src="../assets/side-logo.svg">
+                            <v-btn width="14px" height="14px" icon @click.native="drawer = false">
+                                <v-icon>mdi-close</v-icon>
+                            </v-btn>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-            </template>
+    
+                <template v-if="user.data">
+                    <v-list-item class="pa-0 pl-2">
+                        <v-list-item-content>
+                            <v-row class="ma-0" style="height: 30px;">
+                                <v-col class="pa-0" cols="10">
+                                    <v-row class="ma-0">
+                                        <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
+                                            {{ user.data.displayName }}님
+                                        </v-col>
+                                    </v-row>
+                                    <v-row class="ma-0">
+                                        <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
+                                            {{ getPhoneNumber }}
+                                        </v-col>
+                                    </v-row>
+                                </v-col>
+                                <v-col class="pa-0" cols="2" style="width: 100%; height: 100%; line-height: 34px; text-align: center;">
+                                    <router-link to="/userinfo">
+                                        <img src="../assets/setting.svg" />
+                                    </router-link>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
+
+                <template v-else>
+                    <v-list-item link to="/auth/accessphone" class="pa-0">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                로그인
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
+            <!-- 사이드 바 메뉴 -->
             <v-list-item class="boldMenu pa-0 mt-6" link to="/">
                 <v-list-item-content class="pa-0 pl-2">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
@@ -97,6 +101,7 @@
                         <img src="../assets/static-nav-icon.svg" style="height: 100%;  text-align: center; padding: 8px;" @click.stop="drawer = !drawer" />
                     </div>
                 </v-col>
+                <!-- 라우터 path에 따른 페이지 별 타이틀 -->
                 <v-col style="height: 100%;" cols="4">
                     <div style="height: 100%; text-align: center; line-height: 57px;">
                         <span flat v-if="this.$route.name == 'Site'" class="pa-0 static-title"><img src="../assets/main-logo.svg" style="width: 100%; height: 100%; padding-top: 5px;" /></span>
@@ -108,9 +113,7 @@
                     </div>
                 </v-col>
                 <v-col style="height: 100%;" cols="4">
-                    <div style="height: 100%; text-align: center;">
-
-                    </div>
+                    <div style="height: 100%; text-align: center;"></div>
                 </v-col>
             </v-row>
 
@@ -136,12 +139,13 @@ export default {
         drawer: null,
     }),
 
-    created() {
-        console.log('pushalarmmode: ', this.$route.query.pushalarmmode);
-        console.log('currentversion: ', this.$route.query.currentversion);
-        console.log('updateversion: ', this.$route.query.updateversion);
-        console.log('token: ', this.$route.query.token);
-    },
+    // created() {
+        // Android에서 전달해준 쿼리 값
+        // console.log('pushalarmmode: ', this.$route.query.pushalarmmode);
+        // console.log('currentversion: ', this.$route.query.currentversion);
+        // console.log('updateversion: ', this.$route.query.updateversion);
+        // console.log('token: ', this.$route.query.token);
+    // },
 
     computed: {
         ...mapGetters({
@@ -174,7 +178,6 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
 }
@@ -311,6 +314,7 @@ export default {
 }
 
 /* Current Location */
+
 #current_container {
     width: 40px;
     height: 40px;
@@ -357,7 +361,6 @@ export default {
         transform: scale(.5, .5);
         opacity: .5;
     }
-
     to {
         transform: scale(2.5, 2.5);
         opacity: 0;
