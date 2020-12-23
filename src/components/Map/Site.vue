@@ -58,21 +58,21 @@
                     <v-flex class="pa-4 pt-0" xs12 sm12 md12>
                         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                             <template v-slot:activator="{ on }">
-                                                <span style="display: inline-block; width: 70%;">
-                                                  <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
-                                                    <img src="../../assets/person-count.svg" />
-                                                    <span
-                                                      v-if="temp >= 1"
-                                                      style="padding-left: 12px;"
-                                                      @click="selectPerson"
-                                                    >탑승인원 {{ temp }}명</span>
-                                                    <span
-                                                      v-else
-                                                      @click="beforeSelectPerson"
-                                                      style="color: #262626; padding-left: 12px; letter-spacing: 0.5px;"
-                                                    >탑승인원 선택</span>
-                                                  </v-btn>
-                                                </span>
+                                                    <span style="display: inline-block; width: 70%;">
+                                                      <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
+                                                        <img src="../../assets/person-count.svg" />
+                                                        <span
+                                                          v-if="temp >= 1"
+                                                          style="padding-left: 12px;"
+                                                          @click="selectPerson"
+                                                        >탑승인원 {{ temp }}명</span>
+                                                        <span
+                                                          v-else
+                                                          @click="beforeSelectPerson"
+                                                          style="color: #262626; padding-left: 12px; letter-spacing: 0.5px;"
+                                                        >탑승인원 선택</span>
+                                                      </v-btn>
+                                                    </span>
 </template>
 
               <v-card class="persentH" style="position: absolute;">
@@ -308,13 +308,8 @@
 
           <!-- 타시오 호출 Dialog -->
           <v-flex class="pa-0 mt-1" v-if="callBtn">
-            <v-btn
-              style="height: 50px;"
-              color="#E61773"
-              class="callShuttle"
-              @click="calldialog = true"
-            >호출하기</v-btn>
-            <v-dialog v-model="calldialog" max-width="280">
+            <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="50px" @click="requestCallBtn">호출하기</v-btn>
+            <!-- <v-dialog v-model="calldialog" max-width="280">
               <v-card style="width: 280px; background-color: transparent;">
                 <v-card flat class="dialog-background" style="background-color: transparent;">
                   <v-card-text class="pa-3 text-center">
@@ -397,7 +392,7 @@
                   </v-card>
                 </v-card>
               </v-card>
-            </v-dialog>
+            </v-dialog> -->
           </v-flex>
         </v-flex>
       </v-layout>
@@ -1529,41 +1524,60 @@ export default {
         },
 
         // 타시오 호출, 결제 창 연결
-        requestCallBtn() {
-            var totalPayment = String("1000" * this.count).replace(
-                /(\d)(?=(?:\d{3})+(?!\d))/g,
-                "$1,"
-            );
+        // requestCallBtn() {
+        //     var totalPayment = String("1000" * this.count).replace(
+        //         /(\d)(?=(?:\d{3})+(?!\d))/g,
+        //         "$1,"
+        //     );
 
-            const IMP = window.IMP;
-            IMP.init("imp19092456"); // 가맹점 식별코드
-            IMP.request_pay({
-                // 결제창 호출 코드
-                pg: `mobilians.${this.meth}`, // PG사명
-                pay_method: this.pay_method, // 결제수단
-                merchant_uid: "mid_" + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
-                name: "타시오 결제", // 주문명
-                amount: totalPayment, // 결제할 금액 (필수 항목)
-                buyer_email: "", // 주문자 ID (선택 항목)
-                buyer_name: "", // 주문자명 (선택항목)
-                buyer_tel: "010-8433-9772", // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-                buyer_addr: "", // 주문자 주소 (선택 항목)
-                buyer_postcode: "", // 주문자 우편 번호 (선택 항목)
-                custom_data: {
-                    imp_uid: this.user.data.uid,
-                    count: this.count
+        //     const IMP = window.IMP;
+        //     IMP.init("imp19092456"); // 가맹점 식별코드
+        //     IMP.request_pay({
+        //         // 결제창 호출 코드
+        //         pg: `mobilians.${this.meth}`, // PG사명
+        //         pay_method: this.pay_method, // 결제수단
+        //         merchant_uid: "mid_" + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
+        //         name: "타시오 결제", // 주문명
+        //         amount: totalPayment, // 결제할 금액 (필수 항목)
+        //         buyer_email: "", // 주문자 ID (선택 항목)
+        //         buyer_name: "", // 주문자명 (선택항목)
+        //         buyer_tel: "010-8433-9772", // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+        //         buyer_addr: "", // 주문자 주소 (선택 항목)
+        //         buyer_postcode: "", // 주문자 우편 번호 (선택 항목)
+        //         custom_data: {
+        //             imp_uid: this.user.data.uid,
+        //             count: this.count
+        //         },
+        //         m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${
+        //   this.pageId
+        // }&siteName=${this.siteName}&start=${this.start}&end=${
+        //   this.end
+        // }&startName=${this.options[this.start].name}&endName=${
+        //   this.options[this.end].name
+        // }&station_startId=${this.station_startId}&station_endId=${
+        //   this.station_endId
+        // }&count=${this.count}&minutes=${this.minutes}&vehicle_id=${
+        //   this.vehicle_id
+        // }`
+        //     });
+        // },
+
+        // 타시오 호출, 결제 창 연결
+        requestCallBtn() {
+            this.$router.replace({
+                name: "CallingLayout",
+                query: {
+                    site: this.siteId,
+                    start: this.start,
+                    end: this.end,
+                    station_startId: this.station_startId,
+                    station_endId: this.station_endId,
+                    startName: this.options[this.start].name,
+                    endName: this.options[this.end].name,
+                    count: this.count,
+                    minutes: this.minutes,
+                    vehicle_id: this.vehicle_id,
                 },
-                m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${
-          this.pageId
-        }&siteName=${this.siteName}&start=${this.start}&end=${
-          this.end
-        }&startName=${this.options[this.start].name}&endName=${
-          this.options[this.end].name
-        }&station_startId=${this.station_startId}&station_endId=${
-          this.station_endId
-        }&count=${this.count}&minutes=${this.minutes}&vehicle_id=${
-          this.vehicle_id
-        }`
             });
         },
 
