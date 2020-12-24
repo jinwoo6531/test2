@@ -218,7 +218,7 @@ export default {
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("wss://websocket.springgo.io:11511");
+            this.socket = new WebSocket("wss://ws.tasio.io:11511");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
