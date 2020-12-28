@@ -167,6 +167,7 @@ export default {
       // 값은 alarmtenminutes, alarmsurveysend, alarmsurveyrecv 총 3개가 있다.
       this.pushalarmmode = this.$route.query.pushalarmmode;
       this.$store.commit("MU_PUSH_ALARM_MODE", this.pushalarmmode);
+      console.log("pushalarmmode: ", this.pushalarmmode);
     }
 
     // 현재 버전 정보 파라미터를 currentversion에 저장
@@ -174,12 +175,14 @@ export default {
       this.currentversion = this.$route.query.currentversion;
       // vuex store에 변경된 값 변이
       this.$store.commit("MU_CURRENT_VERSION", this, this.currentversion);
+      console.log("현재 버전 정보: ", this.currentversion);
     }
     // 업데이트 버전의 파라미터 값이 있을 경우 updateversion에 저장
     if (this.$route.query.updateversion !== undefined) {
       this.updateversion = this.$route.query.updateversion;
       // vuex store에 변경된 값 변이
       this.$store.commit("MU_UPDATE_VERSION", this.updateversion);
+      console.log("업데이트 버전: ", this.currentversion);
     }
 
     // 기기의 토근 값을 token에 저장
