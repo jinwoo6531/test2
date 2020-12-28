@@ -116,11 +116,10 @@ export default {
           '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
         src: require("../../assets/daegu-btn.png"),
         to: "/map/2",
-        disabled: true,
-        gradient:
-          "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
+        disabled: false,
+        gradient: undefined,
         color: "transparent",
-        hidden: false,
+        hidden: true,
       },
       {
         title:
@@ -232,7 +231,6 @@ export default {
   font-weight: 500;
   font-size: 24px;
   text-align: center;
-
   color: #262626;
 }
 

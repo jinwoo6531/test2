@@ -1,82 +1,82 @@
 <template>
-<v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
-    <v-layout row wrap class="ma-0">
-        <v-flex class="pa-0 persentH" xs12 sm12 md12>
-            <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
-        </v-flex>
-        <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
-            <v-card flat tile color="transparent">
-                <v-card-text class="pa-6 pr-3">
-                    <v-row no-gutters>
-                        <v-col cols="9">
-                            <v-card class="pa-0 text-left" tile flat>
-                                <v-card-text class="pa-0 pl-1 pb-3 desination"><span style="padding-right: 15px; font-size: 13px; color: #27AE60;">출발지</span>{{ startName }}</v-card-text>
-                                <v-card-text class="pa-0 pl-1 pb-2 desination"><span style="padding-right: 15px; font-size: 13px; color: #EB5757;">도착지</span>{{ endName }}</v-card-text>
+    <v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
+        <v-layout row wrap class="ma-0">
+            <v-flex class="pa-0 persentH" xs12 sm12 md12>
+                <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
+            </v-flex>
+            <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
+                <v-card flat tile color="transparent">
+                    <v-card-text class="pa-6 pr-3">
+                        <v-row no-gutters>
+                            <v-col cols="9">
+                                <v-card class="pa-0 text-left" tile flat>
+                                    <v-card-text class="pa-0 pl-1 pb-3 desination"><span style="padding-right: 15px; font-size: 13px; color: #27AE60;">출발지</span>{{ startName }}</v-card-text>
+                                    <v-card-text class="pa-0 pl-1 pb-2 desination"><span style="padding-right: 15px; font-size: 13px; color: #EB5757;">도착지</span>{{ endName }}</v-card-text>
+                                </v-card>
+                            </v-col>
+                            <v-col cols="3">
+                                <v-card class="pa-0 text-center" tile flat>
+                                    <v-card-text class="pa-0 pb-3 arrive-wrap">탑승인원</v-card-text>
+                                    <v-card-text class="pa-0 desination" style="font-size: 18px !important;">{{ count }}명</v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                    <v-divider class="ml-5 mr-5"></v-divider>
+                    <v-list class="pa-0" color="transparent">
+                        <v-list-item color="transparent">
+                            <v-list-item-content style="text-align: right;">
+                                <v-list-item-title class="desination-info-title">셔틀 번호</v-list-item-title>
+                                <v-list-item-subtitle class="desination-info-subtitle">{{ vehicle_name }}</v-list-item-subtitle>
+                            </v-list-item-content>
+    
+                            <v-card class="ma-4" flat tile color="transparent">
+                                <v-img src="../../assets/profile.svg"></v-img>
                             </v-card>
-                        </v-col>
-                        <v-col cols="3">
-                            <v-card class="pa-0 text-center" tile flat>
-                                <v-card-text class="pa-0 pb-3 arrive-wrap">탑승인원</v-card-text>
-                                <v-card-text class="pa-0 desination" style="font-size: 18px !important;">{{ count }}명</v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-                <v-divider class="ml-5 mr-5"></v-divider>
-                <v-list class="pa-0" color="transparent">
-                    <v-list-item color="transparent">
-                        <v-list-item-content style="text-align: right;">
-                            <v-list-item-title class="desination-info-title">셔틀 번호</v-list-item-title>
-                            <v-list-item-subtitle class="desination-info-subtitle">{{ vehicle_name }}</v-list-item-subtitle>
-                        </v-list-item-content>
-
-                        <v-card class="ma-4" flat tile color="transparent">
-                            <v-img src="../../assets/profile.svg"></v-img>
-                        </v-card>
-
-                        <v-list-item-content style="text-align: left;">
-                            <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
-                            <v-list-item-subtitle class="desination-info-subtitle">{{ owner }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list>
-
-                <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
-                <v-card-actions class="pa-0 pt-5 call-cancel-btn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
-                    <v-dialog v-model="callcanceldialog" max-width="280">
-                        <v-card style="width: 280px; background-color: transparent;">
-                            <v-card flat class="dialog-background" style="background-color: transparent;">
-                                <v-card-text class="pa-3 text-center">
-                                    <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
-                                    <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">{{ payment }}<span style="font-size: 14px !important;">원</span></v-card-text>
-                                </v-card-text>
-
-                                <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
-                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 {{ allPay }}원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
-                                </v-card-text>
-
-                                <v-card flat class="pa-0 d-flex align-self-end">
-                                    <v-container class="pa-0">
-                                        <v-row no-gutters>
-                                            <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
-                                            </v-col>
-                                            <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
+    
+                            <v-list-item-content style="text-align: left;">
+                                <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
+                                <v-list-item-subtitle class="desination-info-subtitle">{{ owner }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+    
+                    <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
+                    <v-card-actions class="pa-0 pt-5 call-cancel-btn">
+                        <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
+                        <v-dialog v-model="callcanceldialog" max-width="280">
+                            <v-card style="width: 280px; background-color: transparent;">
+                                <v-card flat class="dialog-background" style="background-color: transparent;">
+                                    <v-card-text class="pa-3 text-center">
+                                        <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
+                                        <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
+                                        <v-card-text class="pa-0 call-dialog-paymony">{{ payment }}<span style="font-size: 14px !important;">원</span></v-card-text>
+                                    </v-card-text>
+    
+                                    <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
+                                        <v-card-text class="pa-0 call-dialog-content">탑승요금 {{ allPay }}원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
+                                    </v-card-text>
+    
+                                    <v-card flat class="pa-0 d-flex align-self-end">
+                                        <v-container class="pa-0">
+                                            <v-row no-gutters>
+                                                <v-col>
+                                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
+                                                </v-col>
+                                                <v-col>
+                                                    <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </v-card>
                                 </v-card>
                             </v-card>
-                        </v-card>
-                    </v-dialog>
-                </v-card-actions>
-            </v-card>
-        </v-flex>
-    </v-layout>
-</v-container>
+                        </v-dialog>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -163,13 +163,19 @@ export default {
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
             console.log('webSocketData: ', this.webSocketData.what);
-            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
+            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived' && this.webSocketData.how.uid == this.uid) {
                 this.socket.close();
                 this.$router.replace({
                     name: 'Thanks',
                     params: {
                         site: this.site
                     }
+                });
+                // 탑승 미확인 및 취소 (cancel_call)
+            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.uid == this.uid && this.webSocketData.how.function == 'cancel_call' && this.webSocketData.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == this.site) {
+                this.socket.close();
+                this.$router.replace({
+                    name: 'AutoCancel'
                 });
             }
         };
@@ -233,7 +239,7 @@ export default {
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.site) {
                                 this.stationList.push(station_result[i]);
-                                this.stationList = this.stationList.sort(function (a, b) {
+                                this.stationList = this.stationList.sort(function(a, b) {
                                     return a.id < b.id ? -1 : 1;
                                 });
                             }
@@ -264,7 +270,7 @@ export default {
                     console.log(error)
                 })
 
-            setInterval(async function () {
+            setInterval(async function() {
                 axios.get('/api/stations/')
                     .then(response => {
                         if (response.status == 200) {
@@ -273,7 +279,7 @@ export default {
                             for (let i = 0; i < station_count; i++) {
                                 if (station_result[i].site == this.site) {
                                     this.stationList.push(station_result[i]);
-                                    this.stationList = this.stationList.sort(function (a, b) {
+                                    this.stationList = this.stationList.sort(function(a, b) {
                                         return a.id < b.id ? -1 : 1;
                                     });
                                 }
@@ -757,7 +763,7 @@ export default {
                 draggable: false,
                 autoRoute: true,
                 show: false,
-                createMarker: function () {
+                createMarker: function() {
                     return null;
                 }
             })
@@ -768,7 +774,7 @@ export default {
         getVehicle() { // 배차된 셔틀만 보여주면 된다.
             axios.get('/api/vehicles/')
                 .then(async response => {
-                    var vehicle_data = response.data.sort(function (a, b) {
+                    var vehicle_data = response.data.sort(function(a, b) {
                         return a.id < b.id ? -1 : 1
                     });
                     var vehicleIcon = this.$utils.map.createIcon({
@@ -795,7 +801,7 @@ export default {
                 }).catch(error => {
                     console.log('Vehicle Error: ', error);
                 })
-            setInterval(async function () { // 실시간 셔틀 위치 업데이트
+            setInterval(async function() { // 실시간 셔틀 위치 업데이트
                 axios.get('/api/vehicles/')
                     .then(() => {
                         if (this.vehicle_site == this.site) {
@@ -828,40 +834,42 @@ export default {
             this.cancleMessage();
             this.disconnect();
 
-            if (this.isrefund == '0') {
-                axios({
-                    url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
-                    method: "post",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
-                        merchant_uid: this.latest_mid, // 주문번호 *
-                        reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 500 * parseInt(this.count)
-                    }
-                }).then((response) => {
-                    console.log(response)
-                    this.$toasted.show(`호출이 취소되었습니다.`, {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    this.$router.replace('/')
-                }).catch(error => {
-                    console.log('환불 실패', error)
-                    this.$toasted.show(`환불을 실패하였습니다.`, {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    this.$router.replace('/')
-                })
-            } else {
-                this.$toasted.show(`결제하신 내역이 없습니다.`, {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-                this.$router.replace('/')
-            }
+            this.$router.replace('/');
+
+            // if (this.isrefund == '0') {
+            //     axios({
+            //         url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
+            //         method: "post",
+            //         headers: {
+            //             'content-type': 'application/x-www-form-urlencoded'
+            //         },
+            //         data: {
+            //             merchant_uid: this.latest_mid, // 주문번호 *
+            //             reason: "타시오 호출 취소", // 환불 사유 *,
+            //             cancel_request_amount: 500 * parseInt(this.count)
+            //         }
+            //     }).then((response) => {
+            //         console.log(response)
+            //         this.$toasted.show(`호출이 취소되었습니다.`, {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+            //         this.$router.replace('/')
+            //     }).catch(error => {
+            //         console.log('환불 실패', error)
+            //         this.$toasted.show(`환불을 실패하였습니다.`, {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+            //         this.$router.replace('/')
+            //     })
+            // } else {
+            //     this.$toasted.show(`결제하신 내역이 없습니다.`, {
+            //         theme: "bubble",
+            //         position: "top-center"
+            //     }).goAway(2000);
+            //     this.$router.replace('/')
+            // }
 
         },
 

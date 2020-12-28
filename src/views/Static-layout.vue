@@ -1,52 +1,53 @@
 <template>
-<v-app class="static">
-    <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
-        <v-list dense>
-            <v-list-item class="pl-0">
-                <v-list-item-content>
-                    <v-list-item-title class="title">
-                        <img src="../assets/side-logo.svg">
-                    </v-list-item-title>
-                    <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #E61773; margin-top: 10px;">
-                        스프링클라우드 자율주행 셔틀
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-
-            <template v-if="user.data">
-                <v-list-item class="pa-0">
+    <v-app class="static">
+        <v-navigation-drawer temporary class="pa-5" style="width: 275px !important; z-index: 999;" v-model="drawer" app>
+            <v-list dense>
+                <v-list-item class="pl-0">
                     <v-list-item-content>
-                        <v-row class="ma-0" style="height: 30px;">
-                            <v-col class="pa-0" cols="10">
-                                <v-row class="ma-0">
-                                    <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
-                                        {{ user.data.displayName }}님
-                                    </v-col>
-                                </v-row>
-                                <v-row class="ma-0">
-                                    <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
-                                        {{ getPhoneNumber }}
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                            <v-col class="pa-0 persentH" cols="2" style="line-height: 34px; text-align: center;">
-                                <router-link to="/userinfo">
-                                    <img src="../assets/setting.svg" />
-                                </router-link>
-                            </v-col>
-                        </v-row>
-                    </v-list-item-content>
-                </v-list-item>
-            </template>
-            <template v-else>
-                <v-list-item link to="/auth/accessphone" class="pa-0">
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            로그인
+                        <v-list-item-title class="title">
+                            <img src="../assets/side-logo.svg">
                         </v-list-item-title>
+                        <v-list-item-subtitle style="font-style: normal; font-weight: bold; font-size: 12px; color: #E61773; margin-top: 10px;">
+                            스프링클라우드 자율주행 셔틀
+                        </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
-            </template>
+    
+                <template v-if="user.data">
+                    <v-list-item class="pa-0">
+                        <v-list-item-content>
+                            <v-row class="ma-0" style="height: 30px;">
+                                <v-col class="pa-0" cols="10">
+                                    <v-row class="ma-0">
+                                        <v-col class="pa-0" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
+                                            {{ user.data.displayName }}님
+                                        </v-col>
+                                    </v-row>
+                                    <v-row class="ma-0">
+                                        <v-col class="pa-0 pt-1" cols="12" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;">
+                                            {{ getPhoneNumber }}
+                                        </v-col>
+                                    </v-row>
+                                </v-col>
+                                <v-col class="pa-0 persentH" cols="2" style="line-height: 34px; text-align: center;">
+                                    <router-link to="/userinfo">
+                                        <img src="../assets/setting.svg" />
+                                    </router-link>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-content>
+                    </v-list-item>
+</template>
+
+<template v-else>
+    <v-list-item link to="/auth/accessphone" class="pa-0">
+        <v-list-item-content>
+            <v-list-item-title>
+                로그인
+            </v-list-item-title>
+        </v-list-item-content>
+    </v-list-item>
+</template>
 
             <v-divider class="mt-3 mb-4"></v-divider>
 
@@ -69,19 +70,19 @@
                         </v-list-item>
                     </v-list-item-title>
 
-                    <v-list-item link to="/map/1" class="ma-0">
+                    <v-list-item link :to="{ name: 'Site', params: { siteId: 1 }}" class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
                                 고군산 관광벨트
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item class="ma-0">
+                    <v-list-item link :to="{ name: 'Site', params: { siteId: 2 }}" class="ma-0">
                         <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
+                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
+                                <!-- <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;"> -->
                                     대구 수성알파시티
-                                </v-badge>
+                                <!-- </v-badge> -->
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
@@ -178,7 +179,7 @@
             <v-divider v-if="this.$route.fullPath == '/serviceinfo'"></v-divider>
         </v-card>
 
-        <router-view style="margin-top: 57px;"></router-view>
+        <router-view style="margin-top: 57px;" :key="$route.fullPath"></router-view>
     </v-content>
 </v-app>
 </template>
@@ -217,7 +218,6 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
-
 .v-badge__badge {
     border-radius: 7px !important;
 }
@@ -239,7 +239,7 @@ export default {
 }
 
 .v-ripple__container {
-    display:none !important;
+    display: none !important;
 }
 
 .theme--light.v-list-item:hover::before {

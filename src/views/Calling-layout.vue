@@ -1,47 +1,47 @@
 <template>
-<v-app style="position: relative;">
-    <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
-        <div class="circle"></div>
-        <div class="start-info">
-            <span class="info-title">출발지</span>
-            <br>
-            <span>{{ startName }}</span>
-        </div>
-        <div class="end-info">
-            <span class="info-title">도착지</span>
-            <br>
-            <span>{{ endName }}</span>
-        </div>
-        <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
-            호출 취소하기
-        </v-card>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card color="transparent" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                    {{ message }}
-                </v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card color="transparent" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters class="start-end-table">
-            <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2" color="transparent" flat>
-                    <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
-                    <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
-</v-app>
+    <v-app style="position: relative;">
+        <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
+            <div class="circle"></div>
+            <div class="start-info">
+                <span class="info-title">출발지</span>
+                <br>
+                <span>{{ startName }}</span>
+            </div>
+            <div class="end-info">
+                <span class="info-title">도착지</span>
+                <br>
+                <span>{{ endName }}</span>
+            </div>
+            <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
+                호출 취소하기
+            </v-card>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card color="transparent" flat></v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card class="pa-2 text-center call-msg" color="transparent" flat>
+                        {{ message }}
+                    </v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card color="transparent" flat></v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters class="start-end-table">
+                <v-col xs="12" sm="12" md="12">
+                    <v-card class="pa-2" color="transparent" flat>
+                        <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
+                        <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
@@ -152,71 +152,73 @@ export default {
             // WebSocket Cancel
             this.cancleMessage();
             this.disconnect(); // Web socket disconnect
-            
+
+            this.$router.replace(`/map/${this.site}`);
+
             // 전액 환불
-            if (this.isrefund == '0') {
-                axios({
-                    url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
-                    method: "post",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
-                        merchant_uid: this.latest_mid, // 주문번호 *
-                        reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 1000 * parseInt(this.count)
-                    }
-                }).then(() => {
-                    this.$toasted.show("호출이 취소되었습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
+            // if (this.isrefund == '0') {
+            //     axios({
+            //         url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
+            //         method: "post",
+            //         headers: {
+            //             'content-type': 'application/x-www-form-urlencoded'
+            //         },
+            //         data: {
+            //             merchant_uid: this.latest_mid, // 주문번호 *
+            //             reason: "타시오 호출 취소", // 환불 사유 *,
+            //             cancel_request_amount: 1000 * parseInt(this.count)
+            //         }
+            //     }).then(() => {
+            //         this.$toasted.show("호출이 취소되었습니다.", {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
 
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                }).catch(error => {
-                    console.log('환불 실패', error)
-                    this.$toasted.show("환불을 실패하였습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                })
-            } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
+            //         if (this.site == 1) {
+            //             this.$router.replace('/map/gunsan');
+            //         } else if (this.site == 2) {
+            //             this.$router.replace('/map/daegu');
+            //         } else if (this.site == 3) {
+            //             this.$router.replace('/map/sejong');
+            //         } else if (this.site == 4) {
+            //             this.$router.replace('/map/sangam');
+            //         }
+            //     }).catch(error => {
+            //         console.log('환불 실패', error)
+            //         this.$toasted.show("환불을 실패하였습니다.", {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+            //         if (this.site == 1) {
+            //             this.$router.replace('/map/gunsan');
+            //         } else if (this.site == 2) {
+            //             this.$router.replace('/map/daegu');
+            //         } else if (this.site == 3) {
+            //             this.$router.replace('/map/sejong');
+            //         } else if (this.site == 4) {
+            //             this.$router.replace('/map/sangam');
+            //         }
+            //     })
+            // } else {
+            //     this.$toasted.show("결제하신 내역이 없습니다.", {
+            //         theme: "bubble",
+            //         position: "top-center"
+            //     }).goAway(2000);
 
-                if (this.site == 1) {
-                    this.$router.replace('/map/gunsan');
-                } else if (this.site == 2) {
-                    this.$router.replace('/map/daegu');
-                } else if (this.site == 3) {
-                    this.$router.replace('/map/sejong');
-                } else if (this.site == 4) {
-                    this.$router.replace('/map/sangam');
-                }
-            }
+            //     if (this.site == 1) {
+            //         this.$router.replace('/map/gunsan');
+            //     } else if (this.site == 2) {
+            //         this.$router.replace('/map/daegu');
+            //     } else if (this.site == 3) {
+            //         this.$router.replace('/map/sejong');
+            //     } else if (this.site == 4) {
+            //         this.$router.replace('/map/sangam');
+            //     }
+            // }
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket = new WebSocket("wss://ws.tasio.io:11511");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
@@ -288,7 +290,7 @@ export default {
             };
 
             this.socket.send(JSON.stringify(this.webSocketData2));
-        },  
+        },
 
         // Web socket 연결 해제
         disconnect() {
@@ -308,7 +310,6 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
-
 .gradient {
     width: 100%;
     height: 100%;
@@ -398,6 +399,7 @@ export default {
 }
 
 /* Circle */
+
 .circle {
     width: 200px;
     height: 200px;
@@ -438,12 +440,10 @@ export default {
     0% {
         -webkit-transform: scale(1);
     }
-
     75% {
         -webkit-transform: scale(1.75);
         opacity: 1;
     }
-
     100% {
         -webkit-transform: scale(2);
         opacity: 0;
@@ -454,12 +454,10 @@ export default {
     0% {
         transform: scale(0.5);
     }
-
     75% {
         transform: scale(1.75);
         opacity: 1;
     }
-
     100% {
         transform: scale(2);
         opacity: 0;
