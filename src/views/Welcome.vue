@@ -63,6 +63,13 @@ export default {
     }),
   },
 
+  mounted() {
+    console.log("pushalarmmode: ", this.$route.query.pushalarmmode);
+    console.log("현재 버전 정보: ", this.$route.query.currentversion);
+    console.log("업데이트 버전: ", this.$route.query.updateversion);
+    console.log("Token: ", this.$route.query.token);
+  },
+
   methods: {
     startTasio() {
       this.$router.replace({
