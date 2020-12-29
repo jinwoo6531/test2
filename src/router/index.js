@@ -21,7 +21,6 @@ Vue.use(VueRouter)
 const requireAuth = () => (to, from, next) => {
   // Android에서 전달해준 파라미터 값을 vuex store에 저장
   if(to.query.pushalarmmode !== undefined || to.query.pushalarmmode !== null) store.state.pushAlarmMode = to.query.pushalarmmode;
-  if(to.query.receiptnumber !== undefined || to.query.receiptnumber !== null) store.state.receiptNumber = to.query.receiptnumber;
   if(to.query.currentversion !== undefined || to.query.currentversion !== null) store.state.currentVersion = to.query.currentversion;
   if(to.query.updateversion !== undefined || to.query.updateversion !== null) store.state.updateVersion = to.query.updateversion;
   if(to.query.token !== undefined || to.query.token !== null) store.state.token = to.query.token;
