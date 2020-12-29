@@ -5,8 +5,9 @@
             <v-flex class="pa-0 pl-6 pr-6" xs12 sm12 md12 style="width: 100%;">
                 <v-card flat tile color="transparent">
                     <v-card-text class="pa-0 service-title">애플리케이션 버전</v-card-text>
-                    <v-card-text class="pa-0 pb-1 service-content">v 0.3.00</v-card-text>
-                    <v-card-text class="pa-0 pb-8 service-content">현재 최신 버전을 사용하고 있습니다.</v-card-text>
+                    <!-- <v-card-text class="pa-0 pb-1 service-content">v 0.3.00</v-card-text> -->
+                    <v-card-text class="pa-0 pb-1 service-content">v {{ currentVersion }}</v-card-text>
+                    <!-- <v-card-text class="pa-0 pb-8 service-content">현재 최신 버전을 사용하고 있습니다.</v-card-text> -->
                 </v-card>
             </v-flex>
             <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%;">
@@ -76,7 +77,24 @@
 </template>
 
 <script>
+import {
+    mapGetters
+} from 'vuex';
+
 export default {
+    computed: {
+        ...mapGetters({
+            pushAlarmMode: 'GE_PUSH_ALARM_MODE',
+            currentVersion: 'GE_CURRENT_VERSION',
+            updateVersion: 'GE_UPDATE_VERSION'
+        }),
+    },
+
+    created() {
+        console.log('pushAlarmMode Cal: ', this.pushAlarmMode);
+        console.log('currentVersion Cal: ', this.currentVersion);
+        console.log('updateVersion Cal: ', this.updateVersion);
+    },
 
 }
 </script>
