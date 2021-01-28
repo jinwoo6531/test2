@@ -58,253 +58,253 @@
                     <v-flex class="pa-4 pt-0" xs12 sm12 md12>
                         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                             <template v-slot:activator="{ on }">
-                                                    <span style="display: inline-block; width: 70%;">
-                                                      <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
-                                                        <img src="../../assets/person-count.svg" />
-                                                        <span
-                                                          v-if="temp >= 1"
-                                                          style="padding-left: 12px;"
-                                                          @click="selectPerson"
-                                                        >탑승인원 {{ temp }}명</span>
-                                                        <span
-                                                          v-else
-                                                          @click="beforeSelectPerson"
-                                                          style="color: #262626; padding-left: 12px; letter-spacing: 0.5px;"
-                                                        >탑승인원 선택</span>
-                                                      </v-btn>
-                                                    </span>
-</template>
+                                <span style="display: inline-block; width: 70%;">
+                                    <v-btn class="pa-0 person-modal" color="#fff" v-on="on" :ripple="false">
+                                    <img src="../../assets/person-count.svg" />
+                                    <span
+                                        v-if="temp >= 1"
+                                        style="padding-left: 12px;"
+                                        @click="selectPerson"
+                                    >탑승인원 {{ temp }}명</span>
+                                    <span
+                                        v-else
+                                        @click="beforeSelectPerson"
+                                        style="color: #262626; padding-left: 12px; letter-spacing: 0.5px;"
+                                    >탑승인원 선택</span>
+                                    </v-btn>
+                                </span>
+                            </template>
 
-              <v-card class="persentH" style="position: absolute;">
-                <v-toolbar
-                  color="transparent"
-                  style="position: fixed; width: 100%; top: 0; z-index: 3;"
-                  flat
-                >
-                  <v-btn icon @click="closePersonDialog">
-                    <v-icon color="#262626">mdi-close</v-icon>
-                  </v-btn>
-                </v-toolbar>
+                            <v-card class="persentH" style="position: absolute;">
+                                <v-toolbar
+                                color="transparent"
+                                style="position: fixed; width: 100%; top: 0; z-index: 3;"
+                                flat
+                                >
+                                <v-btn icon @click="closePersonDialog">
+                                    <v-icon color="#262626">mdi-close</v-icon>
+                                </v-btn>
+                                </v-toolbar>
 
-                <v-container
-                  class="pa-0 ma-0 flex-wrap"
-                  fluid
-                  fill-height
-                  style="position: absolute; background: transparent;"
-                >
-                  <v-row align="center" justify="center" class="ma-0">
-                    <v-card-text class="select-person-title">탑승인원 선택</v-card-text>
-                    <v-card class="d-flex justify-space-around" flat>
-                      <v-card :ripple="false" flat tile>
-                        <v-btn
-                          :class="{ 'is-disabled1': isDisabled1 }"
-                          :ripple="false"
-                          @click="decrement"
-                          outlined
-                          color="#E61773"
-                          fab
+                                <v-container
+                                class="pa-0 ma-0 flex-wrap"
+                                fluid
+                                fill-height
+                                style="position: absolute; background: transparent;"
+                                >
+                                <v-row align="center" justify="center" class="ma-0">
+                                    <v-card-text class="select-person-title">탑승인원 선택</v-card-text>
+                                    <v-card class="d-flex justify-space-around" flat>
+                                    <v-card :ripple="false" flat tile>
+                                        <v-btn
+                                        :class="{ 'is-disabled1': isDisabled1 }"
+                                        :ripple="false"
+                                        @click="decrement"
+                                        outlined
+                                        color="#E61773"
+                                        fab
+                                        >
+                                        <v-icon dark>mdi-minus</v-icon>
+                                        </v-btn>
+                                    </v-card>
+                                    <v-card flat tile>
+                                        <v-card-text class="count">{{ count }}</v-card-text>
+                                    </v-card>
+                                    <v-card flat tile :ripple="false">
+                                        <v-btn
+                                        :class="{ 'is-disabled2': isDisabled2 }"
+                                        :ripple="false"
+                                        @click="increment"
+                                        outlined
+                                        color="#E61773"
+                                        fab
+                                        >
+                                        <v-icon dark>mdi-plus</v-icon>
+                                        </v-btn>
+                                    </v-card>
+                                    </v-card>
+                                    <v-card-text class="select-max mt-9">탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text>
+                                </v-row>
+                                </v-container>
+
+                                <v-btn class="select-person-btn" @click="rideCount" depressed tile>선택완료</v-btn>
+                            </v-card>
+                        </v-dialog>
+
+                        <span v-if="callBtn" style="display: inline-block; width: 70%;">
+                        <v-flex class="mb-3 spendTime-wrap">
+                            <p class="ma-0" style="color: #FFF; height: 30px;">
+                            <span style="display: inline-block; height: 100%;">
+                                <img
+                                style="vertical-align: middle;"
+                                class="pl-3 pr-3"
+                                src="../../assets/time-icon.svg"
+                                />
+                                <span class="spendTime">
+                                소요시간:
+                                <span
+                                    style="font-weight: 500; font-size: 18px; padding-right: 12px;"
+                                >약 {{ minutes }}분</span>
+                                </span>
+                            </span>
+                            </p>
+                        </v-flex>
+                        </span>
+
+                        <!-- 현재 위치 확인 버튼 -->
+                        <v-card
+                        :ripple="false"
+                        color="transparent"
+                        flat
+                        style="display: inline-block; float: right;"
                         >
-                          <v-icon dark>mdi-minus</v-icon>
-                        </v-btn>
-                      </v-card>
-                      <v-card flat tile>
-                        <v-card-text class="count">{{ count }}</v-card-text>
-                      </v-card>
-                      <v-card flat tile :ripple="false">
-                        <v-btn
-                          :class="{ 'is-disabled2': isDisabled2 }"
-                          :ripple="false"
-                          @click="increment"
-                          outlined
-                          color="#E61773"
-                          fab
+                        <v-card
+                            :ripple="false"
+                            color="transparent"
+                            flat
+                            @click="res ? getLocation() : stopLocation()"
                         >
-                          <v-icon dark>mdi-plus</v-icon>
-                        </v-btn>
-                      </v-card>
-                    </v-card>
-                    <v-card-text class="select-max mt-9">탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text>
-                  </v-row>
-                </v-container>
+                            <v-btn
+                            :ripple="false"
+                            fab
+                            small
+                            color="#FFF"
+                            style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;"
+                            >
+                            <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
+                            </v-btn>
+                        </v-card>
+                        </v-card>
 
-                <v-btn class="select-person-btn" @click="rideCount" depressed tile>선택완료</v-btn>
-              </v-card>
-            </v-dialog>
+                        <!-- 출발지 선택 모달 -->
+                        <v-overlay :z-index="zIndex" :value="overlay1">
+                        <v-card color="#FFF" class="stationModal-card-size">
+                            <v-card-text class="pa-0 stationModal-card-title">
+                            <span class="select-modal-btn">출발지</span>
+                            </v-card-text>
+                            <v-divider class="divider-style"></v-divider>
+                            <v-card class="pa-0 stationModal-card-content" color="#FFF" tile flat>
+                            <v-list light tile style="padding: 8px 0 22px 0;">
+                                <v-list-item-group color="#E61773">
+                                <v-list-item
+                                    class="pa-0"
+                                    v-for="item in start_options"
+                                    @click="clk(item,'start')"
+                                    :key="item.value"
+                                >
+                                    <v-list-item-content>
+                                    <v-list-item-title v-text="item.name" style="color: #333;"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                </v-list-item-group>
+                            </v-list>
+                            </v-card>
+                            <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
+                            <v-btn
+                                class="pa-0 ma-0 onCancelBtn"
+                                tile
+                                depressed
+                                color="#FFF"
+                                @click="overlay1 = false; onCancel('start');"
+                            >취소</v-btn>
+                            <v-btn
+                                class="pa-0 ma-0 onChangeBtn"
+                                tile
+                                depressed
+                                color="#E61773"
+                                @click="overlay1 = false; onChange();"
+                            >선택하기</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-overlay>
 
-            <span v-if="callBtn" style="display: inline-block; width: 70%;">
-              <v-flex class="mb-3 spendTime-wrap">
-                <p class="ma-0" style="color: #FFF; height: 30px;">
-                  <span style="display: inline-block; height: 100%;">
-                    <img
-                      style="vertical-align: middle;"
-                      class="pl-3 pr-3"
-                      src="../../assets/time-icon.svg"
-                    />
-                    <span class="spendTime">
-                      소요시간:
-                      <span
-                        style="font-weight: 500; font-size: 18px; padding-right: 12px;"
-                      >약 {{ minutes }}분</span>
-                    </span>
-                  </span>
-                </p>
-              </v-flex>
-            </span>
+                        <!-- 도착지 선택 모달 -->
+                        <v-overlay :z-index="zIndex" :value="overlay2">
+                        <v-card class="stationModal-card-wrap" color="#FFF">
+                            <v-card-text class="pa-0 stationModal-card-title">
+                            <span class="select-modal-btn">도착지</span>
+                            </v-card-text>
+                            <v-divider class="divider-style"></v-divider>
+                            <v-card class="pa-0 stationModal-card-content" color="#FFF" tile flat>
+                            <v-list light tile style="padding: 8px 0 22px 0;">
+                                <v-list-item-group color="#E61773">
+                                <v-list-item
+                                    class="pa-0"
+                                    v-for="item2 in end_options"
+                                    @click="clk(item2, 'end')"
+                                    :key="item2.value"
+                                >
+                                    <v-list-item-content>
+                                    <v-list-item-title v-text="item2.name" style="color: #333;"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                </v-list-item-group>
+                            </v-list>
+                            </v-card>
+                            <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
+                            <v-btn
+                                class="pa-0 ma-0 onCancelBtn"
+                                tile
+                                depressed
+                                color="#FFF"
+                                @click="overlay2 = false; onCancel('end');"
+                            >취소</v-btn>
+                            <v-btn
+                                class="pa-0 ma-0 onChangeBtn"
+                                tile
+                                depressed
+                                color="#E61773"
+                                @click="overlay2=false; onChange();"
+                            >선택하기</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                        </v-overlay>
 
-            <!-- 현재 위치 확인 버튼 -->
-            <v-card
-              :ripple="false"
-              color="transparent"
-              flat
-              style="display: inline-block; float: right;"
-            >
-              <v-card
-                :ripple="false"
-                color="transparent"
-                flat
-                @click="res ? getLocation() : stopLocation()"
-              >
-                <v-btn
-                  :ripple="false"
-                  fab
-                  small
-                  color="#FFF"
-                  style="0px 0px 4px rgba(0, 0, 0, 0.25); !important;"
-                >
-                  <v-icon color="#666666">mdi-crosshairs-gps</v-icon>
-                </v-btn>
-              </v-card>
-            </v-card>
-
-            <!-- 출발지 선택 모달 -->
-            <v-overlay :z-index="zIndex" :value="overlay1">
-              <v-card color="#FFF" class="stationModal-card-size">
-                <v-card-text class="pa-0 stationModal-card-title">
-                  <span class="select-modal-btn">출발지</span>
-                </v-card-text>
-                <v-divider class="divider-style"></v-divider>
-                <v-card class="pa-0 stationModal-card-content" color="#FFF" tile flat>
-                  <v-list light tile style="padding: 8px 0 22px 0;">
-                    <v-list-item-group color="#E61773">
-                      <v-list-item
-                        class="pa-0"
-                        v-for="item in start_options"
-                        @click="clk(item,'start')"
-                        :key="item.value"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title v-text="item.name" style="color: #333;"></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                </v-card>
-                <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                  <v-btn
-                    class="pa-0 ma-0 onCancelBtn"
-                    tile
-                    depressed
-                    color="#FFF"
-                    @click="overlay1 = false; onCancel('start');"
-                  >취소</v-btn>
-                  <v-btn
-                    class="pa-0 ma-0 onChangeBtn"
-                    tile
-                    depressed
-                    color="#E61773"
-                    @click="overlay1 = false; onChange();"
-                  >선택하기</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-overlay>
-
-            <!-- 도착지 선택 모달 -->
-            <v-overlay :z-index="zIndex" :value="overlay2">
-              <v-card class="stationModal-card-wrap" color="#FFF">
-                <v-card-text class="pa-0 stationModal-card-title">
-                  <span class="select-modal-btn">도착지</span>
-                </v-card-text>
-                <v-divider class="divider-style"></v-divider>
-                <v-card class="pa-0 stationModal-card-content" color="#FFF" tile flat>
-                  <v-list light tile style="padding: 8px 0 22px 0;">
-                    <v-list-item-group color="#E61773">
-                      <v-list-item
-                        class="pa-0"
-                        v-for="item2 in end_options"
-                        @click="clk(item2, 'end')"
-                        :key="item2.value"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title v-text="item2.name" style="color: #333;"></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                </v-card>
-                <v-card-actions class="pa-0" style="width: 100%; height: 50px;">
-                  <v-btn
-                    class="pa-0 ma-0 onCancelBtn"
-                    tile
-                    depressed
-                    color="#FFF"
-                    @click="overlay2 = false; onCancel('end');"
-                  >취소</v-btn>
-                  <v-btn
-                    class="pa-0 ma-0 onChangeBtn"
-                    tile
-                    depressed
-                    color="#E61773"
-                    @click="overlay2=false; onChange();"
-                  >선택하기</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-overlay>
-
-            <!-- 출발지, 도착지 표시 필드 -->
-            <v-flex class="selectStationWrap" xs12 sm12 md12>
-              <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
-                <v-flex class="pa-0" xs2 sm2 md2>
-                  <img src="../../assets/arrow-icon.svg" />
-                </v-flex>
-                <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
-                  <div class="d-flex flex-column">
-                    <v-card
-                      style="text-align: left;"
-                      class="pl-2"
-                      :ripple="false"
-                      color="transparent"
-                      @click="overlay1 = !overlay1"
-                      flat
-                    >
-                      <span
-                        v-if="start < 0 || start_point.name==startTemp"
-                        class="select_station"
-                      >{{ startTemp }}</span>
-                      <span v-else class="sel_station">{{ start_point.name }}</span>
-                    </v-card>
-                    <span class="divide-bar mt-2 mb-2"></span>
-                    <v-card
-                      style="text-align: left;"
-                      class="pl-2"
-                      :ripple="false"
-                      color="transparent"
-                      @click="overlay2 = !overlay2"
-                      flat
-                    >
-                      <span
-                        v-if="end < 0 || end_point.name==endTemp"
-                        class="select_station"
-                      >{{ endTemp }}</span>
-                      <span v-else class="sel_station">{{ end_point.name }}</span>
-                    </v-card>
-                  </div>
-                </v-flex>
-                <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
-                  <img src="../../assets/switch-icon.svg" />
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-flex>
+                        <!-- 출발지, 도착지 표시 필드 -->
+                        <v-flex class="selectStationWrap" xs12 sm12 md12>
+                        <v-layout class="d-flex align-center ma-0" fill-height xs12 sm12>
+                            <v-flex class="pa-0" xs2 sm2 md2>
+                            <img src="../../assets/arrow-icon.svg" />
+                            </v-flex>
+                            <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
+                            <div class="d-flex flex-column">
+                                <v-card
+                                style="text-align: left;"
+                                class="pl-2"
+                                :ripple="false"
+                                color="transparent"
+                                @click="overlay1 = !overlay1"
+                                flat
+                                >
+                                <span
+                                    v-if="start < 0 || start_point.name==startTemp"
+                                    class="select_station"
+                                >{{ startTemp }}</span>
+                                <span v-else class="sel_station">{{ start_point.name }}</span>
+                                </v-card>
+                                <span class="divide-bar mt-2 mb-2"></span>
+                                <v-card
+                                style="text-align: left;"
+                                class="pl-2"
+                                :ripple="false"
+                                color="transparent"
+                                @click="overlay2 = !overlay2"
+                                flat
+                                >
+                                <span
+                                    v-if="end < 0 || end_point.name==endTemp"
+                                    class="select_station"
+                                >{{ endTemp }}</span>
+                                <span v-else class="sel_station">{{ end_point.name }}</span>
+                                </v-card>
+                            </div>
+                            </v-flex>
+                            <v-flex class="pa-0" xs2 sm2 md2 @click="switchDestination">
+                            <img src="../../assets/switch-icon.svg" />
+                            </v-flex>
+                        </v-layout>
+                        </v-flex>
+                    </v-flex>
 
           <!-- 타시오 호출 Dialog -->
           <v-flex class="pa-0 mt-1" v-if="callBtn">
@@ -394,10 +394,10 @@
               </v-card>
             </v-dialog> -->
           </v-flex>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </div>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </div>
 </template>
 
 <script>
