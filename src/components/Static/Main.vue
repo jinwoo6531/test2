@@ -123,19 +123,18 @@ export default {
       },
       {
         title:
-          '<span style="width: 100%; text-align: center;">세종<br>호수공원</span>',
-        src: require("../../assets/sejong1-btn.png"),
+          '<span style="width: 100%; text-align: center;">세종<br>산학연클러스터4-2</span>',
+        src: require("../../assets/sejong2-btn.png"),
         to: "/map/3",
-        disabled: true,
-        gradient:
-          "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
-        color: "#F2F2F2",
-        hidden: false,
+        disabled: false,
+        gradient: undefined,
+        color: "#transparent",
+        hidden: true,
       },
       {
         title:
-          '<span style="width: 100%; text-align: center;">세종<br>산학연클러스터4-2</span>',
-        src: require("../../assets/sejong2-btn.png"),
+          '<span style="width: 100%; text-align: center;">세종<br>호수공원</span>',
+        src: require("../../assets/sejong1-btn.png"),
         to: "/map/3",
         disabled: true,
         gradient:

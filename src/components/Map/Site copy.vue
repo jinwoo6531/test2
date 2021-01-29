@@ -533,8 +533,8 @@ export default {
         } else if (this.siteId == 2) {
             this.map.setView([35.836673, 128.68652], 15);
             this.siteName = "daegu";
-        } else if (this.siteId == 3) {
-            this.map.setView([36.599351, 127.270606], 15);
+        } else if (this.siteId == 18) {
+            this.map.setView([36.502015, 127.328675], 15);
             this.siteName = "sejong";
         } else if (this.siteId == 4) {
             this.map.setView([37.5792, 126.8917], 15);
@@ -754,15 +754,15 @@ export default {
                             lat: 35.836308,
                             lng: 128.681547
                         });
-                    } else if (this.siteId == 3) { // 세종 호수공원
-                        this.waypoints2.push({
-                            lat: 36.499351,
-                            lng: 127.270606
-                        }, {
-                            lat: 36.50169,
-                            lng: 127.272315
-                        });
-                    } else if (this.siteId == 4) { // 세종 산학연클러스터4-2
+                    // } else if (this.siteId == 3) { // 세종 호수공원
+                    //     this.waypoints2.push({
+                    //         lat: 36.499351,
+                    //         lng: 127.270606
+                    //     }, {
+                    //         lat: 36.50169,
+                    //         lng: 127.272315
+                    //     });
+                    } else if (this.siteId == 18) { // 세종 산학연클러스터4-2
                         this.waypoints2.push({
                             lat: 37.579333,
                             lng: 126.889036
@@ -1472,8 +1472,8 @@ export default {
                 this.map.setView([35.812484, 126.4101], 15);
             } else if (this.siteId == 2) {
                 this.map.setView([35.836673, 128.68652], 15);
-            } else if (this.siteId == 3) {
-                this.map.setView([36.599351, 127.270606], 15);
+            } else if (this.siteId == 18) {
+                this.map.setView([36.502015, 127.328678], 15);
             } else if (this.siteId == 4) {
                 this.map.setView([37.5792, 126.8917], 15);
             }

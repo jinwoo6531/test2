@@ -745,18 +745,18 @@ export default {
             lng: 128.681547,
           }
         );
-      } else if (this.siteId == 3) {
-        // 세종 호수공원
-        this.waypoints3.push(
-          {
-            lat: 36.499351,
-            lng: 127.270606,
-          },
-          {
-            lat: 36.50169,
-            lng: 127.272315,
-          }
-        );
+      // } else if (this.siteId == 3) {
+      //   // 세종 호수공원
+      //   this.waypoints3.push(
+      //     {
+      //       lat: 36.499351,
+      //       lng: 127.270606,
+      //     },
+      //     {
+      //       lat: 36.50169,
+      //       lng: 127.272315,
+      //     }
+      //   );
         //정류장
       } else if (this.siteId == 18) {
         //세종 산학연클러스터 4-2
