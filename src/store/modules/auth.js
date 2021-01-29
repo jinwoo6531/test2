@@ -15,6 +15,10 @@ const state = {
 
   timer: 180,
   uid: '',
+  pushAlarmMode: null,
+  currentVersion: null,
+  updateVersion: null,
+  token: null,
   isLoading: false
 }
 
@@ -27,6 +31,18 @@ const getters = {
   },
   timer(state) {
     return state.timer
+  },
+  GE_PUSH_ALARM_MODE(state) {
+    return state.pushAlarmMode;
+  },
+  GE_CURRENT_VERSION(state) {
+    return state.currentVersion;
+  },
+  GE_UPDATE_VERSION(state) {
+    return state.updateVersion;
+  },
+  GE_ACCESS_TOKEN(state) {
+    return state.token;
   },
   isLoading(state) {
     return state.isLoading
@@ -45,6 +61,29 @@ const mutations = {
   },
   SET_TIMER(state, payload) {
     state.timer = payload
+  },
+  MU_PUSH_ALARM_MODE(state, payload) {
+    state.pushAlarmMode = payload;
+    localStorage.pushAlarmMode = payload;
+    console.log('MU_PUSH_ALARM_MODE: ', payload);
+  },
+  MU_CURRENT_VERSION(state, payload) {
+    state.currentVersion = payload;
+    localStorage.currentVersion = payload;
+    console.log('MU_CURRENT_VERSION: ', payload);
+  },
+  MU_UPDATE_VERSION(state, payload) {
+    state.updateVersion = payload;
+    localStorage.updateVersion = payload;
+    console.log('MU_UPDATE_VERSION: ', payload);
+  },
+  MU_ACCESS_TOKEN(state, payload) {
+    state.token = payload;
+    localStorage.token = payload;
+    console.log('MU_ACCESS_TOKEN: ', payload);
+  },
+  MU_DELETE_TOKEN(state) {
+    state.token = null;
   },
   loading(state, isLoading) {
     if (isLoading) {
@@ -88,7 +127,7 @@ const actions = {
     commit('loading', true)
     window.confirmationResult.confirm(otp)
       .then(result => {
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
+        axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
           .then(response => {
             Vue.toasted.show("인증이 완료되었습니다.", {
               theme: "bubble",
@@ -96,7 +135,15 @@ const actions = {
             }).goAway(2000);
             // alert('인증이 완료되었습니다.')
             if (response.data.level == 1) {
-              router.replace('/')
+              router.replace({
+                name: "Main",
+                query: {
+                  pushalarmmode: state.pushAlarmMode,
+                  currentversion: state.currentVersion,
+                  updateversion: state.updateVersion,
+                  token: state.token
+                }
+              });
             } else {
               router.replace('/auth/agreecheck')
             }
@@ -119,7 +166,7 @@ const actions = {
     commit("SET_LOGGED_IN", user !== null)
     if (user) {
       this.state.uid = user.uid;
-      axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + user.uid)
+      axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + user.uid)
         .then(async response => {
           await commit("SET_USER", {
             uid: user.uid,
@@ -170,6 +217,22 @@ const actions = {
       })
     }, 1000)
   }
+
+  // AC_PUSH_ALARM_MODE({ commit }, payload) {
+  //   commit('MU_PUSH_ALARM_MODE', payload)
+  // },
+  
+  // AC_CURRENT_VERSION({ commit }, payload) {
+  //   commit('MU_CURRENT_VERSION', payload)
+  // },
+  
+  // AC_UPDATE_VERSION({ commit }, payload) {
+  //   commit('MU_UPDATE_VERSION', payload)
+  // },
+  
+  // AC_ACCESS_TOKEN({ commit }, payload) {
+  //   commit('MU_ACCESS_TOKEN', payload)
+  // }
 }
 
 export default {

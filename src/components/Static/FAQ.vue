@@ -2,7 +2,7 @@
 <div id="faq">
     <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
+            <v-flex class="pa-0 persentH" xs12 sm12 md12>
 
                 <v-card flat xs12 sm12 md12 lg12 xl12>
                     <v-card-text class="pa-4 faq-title">자주 묻는 질문</v-card-text>

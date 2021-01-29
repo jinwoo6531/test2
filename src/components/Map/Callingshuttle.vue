@@ -1,83 +1,82 @@
 <template>
-<v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
-    <v-layout row wrap class="ma-0">
-        <v-flex class="pa-0" xs12 sm12 md12 style="width: 100%; height: 100%;">
-            <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
-        </v-flex>
-        <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
-            <v-card flat tile color="transparent">
-                <v-card-text class="pa-6 pr-3">
-                    <v-row no-gutters>
-                        <v-col cols="9">
-                            <v-card class="pa-0 text-left" tile flat>
-                                <v-card-text class="pa-0 pl-1 pb-3 desination"><span style="padding-right: 15px; font-size: 13px; color: #27AE60;">출발지</span>{{ startName }}</v-card-text>
-                                <v-card-text class="pa-0 pl-1 pb-2 desination"><span style="padding-right: 15px; font-size: 13px; color: #EB5757;">도착지</span>{{ endName }}</v-card-text>
+    <v-container class="map-container pa-0 ma-0 flex-wrap" fluid grid-list-md fill-height>
+        <v-layout row wrap class="ma-0">
+            <v-flex class="pa-0 persentH" xs12 sm12 md12>
+                <v-card id="map-container" class="pa-0 ma-0" style="width: 100% height: 100%" outlined tile></v-card>
+            </v-flex>
+            <v-flex class="d-flex flex-column justify-start text-center pa-0 call-infomation color: #FFF" xs12 sm12 md12 v-if="ready">
+                <v-card flat tile color="transparent">
+                    <v-card-text class="pa-6 pr-3">
+                        <v-row no-gutters>
+                            <v-col cols="9">
+                                <v-card class="pa-0 text-left" tile flat>
+                                    <v-card-text class="pa-0 pl-1 pb-3 desination"><span style="padding-right: 15px; font-size: 13px; color: #27AE60;">출발지</span>{{ startName }}</v-card-text>
+                                    <v-card-text class="pa-0 pl-1 pb-2 desination"><span style="padding-right: 15px; font-size: 13px; color: #EB5757;">도착지</span>{{ endName }}</v-card-text>
+                                </v-card>
+                            </v-col>
+                            <v-col cols="3">
+                                <v-card class="pa-0 text-center" tile flat>
+                                    <v-card-text class="pa-0 pb-3 arrive-wrap">탑승인원</v-card-text>
+                                    <v-card-text class="pa-0 desination" style="font-size: 18px !important;">{{ count }}명</v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                    <v-divider class="ml-5 mr-5"></v-divider>
+                    <v-list class="pa-0" color="transparent">
+                        <v-list-item color="transparent">
+                            <v-list-item-content style="text-align: right;">
+                                <v-list-item-title class="desination-info-title">셔틀 번호</v-list-item-title>
+                                <v-list-item-subtitle class="desination-info-subtitle">{{ vehicle_name }}</v-list-item-subtitle>
+                            </v-list-item-content>
+    
+                            <v-card class="ma-4" flat tile color="transparent">
+                                <v-img src="../../assets/profile.svg"></v-img>
                             </v-card>
-                        </v-col>
-                        <v-col cols="3">
-                            <v-card class="pa-0 text-center" tile flat>
-                                <v-card-text class="pa-0 pb-3 arrive-wrap">탑승인원</v-card-text>
-                                <v-card-text class="pa-0 desination" style="font-size: 18px !important;">{{ count }}명</v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-                <v-divider class="ml-5 mr-5"></v-divider>
-                <v-list class="pa-0" color="transparent">
-                    <v-list-item color="transparent">
-                        <v-list-item-content style="text-align: right;">
-                            <v-list-item-title class="desination-info-title">셔틀 번호</v-list-item-title>
-                            <v-list-item-subtitle class="desination-info-subtitle">{{ vehicle_name }}</v-list-item-subtitle>
-                        </v-list-item-content>
-
-                        <v-list-item-avatar class="ma-4" width="56px" height="56px">
-                            <!-- <v-img src="../../assets/profile.png"></v-img> -->
-                            <v-img :src="owner_img"></v-img>
-                        </v-list-item-avatar>
-
-                        <v-list-item-content style="text-align: left;">
-                            <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
-                            <v-list-item-subtitle class="desination-info-subtitle">{{ owner }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list>
-
-                <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
-                <v-card-actions class="pa-0 pt-5 call-cancel-btn">
-                    <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
-                    <v-dialog v-model="callcanceldialog" max-width="280">
-                        <v-card style="width: 280px; background-color: transparent;">
-                            <v-card flat class="dialog-background" style="background-color: transparent;">
-                                <v-card-text class="pa-3 text-center">
-                                    <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
-                                    <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
-                                    <v-card-text class="pa-0 call-dialog-paymony">{{ payment }}<span style="font-size: 14px !important;">원</span></v-card-text>
-                                </v-card-text>
-
-                                <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
-                                    <v-card-text class="pa-0 call-dialog-content">탑승요금 {{ allPay }}원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
-                                </v-card-text>
-
-                                <v-card flat class="pa-0 d-flex align-self-end">
-                                    <v-container class="pa-0">
-                                        <v-row no-gutters>
-                                            <v-col>
-                                                <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
-                                            </v-col>
-                                            <v-col>
-                                                <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
+    
+                            <v-list-item-content style="text-align: left;">
+                                <v-list-item-title class="desination-info-title">담당자</v-list-item-title>
+                                <v-list-item-subtitle class="desination-info-subtitle">{{ owner }}</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+    
+                    <span class="arrive-time">약 {{ minutes }}분 후</span> 셔틀이 출발지에 도착합니다.
+                    <v-card-actions class="pa-0 pt-5 call-cancel-btn">
+                        <v-btn style="height: 50px;" color="#E61773" class="callShuttle" @click="callCancel">호출 취소하기</v-btn>
+                        <v-dialog v-model="callcanceldialog" max-width="280">
+                            <v-card style="width: 280px; background-color: transparent;">
+                                <v-card flat class="dialog-background" style="background-color: transparent;">
+                                    <v-card-text class="pa-3 text-center">
+                                        <v-card-text class="pa-0 pt-1 call-dialog-title">호출을 취소하세요?</v-card-text>
+                                        <v-card-text class="pa-0 pt-1 call-dialog-subtitle">취소 위약금</v-card-text>
+                                        <v-card-text class="pa-0 call-dialog-paymony">{{ payment }}<span style="font-size: 14px !important;">원</span></v-card-text>
+                                    </v-card-text>
+    
+                                    <v-card-text class="pa-6 text-center" style="padding-top: 23px !important;">
+                                        <v-card-text class="pa-0 call-dialog-content">탑승요금 {{ allPay }}원의 50%가<br>취소 위약금으로 결제됩니다.</v-card-text>
+                                    </v-card-text>
+    
+                                    <v-card flat class="pa-0 d-flex align-self-end">
+                                        <v-container class="pa-0">
+                                            <v-row no-gutters>
+                                                <v-col>
+                                                    <v-btn color="#FAFAFA" tile depressed class="pa-0 call-cancel-dialog-btn" width="100%" height="56.5px" @click="callcanceldialog = false">호출 유지하기</v-btn>
+                                                </v-col>
+                                                <v-col>
+                                                    <v-btn color="#E61773" tile depressed class="pa-0 call-dialog-btn" width="100%" height="56.5px" @click="callCancleBtn">호출 취소하기</v-btn>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </v-card>
                                 </v-card>
                             </v-card>
-                        </v-card>
-                    </v-dialog>
-                </v-card-actions>
-            </v-card>
-        </v-flex>
-    </v-layout>
-</v-container>
+                        </v-dialog>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -114,7 +113,6 @@ export default {
         vehicle_lat: '',
         vehicle_lon: '',
         owner: '',
-        owner_img: ''
     }),
 
     computed: {
@@ -123,11 +121,13 @@ export default {
         }),
         ...mapState(['uid']),
 
+        // 전액 환불 (100%)
         allPay() {
             let pay = 1000 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
+        // 부분 환불 (50%)
         payment() {
             let pay = 500 * parseInt(this.count);
             return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -137,9 +137,8 @@ export default {
     created() {
         this.getStation();
 
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+        axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
-                console.log(response)
                 this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
@@ -151,12 +150,6 @@ export default {
     },
 
     mounted() {
-        /* this.site = 1;
-        this.vehicle_id = 4;
-        this.start = 3;
-        this.end = 2;
-        this.count = 9; */
-
         this.socket = this.$route.params.socket;
         this.vehicle_id = parseInt(this.$route.params.vehicle_id);
         this.site = this.$route.params.site_id;
@@ -164,12 +157,13 @@ export default {
         this.end = this.$route.params.target_station_id;
         this.count = this.$route.params.passenger;
 
+        // 셔틀이 출발지에 도착한 경우 배차 완료 및 서비스 종료 페이지로 이동
         this.socket.onmessage = ({
             data
         }) => { // websocket에 있는 정보들을 받는다.
             this.webSocketData = JSON.parse(data);
             console.log('webSocketData: ', this.webSocketData.what);
-            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived') {
+            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'arrived' && this.webSocketData.how.uid == this.uid) {
                 this.socket.close();
                 this.$router.replace({
                     name: 'Thanks',
@@ -177,10 +171,16 @@ export default {
                         site: this.site
                     }
                 });
+                // 탑승 미확인 및 취소 (cancel_call)
+            } else if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.uid == this.uid && this.webSocketData.how.function == 'cancel_call' && this.webSocketData.how.vehicle_id == this.vehicle_id && this.webSocketData.how.site_id == this.site) {
+                this.socket.close();
+                this.$router.replace({
+                    name: 'AutoCancel'
+                });
             }
         };
 
-        // 5분이상 지연될 경우 자동취소 페이지로 진입
+        // 셔틀이 출발지에 도착했는데 5분이상 사용자가 탑승하지 않아 지연될 경우 자동취소 페이지로 진입
         // this.setTime();
 
         this.map = this.$utils.map.createMap('map-container', {
@@ -214,6 +214,7 @@ export default {
             }, 1000);
         }, */
 
+        // 정류장 마커 표시
         addMarker() {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
@@ -228,6 +229,7 @@ export default {
             }
         },
 
+        // 정류장 API Request & Response
         getStation() {
             axios.get('/api/stations/')
                 .then(response => {
@@ -237,7 +239,7 @@ export default {
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.site) {
                                 this.stationList.push(station_result[i]);
-                                this.stationList = this.stationList.sort(function (a, b) {
+                                this.stationList = this.stationList.sort(function(a, b) {
                                     return a.id < b.id ? -1 : 1;
                                 });
                             }
@@ -268,7 +270,7 @@ export default {
                     console.log(error)
                 })
 
-            setInterval(async function () {
+            setInterval(async function() {
                 axios.get('/api/stations/')
                     .then(response => {
                         if (response.status == 200) {
@@ -277,7 +279,7 @@ export default {
                             for (let i = 0; i < station_count; i++) {
                                 if (station_result[i].site == this.site) {
                                     this.stationList.push(station_result[i]);
-                                    this.stationList = this.stationList.sort(function (a, b) {
+                                    this.stationList = this.stationList.sort(function(a, b) {
                                         return a.id < b.id ? -1 : 1;
                                     });
                                 }
@@ -290,18 +292,21 @@ export default {
             }.bind(this), 10000);
         },
 
+
+        // ETA API
         getEta() {
             var eta = JSON.parse(this.stationList[this.start].eta);
 
             for (let [key, value] of Object.entries(eta)) {
-                if (key == this.vehicle_id) {
+                if (key == this.vehicle_id) { // 셔틀의 id와 ETA의 key 값이 같은 값의 value 가져오기
                     console.log(key, ', ', value);
-                    this.minutes = parseInt(value);
+                    this.minutes = parseInt(value); // value가 예상 도착 시간
                     break;
                 }
             }
         },
 
+        // 출발지 아이콘, 도착지 아이콘 및 요청 경로 표시
         async getRouting() {
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
@@ -740,6 +745,7 @@ export default {
                 }
             }
 
+            // 경로 표시하기
             this.$utils.map.createRouting(this.map, {
                 waypoints: this.waypoints,
                 serviceUrl: 'https://osrm.aspringcloud.com/route/v1',
@@ -757,17 +763,18 @@ export default {
                 draggable: false,
                 autoRoute: true,
                 show: false,
-                createMarker: function () {
+                createMarker: function() {
                     return null;
                 }
             })
-            this.addMarker()
+            this.addMarker(); // 정류장 마커 표시
         },
 
+        // 셔틀 API Request & Response
         getVehicle() { // 배차된 셔틀만 보여주면 된다.
             axios.get('/api/vehicles/')
                 .then(async response => {
-                    var vehicle_data = response.data.sort(function (a, b) {
+                    var vehicle_data = response.data.sort(function(a, b) {
                         return a.id < b.id ? -1 : 1
                     });
                     var vehicleIcon = this.$utils.map.createIcon({
@@ -790,11 +797,11 @@ export default {
                             icon: vehicleIcon
                         });
                     }
-                    this.getVehicleUser();
+                    this.getVehicleUser(); // 셔틀의 안전요원 정보 요청
                 }).catch(error => {
                     console.log('Vehicle Error: ', error);
                 })
-            setInterval(async function () {
+            setInterval(async function() { // 실시간 셔틀 위치 업데이트
                 axios.get('/api/vehicles/')
                     .then(() => {
                         if (this.vehicle_site == this.site) {
@@ -811,58 +818,62 @@ export default {
         getVehicleUser() {
             axios.get(`/api/users/${this.vehicle_user}`)
                 .then(response => {
-                    this.owner = response.data.username;
-                    this.owner_img = response.data.profile.photo;
+                    this.owner = response.data.username; // 안전요원의 이름 저장
                 }).catch(error => {
                     console.log('/api/user/ Error: ', error);
                 });
         },
 
+        // 호출 취소하기 버튼 모달 표시
         callCancel() {
             this.callcanceldialog = true;
         },
 
+        // 호출 취소를 할 경우 환불 정책
         callCancleBtn() {
             this.cancleMessage();
             this.disconnect();
 
-            if (this.isrefund == '0') {
-                axios({
-                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
-                    method: "post",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
-                        merchant_uid: this.latest_mid, // 주문번호 *
-                        reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 500 * parseInt(this.count)
-                    }
-                }).then((response) => {
-                    console.log(response)
-                    this.$toasted.show(`호출이 취소되었습니다.`, {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    this.$router.replace('/')
-                }).catch(error => {
-                    console.log('환불 실패', error)
-                    this.$toasted.show(`환불을 실패하였습니다.`, {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    this.$router.replace('/')
-                })
-            } else {
-                this.$toasted.show(`결제하신 내역이 없습니다.`, {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
-                this.$router.replace('/')
-            }
+            this.$router.replace('/');
+
+            // if (this.isrefund == '0') {
+            //     axios({
+            //         url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
+            //         method: "post",
+            //         headers: {
+            //             'content-type': 'application/x-www-form-urlencoded'
+            //         },
+            //         data: {
+            //             merchant_uid: this.latest_mid, // 주문번호 *
+            //             reason: "타시오 호출 취소", // 환불 사유 *,
+            //             cancel_request_amount: 500 * parseInt(this.count)
+            //         }
+            //     }).then((response) => {
+            //         console.log(response)
+            //         this.$toasted.show(`호출이 취소되었습니다.`, {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+            //         this.$router.replace('/')
+            //     }).catch(error => {
+            //         console.log('환불 실패', error)
+            //         this.$toasted.show(`환불을 실패하였습니다.`, {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+            //         this.$router.replace('/')
+            //     })
+            // } else {
+            //     this.$toasted.show(`결제하신 내역이 없습니다.`, {
+            //         theme: "bubble",
+            //         position: "top-center"
+            //     }).goAway(2000);
+            //     this.$router.replace('/')
+            // }
 
         },
 
+        // 호출 취소할 경우 안전요원에게 보내주는 메시지
         cancleMessage() {
             this.webSocketData2 = {
                 where: '',
@@ -876,12 +887,14 @@ export default {
                     target_station_id: this.end,
                     passenger: this.count,
                     passenger_name: this.displayName,
+                    uid: this.uid
                 }
             };
 
             this.socket.send(JSON.stringify(this.webSocketData2));
         },
 
+        // Websocket 연결 끊기
         disconnect() {
             this.socket.close();
             this.status = "disconnected";

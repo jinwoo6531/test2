@@ -10,8 +10,8 @@
             </v-card>
         </v-flex>
         <v-flex xs12 sm12 md12 class="justify-center align-top pa-0" style="height: 230px">
-            <v-card color="#E0E0E0" flat tile class="pa-6" style="width: 100%; height: 100%;">
-                <v-card color="#FFF" flat tile style="width: 100%; height: 100%;">
+            <v-card color="#E0E0E0" flat tile class="pa-6 persentH">
+                <v-card color="#FFF" flat tile class="persentH">
                     <v-card-text class="pa-0 cancel-info1" style="text-align: left; padding-top: 18px !important; padding-left: 26px !important; padding-bottom: 9px !important;">내역</v-card-text>
                     <v-divider class="ml-5 mr-5"></v-divider>
                     <v-row class="ma-0 pl-9 pr-9" style="padding-top: 14px;">

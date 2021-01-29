@@ -2,7 +2,7 @@
 <div id="userinfo">
     <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout row wrap class="ma-0">
-            <v-flex class="pa-0 pt-8 pb-5" xs12 sm12 md12 style="width: 100%; height: 100%;">
+            <v-flex class="pa-0 pt-8 pb-5 persentH" xs12 sm12 md12>
                 <v-card class="pa-0 userwrap" flat tile>
                     <v-divider color="#E0E0E0"></v-divider>
                     <v-row no-gutters class="pa-3 pl-6" width="100%">
@@ -395,7 +395,7 @@ export default {
 
     methods: {
         async getUser() {
-            await axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            await axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(async response => {
                     this.displayName = response.data.displayName;
                     this.email = response.data.email;
@@ -493,7 +493,7 @@ export default {
         },
 
         nochangeDisplayName() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.displayName = response.data.displayName;
                     this.namedialog = false;
@@ -503,7 +503,7 @@ export default {
         },
 
         nochangeEmail() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.email = response.data.email;
                     this.emaildialog = false;
@@ -513,7 +513,7 @@ export default {
         },
 
         nochangeGender() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.gender = response.data.gender;
                     this.genderdialog = false;
@@ -523,7 +523,7 @@ export default {
         },
 
         nochangeBirth() {
-            axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
+            axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
                 .then(response => {
                     this.birth = response.data.birth;
                     this.birthdialog = false;
@@ -545,7 +545,7 @@ export default {
         deleteUser() {
             if (this.inputPhoneNumber == this.deletePhoneNumber) {
                 console.log(this.user.data.uid)
-                axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
+                axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/delete/' + this.user.data.uid)
                     .then(() => {
                         this.$router.replace('/goodbye');
                     })

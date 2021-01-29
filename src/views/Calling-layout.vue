@@ -1,47 +1,47 @@
 <template>
-<v-app style="position: relative;">
-    <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
-        <div class="circle"></div>
-        <div class="start-info">
-            <span class="info-title">출발지</span>
-            <br>
-            <span>{{ startName }}</span>
-        </div>
-        <div class="end-info">
-            <span class="info-title">도착지</span>
-            <br>
-            <span>{{ endName }}</span>
-        </div>
-        <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
-            호출 취소하기
-        </v-card>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card color="transparent" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                    {{ message }}
-                </v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card color="transparent" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters class="start-end-table">
-            <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2" color="transparent" flat>
-                    <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
-                    <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
-</v-app>
+    <v-app style="position: relative;">
+        <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
+            <div class="circle"></div>
+            <div class="start-info">
+                <span class="info-title">출발지</span>
+                <br>
+                <span>{{ startName }}</span>
+            </div>
+            <div class="end-info">
+                <span class="info-title">도착지</span>
+                <br>
+                <span>{{ endName }}</span>
+            </div>
+            <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
+                호출 취소하기
+            </v-card>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card color="transparent" flat></v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card class="pa-2 text-center call-msg" color="transparent" flat>
+                        {{ message }}
+                    </v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card color="transparent" flat></v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters class="start-end-table">
+                <v-col xs="12" sm="12" md="12">
+                    <v-card class="pa-2" color="transparent" flat>
+                        <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
+                        <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
@@ -68,14 +68,14 @@ export default {
     },
 
     created() {
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+        axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 this.displayName = response.data.displayName;
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
 
-                this.onOpenWebsocket();
-                this.onMessageWebSocket();
+                this.onOpenWebsocket(); // 웹소켓 연결
+                this.onMessageWebSocket(); // 메시지 보내기
             }).catch(error => {
                 console.log('User read: ', error);
             })
@@ -83,23 +83,27 @@ export default {
     },
 
     mounted() {
-        this.site = this.$route.query.site;
-        this.start = this.$route.query.start;
-        this.end = this.$route.query.end;
-        this.station_startId = parseInt(this.$route.query.station_startId);
-        this.station_endId = parseInt(this.$route.query.station_endId);
-        this.startName = this.$route.query.startName;
-        this.endName = this.$route.query.endName;
-        this.count = this.$route.query.count;
-        this.minutes = this.$route.query.minutes;
+        // Site.vue -> Calling-layout.vue -> Callingshuttle.vue 페이지 이동을 하며 파라미터 전달
+        this.site = this.$route.query.site; // 지역
+        this.start = this.$route.query.start; // 출발지
+        this.end = this.$route.query.end; // 도착지
+        this.station_startId = parseInt(this.$route.query.station_startId); // 출발지 id
+        this.station_endId = parseInt(this.$route.query.station_endId); // 도착지 id
+        this.startName = this.$route.query.startName; // 출발지 명
+        this.endName = this.$route.query.endName; // 도착지 명
+        this.count = this.$route.query.count; // 인원수
+        this.minutes = this.$route.query.minutes; // 소요시간
 
         this.ready = true;
 
+        // 1분 경과한 경우
         this.waitTimer = setTimeout(() => {
             this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
         }, 60000);
 
+        // 2분 경과한 경우 호출 자동 취소 처리
         this.failTimer = setTimeout(() => {
+            // 자동취소 페이지로 이동
             this.$router.replace({
                 name: "CallFail",
                 query: {
@@ -143,74 +147,78 @@ export default {
     },
 
     methods: {
+        // 호출 취소
         callCancelModal() {
             // WebSocket Cancel
             this.cancleMessage();
-            this.disconnect();
-            
-            if (this.isrefund == '0') {
-                axios({
-                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
-                    method: "post",
-                    headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
-                    },
-                    data: {
-                        merchant_uid: this.latest_mid, // 주문번호 *
-                        reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 1000 * parseInt(this.count)
-                    }
-                }).then(() => {
-                    this.$toasted.show("호출이 취소되었습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
+            this.disconnect(); // Web socket disconnect
 
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                }).catch(error => {
-                    console.log('환불 실패', error)
-                    this.$toasted.show("환불을 실패하였습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-                    if (this.site == 1) {
-                        this.$router.replace('/map/gunsan');
-                    } else if (this.site == 2) {
-                        this.$router.replace('/map/daegu');
-                    } else if (this.site == 3) {
-                        this.$router.replace('/map/sejong');
-                    } else if (this.site == 4) {
-                        this.$router.replace('/map/sangam');
-                    }
-                })
-            } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
+            this.$router.replace(`/map/${this.site}`);
 
-                if (this.site == 1) {
-                    this.$router.replace('/map/gunsan');
-                } else if (this.site == 2) {
-                    this.$router.replace('/map/daegu');
-                } else if (this.site == 3) {
-                    this.$router.replace('/map/sejong');
-                } else if (this.site == 4) {
-                    this.$router.replace('/map/sangam');
-                }
-            }
+            // 전액 환불
+            // if (this.isrefund == '0') {
+            //     axios({
+            //         url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
+            //         method: "post",
+            //         headers: {
+            //             'content-type': 'application/x-www-form-urlencoded'
+            //         },
+            //         data: {
+            //             merchant_uid: this.latest_mid, // 주문번호 *
+            //             reason: "타시오 호출 취소", // 환불 사유 *,
+            //             cancel_request_amount: 1000 * parseInt(this.count)
+            //         }
+            //     }).then(() => {
+            //         this.$toasted.show("호출이 취소되었습니다.", {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+
+            //         if (this.site == 1) {
+            //             this.$router.replace('/map/gunsan');
+            //         } else if (this.site == 2) {
+            //             this.$router.replace('/map/daegu');
+            //         } else if (this.site == 3) {
+            //             this.$router.replace('/map/sejong');
+            //         } else if (this.site == 4) {
+            //             this.$router.replace('/map/sangam');
+            //         }
+            //     }).catch(error => {
+            //         console.log('환불 실패', error)
+            //         this.$toasted.show("환불을 실패하였습니다.", {
+            //             theme: "bubble",
+            //             position: "top-center"
+            //         }).goAway(2000);
+            //         if (this.site == 1) {
+            //             this.$router.replace('/map/gunsan');
+            //         } else if (this.site == 2) {
+            //             this.$router.replace('/map/daegu');
+            //         } else if (this.site == 3) {
+            //             this.$router.replace('/map/sejong');
+            //         } else if (this.site == 4) {
+            //             this.$router.replace('/map/sangam');
+            //         }
+            //     })
+            // } else {
+            //     this.$toasted.show("결제하신 내역이 없습니다.", {
+            //         theme: "bubble",
+            //         position: "top-center"
+            //     }).goAway(2000);
+
+            //     if (this.site == 1) {
+            //         this.$router.replace('/map/gunsan');
+            //     } else if (this.site == 2) {
+            //         this.$router.replace('/map/daegu');
+            //     } else if (this.site == 3) {
+            //         this.$router.replace('/map/sejong');
+            //     } else if (this.site == 4) {
+            //         this.$router.replace('/map/sangam');
+            //     }
+            // }
         },
 
         onOpenWebsocket() {
-            this.socket = new WebSocket("ws://222.114.39.8:11411");
+            this.socket = new WebSocket("wss://ws.tasio.io:11511");
             this.socket.onopen = (event) => {
                 console.log('onopen', event);
                 this.sendMessage();
@@ -223,6 +231,7 @@ export default {
             }) => { // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
                 console.log(this.webSocketData.what, 'webSocketData: ', this.webSocketData);
+                // 다음 조건에 만족하는 EVENT 받은 경우 배차 완료 페이지로 이동
                 if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand' && this.webSocketData.how.function == 'go' && this.webSocketData.how.uid == this.uid) {
                     this.$router.replace({
                         name: "CallingShuttle",
@@ -241,27 +250,8 @@ export default {
             };
         },
 
-        /* sendMessage() { // 테스트용
-            this.webSocketData = {
-                where: '',
-                who: 'tasio_id',
-                what: 'EVENT',
-                how: {
-                    type: 'ondemand',
-                    vehicle_id: 4,
-                    function: 'call',
-                    current_station_id: 9,
-                    target_station_id: 10,
-                    passenger: 2,
-                    passenger_name: "타시오",
-                    uid: this.uid
-                }
-            };
-
-            this.socket.send(JSON.stringify(this.webSocketData));
-        }, */
-
-        sendMessage() { // ondemand 측에서 보내줘야 할 데이터
+        // 타시오 측에서 보내줘야 할 데이터
+        sendMessage() {
             this.webSocketData = {
                 where: '',
                 who: 'tasio_id',
@@ -281,6 +271,7 @@ export default {
             this.socket.send(JSON.stringify(this.webSocketData));
         },
 
+        // 호출 취소를 요청한 경우 보내주는 메시지
         cancleMessage() {
             this.webSocketData2 = {
                 where: '',
@@ -294,12 +285,14 @@ export default {
                     target_station_id: parseInt(this.$route.query.station_endId),
                     passenger: parseInt(this.$route.query.count),
                     passenger_name: this.displayName,
+                    uid: this.uid
                 }
             };
 
             this.socket.send(JSON.stringify(this.webSocketData2));
-        },  
+        },
 
+        // Web socket 연결 해제
         disconnect() {
             this.socket.close();
             this.status = "disconnected";
@@ -317,7 +310,6 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
-
 .gradient {
     width: 100%;
     height: 100%;
@@ -407,6 +399,7 @@ export default {
 }
 
 /* Circle */
+
 .circle {
     width: 200px;
     height: 200px;
@@ -447,12 +440,10 @@ export default {
     0% {
         -webkit-transform: scale(1);
     }
-
     75% {
         -webkit-transform: scale(1.75);
         opacity: 1;
     }
-
     100% {
         -webkit-transform: scale(2);
         opacity: 0;
@@ -463,12 +454,10 @@ export default {
     0% {
         transform: scale(0.5);
     }
-
     75% {
         transform: scale(1.75);
         opacity: 1;
     }
-
     100% {
         transform: scale(2);
         opacity: 0;

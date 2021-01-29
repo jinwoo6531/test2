@@ -2,7 +2,7 @@
 <div id="introduction">
     <v-container class="pa-0 ma-0 flex-wrap" fluid justify-center grid-list-md fill-height>
         <v-layout wrap class="ma-0">
-            <v-flex class="pa-0" xs12 sm12 md12 lg12 xl12 style="width: 100%; height: 100%;">
+            <v-flex class="pa-0 persentH" xs12 sm12 md12>
                 <v-card xs12 sm12 md12 flat tile>
                     <v-card xs12 sm12 md12 flat tile>
                         <img src="../../assets/introduction-img.png" style="display: inlin-block; width: 100%;">

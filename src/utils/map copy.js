@@ -27,7 +27,6 @@ const createDiv = options => {
  * @param {Object} map
  * @param {Object} latLng
  * @param {Object} options
- * @param {Object} markerGroup
  * 
  */
 
@@ -41,19 +40,6 @@ const updateMarkerByXY = (map, coordinate) => {
     let marker = $L.marker($L.latLng(coordinate[0], coordinate[1])).update(marker)
     marker.addTo(map)
     return marker
-}
-
-
-const createMaker = (coordinate, options = {}) => { // for Show Station when zoom in
-    let marker = new $L.marker([coordinate[0], coordinate[1]], options)
-    return marker
-}
-
-const createDomEvent = $L.DomEvent;
-
-const getDomUtil = (element) => {
-    let dom = $L.DomUtil.get(element);
-    return dom;
 }
 
 // Leaflet Default Maker를 표시 할 수없는 문제 해결
@@ -77,9 +63,6 @@ export default {
     createIcon,
     createDiv,
     createMakerByXY,
-    createMaker,
     createRouting,
-    updateMarkerByXY,
-    createDomEvent,
-    getDomUtil,
+    updateMarkerByXY
 }

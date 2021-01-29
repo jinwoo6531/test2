@@ -38,7 +38,7 @@ export default {
 
     created() {
         console.log('fail uid: ', this.uid);
-        axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.uid)
+        axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + this.uid)
             .then(response => {
                 console.log(response)
                 this.isrefund = response.data.isrefund;
@@ -66,7 +66,7 @@ export default {
         goToBack() {
             if (this.isrefund == '0') {
                 axios({
-                    url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
+                    url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
                     method: "post",
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded'
@@ -125,6 +125,7 @@ export default {
             }
         },
 
+        // 다시 호출
         callAgain() {
             this.$router.replace({
                 name: "CallingLayout",
