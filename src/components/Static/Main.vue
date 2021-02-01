@@ -125,7 +125,7 @@ export default {
         title:
           '<span style="width: 100%; text-align: center;">세종<br>산학연클러스터4-2</span>',
         src: require("../../assets/sejong2-btn.png"),
-        to: "/map/3",
+        to: "/map/18",
         disabled: false,
         gradient: undefined,
         color: "#transparent",
