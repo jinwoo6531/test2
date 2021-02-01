@@ -77,6 +77,7 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+
                     <v-list-item link :to="{ name: 'Site', params: { siteId: 2 }}" class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
@@ -86,6 +87,15 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+
+                    <v-list-item link :to="{ name: 'Site', params: { siteId: 18 }}" class="ma-0">
+                        <v-list-item-content class="pa-0">
+                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;">
+                                    세종 산학연클러스터 4-2
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
                     <v-list-item class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
@@ -95,15 +105,8 @@
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item class="ma-0">
-                        <v-list-item-content class="pa-0">
-                            <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
-                                <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;">
-                                    세종 산학연클러스터 4-2
-                                </v-badge>
-                            </v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+
+                    
                     <v-list-item class="ma-0">
                         <v-list-item-content class="pa-0">
                             <v-list-item-title style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;">
@@ -124,13 +127,13 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <!-- <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
+            <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;">
                         자주 묻는 질문
                     </v-list-item-title>
                 </v-list-item-content>
-            </v-list-item> -->
+            </v-list-item>
 
             <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
                 <v-list-item-content class="pa-0">

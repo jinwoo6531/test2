@@ -64,6 +64,7 @@
                 <v-list-item-title class="sidebar-submenu-title" style="color: #828282;">고군산 관광벨트</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+            
             <v-list-item link :to="{ name: 'Site', params: { siteId: 2 }}" class="ma-0">
               <v-list-item-content>
                 <v-list-item-title class="sidebar-submenu-title" style="color: #828282;">
@@ -79,6 +80,15 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+
+            <v-list-item link :to="{ name: 'Site', params: { siteId: 18 }}" class="ma-0">
+              <v-list-item-content>
+                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;">
+                  세종 산학연클러스터 4-2
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
             <v-list-item class="ma-0">
               <v-list-item-content class="pa-0">
                 <v-list-item-title class="sidebar-submenu-title" style="color: #BDBDBD;">
@@ -92,7 +102,8 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="ma-0">
+
+            <!-- <v-list-item class="ma-0">
               <v-list-item-content class="pa-0">
                 <v-list-item-title class="sidebar-submenu-title" style="color: #BDBDBD;">
                   <v-badge
@@ -104,7 +115,8 @@
                   >세종 산학연클러스터 4-2</v-badge>
                 </v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
+            
             <v-list-item class="ma-0">
               <v-list-item-content class="pa-0">
                 <v-list-item-title class="sidebar-submenu-title" style="color: #BDBDBD;">

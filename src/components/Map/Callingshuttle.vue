@@ -256,10 +256,12 @@ export default {
                             this.map.setView([35.809484, 126.4091], 15)
                         } else if (this.site == 2) {
                             this.map.setView([35.835153, 128.685620], 15)
-                        } else if (this.site == 3) {
-                            this.map.setView([36.599351, 127.270606], 15)
+                        // } else if (this.site == 3) {
+                        //     this.map.setView([36.599351, 127.270606], 15)
                         } else if (this.site == 4) {
                             this.map.setView([37.579200, 126.888880], 15)
+                        } else if (this.site == 18) {
+                            this.map.setView([36.4945, 127.3274], 15);
                         }
 
                         this.getRouting()
