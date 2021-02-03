@@ -103,16 +103,6 @@ export default {
     cards: [
       {
         title:
-          '<span style="width: 100%; text-align: center;">고군산<br>관광벨트</span>',
-        src: require("../../assets/gunsan-btn.png"),
-        to: "/map/1",
-        disabled: false,
-        gradient: undefined,
-        color: "transparent",
-        hidden: true,
-      },
-      {
-        title:
           '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
         src: require("../../assets/daegu-btn.png"),
         to: "/map/2",
@@ -138,6 +128,17 @@ export default {
         to: "/map/3",
         disabled: true,
         gradient:
+          "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
+        color: "#F2F2F2",
+        hidden: false,
+      },
+      {
+        title:
+          '<span style="width: 100%; text-align: center;">고군산<br>관광벨트</span>',
+        src: require("../../assets/gunsan-btn.png"),
+        to: "/map/1",
+        disabled: true,
+        gradient: 
           "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
         color: "#F2F2F2",
         hidden: false,
