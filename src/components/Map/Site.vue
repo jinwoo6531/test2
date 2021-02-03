@@ -537,6 +537,9 @@ function rad2deg(rad) {
   return (rad * 180) / Math.PI;
 }
 
+let select_start = "";
+let select_end = "";
+
 import { mapGetters } from "vuex";
 import axios from "axios";
 var control;
@@ -603,6 +606,126 @@ export default {
     calldialog: false,
     meth: "191029079116",
     pay_method: "card",
+    points:{
+      // 대구
+      2:[
+        {
+          lat: 35.836308,
+          lng: 128.681547,
+          type:6,
+        },
+        {
+          lat: 35.838673,
+          lng: 128.687892,
+          type:6,
+        },
+        {
+          lat: 35.83705,
+          lng: 128.690044,
+          type:6,
+        },
+        {
+          lat: 35.83459,
+          lng: 128.68652,
+          type:6,
+        },
+        {
+          lat: 35.836308,
+          lng: 128.681547,
+          type:6,
+        }
+      ],
+    // 세종호수공원
+      3:[
+        {
+          lat: 36.499351,
+          lng: 127.270606,
+          type:6,
+        },
+        {
+          lat: 36.50169,
+          lng: 127.272315,
+          type:6,
+        }
+      ],
+    //??
+      4:[
+        {
+          lat: 37.579333,
+          lng: 126.889036,
+          type:6,
+        },
+        {
+          lat: 37.57518,
+          lng: 126.89837,
+          type:6,
+        },
+        {
+          lat: 37.58299,
+          lng: 126.88485,
+          type:6,
+        },
+        {
+          lat: 37.581296,
+          lng: 126.885693,
+          type:6,
+        },
+        {
+          lat: 37.579333,
+          lng: 126.889036,
+          type:6,
+        }
+      ],
+    // 세종 규특
+      18:[{
+          lat: 36.49911,
+          lng: 127.32867,
+          type:2
+        },
+        {
+          lat: 36.49892,
+          lng: 127.32886,
+          type:3
+        },
+        {
+          lat: 36.49671,
+          lng: 127.32989,
+          type:2
+        },
+        {
+          lat: 36.495534,
+          lng: 127.330257,
+          type:3
+        },
+        {
+          lat: 36.49529,
+          lng: 127.33077,
+          type:2
+        },
+        {
+          lat: 36.49471,
+          lng: 127.32834,
+          type:3
+        },
+        {
+          lat: 36.49533,
+          lng: 127.32832,
+          type:3
+        },
+        {
+          lat: 36.49456,
+          lng: 127.32574,
+          type:2
+
+        },
+        {
+          lat: 36.49815,
+          lng: 127.32564,
+          type:2
+        },
+
+      ]
+    }
   }),
 
   computed: {
@@ -684,116 +807,527 @@ export default {
     // 정류장 위치에 따른 마커 표시
     addMarker() {
       // 사용 마커 정의
-      let gifIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/station_icon.svg"),
-        iconSize: [12, 12],
+      this.zoomStatus = this.$utils.map.createIcon({
+          iconUrl: require("../../assets/station_icon.svg"),
+          iconSize: [12, 12],
       });
 
       // leaflet-routing-machine의 자동 기능에 따른 경로 오류로 Static하게 그려줬습니다.
-      if (this.siteId == 1) {
-        // 고군산
-        this.waypoints3.push(
-          {
-            lat: this.stationList[0].lat,
-            lng: this.stationList[0].lon,
-          },
-          {
-            lat: this.stationList[6].lat,
-            lng: this.stationList[6].lon,
-          },
-          {
-            lat: this.stationList[1].lat,
-            lng: this.stationList[1].lon,
-          },
-          {
-            lat: this.stationList[5].lat,
-            lng: this.stationList[5].lon,
-          },
-          {
-            lat: this.stationList[2].lat,
-            lng: this.stationList[2].lon,
-          },
-          {
-            lat: this.stationList[3].lat,
-            lng: this.stationList[3].lon,
-          },
-          {
-            lat: this.stationList[4].lat,
-            lng: this.stationList[4].lon,
-          }
-        );
-      } else if (this.siteId == 2) {
-        this.waypoints3.push(
-          {
-            lat: 35.836308,
-            lng: 128.681547,
-          },
-          {
-            lat: 35.838673,
-            lng: 128.687892,
-          },
-          {
-            lat: 35.83705,
-            lng: 128.690044,
-          },
-          {
-            lat: 35.83459,
-            lng: 128.68652,
-          },
-          {
-            lat: 35.836308,
-            lng: 128.681547,
-          }
-        );
-      } else if (this.siteId == 3) {
-        // 세종 호수공원
-        this.waypoints3.push(
-          {
-            lat: 36.499351,
-            lng: 127.270606,
-          },
-          {
-            lat: 36.50169,
-            lng: 127.272315,
-          }
-        );
-        //정류장
-      } else if (this.siteId == 18) {
-        //세종 산학연클러스터 4-2
-        this.waypoints3.push(
-          {
-            lat: 36.49892,
-            lng: 127.32886,
-          },
-          {
-            lat: 36.495534,
-            lng: 127.330257,
-          },
-          {
-            lat: 36.49471,
-            lng: 127.32834,
-          },
-          {
-            lat: 36.49533,
-            lng: 127.32832,
-          },
-          {
-            lat: 36.49892,
-            lng: 127.32886,
-          }
-        );
-      }
-      // 지정 경로에 마커 생성
-      for (let i = 0; i < this.waypoints3.length; i++) {
-        this.$utils.map.createMakerByXY(
-          this.map,
-          [this.waypoints3[i].lat, this.waypoints3[i].lng],
-          {
-            icon: gifIcon,
-          }
-        );
-      }
+      for (let i in this.stationList) {
+            this.waypoints3.push({
+                lat: this.stationList[i].lat,
+                lng: this.stationList[i].lon,
+            });
+
+            var markersLayer = this.$utils.map.createMakerByXY(
+                this.map, [this.waypoints3[i].lat, this.waypoints3[i].lng], {
+                    icon: this.zoomStatus,
+                    name: this.stationList[i].name,
+                    value: i,
+                }
+            );
+
+            markersLayer.on("click", this.layerClickHandler);
+        }
     },
+
+    layerClickHandler(e) {
+            // console.log('global_options: ', this.global_options);
+            // console.log('options: ', this.options);
+            // console.log('start_options: ', this.start_options);
+            // console.log('end_options: ', this.end_options);
+
+            var marker = e.target;
+            var marker_lat = marker._latlng.lat;
+            var marker_lng = marker._latlng.lng;
+
+            // console.log('select_start: ', select_start);
+            // console.log('select_end: ', select_end);
+
+            // 출발지 아이콘 생성
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            // 도착지 아이콘 생성
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            // eslint-disable-next-line no-prototype-builtins
+            if (marker.hasOwnProperty("_popup")) {
+                marker.unbindPopup();
+            }
+
+            // 지도상에서 같은 정류장을 선택했을 경우
+            if (
+                select_start == marker.options.name ||
+                select_end == marker.options.name
+            ) {
+                console.log("같은 정류장은 선택이 불가능합니다.");
+            } else {
+                //   아닌 경우는 popup 창을 띄워준다.
+                var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;"></p>
+                 <form>
+                    <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>
+                    <button id="endBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
+                </form>`;
+
+                marker.bindPopup(template);
+                marker.openPopup();
+
+                this.$utils.map.getDomUtil("stationName").textContent =
+                    marker.options.name;
+
+                var startSubmit = this.$utils.map.getDomUtil("startBtn");
+
+                // 지도상에서 정류장을 출발지로 선택했을 경우
+                this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
+                    select_start = marker.options.name;
+                    this.map.removeLayer(this.start_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map, [marker_lat, marker_lng], {
+                            icon: startIcon,
+                        }
+                    );
+
+                    // 중복 방지
+                    this.start = -1;
+                    this.start_point = {
+                        name: "출발지 선택하기",
+                        value: -1,
+                    };
+
+                    this.start = Number(marker.options.value);
+                    this.start_point.name = marker.options.name;
+                    this.start_point.value = marker.options.value;
+
+                    this.startName = marker.options.name;
+                    this.station_startId = this.stationList[this.start].id;
+
+                    marker.closePopup();
+
+                    // console.log('layerClickHandler options: ', this.options, 'Start name: ', this.start_point);
+
+                    //   출발지에서 선택한 값은 도착지에서 선택할 수 없다.
+                    this.end_options = this.options.filter(
+                        (opt) => opt.value != this.start_point.value
+                    );
+                    this.options = this.global_options;
+
+                    this.onCancel("start");
+
+                    if (this.waypoints.length > 0) {
+                        control.spliceWaypoints(0, 6);
+                    }
+                    this.waypoints = [];
+
+                    // 선택한 정류장에 따라 경로 표시
+                    // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
+                    if(this.start > -1 && this.end > -1){
+                      let l = this.global_options.length-1;
+                      if (this.start < this.end) {
+                        for (let i = this.start; i <= this.end; i++) {
+                          this.waypoints.push({
+                            lat: this.stationList[i].lat,
+                            lng: this.stationList[i].lon,
+                          });
+                        }
+                      } else if (this.start > this.end) {
+                        this.waypoints.push({
+                          lat: this.stationList[this.start].lat,
+                          lng: this.stationList[this.start].lon,
+                        });
+                        for (let i = this.start; i % l != this.end; i++) {
+                          this.waypoints.push({
+                            lat: this.stationList[i % l].lat,
+                            lng: this.stationList[i % l].lon,
+                          });
+                        }
+                        this.waypoints.push({
+                          lat: this.stationList[this.end].lat,
+                          lng: this.stationList[this.end].lon,
+                        });
+                      }
+                    }
+                    this.addRouting(this.waypoints, "#E51973", "transparent");
+                });
+
+                var endSubmit = this.$utils.map.getDomUtil("endBtn");
+
+                // 지도상에서 정류장을 도착지로 지정한 경우
+                this.$utils.map.createDomEvent.addListener(endSubmit, "click", () => {
+                    select_end = marker.options.name;
+                    this.map.removeLayer(this.end_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map, [marker_lat, marker_lng], {
+                            icon: endIcon,
+                        }
+                    );
+
+                    // 중복 방지
+                    this.end = -1;
+                    this.end_point = {
+                        name: "도착지 선택하기",
+                        value: -1,
+                    };
+
+                    this.end = Number(marker.options.value);
+                    this.end_point.name = marker.options.name;
+                    this.end_point.value = marker.options.value;
+
+                    this.endName = marker.options.name;
+                    this.station_endId = this.stationList[this.end].id;
+
+                    marker.closePopup();
+                    // console.log('layerClickHandler start_options: ', this.start_options);
+                    // console.log('layerClickHandler options: ', this.options, 'End name: ', this.end_point);
+
+                    //   도착지에서 선택한 정류장은 출발지에서 선택할 수 없다.
+                    this.start_options = this.options.filter(
+                        (opt) => opt.value != this.end_point.value
+                    );
+                    this.options = this.global_options;
+
+                    this.onCancel("end");
+
+                    if (this.waypoints.length > 0) {
+                        control.spliceWaypoints(0, 6);
+                    }
+                    this.waypoints = [];
+
+                    // 선택한 정류장에 따라 경로 표시
+                    // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
+                    if (this.start >= 0 && this.end >= 0) {
+                        if (this.start == 0) {
+                            if (this.end == 6) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                });
+                            } else if (this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2 || this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 6) {
+                            if (this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2 || this.end == 5 || this.end == 0) {
+                                this.waypoints.push({
+                                    lat: this.stationList[6].lat,
+                                    lng: this.stationList[6].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 1) {
+                            if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                });
+                            } else if (this.end == 4 || this.end == 2 || this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[1].lat,
+                                    lng: this.stationList[1].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 3) {
+                            if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                });
+                            }
+                        }
+
+                        if (this.start == 4) {
+                            if (this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                });
+                            } else if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                });
+                            } else if (
+                                this.end == 0 ||
+                                this.end == 6 ||
+                                this.end == 1 ||
+                                this.end == 3
+                            ) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+                        if (this.start == 2) {
+                            if (this.end == 5) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                });
+                            } else if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 4) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[2].lat,
+                                    lng: this.stationList[2].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+
+                        if (this.start == 5) {
+                            if (this.end == 0 || this.end == 6 || this.end == 1) {
+                                this.waypoints.push({
+                                    lat: this.stationList[5].lat,
+                                    lng: this.stationList[5].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 3) {
+                                this.waypoints.push({
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            } else if (this.end == 4 || this.end == 2) {
+                                this.waypoints.push({
+                                    lat: this.stationList[4].lat,
+                                    lng: this.stationList[4].lon,
+                                }, {
+                                    lat: this.stationList[3].lat,
+                                    lng: this.stationList[3].lon,
+                                }, {
+                                    lat: this.stationList[0].lat,
+                                    lng: this.stationList[0].lon,
+                                });
+                            }
+                        }
+                    }
+                    this.addRouting(this.waypoints, "#E51973", "transparent");
+                });
+            }
+        },
 
     // 전체 경로 Routing 정의 함수
     addRouting(waypoints, borderColor, fullColor) {
@@ -903,10 +1437,6 @@ export default {
                 lat: this.stationList[1].lat,
                 lng: this.stationList[1].lon,
               },
-              // {
-              //     lat: this.stationList[5].lat,
-              //     lng: this.stationList[5].lon
-              // },
               {
                 lat: this.stationList[2].lat,
                 lng: this.stationList[2].lon,
@@ -920,95 +1450,13 @@ export default {
                 lng: this.stationList[4].lon,
               }
             );
-          } else if (this.siteId == 2) {
-            // 대구
-            this.waypoints2.push(
-              {
-                lat: 35.836308,
-                lng: 128.681547,
-              },
-              {
-                lat: 35.838673,
-                lng: 128.687892,
-              },
-              {
-                lat: 35.83705,
-                lng: 128.690044,
-              },
-              {
-                lat: 35.83459,
-                lng: 128.68652,
-              },
-              {
-                lat: 35.836308,
-                lng: 128.681547,
+          } else {
+            for(let point of this.points[this.siteId]){
+              if(!(point.type%2)){
+                this.waypoints2.push({lat:point.lat,lng:point.lng})
               }
-            );
-          } else if (this.siteId == 3) {
-            // 세종 호수공원
-            this.waypoints2.push(
-              {
-                lat: 36.499351,
-                lng: 127.270606,
-              },
-              {
-                lat: 36.50169,
-                lng: 127.272315,
-              }
-            );
-          } else if (this.siteId == 4) {
-            // 세종 산학연클러스터4-2
-            //아닌듯_hyeri
-            this.waypoints2.push(
-              {
-                lat: 37.579333,
-                lng: 126.889036,
-              },
-              {
-                lat: 37.57518,
-                lng: 126.89837,
-              },
-              {
-                lat: 37.58299,
-                lng: 126.88485,
-              },
-              {
-                lat: 37.581296,
-                lng: 126.885693,
-              },
-              {
-                lat: 37.579333,
-                lng: 126.889036,
-              }
-            );
-          } else if (this.siteId == 18) {
-            //세종 산학연클러스터 4-2, route
-            this.waypoints2.push(
-              {
-                lat: 36.49911,
-                lng: 127.32867,
-              },
-              {
-                lat: 36.49671,
-                lng: 127.32989,
-              },
-              {
-                lat: 36.49529,
-                lng: 127.33077,
-              },
-              {
-                lat: 36.49456,
-                lng: 127.32574,
-              },
-              {
-                lat: 36.49815,
-                lng: 127.32564,
-              },
-              {
-                lat: 36.49911,
-                lng: 127.32867,
-              }
-            );
+            }
+            this.waypoints2.push(this.waypoints2[0]);
           }
 
           for (var [i, arr2] of this.stationList.entries()) {
@@ -1201,8 +1649,47 @@ export default {
 
     // 정류장 list 선택 버튼
     clk(item, mode) {
-      mode == "start" ? (this.start_point = item) : (this.end_point = item);
-    },
+            // mode == "start" ? this.start_point = item : this.end_point = item;
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (mode === "start") {
+                this.start_point = item;
+                select_start = this.start_point.name;
+
+                this.map.removeLayer(this.start_icon);
+                this.start_icon = this.$utils.map.createMakerByXY(
+                    this.map, [
+                        this.stationList[this.start_point.value].lat,
+                        this.stationList[this.start_point.value].lon,
+                    ], {
+                        icon: startIcon,
+                    }
+                );
+            } else {
+                this.end_point = item;
+                select_end = this.end_point.name;
+
+                this.map.removeLayer(this.end_icon);
+                this.end_icon = this.$utils.map.createMakerByXY(
+                    this.map, [
+                        this.stationList[this.end_point.value].lat,
+                        this.stationList[this.end_point.value].lon,
+                    ], {
+                        icon: endIcon,
+                    }
+                );
+            }
+        },
+
 
     // 출발지, 도착지 선택 모달 취소 버튼
     onCancel(state) {
@@ -1542,7 +2029,6 @@ export default {
             );
           }
         }
-
         if (this.start == 4) {
           if (this.end == 2) {
             this.waypoints.push(
@@ -1651,7 +2137,6 @@ export default {
             );
           }
         }
-
         if (this.start == 5) {
           if (this.end == 0 || this.end == 6 || this.end == 1) {
             this.waypoints.push(
@@ -1692,75 +2177,124 @@ export default {
             );
           }
         }
-      } else if (this.siteId == 2) {
+      } else {
         // 대구
-        if (this.start < this.end) {
-          for (let i = this.start; i <= this.end; i++) {
+        if(this.start > -1 && this.end > -1){
+          let l = this.global_options.length-1;
+          if (this.start < this.end) {
+            for (let i = this.start; i <= this.end; i++) {
+              this.waypoints.push({
+                lat: this.stationList[i].lat,
+                lng: this.stationList[i].lon,
+              });
+            }
+          } else if (this.start > this.end) {
             this.waypoints.push({
-              lat: this.stationList[i].lat,
-              lng: this.stationList[i].lon,
+              lat: this.stationList[this.start].lat,
+              lng: this.stationList[this.start].lon,
+            });
+            for (let i = this.start; i % l != this.end; i++) {
+              this.waypoints.push({
+                lat: this.stationList[i % l].lat,
+                lng: this.stationList[i % l].lon,
+              });
+            }
+            this.waypoints.push({
+              lat: this.stationList[this.end].lat,
+              lng: this.stationList[this.end].lon,
             });
           }
-        } else if (this.start > this.end) {
-          this.waypoints.push({
-            lat: this.stationList[this.start].lat,
-            lng: this.stationList[this.start].lon,
-          });
-          for (let i = this.start; i % 3 != this.end; i++) {
-            this.waypoints.push({
-              lat: this.stationList[i % 3].lat,
-              lng: this.stationList[i % 3].lon,
-            });
-          }
-          this.waypoints.push({
-            lat: this.stationList[this.end].lat,
-            lng: this.stationList[this.end].lon,
-          });
         }
       }
 
       // 출발지 아이콘 지우기
       this.map.removeLayer(this.start_icon);
-      // 출발지 아이콘 생성
-      this.start_icon = this.$utils.map.createMakerByXY(
-        this.map,
-        [this.stationList[this.start].lat, this.stationList[this.start].lon],
-        {
-          icon: startIcon,
-        }
-      );
-      // 도착지 아이콘 지우기
-      this.map.removeLayer(this.end_icon);
-      // 도착지 아이콘 생성
-      this.end_icon = this.$utils.map.createMakerByXY(
-        this.map,
-        [this.stationList[this.end].lat, this.stationList[this.end].lon],
-        {
-          icon: endIcon,
-        }
-      );
-      // 도착지 아이콘 지우기
-      this.map.removeLayer(endIcon);
+            if (this.start !== -1) {
+                this.start_icon = this.$utils.map.createMakerByXY(
+                    this.map, [this.stationList[this.start].lat, this.stationList[this.start].lon], {
+                        icon: startIcon,
+                    }
+                );
+            }
+            this.map.removeLayer(this.end_icon);
+            if (this.end !== -1) {
+                this.end_icon = this.$utils.map.createMakerByXY(
+                    this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                        icon: endIcon,
+                    }
+                );
+            }
+            this.map.removeLayer(endIcon);
 
-      // SET New Routing
-      this.addRouting(this.waypoints, "#E51973", "transparent");
-      this.getStat2Sta(); // 정류장을 선택힐 때마다 정류장과 정류장 사이의 소요시간 update
-    },
+            // SET New Routing
+            this.addRouting(this.waypoints, "#E51973", "transparent");
+        },
 
     // 출발지와 도착지 swap 버튼
     switchDestination() {
       var change = 0;
-      if (this.start_point.value == -1 && this.end_point.value == -1) {
-        change = this.start_point;
-        this.start_point = this.end_point;
-        this.end_point = change;
-      } else {
-        change = this.start_point;
-        this.start_point = this.end_point;
-        this.end_point = change;
-        this.onChange();
-      }
-    },
+            let startIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/start-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+            let endIcon = this.$utils.map.createIcon({
+                iconUrl: require("../../assets/end-icon.svg"),
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+            });
+
+            if (this.start == -1 && this.end == -1) {
+                change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+            } else {
+                change = this.start_point;
+                this.start_point = this.end_point;
+                this.end_point = change;
+
+                if (this.start !== -1 && this.end !== -1) {
+                    let temp = this.start;
+                    this.start = this.end;
+                    this.end = temp;
+
+                    this.onChange();
+                } else if (this.start === -1) {
+                    let temp = this.end;
+                    this.end = this.start;
+                    this.start = temp;
+
+                    let temp_options = this.end_options;
+                    this.end_options = this.start_options;
+                    this.start_options = temp_options;
+
+                    this.map.removeLayer(this.end_icon);
+                    this.start_icon = this.$utils.map.createMakerByXY(
+                        this.map, [
+                            this.stationList[this.start].lat,
+                            this.stationList[this.start].lon,
+                        ], {
+                            icon: startIcon,
+                        }
+                    );
+                } else if (this.end === -1) {
+                    let temp = this.start;
+                    this.start = this.end;
+                    this.end = temp;
+
+                    let temp_options = this.start_options;
+                    this.start_options = this.end_options;
+                    this.end_options = temp_options;
+
+                    this.map.removeLayer(this.start_icon);
+                    this.end_icon = this.$utils.map.createMakerByXY(
+                        this.map, [this.stationList[this.end].lat, this.stationList[this.end].lon], {
+                            icon: endIcon,
+                        }
+                    );
+                }
+            }
+        },
 
     // 현재 위치 받아오는 함수
     getLocation() {
@@ -1892,9 +2426,12 @@ export default {
 
     // ETA
     getStat2Sta() {
-      var stat = JSON.parse(this.stationList[this.start].stat2sta);
-      var start_station = JSON.parse(this.stationList[this.start].id);
-      var end_station = JSON.parse(this.stationList[this.end].id);
+      if (this.start !== -1)
+          var stat = JSON.parse(this.stationList[this.start].stat2sta);
+      if (this.start !== -1)
+          var start_station = JSON.parse(this.stationList[this.start].id);
+      if (this.end !== -1)
+          var end_station = JSON.parse(this.stationList[this.end].id);
       this.minutes = stat[start_station][end_station];
     },
 
