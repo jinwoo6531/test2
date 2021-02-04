@@ -281,7 +281,7 @@
                     color="#FFF"
                     @click="
                       overlay1 = false;
-                      pickedStation = -1;
+                      pickedStation = '';
                     "
                     >취소</v-btn
                   >
@@ -320,9 +320,9 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="(station, idx) in end_options"
-                        @click="pickedStationIdx = idx"
-                        :key="idx"
+                        v-for="station in end_options"
+                        @click="pickedStation = station"
+                        :key="station.id"
                       >
                         <v-list-item-content>
                           <v-list-item-title
@@ -342,7 +342,7 @@
                     color="#FFF"
                     @click="
                       overlay2 = false;
-                      pickedStationIdx = -1;
+                      pickedStation = '';
                     "
                     >취소</v-btn
                   >
@@ -354,9 +354,8 @@
                     @click="
                       overlay2 = false;
                       end = {
-                        id: stationList[pickedStationIdx].id,
-                        name: stationList[pickedStationIdx].name,
-                        idx: pickedStationIdx,
+                        id: pickedStation.id,
+                        name: pickedStation.name,
                       };
                     "
                     >선택하기</v-btn
