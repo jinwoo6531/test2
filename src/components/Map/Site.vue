@@ -259,8 +259,8 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="(station, idx) in start_options"
-                        @click="pickedStationIdx = idx"
+                        v-for="station in start_options"
+                        @click="pickedStation = station"
                         :key="station.id"
                       >
                         <v-list-item-content>
@@ -281,7 +281,7 @@
                     color="#FFF"
                     @click="
                       overlay1 = false;
-                      pickedStationIdx = -1;
+                      pickedStation = -1;
                     "
                     >취소</v-btn
                   >
@@ -293,9 +293,8 @@
                     @click="
                       overlay1 = false;
                       start = {
-                        idx: pickedStationIdx,
-                        id: stationList[pickedStationIdx].id,
-                        name: stationList[pickedStationIdx].name,
+                        id: pickedStation.id,
+                        name: pickedStation.name,
                       };
                     "
                     >선택하기</v-btn
@@ -502,7 +501,7 @@ export default {
       name: "end",
       idx: -1,
     },
-    pickedStationIdx: -1,
+    pickedStation: "",
     startIcon: "",
     endIcon: "",
     // start_point: {
@@ -839,8 +838,8 @@ export default {
 
       // 지도상에서 같은 정류장을 선택했을 경우
       if (
-        this.start.idx == marker.options.value ||
-        this.end.idx == marker.options.value
+        this.start.id == marker.options.value ||
+        this.end.id == marker.options.value
       ) {
         console.log("같은 정류장은 선택이 불가능합니다.");
       } else {
@@ -861,7 +860,7 @@ export default {
 
         // 지도상에서 정류장을 출발지로 선택했을 경우
         this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
-          this.start.idx = marker.options.value;
+          this.start.id = marker.options.value;
           this.map.removeLayer(start_icon);
           start_icon = this.$utils.map.createMakerByXY(
             this.map,
@@ -872,13 +871,13 @@ export default {
           );
 
           // 중복 방지
-          this.start.idx = -1;
+          // this.start.id = -1;
           // this.start_point = {
           //   name: "출발지 선택하기",
           //   value: -1,
           // };
 
-          this.start.idx = Number(marker.options.value);
+          this.start.id = Number(marker.options.value);
           this.start.name = marker.options.name;
           // this.start.value = marker.options.value;
 
@@ -891,7 +890,7 @@ export default {
 
           //   출발지에서 선택한 값은 도착지에서 선택할 수 없다.
           this.end_options = this.options.filter(
-            (opt) => opt.value != this.start.idx
+            (opt) => opt.value != this.start.id
           );
           this.options = this.global_options;
 
@@ -1296,13 +1295,6 @@ export default {
       }
     },
 
-    // 출발지, 도착지 선택 모달 취소 버튼
-    onCancel(state) {
-      state == "start"
-        ? (this.start = this.options.find((i) => i.value === this.start.idx))
-        : (this.end = this.options.find((i) => i.value === this.end.idx));
-    },
-
     // 출발지, 도착지 선택 완료 버튼
     onChange() {
       // REMOVE Default Routing
@@ -1414,7 +1406,7 @@ export default {
 
     // 출발지와 도착지 swap 버튼
     swapDestination() {
-      if (this.start.idx == -1 && this.end.idx == -1) return;
+      if (this.start.id == -1 && this.end.id == -1) return;
       [this.start, this.end] = [this.end, this.start];
     },
 
