@@ -259,8 +259,8 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="station in start_options"
-                        @click="clk(station, 'start')"
+                        v-for="(station, idx) in start_options"
+                        @click="pickedStationIdx = idx"
                         :key="station.id"
                       >
                         <v-list-item-content>
@@ -281,7 +281,7 @@
                     color="#FFF"
                     @click="
                       overlay1 = false;
-                      onCancel('start');
+                      pickedStationIdx = -1;
                     "
                     >취소</v-btn
                   >
@@ -292,7 +292,11 @@
                     color="#E61773"
                     @click="
                       overlay1 = false;
-                      onChange();
+                      start = {
+                        idx: pickedStationIdx,
+                        id: stationList[pickedStationIdx].id,
+                        name: stationList[pickedStationIdx].name,
+                      };
                     "
                     >선택하기</v-btn
                   >
@@ -317,9 +321,9 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="station in end_options"
-                        @click="clk(station, 'end')"
-                        :key="station.id"
+                        v-for="(station, idx) in end_options"
+                        @click="pickedStationIdx = idx"
+                        :key="idx"
                       >
                         <v-list-item-content>
                           <v-list-item-title
@@ -339,7 +343,7 @@
                     color="#FFF"
                     @click="
                       overlay2 = false;
-                      onCancel('end');
+                      pickedStationIdx = -1;
                     "
                     >취소</v-btn
                   >
@@ -350,7 +354,11 @@
                     color="#E61773"
                     @click="
                       overlay2 = false;
-                      onChange();
+                      end = {
+                        id: stationList[pickedStationIdx].id,
+                        name: stationList[pickedStationIdx].name,
+                        idx: pickedStationIdx,
+                      };
                     "
                     >선택하기</v-btn
                   >
@@ -374,7 +382,7 @@
                       @click="overlay1 = !overlay1"
                       flat
                     >
-                      <span v-if="start.idx < 0" class="select_station"
+                      <span v-if="start.id < 0" class="select_station"
                         >출발지 선택하기</span
                       >
                       <span v-else class="sel_station">{{ start.name }}</span>
@@ -388,7 +396,7 @@
                       @click="overlay2 = !overlay2"
                       flat
                     >
-                      <span v-if="end.idx < 0" class="select_station"
+                      <span v-if="end.id < 0" class="select_station"
                         >도착지 선택하기</span
                       >
                       <span v-else class="sel_station">{{ end.name }}</span>
@@ -494,6 +502,7 @@ export default {
       name: "end",
       idx: -1,
     },
+    pickedStationIdx: -1,
     startIcon: "",
     endIcon: "",
     // start_point: {
