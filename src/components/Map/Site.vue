@@ -259,7 +259,7 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="station in station_options"
+                        v-for="station in start_options"
                         @click="clk(station, 'start')"
                         :key="station.id"
                       >
@@ -317,7 +317,7 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="station in station_options"
+                        v-for="station in end_options"
                         @click="clk(station, 'end')"
                         :key="station.id"
                       >
@@ -490,7 +490,7 @@ export default {
       idx: -1,
     },
     end: {
-      id: 14,
+      id: -1,
       name: "end",
       idx: -1,
     },
@@ -662,10 +662,11 @@ export default {
       num = parseInt(num, 10);
       return num.toLocaleString();
     },
-    station_options() {
-      return this.stationList.filter(
-        (station) => station.id != this.start.id && station.id != this.end.id
-      );
+    start_options() {
+      return this.stationList.filter((station) => station.id != this.end.id);
+    },
+    end_options() {
+      return this.stationList.filter((station) => station.id != this.start.id);
     },
   },
   mounted() {
@@ -750,10 +751,6 @@ export default {
     },
   },
   methods: {
-    swapDestination() {
-      if (this.start.idx == -1 && this.end.idx == -1) return;
-      [this.start, this.end] = [this.end, this.start];
-    },
     // 정류장 위치에 따른 마커 표시
     addMarker() {
       // 사용 마커 정의
@@ -1407,64 +1404,10 @@ export default {
     },
 
     // 출발지와 도착지 swap 버튼
-    // switchDestination() {
-    //   // var change = 0;
-    //   let startIcon = this.$utils.map.createIcon({
-    //     iconUrl: require("../../assets/start-icon.svg"),
-    //     iconSize: [40, 40],
-    //     iconAnchor: [20, 40],
-    //   });
-    //   let endIcon = this.$utils.map.createIcon({
-    //     iconUrl: require("../../assets/end-icon.svg"),
-    //     iconSize: [40, 40],
-    //     iconAnchor: [20, 40],
-    //   });
-
-    //   if (this.start !== -1 && this.end !== -1) {
-    //     let temp = this.start;
-    //     this.start = this.end;
-    //     this.end = temp;
-
-    //     this.onChange();
-    //   } else if (this.start === -1) {
-    //     let temp = this.end;
-    //     this.end = this.start;
-    //     this.start = temp;
-
-    //     let temp_options = this.end_options;
-    //     this.end_options = this.start_options;
-    //     this.start_options = temp_options;
-
-    //     this.map.removeLayer(end_icon);
-    //     start_icon = this.$utils.map.createMakerByXY(
-    //       this.map,
-    //       [
-    //         this.stationList[this.start.idx].lat,
-    //         this.stationList[this.start.idx].lon,
-    //       ],
-    //       {
-    //         icon: startIcon,
-    //       }
-    //     );
-    //   } else if (this.end === -1) {
-    //     let temp = this.start;
-    //     this.start = this.end;
-    //     this.end = temp;
-
-    //     let temp_options = this.start_options;
-    //     this.start_options = this.end_options;
-    //     this.end_options = temp_options;
-
-    //     this.map.removeLayer(start_icon);
-    //     end_icon = this.$utils.map.createMakerByXY(
-    //       this.map,
-    //       [this.stationList[this.end].lat, this.stationList[this.end].lon],
-    //       {
-    //         icon: endIcon,
-    //       }
-    //     );
-    //   }
-    // },
+    swapDestination() {
+      if (this.start.idx == -1 && this.end.idx == -1) return;
+      [this.start, this.end] = [this.end, this.start];
+    },
 
     // 현재 위치 받아오는 함수
     getLocation() {
