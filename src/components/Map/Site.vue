@@ -643,11 +643,6 @@ export default {
           type: 3,
         },
         {
-          lat: 36.49533,
-          lng: 127.32832,
-          type: 3,
-        },
-        {
           lat: 36.49456,
           lng: 127.32574,
           type: 2,
@@ -659,6 +654,7 @@ export default {
         },
       ],
     },
+    routePoints: []
   }),
 
   computed: {
@@ -755,10 +751,40 @@ export default {
     start() {
       console.log("start changed", this.start);
       start_icon = this.stationPicker(this.start, this.startIcon, start_icon )
+      if (this.routePoints.length > 0) {
+          control.spliceWaypoints(0,6);
+      }
+      this.routePoints = [];
+      if(this.end.id != -1){
+        if(this.end.idx > this.start.idx){
+          this.routePoints = this.points[this.siteId].slice(this.start.idx, this.end.idx+1);
+        }
+        else{
+          this.routePoints = (this.points[this.siteId].slice(this.start.idx)).concat(this.points[this.siteId].slice(0,this.end.idx+1));
+        }
+        this.addRouting(this.routePoints, "#E51973", "transparent");
+      }
+      console.log(this.routePoints)
+
     },
     end() {
       console.log("end changed", this.end);
       end_icon = this.stationPicker(this.end, this.endIcon, end_icon )
+      if (this.routePoints.length > 0) {
+          control.spliceWaypoints(0,6);
+      }
+      this.routePoints = [];
+
+      if(this.start.id != -1){
+        if(this.end.idx > this.start.idx){
+          this.routePoints = this.points[this.siteId].slice(this.start.idx, this.end.idx+1);
+        }
+        else{
+          this.routePoints = (this.points[this.siteId].slice(this.start.idx)).concat(this.points[this.siteId].slice(0,this.end.idx+1));
+        }
+        this.addRouting(this.routePoints, "#E51973", "transparent");
+      }
+      console.log(this.routePoints)
     },
   },
   methods: {
