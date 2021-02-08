@@ -295,6 +295,7 @@
                       start = {
                         id: pickedStation.id,
                         name: pickedStation.name,
+                        idx:pickedStation.idx
                       };
                     "
                     >선택하기</v-btn
@@ -356,6 +357,7 @@
                       end = {
                         id: pickedStation.id,
                         name: pickedStation.name,
+                        idx:pickedStation.idx
                       };
                     "
                     >선택하기</v-btn
@@ -451,8 +453,8 @@ function rad2deg(rad) {
   return (rad * 180) / Math.PI;
 }
 
-let start_icon = "";
-let end_icon = "";
+let start_icon = {};
+let end_icon = {};
 
 import { mapGetters } from "vuex";
 import axios from "axios";
@@ -752,9 +754,11 @@ export default {
     },
     start() {
       console.log("start changed", this.start);
+      start_icon = this.stationPicker(this.start, this.startIcon, start_icon )
     },
     end() {
       console.log("end changed", this.end);
+      end_icon = this.stationPicker(this.end, this.endIcon, end_icon )
     },
   },
   methods: {
@@ -772,17 +776,18 @@ export default {
           {
             icon: this.zoomStatus,
             name: station.name,
-            value: station.idx,
+            value: station.id,
+            idx:station.idx
           }
         );
         markersLayer.on("click", this.layerClickHandler);
       }
     },
-    stationPicker(station, icon_source, icon_type) {
+    stationPicker(point, icon_source, icon_type) {
       this.map.removeLayer(icon_type);
       icon_type = this.$utils.map.createMakerByXY(
         this.map,
-        [this.stationList[station.idx].lat, this.stationList[station.idx].lon],
+        [this.points[this.siteId][point.idx].lat, this.points[this.siteId][point.idx].lng],
         {
           icon: icon_source,
         }
@@ -804,37 +809,11 @@ export default {
       });
     },
     layerClickHandler(e) {
-      // console.log('global_options: ', this.global_options);
-      // console.log('options: ', this.options);
-      // console.log('start_options: ', this.start_options);
-      // console.log('end_options: ', this.end_options);
-
       var marker = e.target;
-      var marker_lat = marker._latlng.lat;
-      var marker_lng = marker._latlng.lng;
-
-      // console.log('select_start: ', select_start);
-      // console.log('select_end: ', select_end);
-
-      // 출발지 아이콘 생성
-      // let startIcon = this.$utils.map.createIcon({
-      //   iconUrl: require("../../assets/start-icon.svg"),
-      //   iconSize: [40, 40],
-      //   iconAnchor: [20, 40],
-      // });
-
-      // // 도착지 아이콘 생성
-      // let endIcon = this.$utils.map.createIcon({
-      //   iconUrl: require("../../assets/end-icon.svg"),
-      //   iconSize: [40, 40],
-      //   iconAnchor: [20, 40],
-      // });
-
       // eslint-disable-next-line no-prototype-builtins
       if (marker.hasOwnProperty("_popup")) {
         marker.unbindPopup();
       }
-
       // 지도상에서 같은 정류장을 선택했을 경우
       if (
         this.start.id == marker.options.value ||
@@ -843,7 +822,7 @@ export default {
         console.log("같은 정류장은 선택이 불가능합니다.");
       } else {
         //   아닌 경우는 popup 창을 띄워준다.
-        var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;"></p>
+        var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;">${marker.options.name}</p>
                  <form>
                     <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>
                     <button id="endBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
@@ -852,109 +831,28 @@ export default {
         marker.bindPopup(template);
         marker.openPopup();
 
-        this.$utils.map.getDomUtil("stationName").textContent =
-          marker.options.value;
-
         var startSubmit = this.$utils.map.getDomUtil("startBtn");
 
         // 지도상에서 정류장을 출발지로 선택했을 경우
         this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
-          this.start.id = marker.options.value;
-          this.map.removeLayer(start_icon);
-          start_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [marker_lat, marker_lng],
-            {
-              icon: this.startIcon,
-            }
-          );
-
-          // 중복 방지
-          // this.start.id = -1;
-          // this.start_point = {
-          //   name: "출발지 선택하기",
-          //   value: -1,
-          // };
-
-          this.start.id = Number(marker.options.value);
-          this.start.name = marker.options.name;
-          // this.start.value = marker.options.value;
-
-          this.start.name = marker.options.name;
-          this.station_startId = this.stationList[this.start].id;
-
+          this.start = { 
+            id:Number(marker.options.value),
+            name: marker.options.name,
+            idx: Number(marker.options.idx)
+          };
           marker.closePopup();
-
-          // console.log('layerClickHandler options: ', this.options, 'Start name: ', this.start_point);
-
-          //   출발지에서 선택한 값은 도착지에서 선택할 수 없다.
-          this.end_options = this.options.filter(
-            (opt) => opt.value != this.start.id
-          );
-          this.options = this.global_options;
-
-          this.onCancel("start");
-
-          if (this.waypoints.length > 0) {
-            control.spliceWaypoints(0, 6);
-          }
-          this.waypoints = [];
-
-          // 선택한 정류장에 따라 경로 표시
-          // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
-
-          this.addRouting(this.waypoints, "#E51973", "transparent");
         });
 
         var endSubmit = this.$utils.map.getDomUtil("endBtn");
 
         // 지도상에서 정류장을 도착지로 지정한 경우
         this.$utils.map.createDomEvent.addListener(endSubmit, "click", () => {
-          // select_end = marker.options.name;
-          this.map.removeLayer(end_icon);
-          end_icon = this.$utils.map.createMakerByXY(
-            this.map,
-            [marker_lat, marker_lng],
-            {
-              icon: this.endIcon,
-            }
-          );
-
-          // 중복 방지
-          this.end = -1;
-          this.end_point = {
-            name: "도착지 선택하기",
-            value: -1,
-          };
-
-          this.end = Number(marker.options.value);
-          this.end_point.name = marker.options.name;
-          this.end_point.value = marker.options.value;
-
-          this.endName = marker.options.name;
-          this.station_endId = this.stationList[this.end].id;
-
-          marker.closePopup();
-          // console.log('layerClickHandler start_options: ', this.start_options);
-          // console.log('layerClickHandler options: ', this.options, 'End name: ', this.end_point);
-
-          //   도착지에서 선택한 정류장은 출발지에서 선택할 수 없다.
-          // this.start_options = this.options.filter(
-          //   (opt) => opt.value != this.end_point.value
-          // );
-          // this.options = this.global_options;
-
-          this.onCancel("end");
-
-          if (this.waypoints.length > 0) {
-            control.spliceWaypoints(0, 6);
+          this.end = {
+            id : Number(marker.options.value),
+            name:marker.options.name,
+            idx: marker.options.idx
           }
-          this.waypoints = [];
-
-          // 선택한 정류장에 따라 경로 표시
-          // leaflet-routing-machine에서 올바른 서비스 경로 표시를 할 수 없어서 static하게 지정해주었다. -> 개선 필요
-
-          this.addRouting(this.waypoints, "#E51973", "transparent");
+          marker.closePopup();
         });
       }
     },
@@ -1038,12 +936,19 @@ export default {
             for (let i = 0; i < station_count; i++) {
               if (station_result[i].site == this.siteId) {
                 // siteId와 같은 번호의 data만 가져오기
-                this.stationList.push(station_result[i]);
-                this.stationList = this.stationList.sort(function (a, b) {
-                  return a.id < b.id ? -1 : 1;
-                });
+                // this.stationList.push(station_result[i]);
+                for(let j in this.points[this.siteId]){
+                  if(this.points[this.siteId][j].lat==station_result[i].lat && this.points[this.siteId][j].lng==station_result[i].lon){
+                    station_result[i].idx = Number(j);
+                    this.stationList.push(station_result[i]);
+                    break;                    
+                  }
+                }
               }
             }
+            this.stationList = this.stationList.sort(function (a, b) {
+              return a.sta_Order < b.sta_Order ? -1 : 1;
+            });
 
             // this.loading1 = false; // 정류장 API의 response가 완료되면 false로 변경
             // if (this.loading1 == false && this.loading2 == false) {
