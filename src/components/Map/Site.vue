@@ -295,7 +295,7 @@
                       start = {
                         id: pickedStation.id,
                         name: pickedStation.name,
-                        idx:pickedStation.idx
+                        idx: pickedStation.idx,
                       };
                     "
                     >선택하기</v-btn
@@ -357,7 +357,7 @@
                       end = {
                         id: pickedStation.id,
                         name: pickedStation.name,
-                        idx:pickedStation.idx
+                        idx: pickedStation.idx,
                       };
                     "
                     >선택하기</v-btn
@@ -545,27 +545,27 @@ export default {
       2: [
         {
           lat: 35.836308,
-          lng: 128.681547,
+          lon: 128.681547,
           type: 6,
         },
         {
           lat: 35.838673,
-          lng: 128.687892,
+          lon: 128.687892,
           type: 6,
         },
         {
           lat: 35.83705,
-          lng: 128.690044,
+          lon: 128.690044,
           type: 6,
         },
         {
           lat: 35.83459,
-          lng: 128.68652,
+          lon: 128.68652,
           type: 6,
         },
         {
           lat: 35.836308,
-          lng: 128.681547,
+          lon: 128.681547,
           type: 6,
         },
       ],
@@ -573,12 +573,12 @@ export default {
       3: [
         {
           lat: 36.499351,
-          lng: 127.270606,
+          lon: 127.270606,
           type: 6,
         },
         {
           lat: 36.50169,
-          lng: 127.272315,
+          lon: 127.272315,
           type: 6,
         },
       ],
@@ -586,27 +586,27 @@ export default {
       4: [
         {
           lat: 37.579333,
-          lng: 126.889036,
+          lon: 126.889036,
           type: 6,
         },
         {
           lat: 37.57518,
-          lng: 126.89837,
+          lon: 126.89837,
           type: 6,
         },
         {
           lat: 37.58299,
-          lng: 126.88485,
+          lon: 126.88485,
           type: 6,
         },
         {
           lat: 37.581296,
-          lng: 126.885693,
+          lon: 126.885693,
           type: 6,
         },
         {
           lat: 37.579333,
-          lng: 126.889036,
+          lon: 126.889036,
           type: 6,
         },
       ],
@@ -614,47 +614,47 @@ export default {
       18: [
         {
           lat: 36.49911,
-          lng: 127.32867,
+          lon: 127.32867,
           type: 2,
         },
         {
           lat: 36.49892,
-          lng: 127.32886,
+          lon: 127.32886,
           type: 3,
         },
         {
           lat: 36.49671,
-          lng: 127.32989,
+          lon: 127.32989,
           type: 2,
         },
         {
           lat: 36.495534,
-          lng: 127.330257,
+          lon: 127.330257,
           type: 3,
         },
         {
           lat: 36.49529,
-          lng: 127.33077,
+          lon: 127.33077,
           type: 2,
         },
         {
           lat: 36.49471,
-          lng: 127.32834,
+          lon: 127.32834,
           type: 3,
         },
         {
           lat: 36.49456,
-          lng: 127.32574,
+          lon: 127.32574,
           type: 2,
         },
         {
           lat: 36.49815,
-          lng: 127.32564,
+          lon: 127.32564,
           type: 2,
         },
       ],
     },
-    routePoints: []
+    routePoints: [],
   }),
 
   computed: {
@@ -717,7 +717,7 @@ export default {
   },
   updated() {
     // 출발지, 도착지, 인원수 선택에 따른 호출 버튼 표시 유무
-    if (this.temp >= 1 && this.start >= 0 && this.end >= 0) {
+    if (this.temp >= 1 && this.start.idx >= 0 && this.end.idx >= 0) {
       this.callBtn = true;
     } else {
       this.callBtn = false;
@@ -750,41 +750,46 @@ export default {
     },
     start() {
       console.log("start changed", this.start);
-      start_icon = this.stationPicker(this.start, this.startIcon, start_icon )
+      start_icon = this.stationPicker(this.start, this.startIcon, start_icon);
       if (this.routePoints.length > 0) {
-          control.spliceWaypoints(0,6);
+        control.spliceWaypoints(0, 6);
       }
       this.routePoints = [];
-      if(this.end.id != -1){
-        if(this.end.idx > this.start.idx){
-          this.routePoints = this.points[this.siteId].slice(this.start.idx, this.end.idx+1);
-        }
-        else{
-          this.routePoints = (this.points[this.siteId].slice(this.start.idx)).concat(this.points[this.siteId].slice(0,this.end.idx+1));
+      if (this.end.id != -1 && this.start.id != -1) {
+        if (this.end.idx > this.start.idx) {
+          this.routePoints = this.points[this.siteId].slice(
+            this.start.idx,
+            this.end.idx + 1
+          );
+        } else {
+          this.routePoints = this.points[this.siteId]
+            .slice(this.start.idx)
+            .concat(this.points[this.siteId].slice(0, this.end.idx + 1));
         }
         this.addRouting(this.routePoints, "#E51973", "transparent");
       }
-      console.log(this.routePoints)
-
     },
     end() {
       console.log("end changed", this.end);
-      end_icon = this.stationPicker(this.end, this.endIcon, end_icon )
+      end_icon = this.stationPicker(this.end, this.endIcon, end_icon);
       if (this.routePoints.length > 0) {
-          control.spliceWaypoints(0,6);
+        control.spliceWaypoints(0, 6);
       }
       this.routePoints = [];
 
-      if(this.start.id != -1){
-        if(this.end.idx > this.start.idx){
-          this.routePoints = this.points[this.siteId].slice(this.start.idx, this.end.idx+1);
-        }
-        else{
-          this.routePoints = (this.points[this.siteId].slice(this.start.idx)).concat(this.points[this.siteId].slice(0,this.end.idx+1));
+      if (this.start.id != -1 && this.end.id != -1) {
+        if (this.end.idx > this.start.idx) {
+          this.routePoints = this.points[this.siteId].slice(
+            this.start.idx,
+            this.end.idx + 1
+          );
+        } else {
+          this.routePoints = this.points[this.siteId]
+            .slice(this.start.idx)
+            .concat(this.points[this.siteId].slice(0, this.end.idx + 1));
         }
         this.addRouting(this.routePoints, "#E51973", "transparent");
       }
-      console.log(this.routePoints)
     },
   },
   methods: {
@@ -803,7 +808,7 @@ export default {
             icon: this.zoomStatus,
             name: station.name,
             value: station.id,
-            idx:station.idx
+            idx: station.idx,
           }
         );
         markersLayer.on("click", this.layerClickHandler);
@@ -813,7 +818,10 @@ export default {
       this.map.removeLayer(icon_type);
       icon_type = this.$utils.map.createMakerByXY(
         this.map,
-        [this.points[this.siteId][point.idx].lat, this.points[this.siteId][point.idx].lng],
+        [
+          this.points[this.siteId][point.idx].lat,
+          this.points[this.siteId][point.idx].lon,
+        ],
         {
           icon: icon_source,
         }
@@ -861,10 +869,10 @@ export default {
 
         // 지도상에서 정류장을 출발지로 선택했을 경우
         this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
-          this.start = { 
-            id:Number(marker.options.value),
+          this.start = {
+            id: Number(marker.options.value),
             name: marker.options.name,
-            idx: Number(marker.options.idx)
+            idx: Number(marker.options.idx),
           };
           marker.closePopup();
         });
@@ -874,10 +882,10 @@ export default {
         // 지도상에서 정류장을 도착지로 지정한 경우
         this.$utils.map.createDomEvent.addListener(endSubmit, "click", () => {
           this.end = {
-            id : Number(marker.options.value),
-            name:marker.options.name,
-            idx: marker.options.idx
-          }
+            id: Number(marker.options.value),
+            name: marker.options.name,
+            idx: marker.options.idx,
+          };
           marker.closePopup();
         });
       }
@@ -958,16 +966,18 @@ export default {
         .then(async (response) => {
           if (response.status == 200) {
             let station_result = response.data;
-            let station_count = Object.keys(station_result).length;
-            for (let i = 0; i < station_count; i++) {
-              if (station_result[i].site == this.siteId) {
-                // siteId와 같은 번호의 data만 가져오기
-                // this.stationList.push(station_result[i]);
-                for(let j in this.points[this.siteId]){
-                  if(this.points[this.siteId][j].lat==station_result[i].lat && this.points[this.siteId][j].lng==station_result[i].lon){
-                    station_result[i].idx = Number(j);
-                    this.stationList.push(station_result[i]);
-                    break;                    
+            // let station_count = Object.keys(station_result).length;
+            let points_idx = -1;
+            for (let station of station_result) {
+              if (station.site == this.siteId) {
+                while (points_idx++ < this.points[this.siteId].length) {
+                  if (
+                    this.points[this.siteId][points_idx].lat == station.lat &&
+                    this.points[this.siteId][points_idx].lon == station.lon
+                  ) {
+                    station.idx = Number(points_idx);
+                    this.stationList.push(station);
+                    break;
                   }
                 }
               }
@@ -976,8 +986,6 @@ export default {
               return a.sta_Order < b.sta_Order ? -1 : 1;
             });
 
-            // this.loading1 = false; // 정류장 API의 response가 완료되면 false로 변경
-            // if (this.loading1 == false && this.loading2 == false) {
             // 정류장 API와 셔틀 API의 response가 완료된 경우
             this.loading = false; // 로딩 딤 화면 끝내기
             // }
@@ -985,25 +993,10 @@ export default {
 
           for (let point of this.points[this.siteId]) {
             if (!(point.type % 2)) {
-              this.waypoints2.push({ lat: point.lat, lng: point.lng });
+              this.waypoints2.push({ lat: point.lat, lon: point.lon });
             }
           }
           this.waypoints2.push(this.waypoints2[0]);
-
-          // for (var [i, arr2] of this.stationList.entries()) {
-          //   this.global_options.push({
-          //     name: arr2.name,
-          //     value: i,
-          //   });
-
-          //   this.options.push({
-          //     name: arr2.name,
-          //     value: i,
-          //   });
-          // }
-
-          // this.start_options = this.options;
-          // this.end_options = this.options;
 
           await this.addMarker(); // 정류장 마커 표시
           await this.addRouting2(this.waypoints2, "#00CFFF", "#FFFFFF"); // 서비스 경로 표시
@@ -1082,7 +1075,7 @@ export default {
                     vehicle_data[i].lat != undefined ||
                     vehicle_data[i].lon != undefined
                   ) {
-                    this.vehicle[i].setLatLng([
+                    this.vehicle[i].setLatlon([
                       vehicle_data[i].lat,
                       vehicle_data[i].lon,
                     ]); // 위치 업데이트
@@ -1178,162 +1171,6 @@ export default {
       this.dialog = false;
     },
 
-    // 정류장 list 선택 버튼
-    clk(item, mode) {
-      // mode == "start" ? this.start_point = item : this.end_point = item;
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      if (mode === "start") {
-        let start_point = item;
-        // select_start = this.start_point.name;
-
-        this.map.removeLayer(start_icon);
-        start_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [
-            this.stationList[start_point.value].lat,
-            this.stationList[start_point.value].lon,
-          ],
-          {
-            icon: startIcon,
-          }
-        );
-      } else {
-        let end_point = item;
-        // select_end = this.end_point.name;
-
-        this.map.removeLayer(end_icon);
-        end_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [
-            this.stationList[end_point.value].lat,
-            this.stationList[end_point.value].lon,
-          ],
-          {
-            icon: endIcon,
-          }
-        );
-      }
-    },
-
-    // 출발지, 도착지 선택 완료 버튼
-    onChange() {
-      // REMOVE Default Routing
-      if (this.waypoints.length > 0) {
-        control.spliceWaypoints(0, 6);
-      }
-      this.waypoints = [];
-
-      // 출발지, 도착지 value[Number] 저장
-      this.start = this.start_point.value;
-      this.start.name = this.start_point.name;
-      this.end = this.end_point.value;
-      this.end.name = this.end_point.name;
-
-      // 출발지에서 선택한 항목은 도착지에서 선택할 수 없다.
-      // this.start_options = this.options.filter(
-      //   (opt) => opt.value != this.end_point.value
-      // );
-
-      // this.options = this.global_options; // global_options는 값을 변경하지 않는다. 오로직 해당 지역의 정류장 전체를 가지고 있는 배열
-
-      // // 도착지에서 선택한 항목은 출발지에서 선택할 수 없다.
-      // this.end_options = this.options.filter(
-      //   (opt) => opt.value != this.start_point.value
-      // );
-      // this.options = this.global_options; // global_options는 값을 변경하지 않는다. 오로직 해당 지역의 정류장 전체를 가지고 있는 배열
-
-      // for webSocket
-      if (this.start !== -1) {
-        this.station_startId = this.stationList[this.start].id;
-      }
-      if (this.end !== -1) {
-        this.station_endId = this.stationList[this.end].id;
-      }
-
-      // 결제시 넘겨줄 파라미터 값 저장 - 출발지, 도착지 표시
-      //   this.station_startId = this.stationList[this.start].id;
-      //   this.station_endId = this.stationList[this.end].id;
-
-      // 출발지 표시 아이콘
-      let startIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/start-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-      // 도착지 표시 아이콘
-      let endIcon = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/end-icon.svg"),
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      //  군산의 경우는 자동 경로 표시가 서비스 경로와 다르게 표시되기 때문에 Static하게 작업하였습니다.
-      // start는 출발지 index, end는 도착지 index
-      // 그 외
-      if (this.start > -1 && this.end > -1) {
-        let l = this.global_options.length - 1;
-        if (this.start < this.end) {
-          for (let i = this.start; i <= this.end; i++) {
-            this.waypoints.push({
-              lat: this.stationList[i].lat,
-              lng: this.stationList[i].lon,
-            });
-          }
-        } else if (this.start > this.end) {
-          this.waypoints.push({
-            lat: this.stationList[this.start].lat,
-            lng: this.stationList[this.start].lon,
-          });
-          for (let i = this.start; i % l != this.end; i++) {
-            this.waypoints.push({
-              lat: this.stationList[i % l].lat,
-              lng: this.stationList[i % l].lon,
-            });
-          }
-          this.waypoints.push({
-            lat: this.stationList[this.end].lat,
-            lng: this.stationList[this.end].lon,
-          });
-        }
-      }
-
-      // 출발지 아이콘 지우기
-      this.map.removeLayer(start_icon);
-      if (this.start !== -1) {
-        start_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [this.stationList[this.start].lat, this.stationList[this.start].lon],
-          {
-            icon: startIcon,
-          }
-        );
-      }
-      this.map.removeLayer(end_icon);
-      if (this.end !== -1) {
-        end_icon = this.$utils.map.createMakerByXY(
-          this.map,
-          [this.stationList[this.end].lat, this.stationList[this.end].lon],
-          {
-            icon: endIcon,
-          }
-        );
-      }
-      this.map.removeLayer(endIcon);
-
-      // SET New Routing
-      this.addRouting(this.waypoints, "#E51973", "transparent");
-    },
-
     // 출발지와 도착지 swap 버튼
     swapDestination() {
       if (this.start.id == -1 && this.end.id == -1) return;
@@ -1384,7 +1221,7 @@ export default {
                 }
               ));
             } else {
-              return this.usermarker.setLatLng(e.latlng);
+              return this.usermarker.setLatlon(e.latlon);
             }
           } else {
             count = 0;
@@ -1463,13 +1300,11 @@ export default {
 
     // ETA
     getStat2Sta() {
-      if (this.start !== -1)
-        var stat = JSON.parse(this.stationList[this.start].stat2sta);
-      if (this.start !== -1)
-        var start_station = JSON.parse(this.stationList[this.start].id);
-      if (this.end !== -1)
-        var end_station = JSON.parse(this.stationList[this.end].id);
+      if (this.start.id !== -1) var stat = JSON.parse(this.start.stat2sta);
+      if (this.start.id !== -1) var start_station = JSON.parse(this.start.id);
+      if (this.end.id !== -1) var end_station = JSON.parse(this.end.id);
       this.minutes = stat[start_station][end_station];
+      console.log(this.minutes);
     },
 
     // 타시오 호출, 결제 창 연결
