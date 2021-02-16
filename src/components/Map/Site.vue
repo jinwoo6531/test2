@@ -509,20 +509,7 @@ export default {
     pickedStation: "",
     startIcon: "",
     endIcon: "",
-    // start_point: {
-    //   name: "출발지 선택하기",
-    //   value: -1,
-    // },
-    // end_point: {
-    //   name: "도착지 선택하기",
-    //   value: -1,
-    // },
-    global_options: [],
     options: [],
-    // start_options: [],
-    // end_options: [],
-    // start_icon: {},
-    // end_icon: {},
     // Location
     can: false,
     res: true,
@@ -716,8 +703,6 @@ export default {
     this.getVehicle();
 
     this.createPickerIcons();
-    // this.start = parseInt(this.start);
-    // this.end = parseInt(this.end);
   },
   updated() {
     // 출발지, 도착지, 인원수 선택에 따른 호출 버튼 표시 유무
@@ -765,7 +750,8 @@ export default {
       }
       this.routePoints = [];
       if (this.end.id != -1 && this.start.id != -1) {
-        this.getStat2Sta();
+        //calc ETA
+        this.minutes = this.start.stat2sta[this.start.id][this.end.id];
         if (this.end.points_idx > this.start.points_idx) {
           this.routePoints = this.points[this.siteId].slice(
             this.start.points_idx,
@@ -789,7 +775,8 @@ export default {
       this.routePoints = [];
 
       if (this.start.id != -1 && this.end.id != -1) {
-        this.getStat2Sta();
+        //calc ETA
+        this.minutes = this.start.stat2sta[this.start.id][this.end.id];
         if (this.end.points_idx > this.start.points_idx) {
           this.routePoints = this.points[this.siteId].slice(
             this.start.points_idx,
@@ -1314,53 +1301,7 @@ export default {
       this.stopLocation();
     },
 
-    // ETA
-    getStat2Sta() {
-      // const stat = JSON.parse(this.start.stat2sta);
-      this.minutes = this.start.stat2sta[this.start.id][this.end.id];
-      console.log("minutes", this.minutes);
-    },
-
-    // 타시오 호출, 결제 창 연결
-    // requestCallBtn() {
-    //     var totalPayment = String("1000" * this.count).replace(
-    //         /(\d)(?=(?:\d{3})+(?!\d))/g,
-    //         "$1,"
-    //     );
-
-    //     const IMP = window.IMP;
-    //     IMP.init("imp19092456"); // 가맹점 식별코드
-    //     IMP.request_pay({
-    //         // 결제창 호출 코드
-    //         pg: `mobilians.${this.meth}`, // PG사명
-    //         pay_method: this.pay_method, // 결제수단
-    //         merchant_uid: "mid_" + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
-    //         name: "타시오 결제", // 주문명
-    //         amount: totalPayment, // 결제할 금액 (필수 항목)
-    //         buyer_email: "", // 주문자 ID (선택 항목)
-    //         buyer_name: "", // 주문자명 (선택항목)
-    //         buyer_tel: "010-8433-9772", // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-    //         buyer_addr: "", // 주문자 주소 (선택 항목)
-    //         buyer_postcode: "", // 주문자 우편 번호 (선택 항목)
-    //         custom_data: {
-    //             imp_uid: this.user.data.uid,
-    //             count: this.count
-    //         },
-    //         m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${
-    //   this.pageId
-    // }&siteName=${this.mapInfo[this.siteId].name}&start=${this.start}&end=${
-    //   this.end
-    // }&startName=${this.options[this.start].name}&endName=${
-    //   this.options[this.end].name
-    // }&station_startId=${this.station_startId}&station_endId=${
-    //   this.station_endId
-    // }&count=${this.count}&minutes=${this.minutes}&vehicle_id=${
-    //   this.vehicle_id
-    // }`
-    //     });
-    // },
-
-    // 타시오 호출, 결제 창 연결 -> views/calling-layout.vue
+    // 타시오 호출, 결제 창X 연결 -> views/calling-layout.vue
     requestCallBtn() {
       this.$router.replace({
         name: "CallingLayout",
