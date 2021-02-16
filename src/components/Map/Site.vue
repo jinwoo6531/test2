@@ -295,7 +295,8 @@
                       start = {
                         id: pickedStation.id,
                         name: pickedStation.name,
-                        idx: pickedStation.idx,
+                        points_idx: pickedStation.points_idx,
+                        stat2sta: pickedStation.stat2sta,
                       };
                     "
                     >선택하기</v-btn
@@ -357,7 +358,8 @@
                       end = {
                         id: pickedStation.id,
                         name: pickedStation.name,
-                        idx: pickedStation.idx,
+                        points_idx: pickedStation.points_idx,
+                        stat2sta: pickedStation.stat2sta,
                       };
                     "
                     >선택하기</v-btn
@@ -495,12 +497,14 @@ export default {
     start: {
       id: -1,
       name: "start",
-      idx: -1,
+      points_idx: -1,
+      stat2sta: "",
     },
     end: {
       id: -1,
       name: "end",
-      idx: -1,
+      points_idx: -1,
+      stat2sta: "",
     },
     pickedStation: "",
     startIcon: "",
@@ -717,7 +721,11 @@ export default {
   },
   updated() {
     // 출발지, 도착지, 인원수 선택에 따른 호출 버튼 표시 유무
-    if (this.temp >= 1 && this.start.idx >= 0 && this.end.idx >= 0) {
+    if (
+      this.temp >= 1 &&
+      this.start.points_idx >= 0 &&
+      this.end.points_idx >= 0
+    ) {
       this.callBtn = true;
     } else {
       this.callBtn = false;
@@ -751,20 +759,22 @@ export default {
     start() {
       console.log("start changed", this.start);
       start_icon = this.stationPicker(this.start, this.startIcon, start_icon);
+
       if (this.routePoints.length > 0) {
         control.spliceWaypoints(0, 6);
       }
       this.routePoints = [];
       if (this.end.id != -1 && this.start.id != -1) {
-        if (this.end.idx > this.start.idx) {
+        this.getStat2Sta();
+        if (this.end.points_idx > this.start.points_idx) {
           this.routePoints = this.points[this.siteId].slice(
-            this.start.idx,
-            this.end.idx + 1
+            this.start.points_idx,
+            this.end.points_idx + 1
           );
         } else {
           this.routePoints = this.points[this.siteId]
-            .slice(this.start.idx)
-            .concat(this.points[this.siteId].slice(0, this.end.idx + 1));
+            .slice(this.start.points_idx)
+            .concat(this.points[this.siteId].slice(0, this.end.points_idx + 1));
         }
         this.addRouting(this.routePoints, "#E51973", "transparent");
       }
@@ -772,21 +782,23 @@ export default {
     end() {
       console.log("end changed", this.end);
       end_icon = this.stationPicker(this.end, this.endIcon, end_icon);
+
       if (this.routePoints.length > 0) {
         control.spliceWaypoints(0, 6);
       }
       this.routePoints = [];
 
       if (this.start.id != -1 && this.end.id != -1) {
-        if (this.end.idx > this.start.idx) {
+        this.getStat2Sta();
+        if (this.end.points_idx > this.start.points_idx) {
           this.routePoints = this.points[this.siteId].slice(
-            this.start.idx,
-            this.end.idx + 1
+            this.start.points_idx,
+            this.end.points_idx + 1
           );
         } else {
           this.routePoints = this.points[this.siteId]
-            .slice(this.start.idx)
-            .concat(this.points[this.siteId].slice(0, this.end.idx + 1));
+            .slice(this.start.points_idx)
+            .concat(this.points[this.siteId].slice(0, this.end.points_idx + 1));
         }
         this.addRouting(this.routePoints, "#E51973", "transparent");
       }
@@ -808,7 +820,8 @@ export default {
             icon: this.zoomStatus,
             name: station.name,
             value: station.id,
-            idx: station.idx,
+            points_idx: station.points_idx,
+            stat2sta: station.stat2sta,
           }
         );
         markersLayer.on("click", this.layerClickHandler);
@@ -819,8 +832,8 @@ export default {
       icon_type = this.$utils.map.createMakerByXY(
         this.map,
         [
-          this.points[this.siteId][point.idx].lat,
-          this.points[this.siteId][point.idx].lon,
+          this.points[this.siteId][point.points_idx].lat,
+          this.points[this.siteId][point.points_idx].lon,
         ],
         {
           icon: icon_source,
@@ -872,7 +885,8 @@ export default {
           this.start = {
             id: Number(marker.options.value),
             name: marker.options.name,
-            idx: Number(marker.options.idx),
+            points_idx: Number(marker.options.points_idx),
+            stat2sta: marker.options.stat2sta,
           };
           marker.closePopup();
         });
@@ -884,7 +898,8 @@ export default {
           this.end = {
             id: Number(marker.options.value),
             name: marker.options.name,
-            idx: marker.options.idx,
+            points_idx: marker.options.points_idx,
+            stat2sta: marker.options.stat2sta,
           };
           marker.closePopup();
         });
@@ -975,7 +990,8 @@ export default {
                     this.points[this.siteId][points_idx].lat == station.lat &&
                     this.points[this.siteId][points_idx].lon == station.lon
                   ) {
-                    station.idx = Number(points_idx);
+                    station.points_idx = Number(points_idx);
+                    station.stat2sta = JSON.parse(station.stat2sta);
                     this.stationList.push(station);
                     break;
                   }
@@ -1300,11 +1316,9 @@ export default {
 
     // ETA
     getStat2Sta() {
-      if (this.start.id !== -1) var stat = JSON.parse(this.start.stat2sta);
-      if (this.start.id !== -1) var start_station = JSON.parse(this.start.id);
-      if (this.end.id !== -1) var end_station = JSON.parse(this.end.id);
-      this.minutes = stat[start_station][end_station];
-      console.log(this.minutes);
+      // const stat = JSON.parse(this.start.stat2sta);
+      this.minutes = this.start.stat2sta[this.start.id][this.end.id];
+      console.log("minutes", this.minutes);
     },
 
     // 타시오 호출, 결제 창 연결
@@ -1346,18 +1360,14 @@ export default {
     //     });
     // },
 
-    // 타시오 호출, 결제 창 연결
+    // 타시오 호출, 결제 창 연결 -> views/calling-layout.vue
     requestCallBtn() {
       this.$router.replace({
         name: "CallingLayout",
         query: {
           site: this.siteId,
-          start: this.start.idx,
-          end: this.end.idx,
-          station_startId: this.station_startId,
-          station_endId: this.station_endId,
-          startName: this.start.name,
-          endName: this.end.name,
+          start: this.start,
+          end: this.end,
           count: this.count,
           minutes: this.minutes,
           vehicle_id: this.vehicle_id,
