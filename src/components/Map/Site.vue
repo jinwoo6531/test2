@@ -1078,7 +1078,7 @@ export default {
                     vehicle_data[i].lat != undefined ||
                     vehicle_data[i].lon != undefined
                   ) {
-                    this.vehicle[i].setLatlon([
+                    this.vehicle[i].setLatLng([
                       vehicle_data[i].lat,
                       vehicle_data[i].lon,
                     ]); // 위치 업데이트
@@ -1224,7 +1224,7 @@ export default {
                 }
               ));
             } else {
-              return this.usermarker.setLatlon(e.latlon);
+              return this.usermarker.setLatLng(e.latlng);
             }
           } else {
             count = 0;
