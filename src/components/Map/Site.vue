@@ -461,6 +461,7 @@ let end_icon = {};
 import { mapGetters } from "vuex";
 import axios from "axios";
 var control;
+var marker;
 
 export default {
   data: () => ({
@@ -603,18 +604,18 @@ export default {
       ],
       // 세종 규특
       18: [
+        // {
+        //   lat: 36.49911,
+        //   lon: 127.32867,
+        //   type: 2,
+        // },
         {
-          lat: 36.49911,
-          lon: 127.32867,
-          type: 2,
-        },
-        {
-          lat: 36.49892,
-          lon: 127.32886,
+          lat: 36.49791,
+          lon: 127.33019,
           type: 3,
         },
         {
-          lat: 36.49671,
+          lat: 36.495534,
           lon: 127.32989,
           type: 2,
         },
@@ -629,19 +630,19 @@ export default {
           type: 2,
         },
         {
-          lat: 36.49471,
-          lon: 127.32834,
-          type: 3,
-        },
-        {
           lat: 36.49456,
           lon: 127.32574,
           type: 2,
         },
         {
-          lat: 36.49815,
-          lon: 127.32564,
-          type: 2,
+          lat: 36.498190,
+          lon: 127.3258,
+          type: 3,
+        },
+        {
+          lat: 36.49918,
+          lon: 127.3277,
+          type: 6,
         },
       ],
     },
@@ -717,6 +718,18 @@ export default {
     }
   },
   watch: {
+    overlay1() {
+      if(this.overlay1 && marker) {
+        marker.closePopup();
+        marker = false;
+      }
+    },
+    overlay2() {
+      if(this.overlay2 && marker) {
+        marker.closePopup();
+        marker = false;
+      }
+    },
     //  서비스 가능 지역 내에 위치하는지 실시간 확인
     currentlocation() {
       for (let i = 0; i < this.stationList.length; i++) {
@@ -843,7 +856,7 @@ export default {
       });
     },
     layerClickHandler(e) {
-      var marker = e.target;
+      marker = e.target;
       // eslint-disable-next-line no-prototype-builtins
       if (marker.hasOwnProperty("_popup")) {
         marker.unbindPopup();
@@ -876,6 +889,7 @@ export default {
             stat2sta: marker.options.stat2sta,
           };
           marker.closePopup();
+          marker = false
         });
 
         var endSubmit = this.$utils.map.getDomUtil("endBtn");
@@ -889,6 +903,7 @@ export default {
             stat2sta: marker.options.stat2sta,
           };
           marker.closePopup();
+          marker = false;
         });
       }
     },
@@ -973,10 +988,12 @@ export default {
             for (let station of station_result) {
               if (station.site == this.siteId) {
                 while (points_idx++ < this.points[this.siteId].length) {
+                  console.log(this.points[this.siteId][points_idx], station)
                   if (
                     this.points[this.siteId][points_idx].lat == station.lat &&
                     this.points[this.siteId][points_idx].lon == station.lon
                   ) {
+                    console.log('voila', station)
                     station.points_idx = Number(points_idx);
                     station.stat2sta = JSON.parse(station.stat2sta);
                     this.stationList.push(station);
