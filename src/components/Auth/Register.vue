@@ -2,6 +2,9 @@
   <v-container style="height: 100%">
     <v-layout wrap style="height: 100%">
       <v-flex class="pa-5" xs12 sm12 md12>
+        <div class="back-to-auth-code pb-6 pt-10" @click="goToBack">
+          <img src="@/assets/back-icon.svg" />
+        </div>
         <h3 class="auth-title">이제 마지막 단계예요.</h3>
         <p class="auth-content" style="margin-top: 12px">
           제가 모시게 될 고객님은 어떤 분인가요?
@@ -108,6 +111,9 @@ export default {
   },
 
   methods: {
+    goToBack() {
+      this.$router.replace("/auth/agreecheck");
+    },
     hangul() {
       let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
       var pattern_num = /[0-9]/;
@@ -234,5 +240,8 @@ input::placeholder {
   display: flex;
   align-items: flex-end;
   color: #eb5757;
+}
+.back-to-auth-code img {
+  cursor: pointer;
 }
 </style>
