@@ -11,6 +11,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "App",
+  created() {},
   computed: {
     ...mapGetters(["isLoading"]),
     ...mapGetters({
