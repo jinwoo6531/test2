@@ -635,7 +635,7 @@ export default {
           type: 2,
         },
         {
-          lat: 36.498190,
+          lat: 36.49819,
           lon: 127.3258,
           type: 3,
         },
@@ -719,13 +719,13 @@ export default {
   },
   watch: {
     overlay1() {
-      if(this.overlay1 && marker) {
+      if (this.overlay1 && marker) {
         marker.closePopup();
         marker = false;
       }
     },
     overlay2() {
-      if(this.overlay2 && marker) {
+      if (this.overlay2 && marker) {
         marker.closePopup();
         marker = false;
       }
@@ -856,7 +856,10 @@ export default {
       });
     },
     layerClickHandler(e) {
+      marker = false;
+
       marker = e.target;
+      console.log(marker);
       // eslint-disable-next-line no-prototype-builtins
       if (marker.hasOwnProperty("_popup")) {
         marker.unbindPopup();
@@ -879,17 +882,21 @@ export default {
         marker.openPopup();
 
         var startSubmit = this.$utils.map.getDomUtil("startBtn");
+        console.log("startSubmit", startSubmit);
 
         // 지도상에서 정류장을 출발지로 선택했을 경우
+
         this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
+          console.log("startClicked");
           this.start = {
             id: Number(marker.options.value),
             name: marker.options.name,
             points_idx: Number(marker.options.points_idx),
             stat2sta: marker.options.stat2sta,
           };
+
           marker.closePopup();
-          marker = false
+          marker = false;
         });
 
         var endSubmit = this.$utils.map.getDomUtil("endBtn");
@@ -988,12 +995,10 @@ export default {
             for (let station of station_result) {
               if (station.site == this.siteId) {
                 while (points_idx++ < this.points[this.siteId].length) {
-                  console.log(this.points[this.siteId][points_idx], station)
                   if (
                     this.points[this.siteId][points_idx].lat == station.lat &&
                     this.points[this.siteId][points_idx].lon == station.lon
                   ) {
-                    console.log('voila', station)
                     station.points_idx = Number(points_idx);
                     station.stat2sta = JSON.parse(station.stat2sta);
                     this.stationList.push(station);

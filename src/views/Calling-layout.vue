@@ -13,6 +13,7 @@
         <span>{{ end.name }}</span>
       </div>
       <v-card
+        v-if="cancelBtn"
         class="d-flex justify-start call-cancel"
         color="transparent"
         flat
@@ -70,6 +71,7 @@ export default {
     webSocketData: {},
     webSocketData2: {},
     timeCount: 0,
+    cancelBtn: false,
   }),
 
   computed: {
@@ -105,12 +107,16 @@ export default {
 
     this.ready = true;
 
-    // 1분 경과한 경우
-    this.waitTimer = setTimeout(() => {
-      this.message = "조금만 더 기다려주세요. 타시오에게 연락해볼게요...";
-    }, 60000);
+    // // 1분 경과한 경우
+    // this.waitTimer = setTimeout(() => {
+    //   this.message = "조금만 더 기다려주세요. 타시오에게 연락해볼게요...";
+    // }, 60000);
+    setTimeout(() => {
+      this.cancelBtn = true;
+      console.log(this.cancelBtn);
+    }, 6000);
 
-    // 2분 경과한 경우 호출 자동 취소 처리
+    // 2분 경과한 경우 호출 자동 취소 처리 => 10초 내로 배차되지 않을 경우, 배차 실패
     this.failTimer = setTimeout(() => {
       // 자동취소 페이지로 이동
       this.$router.replace({
@@ -128,7 +134,8 @@ export default {
           vehicle_id: parseInt(this.$route.query.vehicle_id),
         },
       });
-    }, 120000);
+      this.disconnect();
+    }, 10000);
   },
 
   watch: {
@@ -166,6 +173,13 @@ export default {
       this.cancleMessage();
       this.disconnect(); // Web socket disconnect
 
+      // toast 추가
+      this.$toasted
+        .show("호출이 취소되었습니다.", {
+          theme: "bubble",
+          position: "top-center",
+        })
+        .goAway(2000);
       this.$router.replace(`/map/${this.site}`);
 
       // 전액 환불
