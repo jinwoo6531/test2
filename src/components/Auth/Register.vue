@@ -19,6 +19,7 @@
               v-model="form.name"
               @input="hangul"
               maxlength="25"
+              required
               autofocus
               placeholder="이름을 입력하세요."
             />
@@ -30,6 +31,7 @@
               id="email"
               name="email"
               autofocus
+              required
               v-model="form.email"
               placeholder="이메일 주소를 입력하세요."
             />
@@ -115,18 +117,23 @@ export default {
       this.$router.replace("/auth/agreecheck");
     },
     hangul() {
+      let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
+      let pattern_num = /[0-9]/;
       let pattern_eng = /[a-zA-Z]/;
-      var pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      let pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       // eslint-disable-next-line no-useless-escape
-      // var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+      let pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+
       if (
-        pattern_eng.test(this.form.name) ||
-        pattern_kor.test(this.form.name)
+        pattern_num.test(this.form.name) ||
+        pattern_spc.test(this.form.name) ||
+        pattern_char.test(this.form.name) ||
+        (!pattern_eng.test(this.form.name) && !pattern_kor.test(this.form.name))
       ) {
-        this.error = "";
-      } else {
         this.error = "이름은 한글 또는 영문만 가능합니다.";
         this.form.name = "";
+      } else {
+        this.error = "";
       }
     },
 
