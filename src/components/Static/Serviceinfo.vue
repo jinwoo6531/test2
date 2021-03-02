@@ -33,7 +33,7 @@
               <v-sheet
                 class="pl-6 pr-6"
                 color="transparent"
-                @click="servicePolicy"
+                @click="serviceDialog = true"
                 >서비스 이용약관</v-sheet
               >
             </v-card-text>
@@ -48,7 +48,7 @@
               <v-sheet
                 class="pl-6 pr-6"
                 color="transparent"
-                @click="privacyPolicy"
+                @click="privacyDialog = true"
                 >개인정보 처리방침</v-sheet
               >
             </v-card-text>
@@ -60,7 +60,7 @@
               <v-sheet
                 class="pl-6 pr-6"
                 color="transparent"
-                @click="marketingPolicy"
+                @click="marketingDialog = true"
                 >마케팅 정보 수신 동의</v-sheet
               >
             </v-card-text>
@@ -152,7 +152,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import service from "@/components/Terms/Service";
 import privacy from "@/components/Terms/Privacy";
 import marketing from "@/components/Terms/Marketing";
@@ -165,30 +165,17 @@ export default {
     marketingDialog: false,
   }),
   computed: {
-    ...mapGetters({
-      pushAlarmMode: "GE_PUSH_ALARM_MODE",
-      currentVersion: "GE_CURRENT_VERSION",
-      updateVersion: "GE_UPDATE_VERSION",
-    }),
+    // ...mapGetters({
+    //   pushAlarmMode: "GE_PUSH_ALARM_MODE",
+    //   currentVersion: "GE_CURRENT_VERSION",
+    //   updateVersion: "GE_UPDATE_VERSION",
+    // }),
   },
 
   created() {
-    console.log("pushAlarmMode Cal: ", this.pushAlarmMode);
-    console.log("currentVersion Cal: ", this.currentVersion);
-    console.log("updateVersion Cal: ", this.updateVersion);
-  },
-  methods: {
-    servicePolicy() {
-      this.serviceDialog = true;
-    },
-
-    privacyPolicy() {
-      this.privacyDialog = true;
-    },
-
-    marketingPolicy() {
-      this.marketingDialog = true;
-    },
+    // console.log("pushAlarmMode Cal: ", this.pushAlarmMode);
+    // console.log("currentVersion Cal: ", this.currentVersion);
+    // console.log("updateVersion Cal: ", this.updateVersion);
   },
 };
 </script>
