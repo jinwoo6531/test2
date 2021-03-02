@@ -30,8 +30,6 @@ var username = 'yjhyeon@aspringcloud.com'
 var password = '9772dbwls!'
 axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password)
 
-
-
 new Vue({
   router,
   store,

@@ -696,6 +696,7 @@ export default {
       });
   },
   created() {
+    alert("hi");
     // 사이트 id에 따라 다른 화면 표시
     this.siteId = this.$route.params.siteId;
 

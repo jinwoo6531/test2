@@ -21,6 +21,7 @@ export default {
         (window.performance && window.performance.navigation.type == 2)
       ) {
         console.log("here", checkPageShow);
+        alert("here");
         this.router.go(-1);
       }
     };
