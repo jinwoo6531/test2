@@ -11,21 +11,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "App",
-  created() {
-    var checkPageShow = false;
-    window.onpageshow = function (e) {
-      checkPageShow = true;
-      console.log("here", checkPageShow);
-      if (
-        e.persisted ||
-        (window.performance && window.performance.navigation.type == 2)
-      ) {
-        console.log("here", checkPageShow);
-        alert("here");
-        this.router.go(-1);
-      }
-    };
-  },
   computed: {
     ...mapGetters(["isLoading"]),
     ...mapGetters({

@@ -30,6 +30,27 @@ var username = 'yjhyeon@aspringcloud.com'
 var password = '9772dbwls!'
 axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password)
 
+var checkPageShow = false;
+window.onpageshow = function (e) {
+  checkPageShow = true;
+  console.log("here", checkPageShow);
+  if (
+    e.persisted ||
+    (window.performance && window.performance.navigation.type == 2)
+  ) {
+      console.log("show", checkPageShow);
+      alert("show");
+        // router.go(-1);
+  }
+};
+
+window.onpagehide = function () {
+  if ((window.performance.navigation.type == 0 || window.performance.navigation.type == 2) && checkPageShow) {
+    console.log("hide");
+    alert("hide")
+  }
+}
+    
 new Vue({
   router,
   store,
