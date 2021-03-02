@@ -115,20 +115,18 @@ export default {
       this.$router.replace("/auth/agreecheck");
     },
     hangul() {
-      let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
-      var pattern_num = /[0-9]/;
+      let pattern_eng = /[a-zA-Z]/;
+      var pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
       // eslint-disable-next-line no-useless-escape
-      var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
-
+      // var pattern_char = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
       if (
-        pattern_num.test(this.form.name) ||
-        pattern_spc.test(this.form.name) ||
-        pattern_char.test(this.form.name)
+        pattern_eng.test(this.form.name) ||
+        pattern_kor.test(this.form.name)
       ) {
+        this.error = "";
+      } else {
         this.error = "이름은 한글 또는 영문만 가능합니다.";
         this.form.name = "";
-      } else {
-        this.error = "";
       }
     },
 
