@@ -34,10 +34,12 @@ axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' 
 //   alert("changed")
 // }
 
-window.onpopstate  = function (e) {
-  // if (e.persisted || (window.performance && window.performance.navigation.type == 2)) {
-    alert("change", e)
-}
+// window.onpopstate  = function (e) {
+//   // if (e.persisted || (window.performance && window.performance.navigation.type == 2)) {
+//   // alert("change", e)
+//   console.log("change", e)
+//   router.go(-1)
+// }
 new Vue({
   router,
   store,

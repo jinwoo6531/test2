@@ -696,6 +696,24 @@ export default {
       });
   },
   created() {
+    //   window.onpopstate = function (e) {
+    //     console.log("referrer", document.referrer);
+    //     console.log("location", document.location);
+    //     if (document.referrer.indexOf("map/") >= 0) {
+    //       history.pushState(null, null, "/");
+    //       console.log("map site", document.referrer.indexOf("map/"));
+    //     } else {
+    //       history.back();
+    //       console.log(history);
+    //     }
+    //     console.log("change", e);
+    //     // console.log(e.state);
+    //     // console.log(document.location);
+    //     // console.log(history);
+    //     // console.log(document.referrer);
+    //     // location.href = "/";
+    //     // this.$router.replace("/");
+    //   };
     // 사이트 id에 따라 다른 화면 표시
     this.siteId = this.$route.params.siteId;
 
@@ -1325,7 +1343,7 @@ export default {
 
     // 타시오 호출, 결제 창X 연결 -> views/calling-layout.vue
     requestCallBtn() {
-      this.$router.replace({
+      this.$router.push({
         name: "CallingLayout",
         query: {
           site: this.siteId,
