@@ -63,6 +63,11 @@ const routes = [
   name: 'CallingLayout',
   component: CallingLayout,
   beforeEnter: requireAuth(),
+  beforeRouteLeave(to, from, next) {
+    console.log(to)
+    console.log(from)
+    console.log(next)
+  }
 },
 {
   path: '/fail',
@@ -124,8 +129,10 @@ const routes = [
   children: [{
       path: ':siteId',
       name: 'Site',
-      component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue')
-    },
+    component: () => import(/* webpackChunkName: "Site" */ '@/components/Map/Site.vue'),
+    
+  },
+    
     {
       path: 'callingshuttle',
       name: 'CallingShuttle',

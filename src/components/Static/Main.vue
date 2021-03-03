@@ -113,7 +113,7 @@ export default {
       },
       {
         title:
-          '<span style="width: 100%; text-align: center;">세종<br>산학연클러스터4-2</span>',
+          '<span style="width: 100%; text-align: center;">세종<br>산학연클러스터<br>4-2</span>',
         src: require("../../assets/sejong2-btn.png"),
         to: "/map/18",
         disabled: false,
@@ -138,7 +138,7 @@ export default {
         src: require("../../assets/gunsan-btn.png"),
         to: "/map/1",
         disabled: true,
-        gradient: 
+        gradient:
           "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
         color: "#F2F2F2",
         hidden: false,

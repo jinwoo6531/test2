@@ -464,6 +464,10 @@ var control;
 var marker;
 
 export default {
+  // beforeRouteLeave(to, from, next) {
+  //   console.log(to, from, next);
+  //   console.log(this.$route.history);
+  // },
   data: () => ({
     map: null,
     OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -667,6 +671,15 @@ export default {
     },
   },
   mounted() {
+    window.onpageshow = function (event) {
+      if (
+        event.persisted ||
+        (window.performance && window.performance.navigation.type == 2)
+      ) {
+        // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+        alert("히스토리백!!!!");
+      }
+    };
     // map container에 map을 그려준다.
     this.map = this.$utils.map.createMap("map-container", {
       zoomControl: false,
@@ -1343,7 +1356,7 @@ export default {
 
     // 타시오 호출, 결제 창X 연결 -> views/calling-layout.vue
     requestCallBtn() {
-      this.$router.push({
+      this.$router.replace({
         name: "CallingLayout",
         query: {
           site: this.siteId,

@@ -172,7 +172,6 @@ export default {
       // WebSocket Cancel
       this.cancleMessage();
       this.disconnect(); // Web socket disconnect
-
       // toast 추가
       this.$toasted
         .show("호출이 취소되었습니다.", {
