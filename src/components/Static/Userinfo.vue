@@ -551,18 +551,14 @@
                       v-model="inputPhoneNumber"
                       label="휴대전화 번호를 입력해주세요"
                       color="#828282"
-                      class="pb-2 bye-check-field"
+                      class="pb-2 mt-4 bye-check-field"
                       single-line
                       outlined
                       flat
                       full-width
                       hide-details
                     ></v-text-field>
-                    <v-card-text
-                      class="pa-0 pb-4 error-rule"
-                      v-if="errorRule1 == true"
-                      >휴대전화번호를 입력해주세요.</v-card-text
-                    >
+
                     <v-select
                       v-model="byeReason"
                       :items="secession"
@@ -570,7 +566,7 @@
                       item-value="value"
                       label="탈퇴 사유를 선택해주세요"
                       color="#828282"
-                      class="bye-check-field"
+                      class="bye-check-field mt-2"
                       return-object
                       single-line
                       outlined
@@ -591,43 +587,21 @@
                       full-width
                       hide-details
                     ></v-text-field>
-                    <v-card-text
-                      class="pa-0 pt-2 error-rule"
-                      v-if="errorRule2 == true"
-                      >탈퇴 사유를 선택해주세요.</v-card-text
-                    >
-                    <v-card-text
-                      class="pa-0 pt-2 error-rule"
-                      v-if="errorRule3 == true"
-                      >기타 사유를 입력해주세요.</v-card-text
-                    >
                   </v-card>
                 </v-flex>
                 <v-flex xs12 sm12 md12 class="d-flex justify-center align-end">
                   <v-footer padless absolute>
                     <v-btn
-                      color="#E0E0E0"
+                      color="#E61773"
                       block
                       depressed
                       tile
                       height="50px"
-                      class="pa-0"
-                      v-if="
+                      class="pa-0 white--text"
+                      :disabled="
                         inputPhoneNumber.length == 0 ||
                         byeReason.value == undefined
                       "
-                      >탈퇴하기</v-btn
-                    >
-                    <v-btn
-                      color="#E61773"
-                      style="color: #fff !important"
-                      block
-                      depressed
-                      tile
-                      height="50px"
-                      class="pa-0"
-                      @click="deleteUser"
-                      v-else
                       >탈퇴하기</v-btn
                     >
                   </v-footer>
