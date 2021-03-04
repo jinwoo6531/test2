@@ -599,6 +599,7 @@
                       height="50px"
                       class="pa-0 white--text"
                       :disabled="!canSecession"
+                      @click="deleteUser"
                       >탈퇴하기</v-btn
                     >
                   </v-footer>
