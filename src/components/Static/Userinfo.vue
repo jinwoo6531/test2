@@ -598,10 +598,7 @@
                       tile
                       height="50px"
                       class="pa-0 white--text"
-                      :disabled="
-                        inputPhoneNumber.length == 0 ||
-                        byeReason.value == undefined
-                      "
+                      :disabled="!canSecession"
                       >탈퇴하기</v-btn
                     >
                   </v-footer>
@@ -703,6 +700,16 @@ export default {
     deletePhoneNumber() {
       let start = String(this.user.data.phoneNumber).substring(3, 13);
       return "0" + start;
+    },
+
+    canSecession() {
+      if (
+        this.inputPhoneNumber.length &&
+        ((this.byeReason.value && !this.etc) ||
+          (this.etc && this.byeEtcReason.length))
+      )
+        return true;
+      else return false;
     },
   },
 
