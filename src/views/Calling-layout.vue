@@ -276,6 +276,8 @@ export default {
               site_id: this.webSocketData.how.site_id, // vehicle에 소속된 site의 ID(number)
               current_station_id: this.start.id,
               target_station_id: this.end.id,
+              start: this.start,
+              end: this.end,
               passenger: this.count,
             },
           });
@@ -285,22 +287,37 @@ export default {
 
     // 타시오 측에서 보내줘야 할 데이터
     sendMessage() {
+      // this.webSocketData = {
+      //   where: "",
+      //   who: "tasio_id",
+      //   what: "EVENT",
+      //   how: {
+      //     type: "ondemand",
+      //     function: "call",
+      //     current_station_id: parseInt(this.$route.query.start.id),
+      //     target_station_id: parseInt(this.$route.query.end.id),
+      //     passenger: parseInt(this.$route.query.count),
+      //     passenger_name: this.displayName,
+      //     uid: this.uid,
+      //     site_id: parseInt(this.$route.query.site),
+      //   },
+      // };
       this.webSocketData = {
         where: "",
         who: "tasio_id",
         what: "EVENT",
         how: {
           type: "ondemand",
-          vehicle_id: parseInt(this.$route.query.vehicle_id),
           function: "call",
-          current_station_id: parseInt(this.$route.query.start.id),
-          target_station_id: parseInt(this.$route.query.end.id),
+          current_station_id: 5,
+          target_station_id: 20,
           passenger: parseInt(this.$route.query.count),
           passenger_name: this.displayName,
           uid: this.uid,
+          site_id: 3,
         },
       };
-
+      console.log(this.webSocketData);
       this.socket.send(JSON.stringify(this.webSocketData));
     },
 
