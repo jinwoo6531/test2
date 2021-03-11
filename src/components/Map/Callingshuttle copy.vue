@@ -1110,7 +1110,7 @@ export default {
       this.cancleMessage();
       this.disconnect();
 
-      this.$router.replace("/");
+      this.$router.replace(`/map/${this.site}`);
 
       // if (this.isrefund == '0') {
       //     axios({

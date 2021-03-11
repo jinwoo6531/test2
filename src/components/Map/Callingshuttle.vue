@@ -702,7 +702,7 @@ export default {
 
     goToMain() {
       this.cancelCompleteDialog = false;
-      this.$router.replace("/");
+      this.$router.replace(`/map/${this.siteId}`);
     },
 
     // 배차가 완료된 상태에서 호출 취소를 할 경우
