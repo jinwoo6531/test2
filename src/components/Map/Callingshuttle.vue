@@ -36,7 +36,7 @@
                         color: #27ae60;
                       "
                       >출발지</span
-                    >{{ startName }}</v-card-text
+                    >{{ start.name }}</v-card-text
                   >
                   <v-card-text class="pa-0 pl-1 pb-2 desination"
                     ><span
@@ -46,7 +46,7 @@
                         color: #eb5757;
                       "
                       >도착지</span
-                    >{{ endName }}</v-card-text
+                    >{{ end.name }}</v-card-text
                   >
                 </v-card>
               </v-col>
@@ -191,13 +191,11 @@ export default {
     ready: false,
     map: null,
     OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
-
+    siteId: "",
     // Station
     stationList: [],
     start: "",
     end: "",
-    startName: "",
-    endName: "",
     start_icon: {},
     end_icon: {},
     waypoints: [],
@@ -215,6 +213,130 @@ export default {
     vehicle_user: "",
     vehicle_lat: "",
     vehicle_lon: "",
+    mapInfo: {
+      1: { name: "gunsan", setPoints: [35.812484, 126.4101], zoom: 15 },
+      2: { name: "daegu", setPoints: [35.836673, 128.68652], zoom: 15 },
+      3: { name: "sejong", setPoints: [36.599351, 127.270606], zoom: 15 },
+      4: { name: "sangam", setPoints: [37.5792, 126.8917], zoom: 15 },
+      18: { name: "sejong_Rfree", setPoints: [36.4945, 127.3274], zoom: 15 },
+    },
+    points: {
+      //type:2 -> route, type:3 -> station, type:6 -> route&&station
+      //군산
+      1: [],
+      // 대구
+      2: [
+        {
+          lat: 35.836308,
+          lon: 128.681547,
+          type: 6,
+        },
+        {
+          lat: 35.838673,
+          lon: 128.687892,
+          type: 6,
+        },
+        {
+          lat: 35.83705,
+          lon: 128.690044,
+          type: 6,
+        },
+        {
+          lat: 35.83459,
+          lon: 128.68652,
+          type: 6,
+        },
+        {
+          lat: 35.836308,
+          lon: 128.681547,
+          type: 6,
+        },
+      ],
+      // 세종호수공원
+      3: [
+        {
+          lat: 36.499351,
+          lon: 127.270606,
+          type: 6,
+        },
+        {
+          lat: 36.50169,
+          lon: 127.272315,
+          type: 6,
+        },
+      ],
+      //??
+      4: [
+        {
+          lat: 37.579333,
+          lon: 126.889036,
+          type: 6,
+        },
+        {
+          lat: 37.57518,
+          lon: 126.89837,
+          type: 6,
+        },
+        {
+          lat: 37.58299,
+          lon: 126.88485,
+          type: 6,
+        },
+        {
+          lat: 37.581296,
+          lon: 126.885693,
+          type: 6,
+        },
+        {
+          lat: 37.579333,
+          lon: 126.889036,
+          type: 6,
+        },
+      ],
+      // 세종 규특
+      18: [
+        // {
+        //   lat: 36.49911,
+        //   lon: 127.32867,
+        //   type: 2,
+        // },
+        {
+          lat: 36.49791,
+          lon: 127.33019,
+          type: 3,
+        },
+        {
+          lat: 36.495534,
+          lon: 127.32989,
+          type: 2,
+        },
+        {
+          lat: 36.495534,
+          lon: 127.330257,
+          type: 3,
+        },
+        {
+          lat: 36.49529,
+          lon: 127.33077,
+          type: 2,
+        },
+        {
+          lat: 36.49456,
+          lon: 127.32574,
+          type: 2,
+        },
+        {
+          lat: 36.49819,
+          lon: 127.3258,
+          type: 3,
+        },
+        {
+          lat: 36.49918,
+          lon: 127.3277,
+          type: 6,
+        },
+      ],
+    },
 
     owner: "",
     cancelCompleteDialog: false,
@@ -249,9 +371,10 @@ export default {
   mounted() {
     this.socket = this.$route.params.socket;
     this.vehicle_id = parseInt(this.$route.params.vehicle_id);
-    this.start = this.$route.params.current_station_id;
-    this.end = this.$route.params.target_station_id;
+    this.start = this.$route.params.start;
+    this.end = this.$route.params.end;
     this.count = this.$route.params.passenger;
+    this.siteId = this.$route.params.site_id;
 
     // websocket에 있는 정보들을 받는다.
     this.socket.onmessage = ({ data }) => {
@@ -300,15 +423,10 @@ export default {
         iconSize: [12, 12],
       });
 
-      for (let i = 0; i < this.waypoints.length; i++) {
-        console.log(this.waypoints);
-        this.$utils.map.createMakerByXY(
-          this.map,
-          [this.waypoints[i].lat, this.waypoints[i].lng],
-          {
-            icon: gifIcon,
-          }
-        );
+      for (let station of this.stationList) {
+        this.$utils.map.createMakerByXY(this.map, [station.lat, station.lon], {
+          icon: gifIcon,
+        });
       }
     },
 
@@ -319,23 +437,33 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             let station_result = response.data;
-            let station_count = Object.keys(station_result).length;
-            for (let i = 0; i < station_count; i++) {
-              if (station_result[i].site == 1) {
-                this.stationList.push(station_result[i]);
-                this.stationList = this.stationList.sort(function (a, b) {
-                  return a.id < b.id ? -1 : 1;
-                });
+            let points_idx = -1;
+            for (let station of station_result) {
+              if (station.site == this.siteId) {
+                while (points_idx++ < this.points[this.siteId].length) {
+                  if (
+                    this.points[this.siteId][points_idx].lat == station.lat &&
+                    this.points[this.siteId][points_idx].lon == station.lon
+                  ) {
+                    station.points_idx = Number(points_idx);
+                    station.stat2sta = JSON.parse(station.stat2sta);
+                    this.stationList.push(station);
+                    break;
+                  }
+                }
               }
             }
-
-            this.startName = this.stationList[this.start].name;
-            this.endName = this.stationList[this.end].name;
+            this.stationList = this.stationList.sort(function (a, b) {
+              return a.sta_Order < b.sta_Order ? -1 : 1;
+            });
 
             console.log("Response /api/stations/");
 
             // Map View Center Load
-            this.map.setView([35.809484, 126.4091], 15);
+            this.map.setView(
+              this.mapInfo[this.vehicle_site].setPoints,
+              this.mapInfo[this.vehicle_site].zoom
+            );
             this.getRouting();
           }
         })
@@ -351,7 +479,7 @@ export default {
             .get("/api/stations/")
             .then((response) => {
               if (response.status == 200) {
-                this.eta = JSON.parse(response.data[this.start].eta);
+                this.eta = JSON.parse(response.data[this.start.id].eta);
                 this.getEta();
               }
             })
@@ -388,23 +516,38 @@ export default {
 
       // Leaflet-routing-machine이 자동으로 최단 경로를 계산해주기 때문에 static하게 waypoints를 그려줌
       // 개선 필요
-      let i = this.start;
-      while (i != this.end) {
-        this.waypoints.push({
-          lat: this.stationList[i].lat,
-          lng: this.stationList[i].lon,
-        });
-        i = (i + 1) % this.stationList.length();
+      //   let i = this.start;
+      //   while (i != this.end) {
+      //     this.waypoints.push({
+      //       lat: this.stationList[i].lat,
+      //       lng: this.stationList[i].lon,
+      //     });
+      //     i = (i + 1) % this.stationList.length();
+      //   }
+      //   this.waypoints.push({
+      //     lat: this.stationList[this.end].lat,
+      //     lng: this.stationList[this.end].lon,
+      //   });
+      if (this.end.points_idx > this.start.points_idx) {
+        this.waypoints = this.points[this.vehicle_site].slice(
+          this.start.points_idx,
+          this.end.points_idx + 1
+        );
+      } else {
+        this.waypoints = this.points[this.vehicle_site]
+          .slice(this.start.points_idx)
+          .concat(
+            this.points[this.vehicle_site].slice(0, this.end.points_idx + 1)
+          );
       }
-      this.waypoints.push({
-        lat: this.stationList[this.end].lat,
-        lng: this.stationList[this.end].lon,
-      });
 
       this.map.removeLayer(this.start_icon);
       this.start_icon = this.$utils.map.createMakerByXY(
         this.map,
-        [this.stationList[this.start].lat, this.stationList[this.start].lon],
+        [
+          this.points[this.vehicle_site][this.start.points_idx].lat,
+          this.points[this.vehicle_site][this.start.points_idx].lon,
+        ],
         {
           icon: startIcon,
         }
@@ -412,7 +555,10 @@ export default {
       this.map.removeLayer(this.end_icon);
       this.end_icon = this.$utils.map.createMakerByXY(
         this.map,
-        [this.stationList[this.end].lat, this.stationList[this.end].lon],
+        [
+          this.points[this.vehicle_site][this.end.points_idx].lat,
+          this.points[this.vehicle_site][this.end.points_idx].lon,
+        ],
         {
           icon: endIcon,
         }
@@ -426,12 +572,17 @@ export default {
         draggableWaypoints: false,
         showAlternatives: false,
         routeWhileDragging: false,
+        fitSelectedRoutes: false,
         lineOptions: {
           draggable: false,
           styles: [
             {
               color: "#E51973",
               weight: 5,
+            },
+            {
+              color: "transparent",
+              weight: 2,
             },
           ],
         },

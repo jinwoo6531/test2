@@ -287,21 +287,6 @@ export default {
 
     // 타시오 측에서 보내줘야 할 데이터
     sendMessage() {
-      // this.webSocketData = {
-      //   where: "",
-      //   who: "tasio_id",
-      //   what: "EVENT",
-      //   how: {
-      //     type: "ondemand",
-      //     function: "call",
-      //     current_station_id: parseInt(this.$route.query.start.id),
-      //     target_station_id: parseInt(this.$route.query.end.id),
-      //     passenger: parseInt(this.$route.query.count),
-      //     passenger_name: this.displayName,
-      //     uid: this.uid,
-      //     site_id: parseInt(this.$route.query.site),
-      //   },
-      // };
       this.webSocketData = {
         where: "",
         who: "tasio_id",
@@ -309,14 +294,29 @@ export default {
         how: {
           type: "ondemand",
           function: "call",
-          current_station_id: 5,
-          target_station_id: 20,
+          current_station_id: parseInt(this.$route.query.start.id),
+          target_station_id: parseInt(this.$route.query.end.id),
           passenger: parseInt(this.$route.query.count),
           passenger_name: this.displayName,
           uid: this.uid,
-          site_id: 3,
+          site_id: parseInt(this.$route.query.site),
         },
       };
+      // this.webSocketData = {
+      //   where: "",
+      //   who: "tasio_id",
+      //   what: "EVENT",
+      //   how: {
+      //     type: "ondemand",
+      //     function: "call",
+      //     current_station_id: 5,
+      //     target_station_id: 20,
+      //     passenger: parseInt(this.$route.query.count),
+      //     passenger_name: this.displayName,
+      //     uid: this.uid,
+      //     site_id: 3,
+      //   },
+      // };
       console.log(this.webSocketData);
       this.socket.send(JSON.stringify(this.webSocketData));
     },

@@ -1103,39 +1103,39 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-      // setInterval(
-      //   async function () {
-      //     // 셔틀의 위치는 1초마다 업데이트 해주어야 한다.
-      //     // async-await 비동기 처리
-      //     axios
-      //       .get("/api/vehicles/")
-      //       .then((response) => {
-      //         var vehicle_data = response.data.sort(function (a, b) {
-      //           return a.id < b.id ? -1 : 1;
-      //         });
-      //         var vehicleCount = Object.keys(vehicle_data).length;
-      //         for (let i = 0; i < vehicleCount; i++) {
-      //           if (vehicle_data[i].site == this.siteId) {
-      //             if (
-      //               vehicle_data[i].lat != null ||
-      //               vehicle_data[i].lon != null ||
-      //               vehicle_data[i].lat != undefined ||
-      //               vehicle_data[i].lon != undefined
-      //             ) {
-      //               this.vehicle[i].setLatLng([
-      //                 vehicle_data[i].lat,
-      //                 vehicle_data[i].lon,
-      //               ]); // 위치 업데이트
-      //             }
-      //           }
-      //         }
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //       });
-      //   }.bind(this),
-      //   1000
-      // );
+      setInterval(
+        async function () {
+          // 셔틀의 위치는 1초마다 업데이트 해주어야 한다.
+          // async-await 비동기 처리
+          axios
+            .get("/api/vehicles/")
+            .then((response) => {
+              var vehicle_data = response.data.sort(function (a, b) {
+                return a.id < b.id ? -1 : 1;
+              });
+              var vehicleCount = Object.keys(vehicle_data).length;
+              for (let i = 0; i < vehicleCount; i++) {
+                if (vehicle_data[i].site == this.siteId) {
+                  if (
+                    vehicle_data[i].lat != null ||
+                    vehicle_data[i].lon != null ||
+                    vehicle_data[i].lat != undefined ||
+                    vehicle_data[i].lon != undefined
+                  ) {
+                    this.vehicle[i].setLatLng([
+                      vehicle_data[i].lat,
+                      vehicle_data[i].lon,
+                    ]); // 위치 업데이트
+                  }
+                }
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }.bind(this),
+        1000
+      );
     },
 
     // 탑승인원
@@ -1369,14 +1369,16 @@ export default {
 </script>
 <style>
 .leaflet-popup-content-wrapper {
-  width: 130px;
-  height: 100px;
+  min-width: 130px;
+  width: max-content;
+  min-height: 100px;
+  height: max-content;
   text-align: center;
 }
 
 .leaflet-popup-content {
   width: 100% !important;
-  padding: 4px 0px 10px;
+  padding: 4px 5px 10px 5px;
   margin: 0 !important;
 }
 
