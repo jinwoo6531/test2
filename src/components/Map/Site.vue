@@ -493,7 +493,7 @@ export default {
     waypoints2: [],
     waypoints: [],
     // vehicle
-    vehicle: [],
+    vehicle: {},
     vehicle_id: 0,
     // 탑승인원
     dialog: false,
@@ -658,6 +658,7 @@ export default {
         },
       ],
     },
+    movingVehicle: "",
     routePoints: [],
   }),
 
@@ -731,9 +732,13 @@ export default {
 
     // 정류장, 셔틀 API Request
     this.getStation();
-    this.getVehicle();
+    this.setVehicle();
+    this.movingVehicle = setInterval(this.realTimeVehicle, 1000);
 
     this.createPickerIcons();
+  },
+  beforeDestroy() {
+    clearInterval(this.movingVehicle);
   },
   updated() {
     // 출발지, 도착지, 인원수 선택에 따른 호출 버튼 표시 유무
@@ -1062,9 +1067,53 @@ export default {
           console.log(error);
         });
     },
-
+    //vehicle 초기 셋팅
+    async setVehicle() {
+      var vehicleIcon = this.$utils.map.createIcon({
+        // 셔틀 아이콘 생성
+        iconUrl: require("../../assets/vehicle1.svg"),
+        iconSize: [32, 32],
+      });
+      let vehicle_arr = await this.getVehicle();
+      this.vehicle_id = vehicle_arr[0].id;
+      vehicle_arr.forEach((vehicle) => {
+        this.vehicle[vehicle.id] = this.$utils.map.createMakerByXY(
+          this.map,
+          [vehicle.lat, vehicle.lon],
+          {
+            draggable: false,
+            icon: vehicleIcon,
+          }
+        );
+      });
+      this.loading2 = false; // 셔틀 API response가 완료되면 false
+      if (this.loading1 == false && this.loading2 == false) {
+        // 정류장 API, 셔틀 API 모두 response가 완료되면
+        this.loading = false; // 로딩 딤 종료
+      }
+    },
+    async realTimeVehicle() {
+      console.log("realtime");
+      let vehicle_arr = await this.getVehicle();
+      vehicle_arr.forEach((vehicle) => {
+        this.vehicle[vehicle.id].setLatLng([vehicle.lat, vehicle.lon]); // 위치 업데이트
+      });
+    },
+    async getVehicle() {
+      let vehicle_arr = [];
+      await axios
+        .get("/api/vehicles/")
+        .then((res) => {
+          vehicle_arr = res.data.filter(
+            (vehicle) =>
+              vehicle.site == this.siteId && vehicle.lat && vehicle.lon
+          );
+        })
+        .catch((err) => console.log("getvehicle_err", err));
+      return vehicle_arr;
+    },
     // 셔틀 API Request & Response
-    getVehicle() {
+    getVehicle1() {
       axios
         .get("/api/vehicles/")
         .then(async (response) => {

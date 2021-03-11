@@ -52,7 +52,8 @@
           color="#E61773"
           height="50px"
           class="ok-btn"
-          @click="goToMain"
+          replace
+          :to="`/map/${$route.query.siteId}`"
           >확인</v-btn
         >
       </v-flex>
@@ -84,12 +85,6 @@ export default {
   mounted() {
     this.count = this.$route.query.passenger_count;
     this.siteId = this.$route.query.siteId;
-  },
-
-  methods: {
-    goToMain() {
-      this.$router.replace(`/map/${this.siteId}`);
-    },
   },
 };
 </script>
