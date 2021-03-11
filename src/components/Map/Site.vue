@@ -262,6 +262,9 @@
                         v-for="station in start_options"
                         @click="pickedStation = station"
                         :key="station.id"
+                        :class="{
+                          'v-list-item--active': pickedStation == station,
+                        }"
                       >
                         <v-list-item-content>
                           <v-list-item-title
@@ -298,6 +301,7 @@
                         points_idx: pickedStation.points_idx,
                         stat2sta: pickedStation.stat2sta,
                       };
+                      pickedStation = '';
                     "
                     >선택하기</v-btn
                   >
@@ -325,6 +329,9 @@
                         v-for="station in end_options"
                         @click="pickedStation = station"
                         :key="station.id"
+                        :class="{
+                          'v-list-item--active': pickedStation == station,
+                        }"
                       >
                         <v-list-item-content>
                           <v-list-item-title
@@ -361,6 +368,7 @@
                         points_idx: pickedStation.points_idx,
                         stat2sta: pickedStation.stat2sta,
                       };
+                      pickedStation = '';
                     "
                     >선택하기</v-btn
                   >
