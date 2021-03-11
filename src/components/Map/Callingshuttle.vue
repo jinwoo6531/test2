@@ -207,6 +207,8 @@ export default {
     webSocketData2: {},
     minutes: "시간계산 중",
 
+    eta: "",
+
     // Vehicle
     vehicle_site: 0,
     vehicle_name: "",
@@ -340,6 +342,9 @@ export default {
 
     owner: "",
     cancelCompleteDialog: false,
+
+    realTimeVehicle: "",
+    realTimeETA: "",
   }),
 
   computed: {
@@ -415,6 +420,10 @@ export default {
     this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
   },
 
+  beforeDestroy() {
+    clearInterval(this.realTimeETA);
+    clearInterval(this.realTimeVehicle);
+  },
   methods: {
     addMarker() {
       let gifIcon = this.$utils.map.createIcon({
@@ -472,7 +481,7 @@ export default {
           console.log(error);
         });
 
-      setInterval(
+      this.realTimeETA = setInterval(
         async function () {
           axios
             .get("/api/stations/")
@@ -645,7 +654,7 @@ export default {
           console.log("Vehicle Error: ", error);
         });
       // 셔틀의 위치는 1초마다 업데이트 해준다.
-      setInterval(
+      this.realTimeVehicle = setInterval(
         async function () {
           axios
             .get("/api/vehicles/" + this.vehicle_id)

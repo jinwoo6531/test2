@@ -1067,7 +1067,8 @@ export default {
           console.log(error);
         });
     },
-    //vehicle 초기 셋팅
+
+    //vehicle 위치 초기 셋팅
     async setVehicle() {
       var vehicleIcon = this.$utils.map.createIcon({
         // 셔틀 아이콘 생성
@@ -1092,13 +1093,16 @@ export default {
         this.loading = false; // 로딩 딤 종료
       }
     },
+
+    //vehicle 위치 반영
     async realTimeVehicle() {
-      console.log("realtime");
       let vehicle_arr = await this.getVehicle();
       vehicle_arr.forEach((vehicle) => {
         this.vehicle[vehicle.id].setLatLng([vehicle.lat, vehicle.lon]); // 위치 업데이트
       });
     },
+
+    //vehicle 정보 요청 API
     async getVehicle() {
       let vehicle_arr = [];
       await axios
@@ -1111,88 +1115,6 @@ export default {
         })
         .catch((err) => console.log("getvehicle_err", err));
       return vehicle_arr;
-    },
-    // 셔틀 API Request & Response
-    getVehicle1() {
-      axios
-        .get("/api/vehicles/")
-        .then(async (response) => {
-          var vehicle_arr = [];
-          var vehicle_data = response.data.sort(function (a, b) {
-            return a.id < b.id ? -1 : 1;
-          });
-          var vehicleCount = Object.keys(vehicle_data).length;
-          for (let i = 0; i < vehicleCount; i++) {
-            if (vehicle_data[i].site == this.siteId) {
-              // siteId와 같은 번호의 data만 가져오기
-              var vehicleIcon = this.$utils.map.createIcon({
-                // 셔틀 아이콘 생성
-                iconUrl: require("../../assets/vehicle1.svg"),
-                iconSize: [32, 32],
-              });
-              if (
-                vehicle_data[i].lat != null ||
-                vehicle_data[i].lon != null ||
-                vehicle_data[i].lat != undefined ||
-                vehicle_data[i].lon != undefined
-              ) {
-                // 위도 경도 값 모두 정상적으로 받아올 경우
-                this.vehicle[i] = await this.$utils.map.createMakerByXY(
-                  this.map,
-                  [vehicle_data[i].lat, vehicle_data[i].lon],
-                  {
-                    draggable: false,
-                    icon: vehicleIcon,
-                  }
-                ); // 셔틀 위치에 따른 아이콘 표시
-              }
-              vehicle_arr.push(vehicle_data[i].id);
-              this.vehicle_id = vehicle_arr[0];
-
-              this.loading2 = false; // 셔틀 API response가 완료되면 false
-              if (this.loading1 == false && this.loading2 == false) {
-                // 정류장 API, 셔틀 API 모두 response가 완료되면
-                this.loading = false; // 로딩 딤 종료
-              }
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      setInterval(
-        async function () {
-          // 셔틀의 위치는 1초마다 업데이트 해주어야 한다.
-          // async-await 비동기 처리
-          axios
-            .get("/api/vehicles/")
-            .then((response) => {
-              var vehicle_data = response.data.sort(function (a, b) {
-                return a.id < b.id ? -1 : 1;
-              });
-              var vehicleCount = Object.keys(vehicle_data).length;
-              for (let i = 0; i < vehicleCount; i++) {
-                if (vehicle_data[i].site == this.siteId) {
-                  if (
-                    vehicle_data[i].lat != null ||
-                    vehicle_data[i].lon != null ||
-                    vehicle_data[i].lat != undefined ||
-                    vehicle_data[i].lon != undefined
-                  ) {
-                    this.vehicle[i].setLatLng([
-                      vehicle_data[i].lat,
-                      vehicle_data[i].lon,
-                    ]); // 위치 업데이트
-                  }
-                }
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }.bind(this),
-        1000
-      );
     },
 
     // 탑승인원
