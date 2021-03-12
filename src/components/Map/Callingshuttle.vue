@@ -91,8 +91,10 @@
             </v-list-item>
           </v-list>
 
-          <span class="arrive-time">{{ minutes }}</span
-          ><span v-if="minutes !== '시간계산 중'" style="color: #828282">
+          <span class="arrive-time">{{
+            minutes ? `약 ${minutes}분 후` : "시간계산 중"
+          }}</span
+          ><span v-if="minutes" style="color: #828282">
             셔틀이 출발지에 도착합니다.</span
           >
           <v-card-actions class="pa-0 pt-5 call-cancel-btn">
@@ -205,7 +207,7 @@ export default {
     // web socket
     webSocketData: {},
     webSocketData2: {},
-    minutes: "시간계산 중",
+    // minutes: "",
 
     eta: "",
 
@@ -352,6 +354,10 @@ export default {
       user: "user",
     }),
     ...mapState(["uid"]),
+    minutes() {
+      if (this.eta) return parseInt(this.eta[this.vehicle_id]);
+      else return "";
+    },
   },
 
   created() {
@@ -448,13 +454,15 @@ export default {
             let points_idx = -1;
             for (let station of station_result) {
               if (station.site == this.siteId) {
+                if (station.id == this.start.id)
+                  this.eta = JSON.parse(station.eta);
+                console.log(this.eta);
                 while (points_idx++ < this.points[this.siteId].length) {
                   if (
                     this.points[this.siteId][points_idx].lat == station.lat &&
                     this.points[this.siteId][points_idx].lon == station.lon
                   ) {
                     station.points_idx = Number(points_idx);
-                    station.stat2sta = JSON.parse(station.stat2sta);
                     this.stationList.push(station);
                     break;
                   }
@@ -484,11 +492,12 @@ export default {
       this.realTimeETA = setInterval(
         async function () {
           axios
-            .get("/api/stations/")
+            .get(`/api/stations/${this.start.id}/`)
             .then((response) => {
               if (response.status == 200) {
-                this.eta = JSON.parse(response.data[this.start.id].eta);
-                this.getEta();
+                this.eta = JSON.parse(response.data.eta);
+                console.log("realTimeETA", this.eta);
+                // this.minutes = parseInt(this.eta[this.vehicle_id]);
               }
             })
             .catch((error) => {
@@ -497,17 +506,6 @@ export default {
         }.bind(this),
         10000
       );
-    },
-
-    // 남은 도착 시간을 위한 ETA
-    getEta() {
-      for (let [key, value] of Object.entries(this.eta)) {
-        if (key == this.vehicle_id) {
-          // console.log(key, ', ', value);
-          this.minutes = "약 " + parseInt(value) + "분 후";
-          break;
-        }
-      }
     },
 
     async getRouting() {
@@ -522,20 +520,6 @@ export default {
         iconAnchor: [20, 40],
       });
 
-      // Leaflet-routing-machine이 자동으로 최단 경로를 계산해주기 때문에 static하게 waypoints를 그려줌
-      // 개선 필요
-      //   let i = this.start;
-      //   while (i != this.end) {
-      //     this.waypoints.push({
-      //       lat: this.stationList[i].lat,
-      //       lng: this.stationList[i].lon,
-      //     });
-      //     i = (i + 1) % this.stationList.length();
-      //   }
-      //   this.waypoints.push({
-      //     lat: this.stationList[this.end].lat,
-      //     lng: this.stationList[this.end].lon,
-      //   });
       if (this.end.points_idx > this.start.points_idx) {
         this.waypoints = this.points[this.vehicle_site].slice(
           this.start.points_idx,
@@ -657,7 +641,7 @@ export default {
       this.realTimeVehicle = setInterval(
         async function () {
           axios
-            .get("/api/vehicles/" + this.vehicle_id)
+            .get(`/api/vehicles/${this.vehicle_id}`)
             .then((response) => {
               var vehicle_data = response.data;
               if (
