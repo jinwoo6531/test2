@@ -72,6 +72,7 @@ export default {
     webSocketData2: {},
     timeCount: 0,
     cancelBtn: false,
+    vehicle_id: "",
   }),
 
   computed: {
@@ -104,13 +105,9 @@ export default {
     this.end = this.$route.query.end; // 도착지 (id, points_idx, name)
     this.count = this.$route.query.count; // 인원수
     this.minutes = this.$route.query.minutes; // 소요시간
-
+    this.vehicle_id = this.$route.query.vehicle_id;
     this.ready = true;
 
-    // // 1분 경과한 경우
-    // this.waitTimer = setTimeout(() => {
-    //   this.message = "조금만 더 기다려주세요. 타시오에게 연락해볼게요...";
-    // }, 60000);
     setTimeout(() => {
       this.cancelBtn = true;
       console.log(this.cancelBtn);
@@ -131,7 +128,7 @@ export default {
           endName: this.end.name,
           count: this.count,
           minutes: this.minutes,
-          vehicle_id: parseInt(this.$route.query.vehicle_id),
+          vehicle_id: this.$route.query.vehicle_id,
         },
       });
       this.disconnect();
@@ -180,67 +177,6 @@ export default {
         })
         .goAway(2000);
       this.$router.replace(`/map/${this.site}`);
-
-      // 전액 환불
-      // if (this.isrefund == '0') {
-      //     axios({
-      //         url: "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
-      //         method: "post",
-      //         headers: {
-      //             'content-type': 'application/x-www-form-urlencoded'
-      //         },
-      //         data: {
-      //             merchant_uid: this.latest_mid, // 주문번호 *
-      //             reason: "타시오 호출 취소", // 환불 사유 *,
-      //             cancel_request_amount: 1000 * parseInt(this.count)
-      //         }
-      //     }).then(() => {
-      //         this.$toasted.show("호출이 취소되었습니다.", {
-      //             theme: "bubble",
-      //             position: "top-center"
-      //         }).goAway(2000);
-
-      //         if (this.site == 1) {
-      //             this.$router.replace('/map/gunsan');
-      //         } else if (this.site == 2) {
-      //             this.$router.replace('/map/daegu');
-      //         } else if (this.site == 3) {
-      //             this.$router.replace('/map/sejong');
-      //         } else if (this.site == 4) {
-      //             this.$router.replace('/map/sangam');
-      //         }
-      //     }).catch(error => {
-      //         console.log('환불 실패', error)
-      //         this.$toasted.show("환불을 실패하였습니다.", {
-      //             theme: "bubble",
-      //             position: "top-center"
-      //         }).goAway(2000);
-      //         if (this.site == 1) {
-      //             this.$router.replace('/map/gunsan');
-      //         } else if (this.site == 2) {
-      //             this.$router.replace('/map/daegu');
-      //         } else if (this.site == 3) {
-      //             this.$router.replace('/map/sejong');
-      //         } else if (this.site == 4) {
-      //             this.$router.replace('/map/sangam');
-      //         }
-      //     })
-      // } else {
-      //     this.$toasted.show("결제하신 내역이 없습니다.", {
-      //         theme: "bubble",
-      //         position: "top-center"
-      //     }).goAway(2000);
-
-      //     if (this.site == 1) {
-      //         this.$router.replace('/map/gunsan');
-      //     } else if (this.site == 2) {
-      //         this.$router.replace('/map/daegu');
-      //     } else if (this.site == 3) {
-      //         this.$router.replace('/map/sejong');
-      //     } else if (this.site == 4) {
-      //         this.$router.replace('/map/sangam');
-      //     }
-      // }
     },
 
     onOpenWebsocket() {
@@ -294,29 +230,15 @@ export default {
         how: {
           type: "ondemand",
           function: "call",
-          current_station_id: parseInt(this.$route.query.start.id),
-          target_station_id: parseInt(this.$route.query.end.id),
-          passenger: parseInt(this.$route.query.count),
+          current_station_id: this.start.id,
+          target_station_id: this.end.id,
+          passenger: this.count,
           passenger_name: this.displayName,
           uid: this.uid,
-          site_id: parseInt(this.$route.query.site),
+          site_id: this.site,
         },
       };
-      // this.webSocketData = {
-      //   where: "",
-      //   who: "tasio_id",
-      //   what: "EVENT",
-      //   how: {
-      //     type: "ondemand",
-      //     function: "call",
-      //     current_station_id: 5,
-      //     target_station_id: 20,
-      //     passenger: parseInt(this.$route.query.count),
-      //     passenger_name: this.displayName,
-      //     uid: this.uid,
-      //     site_id: 3,
-      //   },
-      // };
+
       console.log(this.webSocketData);
       this.socket.send(JSON.stringify(this.webSocketData));
     },
@@ -329,11 +251,11 @@ export default {
         what: "EVENT",
         how: {
           type: "ondemand",
-          vehicle_id: parseInt(this.$route.query.vehicle_id),
+          vehicle_id: this.vehicle_id,
           function: "cancel_call",
-          current_station_id: parseInt(this.$route.query.start.id),
-          target_station_id: parseInt(this.$route.query.end.id),
-          passenger: parseInt(this.$route.query.count),
+          current_station_id: this.start.id,
+          target_station_id: this.end.id,
+          passenger: this.count,
           passenger_name: this.displayName,
           uid: this.uid,
         },

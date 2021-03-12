@@ -708,21 +708,6 @@ export default {
     // 배차가 완료된 상태에서 호출 취소를 할 경우
     // 안전요원에 보내는 메시지
     cancleMessage() {
-      //   this.webSocketData2 = {
-      //     where: "",
-      //     who: "tasio_id",
-      //     what: "EVENT",
-      //     how: {
-      //       type: "ondemand",
-      //       vehicle_id: this.vehicle_id,
-      //       function: "cancel_call",
-      //       current_station_id: this.start,
-      //       target_station_id: this.end,
-      //       passenger: this.count,
-      //       passenger_name: this.displayName,
-      //       uid: this.uid,
-      //     },
-      //   };
       this.webSocketData2 = {
         where: "",
         who: "tasio_id",
@@ -731,14 +716,29 @@ export default {
           type: "ondemand",
           vehicle_id: this.vehicle_id,
           function: "cancel_call",
-          current_station_id: 5,
-          target_station_id: 20,
+          current_station_id: this.start.id,
+          target_station_id: this.end.id,
           passenger: this.count,
           passenger_name: this.displayName,
           uid: this.uid,
-          site_id: 3,
         },
       };
+      //   this.webSocketData2 = {
+      //     where: "",
+      //     who: "tasio_id",
+      //     what: "EVENT",
+      //     how: {
+      //       type: "ondemand",
+      //       vehicle_id: this.vehicle_id,
+      //       function: "cancel_call",
+      //       current_station_id: 5,
+      //       target_station_id: 20,
+      //       passenger: this.count,
+      //       passenger_name: this.displayName,
+      //       uid: this.uid,
+      //       site_id: 3,
+      //     },
+      //   };
 
       this.socket.send(JSON.stringify(this.webSocketData2));
     },
