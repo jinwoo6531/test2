@@ -92,9 +92,9 @@
           </v-list>
 
           <span class="arrive-time">{{
-            minutes ? `약 ${minutes}분 후` : "시간계산 중"
+            minutes || minutes === 0 ? `약 ${minutes}분 후` : "시간계산 중"
           }}</span
-          ><span v-if="minutes" style="color: #828282">
+          ><span v-if="minutes || minutes === 0" style="color: #828282">
             셔틀이 출발지에 도착합니다.</span
           >
           <v-card-actions class="pa-0 pt-5 call-cancel-btn">
@@ -207,7 +207,6 @@ export default {
     // web socket
     webSocketData: {},
     webSocketData2: {},
-    // minutes: "",
 
     eta: "",
 
@@ -497,7 +496,6 @@ export default {
               if (response.status == 200) {
                 this.eta = JSON.parse(response.data.eta);
                 console.log("realTimeETA", this.eta);
-                // this.minutes = parseInt(this.eta[this.vehicle_id]);
               }
             })
             .catch((error) => {
