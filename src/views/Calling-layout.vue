@@ -132,7 +132,7 @@ export default {
         },
       });
       this.disconnect();
-    }, 10000);
+    }, 30000);
   },
 
   watch: {
