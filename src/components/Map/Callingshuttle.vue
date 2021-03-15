@@ -405,8 +405,10 @@ export default {
       } else if (
         this.webSocketData.what == "EVENT" &&
         this.webSocketData.how.uid == this.uid &&
-        this.webSocketData.how.function == "cancel_call"
+        this.webSocketData.how.function == "cancel_call" &&
+        this.webSocketData.how.vehicle_id == this.vehicle_id
       ) {
+        console.log("autocancel", this.webSocketData);
         this.socket.close();
         this.$router.replace({
           name: "AutoCancel",
