@@ -293,17 +293,7 @@
                     tile
                     depressed
                     color="#E61773"
-                    @click="
-                      overlay1 = false;
-                      if (pickedStation)
-                        start = {
-                          id: pickedStation.id,
-                          name: pickedStation.name,
-                          points_idx: pickedStation.points_idx,
-                          stat2sta: pickedStation.stat2sta,
-                        };
-                      pickedStation = '';
-                    "
+                    @click="pickStation((isStart = true))"
                     >선택하기</v-btn
                   >
                 </v-card-actions>
@@ -361,17 +351,7 @@
                     tile
                     depressed
                     color="#E61773"
-                    @click="
-                      overlay2 = false;
-                      if (pickedStation)
-                        end = {
-                          id: pickedStation.id,
-                          name: pickedStation.name,
-                          points_idx: pickedStation.points_idx,
-                          stat2sta: pickedStation.stat2sta,
-                        };
-                      pickedStation = '';
-                    "
+                    @click="pickStation((isStart = false))"
                     >선택하기</v-btn
                   >
                 </v-card-actions>
@@ -848,8 +828,13 @@ export default {
           stat2sta: this.pickedStation.stat2sta,
         };
         this.pickedStation = "";
-        if (isStart) this.start = picked;
-        else this.end = picked;
+        if (isStart) {
+          this.start = picked;
+          this.overlay1 = false;
+        } else {
+          this.end = picked;
+          this.overlay2 = false;
+        }
       }
     },
     // 정류장 위치에 따른 마커 표시
