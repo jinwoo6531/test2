@@ -686,8 +686,7 @@ export default {
     errorRule3: false,
     nameRules: [
       (v) => {
-        let pattern = /[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"0-9{Emoji}]/giu;
-        console.log(v, pattern.test(v));
+        let pattern = /[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"0-9]|\p{Emoji}/giu;
         return !pattern.test(v) || "이름은 한글 또는 영문만 가능합니다.";
       },
       (v) => !!v || "이름은 필수 항목입니다.",

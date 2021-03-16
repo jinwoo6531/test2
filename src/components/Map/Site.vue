@@ -295,12 +295,13 @@
                     color="#E61773"
                     @click="
                       overlay1 = false;
-                      start = {
-                        id: pickedStation.id,
-                        name: pickedStation.name,
-                        points_idx: pickedStation.points_idx,
-                        stat2sta: pickedStation.stat2sta,
-                      };
+                      if (pickedStation)
+                        start = {
+                          id: pickedStation.id,
+                          name: pickedStation.name,
+                          points_idx: pickedStation.points_idx,
+                          stat2sta: pickedStation.stat2sta,
+                        };
                       pickedStation = '';
                     "
                     >선택하기</v-btn
@@ -362,12 +363,13 @@
                     color="#E61773"
                     @click="
                       overlay2 = false;
-                      end = {
-                        id: pickedStation.id,
-                        name: pickedStation.name,
-                        points_idx: pickedStation.points_idx,
-                        stat2sta: pickedStation.stat2sta,
-                      };
+                      if (pickedStation)
+                        end = {
+                          id: pickedStation.id,
+                          name: pickedStation.name,
+                          points_idx: pickedStation.points_idx,
+                          stat2sta: pickedStation.stat2sta,
+                        };
                       pickedStation = '';
                     "
                     >선택하기</v-btn
@@ -472,10 +474,6 @@ var control;
 var marker;
 
 export default {
-  // beforeRouteLeave(to, from, next) {
-  //   console.log(to, from, next);
-  //   console.log(this.$route.history);
-  // },
   data: () => ({
     map: null,
     OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -840,6 +838,20 @@ export default {
     },
   },
   methods: {
+    pickStation(isStart) {
+      if (!this.pickedStation) return;
+      else {
+        let picked = {
+          id: this.pickedStation.id,
+          name: this.pickedStation.name,
+          points_idx: this.pickedStation.points_idx,
+          stat2sta: this.pickedStation.stat2sta,
+        };
+        this.pickedStation = "";
+        if (isStart) this.start = picked;
+        else this.end = picked;
+      }
+    },
     // 정류장 위치에 따른 마커 표시
     addMarker() {
       // 사용 마커 정의
