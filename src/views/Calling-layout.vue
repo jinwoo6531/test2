@@ -113,7 +113,7 @@ export default {
       console.log(this.cancelBtn);
     }, 6000);
 
-    // 2분 경과한 경우 호출 자동 취소 처리 => 10초 내로 배차되지 않을 경우, 배차 실패
+    // 2분 경과한 경우 호출 자동 취소 처리 => 30초 내로 배차되지 않을 경우, 배차 실패
     this.failTimer = setTimeout(() => {
       // 자동취소 페이지로 이동
       this.$router.replace({

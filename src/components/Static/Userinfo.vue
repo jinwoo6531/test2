@@ -96,12 +96,16 @@
                         >
                         <v-text-field
                           v-model="displayName"
+                          ref="name"
                           required
                           filled
                           clearable
                           autofocus
                           background-color="rgba(230, 23, 115, 0.1)"
                           color="#E61773"
+                          counter="25"
+                          maxlength="25"
+                          :rules="nameRules"
                         ></v-text-field>
                         <v-card-text class="pa-0" style="color: #eb5757">{{
                           rules
@@ -680,6 +684,14 @@ export default {
     errorRule1: false,
     errorRule2: false,
     errorRule3: false,
+    nameRules: [
+      (v) => {
+        let pattern = /[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"0-9{Emoji}]/giu;
+        console.log(v, pattern.test(v));
+        return !pattern.test(v) || "이름은 한글 또는 영문만 가능합니다.";
+      },
+      (v) => !!v || "이름은 필수 항목입니다.",
+    ],
   }),
 
   created() {
@@ -803,9 +815,10 @@ export default {
     async showNameDialog() {
       this.watch = false;
 
-      if (this.displayName == null) {
-        this.rules = "이름은 필수 항목입니다.";
-        this.namedialog = true;
+      //제출 전 유효성 검증 추가.
+      if (!this.$refs.name.validate(true)) {
+        this.displayName = this.displayNameTemp;
+        return;
       } else {
         // 변경된 이름 저장
         var uid = this.user.data.uid;
@@ -813,11 +826,9 @@ export default {
           displayName: this.displayName,
         });
 
-        this.rules = await "";
         this.namedialog = await false;
+        await this.getUser();
       }
-
-      await this.getUser();
     },
 
     async showEmailDialog() {
