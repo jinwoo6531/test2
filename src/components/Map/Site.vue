@@ -711,8 +711,6 @@ export default {
     // 정류장, 셔틀 API Request
     this.getStation();
     this.setVehicle();
-    this.movingVehicle = setInterval(this.realTimeVehicle, 1000);
-
     this.createPickerIcons();
   },
   beforeDestroy() {
@@ -731,6 +729,16 @@ export default {
     }
   },
   watch: {
+    vehicle_id() {
+      console.log(this.vehicle_id);
+      if (this.vehicle_id && !this.movingVehicle) {
+        console.log("현재 운행 차량:", this.vehicle_id);
+        this.movingVehicle = setInterval(this.realTimeVehicle, 1000);
+      } else {
+        console.log(`siteId ${this.siteId}에 현재 운행 차량 없음`);
+        this.movingVehicle = null;
+      }
+    },
     overlay1() {
       if (this.overlay1 && marker) {
         marker.closePopup();
@@ -818,8 +826,11 @@ export default {
     },
   },
   methods: {
+    //출발지,도착지 선택 모달 '선택하기'버튼 연결 함수
     pickStation(isStart) {
+      //정류장 선택 안했으면 아무 반응 없게
       if (!this.pickedStation) return;
+      //선택했으면
       else {
         let picked = {
           id: this.pickedStation.id,
@@ -828,10 +839,13 @@ export default {
           stat2sta: this.pickedStation.stat2sta,
         };
         this.pickedStation = "";
+        //출발지 모달
         if (isStart) {
           this.start = picked;
           this.overlay1 = false;
-        } else {
+        }
+        //도착지 모달
+        else {
           this.end = picked;
           this.overlay2 = false;
         }
@@ -1073,7 +1087,7 @@ export default {
         iconSize: [32, 32],
       });
       let vehicle_arr = await this.getVehicle();
-      this.vehicle_id = vehicle_arr[0].id;
+      this.vehicle_id = vehicle_arr[0] ? vehicle_arr[0].id : null;
       vehicle_arr.forEach((vehicle) => {
         this.vehicle[vehicle.id] = this.$utils.map.createMakerByXY(
           this.map,
@@ -1093,10 +1107,13 @@ export default {
 
     //vehicle 위치 반영
     async realTimeVehicle() {
+      console.log("realtimeVehicle");
       let vehicle_arr = await this.getVehicle();
-      vehicle_arr.forEach((vehicle) => {
-        this.vehicle[vehicle.id].setLatLng([vehicle.lat, vehicle.lon]); // 위치 업데이트
-      });
+      if (vehicle_arr.length) {
+        vehicle_arr.forEach((vehicle) => {
+          this.vehicle[vehicle.id].setLatLng([vehicle.lat, vehicle.lon]); // 위치 업데이트
+        });
+      }
     },
 
     //vehicle 정보 요청 API

@@ -684,6 +684,7 @@ export default {
     errorRule1: false,
     errorRule2: false,
     errorRule3: false,
+    //이름 validation
     nameRules: [
       (v) => {
         let pattern = /[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"0-9]|\p{Emoji}/giu;
@@ -814,7 +815,7 @@ export default {
     async showNameDialog() {
       this.watch = false;
 
-      //제출 전 유효성 검증 추가.
+      //제출 전 유효성 검증. 통과하지 못하면 아무것도 안하고 원래 이름으로 되돌리기
       if (!this.$refs.name.validate(true)) {
         this.displayName = this.displayNameTemp;
         return;
