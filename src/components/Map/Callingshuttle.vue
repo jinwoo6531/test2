@@ -400,6 +400,7 @@ export default {
         this.socket.close();
         this.$router.replace({
           name: "Thanks",
+          query: { siteId: this.siteId },
         });
         // 탑승 미확인 및 취소 (cancel_call)
       } else if (
