@@ -452,7 +452,6 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 var control;
 var marker;
-
 export default {
   data: () => ({
     map: null,
@@ -638,6 +637,7 @@ export default {
     },
     movingVehicle: "",
     routePoints: [],
+    markerData: "",
   }),
 
   computed: {
@@ -729,6 +729,9 @@ export default {
     }
   },
   watch: {
+    markerData() {
+      console.log("here", this.markerData);
+    },
     vehicle_id() {
       console.log(this.vehicle_id);
       if (this.vehicle_id && !this.movingVehicle) {
@@ -864,10 +867,12 @@ export default {
           [station.lat, station.lon],
           {
             icon: this.zoomStatus,
-            name: station.name,
-            value: station.id,
-            points_idx: station.points_idx,
-            stat2sta: station.stat2sta,
+            value: {
+              name: station.name,
+              points_idx: station.points_idx,
+              stat2sta: station.stat2sta,
+              id: station.id,
+            },
           }
         );
         markersLayer.on("click", this.layerClickHandler);
@@ -901,62 +906,57 @@ export default {
         iconAnchor: [20, 40],
       });
     },
+    testclick() {
+      alert("testClick");
+      return false;
+    },
     layerClickHandler(e) {
-      marker = false;
-
-      marker = e.target;
-      console.log(marker);
-      // eslint-disable-next-line no-prototype-builtins
-      if (marker.hasOwnProperty("_popup")) {
+      if (marker) {
+        console.log("exist", marker);
+        marker.closePopup();
         marker.unbindPopup();
       }
+      marker = e.target;
+
+      //에러 발생
+      // if (marker.hasOwnProperty("_popup")) {
+      //   marker.closePopup();
+      //   marker.unbindPopup();
+      // }
+
+      const markerVal = marker.options.value;
+
       // 지도상에서 같은 정류장을 선택했을 경우
-      if (
-        this.start.id == marker.options.value ||
-        this.end.id == marker.options.value
-      ) {
+      if (this.start.id == markerVal.id || this.end.id == markerVal.id) {
         console.log("같은 정류장은 선택이 불가능합니다.");
       } else {
         //   아닌 경우는 popup 창을 띄워준다.
-        var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;">${marker.options.name}</p>
+        const template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;">${markerVal.name}</p>
                  <form>
-                    <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>
-                    <button id="endBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
+                    <button id="startBtn${markerVal.id}" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>
+                    <button id="endBtn${markerVal.id}" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
                 </form>`;
+        marker.bindPopup(template).openPopup();
 
-        marker.bindPopup(template);
-        marker.openPopup();
-
-        var startSubmit = this.$utils.map.getDomUtil("startBtn");
-        console.log("startSubmit", startSubmit);
+        const startSubmit = this.$utils.map.getDomUtil(
+          `startBtn${markerVal.id}`
+        );
+        console.log("marker value: ", markerVal);
 
         // 지도상에서 정류장을 출발지로 선택했을 경우
-
         this.$utils.map.createDomEvent.addListener(startSubmit, "click", () => {
-          console.log("startClicked");
-          this.start = {
-            id: Number(marker.options.value),
-            name: marker.options.name,
-            points_idx: Number(marker.options.points_idx),
-            stat2sta: marker.options.stat2sta,
-          };
-
+          this.start = markerVal;
           marker.closePopup();
-          marker = false;
+          marker.unbindPopup();
         });
 
-        var endSubmit = this.$utils.map.getDomUtil("endBtn");
+        var endSubmit = this.$utils.map.getDomUtil(`endBtn${markerVal.id}`);
 
         // 지도상에서 정류장을 도착지로 지정한 경우
         this.$utils.map.createDomEvent.addListener(endSubmit, "click", () => {
-          this.end = {
-            id: Number(marker.options.value),
-            name: marker.options.name,
-            points_idx: marker.options.points_idx,
-            stat2sta: marker.options.stat2sta,
-          };
+          this.end = markerVal;
           marker.closePopup();
-          marker = false;
+          marker.unbindPopup();
         });
       }
     },
@@ -1107,7 +1107,7 @@ export default {
 
     //vehicle 위치 반영
     async realTimeVehicle() {
-      console.log("realtimeVehicle");
+      // console.log("realtimeVehicle");
       let vehicle_arr = await this.getVehicle();
       if (vehicle_arr.length) {
         vehicle_arr.forEach((vehicle) => {
