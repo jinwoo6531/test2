@@ -66,7 +66,7 @@ export default {
 
   methods: {
     goToSite() {
-      this.$router.push(-1);
+      this.$router.replace("/map/" + this.$route.query.siteId);
       /* if (this.site == 1) {
                 this.$router.replace('/map/gunsan');
             } else if (this.site == 2) {
