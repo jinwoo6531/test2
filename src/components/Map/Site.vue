@@ -918,6 +918,7 @@ export default {
         console.log("같은 정류장은 선택이 불가능합니다.");
       } else {
         //   아닌 경우는 popup 창을 띄워준다.
+        
         var template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;">${marker.options.name}</p>
                  <form>
                     <button id="startBtn" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>

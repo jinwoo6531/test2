@@ -113,7 +113,7 @@ export default {
       console.log(this.cancelBtn);
     }, 6000);
 
-    // 2분 경과한 경우 호출 자동 취소 처리 => 30초 내로 배차되지 않을 경우, 배차 실패
+    //2분 경과한 경우 호출 자동 취소 처리 => 30초 내로 배차되지 않을 경우, 배차 실패
     this.failTimer = setTimeout(() => {
       // 자동취소 페이지로 이동
       this.$router.replace({
@@ -279,15 +279,15 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
 .gradient {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: linear-gradient(
     208.69deg,
     #00cfff 0.28%,
     #be378b 66.62%,
     #e61773 100.58%
   );
-  position: relative;
+  position: fixed;
 }
 
 .call-cancel {
