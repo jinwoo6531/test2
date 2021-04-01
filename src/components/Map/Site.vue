@@ -1,7 +1,7 @@
 <template>
   <div id="site">
     <!-- 모든 API가 response될 때까지 로딩 딤 처리 -->
-    <v-container fluid v-if="loading == true" class="map-loading">
+    <v-container fluid v-if="loading" class="map-loading">
       <v-row align="center" justify="center">
         <v-card color="transparent" flat>
           <v-card-text class="text-center">
@@ -461,9 +461,7 @@ export default {
       lon: "",
     },
     // loading
-    loading: true,
-    loading1: true,
-    loading2: true,
+    loading: 2,
     getLocationLoading: false,
     // station
     stationList: [],
@@ -1058,7 +1056,7 @@ export default {
             });
 
             // 정류장 API와 셔틀 API의 response가 완료된 경우
-            this.loading = false; // 로딩 딤 화면 끝내기
+            this.loading -= 1; // 로딩 딤 화면 끝내기
             // }
           }
 
@@ -1098,11 +1096,7 @@ export default {
           }
         );
       });
-      this.loading2 = false; // 셔틀 API response가 완료되면 false
-      if (this.loading1 == false && this.loading2 == false) {
-        // 정류장 API, 셔틀 API 모두 response가 완료되면
-        this.loading = false; // 로딩 딤 종료
-      }
+      this.loading -= 1; // 셔틀 API response가 완료되면 false
     },
 
     //vehicle 위치 반영
