@@ -497,7 +497,7 @@ export default {
             if (this.birth == null) {
                 this.rules = '생일은 필수 항목입니다.';
                 this.birthdialog = true;
-            } else if (this.birth.length > 7) {
+            } else if (this.birth.length > 6) {
                 this.rules = '6자로 입력해주세요.';
                 this.birthdialog = true;
             } else {
