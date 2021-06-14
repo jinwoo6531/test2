@@ -147,7 +147,16 @@
                     <v-card-text class="select-person-title"
                       >탑승인원 선택</v-card-text
                     >
+                       <v-card-text class="select-max mt-9"
+                      >탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text
+                    >
+                  <div class="tabs">
+                  <!-- 1회권 -->
+                    <!-- 일반  -->
                     <v-card class="d-flex justify-space-around" flat>
+                       <v-card-text class="select-max mt-9"
+                      >일반<br>(1회 1,500원/ 1일 3,000원)</v-card-text
+                    >
                       <v-card :ripple="false" flat tile>
                         <v-btn
                           :class="{ 'is-disabled1': isDisabled1 }"
@@ -160,6 +169,7 @@
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
                       </v-card>
+
                       <v-card flat tile>
                         <v-card-text class="count">{{ count }}</v-card-text>
                       </v-card>
@@ -176,9 +186,79 @@
                         </v-btn>
                       </v-card>
                     </v-card>
-                    <v-card-text class="select-max mt-9"
-                      >탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text
+
+                    <!-- 청소년/어린이 -->
+                      <v-card class="d-flex justify-space-around" flat>
+                       <v-card-text class="select-max mt-9"
+                      >청소년/어린이<br>(1회 1,050원/ 1일 2,100원)</v-card-text
                     >
+                      <v-card :ripple="false" flat tile>
+                        <v-btn
+                          :class="{ 'is-disabled1': isDisabled1 }"
+                          :ripple="false"
+                          @click="decrement"
+                          outlined
+                          color="#E61773"
+                          fab
+                        >
+                          <v-icon dark>mdi-minus</v-icon>
+                        </v-btn>
+                      </v-card>
+
+                      <v-card flat tile>
+                        <v-card-text class="count">{{ count }}</v-card-text>
+                      </v-card>
+                      <v-card flat tile :ripple="false">
+                        <v-btn
+                          :class="{ 'is-disabled2': isDisabled2 }"
+                          :ripple="false"
+                          @click="increment"
+                          outlined
+                          color="#E61773"
+                          fab
+                        >
+                          <v-icon dark>mdi-plus</v-icon>
+                        </v-btn>
+                      </v-card>
+                    </v-card>
+
+                        <!-- 유아 -->
+                      <v-card class="d-flex justify-space-around" flat>
+                       <v-card-text class="select-max mt-9"
+                      >유아<br>(만6세 미만 무료)</v-card-text
+                    >
+                      <v-card :ripple="false" flat tile>
+                        <v-btn
+                          :class="{ 'is-disabled1': isDisabled1 }"
+                          :ripple="false"
+                          @click="decrement"
+                          outlined
+                          color="#E61773"
+                          fab
+                        >
+                          <v-icon dark>mdi-minus</v-icon>
+                        </v-btn>
+                      </v-card>
+
+                      <v-card flat tile>
+                        <v-card-text class="count">{{ count }}</v-card-text>
+                      </v-card>
+                      <v-card flat tile :ripple="false">
+                        <v-btn
+                          :class="{ 'is-disabled2': isDisabled2 }"
+                          :ripple="false"
+                          @click="increment"
+                          outlined
+                          color="#E61773"
+                          fab
+                        >
+                          <v-icon dark>mdi-plus</v-icon>
+                        </v-btn>
+                      </v-card>
+                    </v-card>
+
+                    </div>
+                 
                   </v-row>
                 </v-container>
 
@@ -187,7 +267,7 @@
                   @click="rideCount"
                   depressed
                   tile
-                  >선택완료</v-btn
+                  >다음</v-btn
                 >
               </v-card>
             </v-dialog>
@@ -1345,11 +1425,50 @@ export default {
           vehicle_id: this.vehicle_id,
         },
       });
+      
+            const totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+
+            const IMP = window.IMP;
+
+            // 가맹점 식별코드
+            IMP.init("imp19092456");
+
+            // // 결제창 호출 코드
+            IMP.request_pay({ // param
+                pg: `mobilians.${this.meth}`, // PG사명
+                // pay_method: this.meth, // 결제수단
+                merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
+                name: '타시오 결제', // 주문명
+                amount: totalPayment, // 결제할 금액 (필수 항목)
+                buyer_email: '', // 주문자 ID (선택 항목)
+                buyer_name: '', // 주문자명 (선택항목)
+                buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+                buyer_addr: '', // 주문자 주소 (선택 항목)
+                buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
+            });
+
     },
+
+    // payment added
+     requestPay(meth) {
+            if (meth == '191029079116') {
+                this.isRed1 = true;
+                this.isRed2 = false;
+                console.log(this.isRed1);
+                this.meth = meth;
+            } else if (meth == '170622040674') {
+                this.isRed1 = false;
+                this.isRed2 = true;
+                this.meth = meth;
+            }
+        },
 
     cancelCallDialog() {
       this.calldialog = false;
     },
+
   },
 };
 // };
