@@ -1,84 +1,105 @@
 <template>
-<v-app style="position: relative;">
-    <v-container fluid v-if="loading == true" style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;">
-        <v-row align="center" justify="center">
-            <v-card color="transparent" flat>
-                <v-card-text class="text-center">
-                    <v-progress-circular indeterminate size="50" color="#E61773"></v-progress-circular>
-                </v-card-text>
-                <v-card-text class="text-center" style="color: #FFF;">
-                    결제 정보를 처리하는 중입니다...
-                </v-card-text>
-            </v-card>
-        </v-row>
-    </v-container>
+    <v-app style="position: relative;">
+        <v-container
+            fluid
+            v-if="loading == true"
+            style="display: flex; position: absolute; background: rgba(0, 0, 0, 0.5); height: 100%; pointer-events: none !important; z-index: 20;"
+        >
+            <v-row align="center" justify="center">
+                <v-card color="transparent" flat>
+                    <v-card-text class="text-center">
+                        <v-progress-circular
+                            indeterminate
+                            size="50"
+                            color="#E61773"
+                        ></v-progress-circular>
+                    </v-card-text>
+                    <v-card-text class="text-center" style="color: #FFF;">
+                        결제 정보를 처리하는 중입니다...
+                    </v-card-text>
+                </v-card>
+            </v-row>
+        </v-container>
 
-    <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
-        <div class="circle"></div>
-        <div class="start-info">
-            <span class="info-title">출발지</span>
-            <br>
-            <span>{{ startName }}</span>
-        </div>
-        <div class="end-info">
-            <span class="info-title">도착지</span>
-            <br>
-            <span>{{ endName }}</span>
-        </div>
-        <v-card class="d-flex justify-start call-cancel" color="transparent" flat @click="callCancelModal">
-            호출 취소하기
-        </v-card>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card color="transparent" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2 text-center call-msg" color="transparent" flat>
-                    {{ message }}
-                </v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col xs="12" sm="12" md="12">
-                <v-card color="transparent" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters class="start-end-table">
-            <v-col xs="12" sm="12" md="12">
-                <v-card class="pa-2" color="transparent" flat>
-                    <v-card-text class="mb-0 pt-0 pb-0 user-select-info">탑승인원 <span>{{ count }}명</span></v-card-text>
-                    <v-card-text class="mb-0 pt-2 pb-0 user-select-info">소요시간 <span>{{ minutes }}분</span></v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
-</v-app>
+        <v-container class="pa-0 gradient" fluid fill-height v-if="ready">
+            <div class="circle"></div>
+            <div class="start-info">
+                <span class="info-title">출발지</span>
+                <br />
+                <span>{{startName}}</span>
+            </div>
+            <div class="end-info">
+                <span class="info-title">도착지</span>
+                <br />
+                <span>{{ endName }}</span>
+            </div>
+            <v-card
+                class="d-flex justify-start call-cancel"
+                color="transparent"
+                flat
+                @click="callCancelModal"
+            >
+                호출 취소하기
+            </v-card>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card color="transparent" flat></v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card
+                        class="pa-2 text-center call-msg"
+                        color="transparent"
+                        flat
+                    >
+                        {{ message }}
+                    </v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters>
+                <v-col xs="12" sm="12" md="12">
+                    <v-card color="transparent" flat></v-card>
+                </v-col>
+            </v-row>
+            <v-row no-gutters class="start-end-table">
+                <v-col xs="12" sm="12" md="12">
+                    <v-card class="pa-2" color="transparent" flat>
+                        <v-card-text class="mb-0 pt-0 pb-0 user-select-info"
+                            >탑승인원 <span>{{ count }}명</span></v-card-text
+                        >
+                        <v-card-text class="mb-0 pt-2 pb-0 user-select-info"
+                            >소요시간 <span>{{ minutes }}분</span></v-card-text
+                        >
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
-import {
-    mapGetters
-} from 'vuex'
-import axios from 'axios'
+import { mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
-    name: 'CallingLayout',
+    name: "CallingLayout",
 
     data: () => ({
         loading: true,
-        message: '타시오 자율주행 셔틀을 호출 중입니다.',
+        message: "타시오 자율주행 셔틀을 호출 중입니다.",
         ready: false,
-        isrefund: '',
-        status: 'disconnected',
+        isrefund: "",
+        status: "disconnected",
         webSocketData: {},
-        timeCount: 0
+        timeCount: 0,
+        startName:'',
+        endName:''
     }),
 
     computed: {
         ...mapGetters({
-            user: "user"
+            user: "user",
         }),
     },
 
@@ -93,13 +114,19 @@ export default {
         //     console.log('WebSocket 서버와 접속이 끊기면 호출되는 함수');
         // };
 
-        axios.get('http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-            .then(response => {
+        axios
+            .get(
+                "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/" +
+                    this.user.data.uid
+            )
+            .then((response) => {
                 this.isrefund = response.data.isrefund;
                 this.latest_mid = response.data.latest_mid;
-            }).catch(error => {
-                console.log('User read: ', error);
+             
             })
+            .catch((error) => {
+                console.log("User read: ", error);
+            });
     },
 
     mounted() {
@@ -110,15 +137,15 @@ export default {
         this.endName = this.$route.query.endName;
         this.count = this.$route.query.count;
         this.minutes = this.$route.query.minutes;
-        
-        this.ready = true;
 
+        this.ready = true;
+        
         this.loadingTime = setTimeout(() => {
             this.loading = false;
         }, 1500);
 
         this.waitTimer = setTimeout(() => {
-            this.message = '조금만 더 기다려주세요. 타시오에게 연락해볼게요...';
+            this.message = "조금만 더 기다려주세요. 타시오에게 연락해볼게요...";
         }, 60000);
 
         this.failTimer = setTimeout(() => {
@@ -131,19 +158,23 @@ export default {
                     startName: this.startName,
                     endName: this.endName,
                     count: this.count,
-                    minutes: this.minutes
-                }
+                    minutes: this.minutes,
+                    
+                },
             });
         }, 180000);
     },
 
     watch: {
         webSocketData() {
-            console.log('watch', this.webSocketData)
-            if (this.webSocketData.what == 'EVENT' && this.webSocketData.how.type == 'ondemand') {
-                console.log('EVENT & ondemand true!!!');
-                if (this.webSocketData.how.function == 'start') {
-                    console.log('ondemand START EVENT(배차 확인)');
+            console.log("watch", this.webSocketData);
+            if (
+                this.webSocketData.what == "EVENT" &&
+                this.webSocketData.how.type == "ondemand"
+            ) {
+                console.log("EVENT & ondemand true!!!");
+                if (this.webSocketData.how.function == "start") {
+                    console.log("ondemand START EVENT(배차 확인)");
                     this.$router.replace({
                         name: "CallingShuttle",
                         params: {
@@ -153,9 +184,9 @@ export default {
                             eta: this.webSocketData.how.eta, // 현재 위치까지 오는데 걸리시간
                             current_station_id: this.start,
                             target_station_id: this.end,
-                            passenger: this.count
-                        }
-                    })
+                            passenger: this.count,
+                        },
+                    });
                 }
                 // if (this.webSocketData.how.function == 'complete') { // 배차 완료될 경우 (사용자가 나 탔어! 할 때)
                 //     console.log('ondemand START EVENT(배차 완료)');
@@ -173,65 +204,72 @@ export default {
                 // }
                 // }
             }
-        }
+        },
     },
 
     methods: {
         callCancelModal() {
-            this.$toasted.show("호출을 정말로 취소하세요?", {
-                theme: "bubble",
-                position: "top-center"
-            }).goAway(2000);
+            this.$toasted
+                .show("호출을 정말로 취소하세요?", {
+                    theme: "bubble",
+                    position: "top-center",
+                })
+                .goAway(2000);
 
-            if (this.isrefund == '0') {
+            if (this.isrefund == "0") {
                 axios({
-                    url: "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
+                    url:
+                        "http://34.64.137.217:5000/tasio-288c5/us-central1/app/api/payment/cancel",
                     method: "post",
                     headers: {
-                        'content-type': 'application/x-www-form-urlencoded'
+                        "content-type": "application/x-www-form-urlencoded",
                     },
                     data: {
                         merchant_uid: this.latest_mid, // 주문번호 *
                         reason: "타시오 호출 취소", // 환불 사유 *,
-                        cancel_request_amount: 500
-                    }
-                }).then(response => {
-                    console.log('환불 완료: ', response)
-                    console.log('latest_mid: ', this.latest_mid)
-                }).catch(error => {
-                    this.$toasted.show("환불을 실패하였습니다.", {
-                        theme: "bubble",
-                        position: "top-center"
-                    }).goAway(2000);
-
-                    console.log('환불 실패', error)
+                        cancel_request_amount: 500,
+                    },
                 })
+                    .then((response) => {
+                        console.log("환불 완료: ", response);
+                        console.log("latest_mid: ", this.latest_mid);
+                    })
+                    .catch((error) => {
+                        this.$toasted
+                            .show("환불을 실패하였습니다.", {
+                                theme: "bubble",
+                                position: "top-center",
+                            })
+                            .goAway(2000);
 
-                this.$router.replace('/')
+                        console.log("환불 실패", error);
+                    });
+
+                this.$router.replace("/");
             } else {
-                this.$toasted.show("결제하신 내역이 없습니다.", {
-                    theme: "bubble",
-                    position: "top-center"
-                }).goAway(2000);
+                this.$toasted
+                    .show("결제하신 내역이 없습니다.", {
+                        theme: "bubble",
+                        position: "top-center",
+                    })
+                    .goAway(2000);
             }
-
         },
 
         onOpenWebsocket() {
             this.socket = new WebSocket("ws://222.114.39.8:11411");
             this.socket.onopen = (event) => {
-                console.log('onopen', event);
-            }
+                console.log("onopen", event);
+            };
         },
 
         onMessageWebSocket() {
             var msgSend = false;
-            this.socket.onmessage = ({
-                data
-            }) => { // websocket에 있는 정보들을 받는다.
+            this.socket.onmessage = ({ data }) => {
+                // websocket에 있는 정보들을 받는다.
                 this.webSocketData = JSON.parse(data);
-                console.log('webSocketData: ', this.webSocketData.what);
-                if (this.webSocketData.what == 'PING') {
+                console.log("webSocketData: ", this.webSocketData.what);
+                if (this.webSocketData.what == "PING") {
                     if (msgSend == false) {
                         this.sendMessage();
                         msgSend = true;
@@ -241,19 +279,20 @@ export default {
             };
         },
 
-        sendMessage() { // ondemand 측에서 보내줘야 할 데이터
+        sendMessage() {
+            // ondemand 측에서 보내줘야 할 데이터
             this.webSocketData = {
-                where: '',
-                who: 'tasio_id',
-                what: 'EVENT',
+                where: "",
+                who: "tasio_id",
+                what: "EVENT",
                 how: {
-                    type: 'ondemand',
+                    type: "ondemand",
                     vehicle_id: 5,
-                    function: 'call',
+                    function: "call",
                     current_station_id: this.$route.query.start,
                     target_station_id: this.$route.query.end,
-                    passenger: this.$route.query.count
-                }
+                    passenger: this.$route.query.count,
+                },
             };
 
             this.socket.send(JSON.stringify(this.webSocketData));
@@ -262,25 +301,30 @@ export default {
         disconnect() {
             this.socket.close();
             this.status = "disconnected";
-            console.log('socket', this.status);
-        }
+            console.log("socket", this.status);
+        },
     },
 
     destroyed() {
         this.disconnect();
         clearTimeout(this.waitTimer);
         clearTimeout(this.failTimer);
-    }
-}
+    },
+};
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
 
 .gradient {
     width: 100%;
     height: 100%;
-    background: linear-gradient(208.69deg, #00CFFF 0.28%, #BE378B 66.62%, #E61773 100.58%);
+    background: linear-gradient(
+        208.69deg,
+        #00cfff 0.28%,
+        #be378b 66.62%,
+        #e61773 100.58%
+    );
     position: relative;
 }
 
@@ -291,7 +335,7 @@ export default {
     font-size: 14px;
     line-height: 20px;
     text-align: center;
-    color: #FFFFFF;
+    color: #ffffff;
     width: 100%;
     position: absolute;
     top: 16px;
@@ -304,7 +348,7 @@ export default {
     font-weight: bold;
     font-size: 24px;
     line-height: 35px;
-    color: #FFFFFF;
+    color: #ffffff;
     width: 232px;
     margin: 0 auto;
 }
@@ -323,12 +367,12 @@ export default {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.user-select-info>span {
+.user-select-info > span {
     font-family: Noto Sans KR;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
-    color: #FFFFFF;
+    color: #ffffff;
     padding-left: 12px;
 }
 
@@ -349,7 +393,7 @@ export default {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 .info-title {
@@ -357,7 +401,7 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 13px !important;
-    color: #FFFFFF;
+    color: #ffffff;
     opacity: 0.7;
 }
 
@@ -373,15 +417,15 @@ export default {
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transition: height .25s ease, width .25s ease;
-    transition: height .25s ease, width .25s ease;
+    -webkit-transition: height 0.25s ease, width 0.25s ease;
+    transition: height 0.25s ease, width 0.25s ease;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 
 .circle:before,
 .circle:after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     top: 0;
@@ -389,7 +433,7 @@ export default {
     bottom: 0;
     left: 0;
     border-radius: 50%;
-    border: 0.5px solid #FFF;
+    border: 0.5px solid #fff;
 }
 
 .circle:before {

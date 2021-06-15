@@ -1,42 +1,84 @@
 <template>
-<v-container style="height: 100%;">
-    <v-layout  wrap>
-        <v-flex class="pa-5" xs12 sm12 md12>
-            <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
-            <p class="RegisterSubTitle">제가 모시게 될 고객님은 어떤 분인가요?</p>
-            <form @submit.prevent="submit">
-                <v-flex xs12 sm12 md12>
-                    <p>이름</p>
-                    <input type="text" id="name" name="name" autofocus v-model="form.name" placeholder="이름을 입력하세요." />
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                    <p style="margin-top: 22px;">이메일</p>
-                    <input type="email" id="email" name="email" autofocus v-model="form.email" placeholder="이메일 주소를 입력하세요." />
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                    <p style="margin-top: 22px;">성별</p>
-                    <v-radio-group v-model="form.gender" row>
-                        <v-radio label="남성" :ripple="false" color="#E61773" value="남자"></v-radio>
-                        <v-radio label="여성" :ripple="false" color="#E61773" value="여자"></v-radio>
-                    </v-radio-group>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                    <p style="margin-top: 22px;">생년월일</p>
-                    <input type="text" id="birth" name="birth" maxlength="6" minlength="6" autofocus placeholder="YYMMDD (예: 940701)" v-model="form.birth" />
-                </v-flex>
-                <p class="error-message" style="margin-top: 22px;">{{ error }}</p>
-                <v-footer absolute style="margin-bottom: 24px; background: transparent;">
-                    <button class="signupBtn" type="submit">가입 완료하기</button>
-                </v-footer>
-            </form>
-        </v-flex>
-    </v-layout>
-</v-container>
+    <v-container style="height: 100%;">
+        <v-layout wrap>
+            <v-flex class="pa-5" xs12 sm12 md12>
+                <h3 class="RegisterTitle">이제 마지막 단계예요.</h3>
+                <p class="RegisterSubTitle">
+                    제가 모시게 될 고객님은 어떤 분인가요?
+                </p>
+                <form @submit.prevent="submit">
+                    <v-flex xs12 sm12 md12>
+                        <p>이름</p>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            autofocus
+                            v-model="form.name"
+                            placeholder="이름을 입력하세요."
+                        />
+                    </v-flex>
+                    <v-flex xs12 sm12 md12>
+                        <p style="margin-top: 22px;">이메일</p>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            autofocus
+                            v-model="form.email"
+                            placeholder="이메일 주소를 입력하세요."
+                        />
+                    </v-flex>
+                    <v-flex xs12 sm12 md12>
+                        <p style="margin-top: 22px;">성별</p>
+                        <v-radio-group v-model="form.gender" row>
+                            <v-radio
+                                label="남성"
+                                :ripple="false"
+                                color="#E61773"
+                                value="남자"
+                            ></v-radio>
+                            <v-radio
+                                label="여성"
+                                :ripple="false"
+                                color="#E61773"
+                                value="여자"
+                            ></v-radio>
+                        </v-radio-group>
+                    </v-flex>
+                    <v-flex xs12 sm12 md12>
+                        <p style="margin-top: 22px;">생년월일</p>
+                        <input
+                            type="text"
+                            id="birth"
+                            name="birth"
+                            maxlength="6"
+                            minlength="6"
+                            autofocus
+                            placeholder="YYMMDD (예: 940701)"
+                            v-model="form.birth"
+                        />
+                    </v-flex>
+                    <p class="error-message" style="margin-top: 22px;">
+                        {{ error }}
+                    </p>
+                    <v-footer
+                        absolute
+                        style="margin-bottom: 24px; background: transparent;"
+                    >
+                        <button class="signupBtn" type="submit">
+                            가입 완료하기
+                        </button>
+                    </v-footer>
+                </form>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import axios from 'axios'
+import { mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
     data() {
@@ -47,68 +89,75 @@ export default {
                 name: "",
                 email: "",
                 gender: "",
-                birth: ""
+                birth: "",
             },
             error: "",
-            items: []
+            items: [],
         };
     },
 
     created() {
-        this.get()
+        this.get();
     },
 
     computed: {
         ...mapGetters({
-            user: "user"
-        })
+            user: "user",
+        }),
     },
 
     methods: {
         submit(uid) {
             if (!this.form.name) {
-                this.error = "이름은 필수 항목입니다."
-                return
+                this.error = "이름은 필수 항목입니다.";
+                return;
             }
             if (!this.form.email) {
-                this.error = "이메일은 필수 항목입니다."
-                return
+                this.error = "이메일은 필수 항목입니다.";
+                return;
             }
             if (!this.form.gender) {
-                this.error = "성별은 필수 선택항목입니다."
-                return
+                this.error = "성별은 필수 선택항목입니다.";
+                return;
             }
             if (!this.form.birth) {
-                this.error = "생일은 필수 선택항목입니다."
-                return
+                this.error = "생일은 필수 선택항목입니다.";
+                return;
             }
 
-            uid = this.user.data.uid
-            this.$firebase.firestore().collection('users').doc(uid).set({
-                uid: this.user.data.uid,
-                phoneNumber: this.user.data.phoneNumber,
-                displayName: this.form.name,
-                email: this.form.email,
-                gender: this.form.gender,
-                level: 1,
-                birth: this.form.birth
-            })
+            uid = this.user.data.uid;
+            this.$firebase
+                .firestore()
+                .collection("users")
+                .doc(uid)
+                .set({
+                    uid: this.user.data.uid,
+                    phoneNumber: this.user.data.phoneNumber,
+                    displayName: this.form.name,
+                    email: this.form.email,
+                    gender: this.form.gender,
+                    level: 1,
+                    birth: this.form.birth,
+                });
 
-            this.user.data.displayName = this.form.name
+            this.user.data.displayName = this.form.name;
 
-            this.form.name = ''
-            this.form.email = ''
-            this.form.gender = ''
-            this.form.birth = ''
+            this.form.name = "";
+            this.form.email = "";
+            this.form.gender = "";
+            this.form.birth = "";
 
-            this.$router.replace('/welcome')
-            this.get()
+            this.$router.replace("/welcome");
+            this.get();
         },
 
         async get() {
-            await axios.get('https://connector.tasio.io/tasio-288c5/us-central1/app/api/read/' + this.user.data.uid)
-        }
-    }
+            await axios.get(
+                "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/" +
+                    this.user.data.uid
+            );
+        },
+    },
 };
 </script>
 
@@ -130,7 +179,7 @@ export default {
 input {
     width: 100%;
     height: 40px;
-    background: #FFF;
+    background: #fff;
     color: #262626;
     font-size: 13px;
     font-style: normal;
@@ -140,15 +189,15 @@ input {
 }
 
 input::placeholder {
-    color: #E0E0E0;
+    color: #e0e0e0;
 }
 
 .signupBtn {
     width: 100%;
     height: 50px;
-    background: #E61773;
+    background: #e61773;
     border-radius: 2px;
-    color: #FFF;
+    color: #fff;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -161,6 +210,6 @@ input::placeholder {
     line-height: 19px;
     display: flex;
     align-items: flex-end;
-    color: #EB5757;
+    color: #eb5757;
 }
 </style>

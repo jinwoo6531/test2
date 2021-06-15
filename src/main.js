@@ -24,10 +24,10 @@ Vue.prototype.$utils = utils
 Vue.config.productionTip = false
 
 // baseURL 기본값을 정의한다
-axios.defaults.baseURL = 'https://api.aspringcloud.com'
+axios.defaults.baseURL = 'https://test.aspringcloud.com'
 // 모든 요청에 추가할 헤더 설정
-var username = 'yjhyeon@aspringcloud.com'
-var password = '9772dbwls!'
+var username = 'admin@aspringcloud.com'
+var password = 'spring#007'
 axios.defaults.headers.common['Authorization'] = 'Basic ' + btoa(username + ':' + password)
 
 new Vue({
