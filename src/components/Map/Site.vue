@@ -152,16 +152,18 @@
                     >
                   <div class="tabs">
                   <!-- 1회권 -->
+
+                  
                     <!-- 일반  -->
                     <v-card class="d-flex justify-space-around" flat>
                        <v-card-text class="select-max mt-9"
-                      >일반<br>(1회 1,500원/ 1일 3,000원)</v-card-text
+                      >일반<br>(1회 1,500원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
                         <v-btn
-                          :class="{ 'is-disabled1': isDisabled1 }"
+                          :class="{ 'is-disabled3': isDisabled3 }"
                           :ripple="false"
-                          @click="decrement"
+                          @click="adultDecrement"
                           outlined
                           color="#E61773"
                           fab
@@ -171,13 +173,13 @@
                       </v-card>
 
                       <v-card flat tile>
-                        <v-card-text class="count">{{ count }}</v-card-text>
+                        <v-card-text class="count">{{ adultCount }}</v-card-text>
                       </v-card>
                       <v-card flat tile :ripple="false">
                         <v-btn
-                          :class="{ 'is-disabled2': isDisabled2 }"
+                          :class="{ 'is-disabled4': isDisabled4 }"
                           :ripple="false"
-                          @click="increment"
+                          @click="adultIncrement"
                           outlined
                           color="#E61773"
                           fab
@@ -190,13 +192,13 @@
                     <!-- 청소년/어린이 -->
                       <v-card class="d-flex justify-space-around" flat>
                        <v-card-text class="select-max mt-9"
-                      >청소년/어린이<br>(1회 1,050원/ 1일 2,100원)</v-card-text
+                      >청소년/어린이<br>(1회 1,050원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
                         <v-btn
-                          :class="{ 'is-disabled1': isDisabled1 }"
+                          :class="{ 'is-disabled5': isDisabled5 }"
                           :ripple="false"
-                          @click="decrement"
+                          @click="childDecrement"
                           outlined
                           color="#E61773"
                           fab
@@ -206,13 +208,13 @@
                       </v-card>
 
                       <v-card flat tile>
-                        <v-card-text class="count">{{ count }}</v-card-text>
+                        <v-card-text class="count">{{ childCount }}</v-card-text>
                       </v-card>
                       <v-card flat tile :ripple="false">
                         <v-btn
-                          :class="{ 'is-disabled2': isDisabled2 }"
+                          :class="{ 'is-disabled6': isDisabled6 }"
                           :ripple="false"
-                          @click="increment"
+                          @click="childIncrement"
                           outlined
                           color="#E61773"
                           fab
@@ -231,7 +233,7 @@
                         <v-btn
                           :class="{ 'is-disabled1': isDisabled1 }"
                           :ripple="false"
-                          @click="decrement"
+                          @click="babyDecrement"
                           outlined
                           color="#E61773"
                           fab
@@ -241,13 +243,13 @@
                       </v-card>
 
                       <v-card flat tile>
-                        <v-card-text class="count">{{ count }}</v-card-text>
+                        <v-card-text class="count">{{ babyCount }}</v-card-text>
                       </v-card>
                       <v-card flat tile :ripple="false">
                         <v-btn
                           :class="{ 'is-disabled2': isDisabled2 }"
                           :ripple="false"
-                          @click="increment"
+                          @click="babyIncrement"
                           outlined
                           color="#E61773"
                           fab
@@ -267,7 +269,7 @@
                   @click="rideCount"
                   depressed
                   tile
-                  >다음</v-btn
+                  >선택완료</v-btn
                 >
               </v-card>
             </v-dialog>
@@ -554,9 +556,16 @@ export default {
     dialog: false,
     callBtn: false,
     temp: 0,
-    count: 1,
+    // count: 1,
+    babyCount:0,
+    adultCount : 0,
+    childCount : 0,
     isDisabled1: true,
     isDisabled2: false,
+    isDisabled3: true,
+    isDisabled4: false,
+    isDisabled5: true,
+    isDisabled6: false,
     // overlay
     zIndex: 10,
     overlay1: false,
@@ -724,7 +733,8 @@ export default {
     }),
 
     totalPayment() {
-      let num = 1000 * this.count;
+      let num = 1000 * this.babyCount+this.childCount+this.adultCount;
+      
       num = parseInt(num, 10);
       return num.toLocaleString();
     },
@@ -1205,9 +1215,10 @@ export default {
       return vehicle_arr;
     },
 
-    // 탑승인원
+
+    //탑승인원
     selectPerson() {
-      if (this.count < 2) {
+      if (this.count < 0) {
         this.isDisabled1 = true;
       } else {
         this.isDisabled1 = false;
@@ -1222,7 +1233,7 @@ export default {
 
     async beforeSelectPerson() {
       if (this.count == 0) {
-        this.count = 1;
+        this.count = 0;
         this.isDisabled1 = true;
         this.isDisabled2 = false;
       }
@@ -1233,55 +1244,134 @@ export default {
       this.dialog = false;
 
       if (this.temp != 0) {
-        this.count = this.temp;
+        this.babyCount,this.adultCount,this.childCount = this.temp;
       } else {
-        this.count = 1;
+        this.babyCount,this.adultCount,this.childCount =1
         this.isDisabled1 = true;
         this.isDisabled2 = false;
       }
     },
+
 
     // 인원수 - 버튼
-    decrement() {
-      this.count -= 1;
 
-      if (this.count < 2) {
+    //유아 인원수 감소
+    babyDecrement() {
+      this.babyCount -= 1;
+
+      if (this.babyCount < 1) {
         this.isDisabled1 = true;
-        this.count = 1;
+        this.babyCount = 0;
       } else {
-        this.isDisabled1 = false;
+        this.isDisabled1 =false;
       }
 
-      if (this.count >= 14) {
+      if (this.babyCount >= 14) {
         this.isDisabled2 = true;
-        this.count = 14;
+        this.babyCount = 14;
       } else {
         this.isDisabled2 = false;
       }
     },
+  //일반 인원수 감소
+    adultDecrement() {
+      this.adultCount -= 1;
+
+      if (this.adultCount < 1) {
+        this.isDisabled3 = true;
+        this.adultCount = 0;
+      } else {
+        this.isDisabled3 = false;
+      }
+
+      if (this.adultCount >= 14) {
+        this.isDisabled4 = true;
+        this.adultCount = 14;
+      } else {
+        this.isDisabled4 = false;
+      }
+    },
+     //청소년/어린이 인원수 감소
+    childDecrement() {
+      this.childCount -= 1;
+
+      if (this.childCount < 1) {
+        this.isDisabled5 = true;
+        this.childCount = 0;
+      } else {
+        this.isDisabled5 = false;
+      }
+
+      if (this.childCount >= 14) {
+        this.isDisabled6 = true;
+        this.childCount = 14;
+      } else {
+        this.isDisabled6 = false;
+      }
+    },
+
+
+
 
     // 인원수 + 버튼
-    increment() {
-      this.count += 1;
+    //유아 인원수 증가
+    babyIncrement() {
+      this.babyCount += 1;
 
-      if (this.count >= 14) {
+      if (this.babyCount >= 14) {
         this.isDisabled2 = true;
-        this.count = 14;
+        this.babyCount = 14;
       } else {
         this.isDisabled2 = false;
       }
 
-      if (this.count <= 1) {
+      if (this.babyCount <= 0) {
         this.isDisabled1 = true;
-        this.count = 1;
+        this.babyCount = 1;
       } else {
         this.isDisabled1 = false;
+      }
+    },
+     //일반 인원수 증가
+      adultIncrement() {
+      this.adultCount += 1;
+
+      if (this.adultCount>= 14) {
+        this.isDisabled3 = true;
+        this.adultCount = 14;
+      } else {
+        this.isDisabled3 = false;
+      }
+
+      if (this.adultCount <= 0) {
+        this.isDisabled4 = true;
+        this.adultCount = 1;
+      } else {
+        this.isDisabled4 = false;
+      }
+    },
+     //청소년/어린이 인원수 증가
+    childIncrement(){
+        this.childCount += 1;
+
+      if (this.childCount>= 14) {
+        this.isDisabled5 = true;
+        this.childCount = 14;
+      } else {
+        this.isDisabled5 = false;
+      }
+
+      if (this.childCount <= 0) {
+        this.isDisabled6 = true;
+        this.childCount = 1;
+      } else {
+        this.isDisabled6 = false;
       }
     },
 
     // 탑승인원 선택완료 버튼
     rideCount() {
-      this.temp = this.count;
+      this.temp = this.babyCount+this.adultCount+this.childCount;
       this.dialog = false;
     },
 
@@ -1579,7 +1669,18 @@ export default {
 .is-disabled2 {
   color: #bdbdbd !important;
 }
-
+.is-disabled3 {
+  color: #bdbdbd !important;
+}
+.is-disabled4 {
+  color: #bdbdbd !important;
+}
+.is-disabled5 {
+  color: #bdbdbd !important;
+}
+.is-disabled6 {
+  color: #bdbdbd !important;
+}
 .v-dialog {
   border-radius: 0 !important;
   box-shadow: none !important;
