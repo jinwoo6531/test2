@@ -147,7 +147,7 @@
                     <v-card-text class="select-person-title"
                       >탑승인원 선택</v-card-text
                     >
-                       <v-card-text class="select-max mt-9"
+                       <v-card-text class="select-max "
                       >탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text
                     >
                   <div class="tabs">
@@ -156,7 +156,7 @@
                   
                     <!-- 일반  -->
                     <v-card class="d-flex justify-space-around" flat>
-                       <v-card-text class="select-max mt-9"
+                       <v-card-text class="select-max"
                       >일반<br>(1회 1,500원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
@@ -167,6 +167,8 @@
                           outlined
                           color="#E61773"
                           fab
+                          width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
@@ -183,6 +185,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-plus</v-icon>
                         </v-btn>
@@ -191,7 +195,9 @@
 
                     <!-- 청소년/어린이 -->
                       <v-card class="d-flex justify-space-around" flat>
-                       <v-card-text class="select-max mt-9"
+                        <!-- mt-9 생략 -->
+                       <v-card-text class="select-max" 
+                       
                       >청소년/어린이<br>(1회 1,050원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
@@ -202,6 +208,8 @@
                           outlined
                           color="#E61773"
                           fab
+                          width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
@@ -218,6 +226,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-plus</v-icon>
                         </v-btn>
@@ -226,7 +236,7 @@
 
                         <!-- 유아 -->
                       <v-card class="d-flex justify-space-around" flat>
-                       <v-card-text class="select-max mt-9"
+                       <v-card-text class="select-max"
                       >유아<br>(만6세 미만 무료)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
@@ -237,6 +247,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
@@ -253,6 +265,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-plus</v-icon>
                         </v-btn>
@@ -260,6 +274,24 @@
                     </v-card>
 
                     </div>
+
+                    <div class="total_payment">
+                        <v-card class="d-flex justify-space-between" flat>
+                       <v-card-text class="select-max mt-9"
+                      >결제 금액</v-card-text
+                    >
+                     <v-card-text class="select-max mt-9"
+                      >원</v-card-text
+                    >
+                    </v-card>
+                      <v-text-field
+            label="수량"
+            single-line
+            outlined
+          ></v-text-field>
+                    </div>
+
+                      
                  
                   </v-row>
                 </v-container>
@@ -1685,7 +1717,16 @@ export default {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-
+.count{
+  font-size: 18px;
+  line-height: 18px;
+  width: 30px;
+  margin:0;
+  text-align: center;
+}
+.v-btn{
+  margin-top: 0.5rem;
+}
 .dialog-background {
   width: 2801px;
   background-image: url("~@/assets/call-dialog.png");
@@ -1705,7 +1746,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   position: absolute;
-  top: 158px;
+  top: 45px;
   text-align: center;
   font-size: 16px;
   color: #262626;
@@ -1908,5 +1949,10 @@ export default {
 
 .v-btn:before {
   background-color: transparent !important;
+}
+.total_payment{
+  width: 100%;
+  border-top: 1px solid #333;
+  margin: 10px;
 }
 </style>

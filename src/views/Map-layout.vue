@@ -133,13 +133,13 @@
           </v-list-item-content>
         </v-list-item>
 
-        <!-- <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
+        <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                 <v-list-item-content class="pa-0">
                     <v-list-item-title class="sidebar-menu-title">
                         자주 묻는 질문
                     </v-list-item-title>
                 </v-list-item-content>
-        </v-list-item>-->
+        </v-list-item>
 
         <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
           <v-list-item-content class="pa-0">

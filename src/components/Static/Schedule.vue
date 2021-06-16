@@ -2,7 +2,7 @@
   <div id="schedule">
     <v-container
       class="pa-0 ma-0 flex-wrap"
-      fluid
+      fluid 
       justify-center
       grid-list-md
       fill-height
@@ -92,6 +92,10 @@
         </v-flex>
       </v-layout>
     </v-container>
+     <v-footer class="copyrightStyle nav-footer pa-0">
+            <span>COPYRIGHT@SPRINGCLOUD INC. <br />
+                    ALL RIGHTS RESERVED.</span>
+        </v-footer>
   </div>
 </template>
 
@@ -107,8 +111,8 @@ export default {};
   font-size: 14px;
   line-height: 23px;
   color: #555555;
+  
 }
-
 .site-title {
   font-family: Noto Sans KR;
   font-style: normal;
@@ -144,6 +148,22 @@ table .th-title {
   font-weight: normal;
   font-size: 12px;
   color: #888888;
-  margin-bottom: 0 !important;
+  margin-bottom: 140px !important;
+}
+
+.copyrightStyle {
+  border-top: 1px solid #3333;
+    height:107px;
+    font-family: Roboto !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 10px !important;
+    line-height: 14px;
+    /* color: #bdbdbd !important; */
+    background: transparent !important;
+    position: absolute;
+    left: 50%;
+    bottom: 60px; 
+    transform: translate(-50%);
 }
 </style>
