@@ -271,6 +271,7 @@
                   tile
                   >선택완료</v-btn
                 >
+                
               </v-card>
             </v-dialog>
 
@@ -557,6 +558,7 @@ export default {
     callBtn: false,
     temp: 0,
     // count: 1,
+    test:0,
     babyCount:0,
     adultCount : 0,
     childCount : 0,
@@ -1373,6 +1375,10 @@ export default {
     rideCount() {
       this.temp = this.babyCount+this.adultCount+this.childCount;
       this.dialog = false;
+      if(this.temp > 14) {
+        alert('초과입니다.')
+        return;
+      } 
     },
 
     // 출발지와 도착지 swap 버튼
