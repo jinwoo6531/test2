@@ -275,20 +275,23 @@
 
                     </div>
 
+
                     <div class="total_payment">
                         <v-card class="d-flex justify-space-between" flat>
                        <v-card-text class="select-max mt-9"
                       >결제 금액</v-card-text
                     >
                      <v-card-text class="select-max mt-9"
-                      >원</v-card-text
+                      >{{totalPayment}}원</v-card-text
                     >
                     </v-card>
-                      <v-text-field
-            label="수량"
-            single-line
-            outlined
-          ></v-text-field>
+                     <span>수량 총{{ this.temp }}매 선택</span>
+                     <br/>
+                     <span>일반{{this.adultCount}}</span>
+                     <br/>
+                     <span>청소년/어린이{{this.childCount}}</span>
+                     <br/>
+                     <span>유아{{this.babyCount}}</span>
                     </div>
 
                       
@@ -765,13 +768,13 @@ export default {
     ...mapGetters({
       user: "user",
     }),
-
+    
     totalPayment() {
-      let num = 1000 * this.babyCount+this.childCount+this.adultCount;
-      
-      num = parseInt(num, 10);
-      return num.toLocaleString();
+      let num = (1500*this.adultCount) + (1050*this.childCount)+ (0*this.babyCount)
+      num = parseInt(num,10 )
+      return num.toLocaleString()
     },
+    
     start_options() {
       return this.stationList.filter((station) => station.id != this.end.id);
     },
@@ -779,6 +782,15 @@ export default {
       return this.stationList.filter((station) => station.id != this.start.id);
     },
   },
+    rideCount() {
+      this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.dialog = false;
+      if(this.temp > 14) {
+        alert('초과입니다.')
+        return;
+      } 
+    },
+    
   mounted() {
     // map container에 map을 그려준다.
     this.map = this.$utils.map.createMap("map-container", {
@@ -1306,6 +1318,7 @@ export default {
       } else {
         this.isDisabled2 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
   //일반 인원수 감소
     adultDecrement() {
@@ -1324,6 +1337,7 @@ export default {
       } else {
         this.isDisabled4 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //청소년/어린이 인원수 감소
     childDecrement() {
@@ -1342,6 +1356,7 @@ export default {
       } else {
         this.isDisabled6 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
 
 
@@ -1365,6 +1380,7 @@ export default {
       } else {
         this.isDisabled1 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //일반 인원수 증가
       adultIncrement() {
@@ -1383,6 +1399,7 @@ export default {
       } else {
         this.isDisabled4 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //청소년/어린이 인원수 증가
     childIncrement(){
@@ -1401,6 +1418,7 @@ export default {
       } else {
         this.isDisabled6 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
 
     // 탑승인원 선택완료 버튼
@@ -1412,6 +1430,8 @@ export default {
         return;
       } 
     },
+    
+    
 
     // 출발지와 도착지 swap 버튼
     swapDestination() {
