@@ -147,7 +147,7 @@
                     <v-card-text class="select-person-title"
                       >탑승인원 선택</v-card-text
                     >
-                       <v-card-text class="select-max mt-9"
+                       <v-card-text class="select-max "
                       >탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text
                     >
                   <div class="tabs">
@@ -156,7 +156,7 @@
                   
                     <!-- 일반  -->
                     <v-card class="d-flex justify-space-around" flat>
-                       <v-card-text class="select-max mt-9"
+                       <v-card-text class="select-max"
                       >일반<br>(1회 1,500원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
@@ -167,6 +167,8 @@
                           outlined
                           color="#E61773"
                           fab
+                          width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
@@ -183,6 +185,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-plus</v-icon>
                         </v-btn>
@@ -191,7 +195,9 @@
 
                     <!-- 청소년/어린이 -->
                       <v-card class="d-flex justify-space-around" flat>
-                       <v-card-text class="select-max mt-9"
+                        <!-- mt-9 생략 -->
+                       <v-card-text class="select-max" 
+                       
                       >청소년/어린이<br>(1회 1,050원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
@@ -202,6 +208,8 @@
                           outlined
                           color="#E61773"
                           fab
+                          width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
@@ -218,6 +226,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-plus</v-icon>
                         </v-btn>
@@ -226,7 +236,7 @@
 
                         <!-- 유아 -->
                       <v-card class="d-flex justify-space-around" flat>
-                       <v-card-text class="select-max mt-9"
+                       <v-card-text class="select-max"
                       >유아<br>(만6세 미만 무료)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
@@ -237,6 +247,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-minus</v-icon>
                         </v-btn>
@@ -253,6 +265,8 @@
                           outlined
                           color="#E61773"
                           fab
+                           width="34.83px"
+                          height="34.83px"
                         >
                           <v-icon dark>mdi-plus</v-icon>
                         </v-btn>
@@ -260,7 +274,28 @@
                     </v-card>
 
                     </div>
-                 
+
+
+                    <div class="total_payment">
+                        <v-card class="d-flex justify-space-between" flat>
+                       <v-card-text class="select-max mt-9"
+                      >결제 금액</v-card-text
+                    >
+                     <v-card-text class="select-max mt-9"
+                      >{{totalPayment}}원</v-card-text
+                    >
+                    </v-card>
+                     <span>수량 총{{ this.temp }}매 선택</span>
+                    </div>
+                    
+                     <br/>
+                    <div>
+                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}</span>
+                     <br/>
+                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}</span>
+                     <br/>
+                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}</span>
+                    </div>
                   </v-row>
                 </v-container>
 
@@ -271,6 +306,7 @@
                   tile
                   >선택완료</v-btn
                 >
+                
               </v-card>
             </v-dialog>
 
@@ -571,6 +607,10 @@ export default {
     callBtn: false,
     temp: 0,
     // count: 1,
+   babyList:false,
+  childList:false,
+    adultList:false,
+    test:0,
     babyCount:0,
     adultCount : 0,
     childCount : 0,
@@ -745,13 +785,13 @@ export default {
     ...mapGetters({
       user: "user",
     }),
-
+    
     totalPayment() {
-      let num = 1000 * this.babyCount+this.childCount+this.adultCount;
-      
-      num = parseInt(num, 10);
-      return num.toLocaleString();
+      let num = (1500*this.adultCount) + (1050*this.childCount)+ (0*this.babyCount)
+      num = parseInt(num,10 )
+      return num.toLocaleString()
     },
+    
     start_options() {
       return this.stationList.filter((station) => station.id != this.end.id);
     },
@@ -759,6 +799,15 @@ export default {
       return this.stationList.filter((station) => station.id != this.start.id);
     },
   },
+    rideCount() {
+      this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.dialog = false;
+      if(this.temp > 14) {
+        alert('초과입니다.')
+        return;
+      } 
+    },
+    
   mounted() {
     // map container에 map을 그려준다.
     this.map = this.$utils.map.createMap("map-container", {
@@ -1278,6 +1327,7 @@ export default {
       if (this.babyCount < 1) {
         this.isDisabled1 = true;
         this.babyCount = 0;
+        this.babyList = false
       } else {
         this.isDisabled1 =false;
       }
@@ -1288,6 +1338,7 @@ export default {
       } else {
         this.isDisabled2 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
   //일반 인원수 감소
     adultDecrement() {
@@ -1296,6 +1347,7 @@ export default {
       if (this.adultCount < 1) {
         this.isDisabled3 = true;
         this.adultCount = 0;
+        this.adultList = false 
       } else {
         this.isDisabled3 = false;
       }
@@ -1306,6 +1358,7 @@ export default {
       } else {
         this.isDisabled4 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //청소년/어린이 인원수 감소
     childDecrement() {
@@ -1314,6 +1367,7 @@ export default {
       if (this.childCount < 1) {
         this.isDisabled5 = true;
         this.childCount = 0;
+        this.childList = false 
       } else {
         this.isDisabled5 = false;
       }
@@ -1324,6 +1378,7 @@ export default {
       } else {
         this.isDisabled6 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
 
 
@@ -1332,6 +1387,7 @@ export default {
     // 인원수 + 버튼
     //유아 인원수 증가
     babyIncrement() {
+      this.babyList = true
       this.babyCount += 1;
 
       if (this.babyCount >= 14) {
@@ -1347,9 +1403,11 @@ export default {
       } else {
         this.isDisabled1 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //일반 인원수 증가
       adultIncrement() {
+        this.adultList =true
       this.adultCount += 1;
 
       if (this.adultCount>= 14) {
@@ -1365,9 +1423,12 @@ export default {
       } else {
         this.isDisabled4 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //청소년/어린이 인원수 증가
+
     childIncrement(){
+      this.childList = true
         this.childCount += 1;
 
       if (this.childCount>= 14) {
@@ -1383,13 +1444,20 @@ export default {
       } else {
         this.isDisabled6 = false;
       }
+      this.temp = this.babyCount+this.adultCount+this.childCount;
     },
 
     // 탑승인원 선택완료 버튼
     rideCount() {
       this.temp = this.babyCount+this.adultCount+this.childCount;
       this.dialog = false;
+      if(this.temp > 14) {
+        alert('초과입니다.')
+        return;
+      } 
     },
+    
+    
 
     // 출발지와 도착지 swap 버튼
     swapDestination() {
@@ -1799,7 +1867,16 @@ export default {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-
+.count{
+  font-size: 18px;
+  line-height: 18px;
+  width: 30px;
+  margin:0;
+  text-align: center;
+}
+.v-btn{
+  margin-top: 0.5rem;
+}
 .dialog-background {
   width: 2801px;
   background-image: url("~@/assets/call-dialog.png");
@@ -1819,7 +1896,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   position: absolute;
-  top: 158px;
+  top: 45px;
   text-align: center;
   font-size: 16px;
   color: #262626;
@@ -2022,5 +2099,10 @@ export default {
 
 .v-btn:before {
   background-color: transparent !important;
+}
+.total_payment{
+  width: 100%;
+  border-top: 1px solid #333;
+  margin: 10px;
 }
 </style>
