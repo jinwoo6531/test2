@@ -291,15 +291,19 @@
                     <div class="selected">
                      <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
                      <br/>
-                     <span>일반{{adultCount}}</span>
+                       <div>
+                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}</span>
                      <br/>
-                     <span>청소년/어린이{{childCount}}</span>
+                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}</span>
                      <br/>
-                     <span>유아{{babyCount}}</span>
-                     </div>
-                    </div>
+                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}</span>
 
-                      
+                    </div>
+                     </div>
+                     <span>수량 총{{ this.temp }}매 선택</span>
+                    </div>
+                    
+                     <br/>
                  
                   </v-row>
                 </v-container>
@@ -598,6 +602,9 @@ export default {
     callBtn: false,
     temp: 0,
     // count: 1,
+   babyList:false,
+  childList:false,
+    adultList:false,
     test:0,
     babyCount:0,
     adultCount : 0,
@@ -1313,6 +1320,7 @@ export default {
       if (this.babyCount < 1) {
         this.isDisabled1 = true;
         this.babyCount = 0;
+        this.babyList = false
       } else {
         this.isDisabled1 =false;
       }
@@ -1332,6 +1340,7 @@ export default {
       if (this.adultCount < 1) {
         this.isDisabled3 = true;
         this.adultCount = 0;
+        this.adultList = false 
       } else {
         this.isDisabled3 = false;
       }
@@ -1351,6 +1360,7 @@ export default {
       if (this.childCount < 1) {
         this.isDisabled5 = true;
         this.childCount = 0;
+        this.childList = false 
       } else {
         this.isDisabled5 = false;
       }
@@ -1370,6 +1380,7 @@ export default {
     // 인원수 + 버튼
     //유아 인원수 증가
     babyIncrement() {
+      this.babyList = true
       this.babyCount += 1;
 
       if (this.babyCount >= 14) {
@@ -1389,6 +1400,7 @@ export default {
     },
      //일반 인원수 증가
       adultIncrement() {
+        this.adultList =true
       this.adultCount += 1;
 
       if (this.adultCount>= 14) {
@@ -1407,7 +1419,9 @@ export default {
       this.temp = this.babyCount+this.adultCount+this.childCount;
     },
      //청소년/어린이 인원수 증가
+
     childIncrement(){
+      this.childList = true
         this.childCount += 1;
 
       if (this.childCount>= 14) {
