@@ -277,7 +277,7 @@
 
 
                     <div class="total_payment">
-                        <v-card class="d-flex justify-space-between" flat>
+                      <v-card class=" d-flex justify-space-between" flat>
                        <v-card-text class="select-max mt-9"
                       >결제 금액</v-card-text
                     >
@@ -285,17 +285,26 @@
                       >{{totalPayment}}원</v-card-text
                     >
                     </v-card>
-                     <span>수량 총{{ this.temp }}매 선택</span>
+                    <div class="nonSelected">
+                      
                     </div>
-                    
+                    <div class="selected">
+                     <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
                      <br/>
-                    <div>
+                       <div>
                     <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}</span>
                      <br/>
                      <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}</span>
                      <br/>
                      <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}</span>
+
                     </div>
+                     </div>
+                     <span>수량 총{{ this.temp }}매 선택</span>
+                    </div>
+                    
+                     <br/>
+                 
                   </v-row>
                 </v-container>
 
@@ -1989,5 +1998,30 @@ export default {
   width: 100%;
   border-top: 1px solid #333;
   margin: 10px;
+}
+.selected{
+  width: 342px;
+  height: 126px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.sum{
+  position:relative;
+  display: flex;
+ justify-content: space-between;
+ font-weight: 500;
+}
+.sum:after{
+  content:"";
+  display: block;
+  width: 320px;
+  height: 1px;
+  background-color:#bdbdbd;
+  position: absolute;
+  top: 49px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
