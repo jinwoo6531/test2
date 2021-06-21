@@ -58,7 +58,7 @@
             <v-btn
               tile
               depressed
-              class="pa-0 pl-3 pr-3 goReturn"
+              class="pa-0 pl-3 pr-3 goReturn"           
               color="#E61773"
               :ripple="false"
               @click="goBackSite"
@@ -292,14 +292,11 @@
                      <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
                      <br/>
                        <div>
-                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}매 </span>
-                     <span v-if="this.adultList ? true : null ">{{this.adultPayment}}원</span>
+                   <div class="sumList"><div v-if="this.adultList ? true : null ">일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
                      <br/>
-                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}매</span>
-                      <span v-if="this.childList ? true : null ">{{this.childPayment}}원</span>
+                   <div class="sumList"><div v-if="this.childList ? true : null ">청소년/어린이{{childCount}}</div><div><p>{{childCount*1050}}원</p></div></div>
                      <br/>
-                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}매</span>
-                      <span v-if="this.babyList ? true : null ">{{this.babyPayment}}원</span>
+                     <div class="sumList"><div v-if="this.babyList ? true : null ">유아{{babyCount}}</div><p>0원</p></div>
 
                     </div>
                      </div>
@@ -617,9 +614,6 @@ export default {
     isDisabled4: false,
     isDisabled5: true,
     isDisabled6: false,
-    babyPrice:0,
-    adultPrice : 1500,
-    childPrice : 1050,
     // overlay
     zIndex: 10,
     overlay1: false,
@@ -1343,7 +1337,6 @@ export default {
         this.isDisabled2 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
-       this.babyPayment = this. babyPrice*this.babyCount
     },
   //일반 인원수 감소
     adultDecrement() {
@@ -1364,7 +1357,6 @@ export default {
         this.isDisabled4 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
-       this.adultPayment = this. adultPrice*this.adultCount
     },
      //청소년/어린이 인원수 감소
     childDecrement() {
@@ -1385,13 +1377,9 @@ export default {
         this.isDisabled6 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
-       this.childPayment = this. childPrice*this.childCount
     },
 
-
-
-
-    // 인원수 + 버튼
+// 인원수 + 버튼
     //유아 인원수 증가
     babyIncrement() {
       this.babyCount += 1;
@@ -1412,7 +1400,7 @@ export default {
         this.isDisabled1 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
-      this.babyPayment = this. babyPrice*this.babyCount
+      
       
       
     },
@@ -1436,8 +1424,7 @@ export default {
         this.isDisabled4 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
-      this.adultPayment = this.adultPrice*this.adultCount
-  
+     
       
     },
      //청소년/어린이 인원수 증가
@@ -1460,7 +1447,7 @@ export default {
         this.isDisabled6 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
-       this.childPayment = this. childPrice*this.childCount
+       
      
     },
 
@@ -1786,13 +1773,7 @@ export default {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-.count{
-  font-size: 18px;
-  line-height: 18px;
-  width: 30px;
-  margin:0;
-  text-align: center;
-}
+
 .v-btn{
   margin-top: 0.5rem;
 }
@@ -2024,13 +2005,15 @@ export default {
   border-top: 1px solid #333;
   margin: 10px;
 }
+
 .selected{
   width: 342px;
-  height: 126px;
+  height: 185px;
   border: 1px solid #dbdbdb;
   font-size: 14px;
   padding: 10px;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 .sum{
   position:relative;
@@ -2048,5 +2031,19 @@ export default {
   top: 49px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.count{
+  display: inline-block;
+  width: 80px;
+  font-size: 18px;
+  line-height: 18px;
+  margin:0;
+  text-align: center;
+}
+.sumList{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -15px;
 }
 </style>
