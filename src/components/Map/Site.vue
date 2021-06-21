@@ -275,16 +275,16 @@
 
 
                     <div class="total_payment">
-                      <v-card class=" d-flex justify-space-between" flat>
-                       <v-card-text class="select-max mt-9"
-                      >결제 금액</v-card-text
+                      <div class="payment-amount">
+                       <span
+                      >결제 금액</span
                     >
-                     <v-card-text class="select-max mt-9"
-                      >{{totalPayment}}원</v-card-text
+                     <p
+                      >{{totalPayment}}원</p
                     >
-                    </v-card>
+                    </div>
                     <div class="nonSelected" v-if="!adultList && !childList && !babyList">
-                       <span>수량 총{{ this.temp }}매 선택</span>
+                       <span>수량</span> <span>총{{ temp }}매 선택</span>
                     </div>
                     <div class="selected" v-if="adultList && true || childList&&true || babyList&&true">
                      <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
@@ -2112,10 +2112,27 @@ export default {
 .v-btn:before {
   background-color: transparent !important;
 }
+
+.payment-amount{
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
 .total_payment{
   width: 100%;
   border-top: 1px solid #333;
-  margin: 10px;
+  margin: 17px;
+}
+.nonSelected{
+  width: 100%;
+  height: 53px;
+  border: 1px solid #c6c6c6;
+  display: flex;
+  justify-content: space-between;
+  color:#c6c6c6;
+  line-height: 53px;
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 
 .selected{
