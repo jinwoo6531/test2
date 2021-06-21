@@ -58,7 +58,7 @@
             <v-btn
               tile
               depressed
-              class="pa-0 pl-3 pr-3 goReturn"
+              class="pa-0 pl-3 pr-3 goReturn"           
               color="#E61773"
               :ripple="false"
               @click="goBackSite"
@@ -1763,9 +1763,10 @@ export default {
   box-shadow: none !important;
 }
 .count{
+  display: inline-block;
+  width: 80px;
   font-size: 18px;
   line-height: 18px;
-  width: 30px;
   margin:0;
   text-align: center;
 }
@@ -2002,7 +2003,7 @@ export default {
 }
 .selected{
   width: 342px;
-  height: 126px;
+  height: 145px;
   border: 1px solid #dbdbdb;
   font-size: 14px;
   padding: 10px;
