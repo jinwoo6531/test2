@@ -151,9 +151,7 @@
                       >탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text
                     >
                   <div class="tabs">
-                  <!-- 1회권 -->
-
-                  
+                  <!-- 1회권 -->                 
                     <!-- 일반  -->
                     <v-card class="d-flex justify-space-around" flat>
                        <v-card-text class="select-max"
@@ -285,22 +283,22 @@
                       >{{totalPayment}}원</v-card-text
                     >
                     </v-card>
-                    <div class="nonSelected">
-                      
+                    <div class="nonSelected" v-if="!adultList && !childList && !babyList">
+                       <span>수량 총{{ this.temp }}매 선택</span>
                     </div>
-                    <div class="selected">
+                    <div class="selected" v-if="adultList && true || childList&&true || babyList&&true">
                      <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
                      <br/>
                        <div>
-                   <div class="sumList"><div v-if="this.adultList ? true : null ">일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
+                   <div class="sumList" v-if="adultList ? true : null "><div>일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
                      <br/>
-                   <div class="sumList"><div v-if="this.childList ? true : null ">청소년/어린이{{childCount}}</div><div><p>{{childCount*1050}}원</p></div></div>
+                   <div class="sumList" v-if="childList ? true : null "><div>청소년/어린이{{childCount}}</div><div><p>{{childCount*1050}}원</p></div></div>
                      <br/>
-                     <div class="sumList"><div v-if="this.babyList ? true : null ">유아{{babyCount}}</div><p>0원</p></div>
+                     <div class="sumList" v-if="babyList ? true : null "><div>유아{{babyCount}}</div><p>0원</p></div>
 
                     </div>
                      </div>
-                     <span>수량 총{{ this.temp }}매 선택</span>
+                    
                     </div>
                     
                      <br/>
