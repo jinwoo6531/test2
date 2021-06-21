@@ -292,15 +292,18 @@
                      <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
                      <br/>
                        <div>
-                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}</span>
+                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}매 </span>
+                     <span v-if="this.adultList ? true : null ">{{this.adultPayment}}원</span>
                      <br/>
-                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}</span>
+                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}매</span>
+                      <span v-if="this.childList ? true : null ">{{this.childPayment}}원</span>
                      <br/>
-                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}</span>
+                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}매</span>
+                      <span v-if="this.babyList ? true : null ">{{this.babyPayment}}원</span>
 
                     </div>
                      </div>
-                     <span>수량 총{{ this.temp }}매 선택</span>
+                    
                     </div>
                     
                      <br/>
@@ -614,6 +617,9 @@ export default {
     isDisabled4: false,
     isDisabled5: true,
     isDisabled6: false,
+    babyPrice:0,
+    adultPrice : 1500,
+    childPrice : 1050,
     // overlay
     zIndex: 10,
     overlay1: false,
@@ -779,9 +785,15 @@ export default {
     ...mapGetters({
       user: "user",
     }),
-    
+      
+   
+  
     totalPayment() {
       let num = (1500*this.adultCount) + (1050*this.childCount)+ (0*this.babyCount)
+      // let num1 = 1500*this.adultCount
+      // let num2 = 1050 *this.childCount
+      // let num3 = 0*this.babyCount
+      // let num = num1 + num2 + num3
       num = parseInt(num,10 )
       return num.toLocaleString()
     },
@@ -1331,6 +1343,7 @@ export default {
         this.isDisabled2 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+       this.babyPayment = this. babyPrice*this.babyCount
     },
   //일반 인원수 감소
     adultDecrement() {
@@ -1351,6 +1364,7 @@ export default {
         this.isDisabled4 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+       this.adultPayment = this. adultPrice*this.adultCount
     },
      //청소년/어린이 인원수 감소
     childDecrement() {
@@ -1371,6 +1385,7 @@ export default {
         this.isDisabled6 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+       this.childPayment = this. childPrice*this.childCount
     },
 
 
@@ -1379,12 +1394,13 @@ export default {
     // 인원수 + 버튼
     //유아 인원수 증가
     babyIncrement() {
-      this.babyList = true
       this.babyCount += 1;
-
+     this.babyList = true
       if (this.babyCount >= 14) {
         this.isDisabled2 = true;
         this.babyCount = 14;
+        this.babyPrice
+        
       } else {
         this.isDisabled2 = false;
       }
@@ -1396,6 +1412,9 @@ export default {
         this.isDisabled1 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.babyPayment = this. babyPrice*this.babyCount
+      
+      
     },
      //일반 인원수 증가
       adultIncrement() {
@@ -1405,6 +1424,7 @@ export default {
       if (this.adultCount>= 14) {
         this.isDisabled3 = true;
         this.adultCount = 14;
+      
       } else {
         this.isDisabled3 = false;
       }
@@ -1416,6 +1436,9 @@ export default {
         this.isDisabled4 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.adultPayment = this.adultPrice*this.adultCount
+  
+      
     },
      //청소년/어린이 인원수 증가
 
@@ -1437,6 +1460,8 @@ export default {
         this.isDisabled6 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+       this.childPayment = this. childPrice*this.childCount
+     
     },
 
     // 탑승인원 선택완료 버튼
