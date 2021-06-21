@@ -307,6 +307,7 @@
                 </v-container>
 
                 <v-btn
+                :disabled="!adultList && !childList && !babyList"
                   class="select-person-btn"
                   @click="rideCount"
                   depressed

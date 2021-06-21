@@ -189,6 +189,32 @@
                         >
                             운행 시간표
                         </v-list-item-title>
+                          <v-list-item
+                           link to="/schedule"
+                            class="ma-0"
+                        >
+                            <v-list-item-content class="pa-0"
+                            >
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                >
+                                    운임 안내
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                          <v-list-item
+                            link
+                            :to="{ name: 'Site', params: { siteId: 18 } }"
+                            class="ma-0"
+                        >
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                >
+                                    내 승차권 확인
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list-item-content>
                 </v-list-item>
 
