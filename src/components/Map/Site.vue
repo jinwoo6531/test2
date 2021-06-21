@@ -107,10 +107,10 @@
                   >
                     <img src="../../assets/person-count.svg" />
                     <span
-                      v-if="temp >= 1"
+                      v-if="totalCount >= 1"
                       style="padding-left: 12px"
                       @click="selectPerson"
-                      >탑승인원 {{ temp }}명</span
+                      >탑승인원 {{ totalCount }}명</span
                     >
                     <span
                       v-else
@@ -151,16 +151,17 @@
                       >탑승인원은 최대 14명까지 선택 가능합니다.</v-card-text
                     >
                   <div class="tabs">
-                  <!-- 1회권 -->                 
+                  <!-- 1회권 -->
+
+                  
                     <!-- 일반  -->
-                     <div v-if="this.temp<=14">
                     <v-card class="d-flex justify-space-around" flat>
                        <v-card-text class="select-max"
                       >일반<br>(1회 1,500원)</v-card-text
                     >
                       <v-card :ripple="false" flat tile>
                         <v-btn
-                          :class="{ 'is-disabled3': isDisabled3 }"
+                          :disabled = isDisabled_adult_minus
                           :ripple="false"
                           @click="adultDecrement"
                           outlined
@@ -178,7 +179,7 @@
                       </v-card>
                       <v-card flat tile :ripple="false">
                         <v-btn
-                          :class="{ 'is-disabled4': isDisabled4 }"
+                          :disabled = isDisabled_adult_plus
                           :ripple="false"
                           @click="adultIncrement"
                           outlined
@@ -191,9 +192,6 @@
                         </v-btn>
                       </v-card>
                     </v-card>
-                    </div>
-                    
-                 
 
                     <!-- 청소년/어린이 -->
                       <v-card class="d-flex justify-space-around" flat>
@@ -204,7 +202,7 @@
                     >
                       <v-card :ripple="false" flat tile>
                         <v-btn
-                          :class="{ 'is-disabled5': isDisabled5 }"
+                          :disabled = isDisabled_child_minus
                           :ripple="false"
                           @click="childDecrement"
                           outlined
@@ -222,7 +220,7 @@
                       </v-card>
                       <v-card flat tile :ripple="false">
                         <v-btn
-                          :class="{ 'is-disabled6': isDisabled6 }"
+                          :disabled = isDisabled_child_plus
                           :ripple="false"
                           @click="childIncrement"
                           outlined
@@ -243,7 +241,7 @@
                     >
                       <v-card :ripple="false" flat tile>
                         <v-btn
-                          :class="{ 'is-disabled1': isDisabled1 }"
+                          :disabled = isDisabled_baby_minus
                           :ripple="false"
                           @click="babyDecrement"
                           outlined
@@ -261,7 +259,7 @@
                       </v-card>
                       <v-card flat tile :ripple="false">
                         <v-btn
-                          :class="{ 'is-disabled2': isDisabled2 }"
+                          :disabled = isDisabled_baby_plus
                           :ripple="false"
                           @click="babyIncrement"
                           outlined
@@ -277,7 +275,7 @@
 
                     </div>
 
-                  
+
                     <div class="total_payment">
                       <div class="payment-amount">
                        <span
@@ -288,10 +286,10 @@
                     >
                     </div>
                     <div class="nonSelected" v-if="!adultList && !childList && !babyList">
-                       <span>수량</span> <span>총{{ temp }}매 선택</span>
+                       <span>수량</span> <span>총{{ totalCount }}매 선택</span>
                     </div>
                     <div class="selected" v-if="adultList && true || childList&&true || babyList&&true">
-                     <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
+                     <p class="sum">수량 <span>총{{ totalCount }}매 선택</span></p>
                      <br/>
                        <div>
                    <div class="sumList" v-if="adultList ? true : null "><div>일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
@@ -678,7 +676,7 @@ export default {
     // 탑승인원
     dialog: false,
     callBtn: false,
-    temp: 0,
+    totalCount: 0,
     // count: 1,
    babyList:false,
   childList:false,
@@ -687,12 +685,12 @@ export default {
     babyCount:0,
     adultCount : 0,
     childCount : 0,
-    isDisabled1: true,
-    isDisabled2: false,
-    isDisabled3: true,
-    isDisabled4: false,
-    isDisabled5: true,
-    isDisabled6: false,
+    isDisabled_adult_minus: true,
+    isDisabled_adult_plus: false,
+    isDisabled_child_minus: true,
+    isDisabled_child_plus: false,
+    isDisabled_baby_minus: true,
+    isDisabled_baby_plus: false,
     // overlay
     zIndex: 10,
     overlay1: false,
@@ -881,9 +879,9 @@ export default {
     },
   },
     rideCount() {
-      this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.totalCount = this.babyCount+this.adultCount+this.childCount;
       this.dialog = false;
-      if(this.temp >= 14) {
+      if(this.totalCount > 14) {
         alert('초과입니다.')
         return;
       } 
@@ -952,7 +950,7 @@ export default {
   updated() {
     // 출발지, 도착지, 인원수 선택에 따른 호출 버튼 표시 유무
     if (
-      this.temp >= 1 &&
+      this.totalCount >= 1 &&
       this.start.points_idx >= 0 &&
       this.end.points_idx >= 0
     ) {
@@ -1372,23 +1370,23 @@ export default {
     //탑승인원
     selectPerson() {
       if (this.count < 0) {
-        this.isDisabled1 = true;
+        this.isDisabled_baby_plus = true;
       } else {
-        this.isDisabled1 = false;
+        this.isDisabled_baby_plus = false;
       }
 
       if (this.count >= 14) {
-        this.isDisabled2 = true;
+        this.isDisabled_baby_minus = true;
       } else {
-        this.isDisabled2 = false;
+        this.isDisabled_baby_minus = false;
       }
     },
 
     async beforeSelectPerson() {
       if (this.count == 0) {
         this.count = 0;
-        this.isDisabled1 = true;
-        this.isDisabled2 = false;
+        this.isDisabled_baby_plus = true;
+        this.isDisabled_baby_minus = false;
       }
     },
 
@@ -1396,163 +1394,169 @@ export default {
     closePersonDialog() {
       this.dialog = false;
 
-      if (this.temp != 0) {
-        this.babyCount,this.adultCount,this.childCount = this.temp;
+      if (this.totalCount != 0) {
+        this.babyCount,this.adultCount,this.childCount = this.totalCount;
       } else {
         this.babyCount,this.adultCount,this.childCount =1
-        this.isDisabled1 = true;
-        this.isDisabled2 = false;
+        this.isDisabled_baby_plus = true;
+        this.isDisabled_baby_minus = false;
       }
     },
 
 
     // 인원수 - 버튼
 
-    //유아 인원수 감소
+    // 유아 인원수 감소
     babyDecrement() {
+
       this.babyCount -= 1;
 
       if (this.babyCount < 1) {
-        this.isDisabled1 = true;
+        this.isDisabled_baby_minus = true;
         this.babyCount = 0;
         this.babyList = false
-      } else {
-        this.isDisabled1 =false;
       }
 
-      if (this.babyCount >= 14) {
-        this.isDisabled2 = true;
-        this.babyCount = 14;
-      } else {
-        this.isDisabled2 = false;
+      if (this.babyCount != 14) {
+        this.isDisabled_adult_plus = false;
+        this.isDisabled_child_plus = false;
+        this.isDisabled_baby_plus = false;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount;
+
+      this.totalCount = this.babyCount + this.adultCount + this.childCount;
     },
-  //일반 인원수 감소
+
+    // 일반 인원수 감소
     adultDecrement() {
+
       this.adultCount -= 1;
 
       if (this.adultCount < 1) {
-        this.isDisabled3 = true;
+        this.isDisabled_adult_minus = true;
         this.adultCount = 0;
         this.adultList = false 
-      } else {
-        this.isDisabled3 = false;
+      }
+      
+      if (this.adultCount != 14) {
+        this.isDisabled_adult_plus = false;
+        this.isDisabled_child_plus = false;
+        this.isDisabled_baby_plus = false;
       }
 
-      if (this.adultCount >= 14) {
-        this.isDisabled4 = true;
-        this.adultCount = 14;
-      } else {
-        this.isDisabled4 = false;
-      }
-      this.temp = this.babyCount+this.adultCount+this.childCount ;
+      this.totalCount = this.babyCount + this.adultCount + this.childCount;
     },
+
      //청소년/어린이 인원수 감소
     childDecrement() {
+
       this.childCount -= 1;
 
       if (this.childCount < 1) {
-        this.isDisabled5 = true;
+        this.isDisabled_child_minus = true;
         this.childCount = 0;
         this.childList = false 
-      } else {
-        this.isDisabled5 = false;
       }
 
-      if (this.childCount >= 14) {
-        this.isDisabled6 = true;
-        this.childCount = 14;
-      } else {
-        this.isDisabled6 = false;
+      if (this.childCount != 14) {
+        this.isDisabled_adult_plus = false;
+        this.isDisabled_child_plus = false;
+        this.isDisabled_baby_plus = false;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount ;
+
+      this.totalCount = this.babyCount + this.adultCount + this.childCount;
     },
-    
-// 인원수 + 버튼
+
+    // 인원수 + 버튼
     //유아 인원수 증가
-
     babyIncrement() {
-      this.babyCount += 1;
-     this.babyList = true
-      if (this.babyCount >= 14) {
-        this.isDisabled2 = true;
-          this.babyCount = 14;
-        
-        
-      } else {
-      
-        this.isDisabled2 = false;
-      }
 
-      if (this.babyCount <= 0) {
-        this.isDisabled1 = true;
-        this.babyCount = 1;
+      if( this.totalCount < 14 ){
+
+        this.babyCount += 1;
+        this.babyList = true
+        
+        this.totalCount = this.babyCount + this.adultCount + this.childCount;
+
+        if (this.babyCount >= 14 || this.totalCount >= 14 ) {
+          this.isDisabled_adult_plus = true;
+          this.isDisabled_child_plus = true;
+          this.isDisabled_baby_plus = true;
+        }
+
+        if (this.babyCount != 0) {
+          this.isDisabled_baby_minus = false;
+        }
+
       } else {
-        this.isDisabled1 = false;
+
+          this.isDisabled_adult_plus = true;
+          this.isDisabled_child_plus = true;
+          this.isDisabled_baby_plus = true;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount;
-      
-      
       
     },
+
      //일반 인원수 증가
-      adultIncrement() {
+    adultIncrement() {
+
+      if( this.totalCount < 14 ){
+
+        this.adultList = true
         this.adultCount += 1;
-        this.adultList =true
 
-      if (this.adultCount>= 14) {
-      
-      this.isDisabled4 = true;
-         this.adultCount = 14;
-        
+        this.totalCount = this.babyCount + this.adultCount + this.childCount;
+
+        if (this.adultCount >= 14 || this.totalCount >= 14 ) {
+          this.isDisabled_adult_plus = true;
+          this.isDisabled_child_plus = true;
+          this.isDisabled_baby_plus = true;
+        }
+
+        if (this.adultCount != 0) {
+          this.isDisabled_adult_minus = false;
+        }
 
       } else {
-        this.isDisabled4 = false;
-      }
 
-      if (this.adultCount <= 0) {
-        this.isDisabled3 = true;
-        this.adultCount = 1;
-      } else {
-        this.isDisabled3 = false;
+          this.isDisabled_adult_plus = true;
+          this.isDisabled_child_plus = true;
+          this.isDisabled_baby_plus = true;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount;
-      
-     
-      
     },
-     //청소년/어린이 인원수 증가
 
+    //청소년/어린이 인원수 증가
     childIncrement(){
-      this.childCount += 1;
-      this.childList = true
 
-      if (this.childCount>= 14) {
-       
-        this.isDisabled6 = true;
-         this.childCount = 14;
-       
-      } else {
-        this.isDisabled6 = false;
-      }
+      if( this.totalCount < 14 ){
+        
+          this.childList = true
+          this.childCount += 1;
 
-      if (this.childCount <= 0) {
-        this.isDisabled5 = true;
-        this.childCount = 1;
-      } else {
-        this.isDisabled5 = false;
+          this.totalCount = this.babyCount+this.adultCount+this.childCount;
+
+          if (this.childCount >= 14 || this.totalCount >= 14 ) {
+            this.isDisabled_adult_plus = true;
+            this.isDisabled_child_plus = true;
+            this.isDisabled_baby_plus = true;
+          }
+
+          if (this.childCount != 0) {
+            this.isDisabled_child_minus = false;
+          }
+          
+      }  else {
+
+          this.isDisabled_adult_plus = true;
+          this.isDisabled_child_plus = true;
+          this.isDisabled_baby_plus = true;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount;
-       
-    
     },
 
     // 탑승인원 선택완료 버튼
     rideCount() {
-      this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.totalCount = this.babyCount+this.adultCount+this.childCount;
       this.dialog = false;
-      if(this.temp > 14) {
+      if(this.totalCount > 14) {
         alert('초과입니다.')
         return;
       } 
@@ -1561,20 +1565,22 @@ export default {
 
 //운행 스케쥴 정보 호출
 getTimeTable(){
-  const requestOptions = {
-  method: 'GET',
-  redirect: 'follow',
-  
-};
 
-fetch("https://sgapi.springgo.io/api/reservations/stop_schedules/", requestOptions)
-  .then(response => response.json())
-  .then(res=>console.log(res))
+  var username = 'admin@aspringcloud.com'
+  var password = 'spring#007'
+
+  axios.get("https://sgapi.springgo.io/api/reservations/rounds/", {
+      headers: {
+          Authorization: 'Basic ' + btoa(username + ':' + password)
+      }
+  })
+  .then(response => console.log(response))
+  // .then(res=>console.log(res))
   // .then(result => this.timeTable(result))
-  .catch(error => console.log('error', error));
+  // .catch(error => console.log('error', error));
 
-  },
-    
+},
+
 
     // 출발지와 도착지 swap 버튼
     swapDestination() {
