@@ -133,6 +133,7 @@ export default {
 </script>
 
 <style>
+
 #faq {
     font-family: Noto Sans KR;
     width: 100%;
@@ -143,7 +144,7 @@ export default {
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 40px;
     color: #262626 !important;
     padding: 12px 0 30px 0;
 }
