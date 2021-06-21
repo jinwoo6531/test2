@@ -58,7 +58,7 @@
             <v-btn
               tile
               depressed
-              class="pa-0 pl-3 pr-3 goReturn"
+              class="pa-0 pl-3 pr-3 goReturn"           
               color="#E61773"
               :ripple="false"
               @click="goBackSite"
@@ -277,7 +277,7 @@
 
 
                     <div class="total_payment">
-                        <v-card class="d-flex justify-space-between" flat>
+                      <v-card class=" d-flex justify-space-between" flat>
                        <v-card-text class="select-max mt-9"
                       >결제 금액</v-card-text
                     >
@@ -285,17 +285,26 @@
                       >{{totalPayment}}원</v-card-text
                     >
                     </v-card>
-                     <span>수량 총{{ this.temp }}매 선택</span>
+                    <div class="nonSelected">
+                      
+                    </div>
+                    <div class="selected">
+                     <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
+                     <br/>
+                       <div>
+                   <div class="sumList"><div v-if="this.adultList ? true : null ">일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
+                     <br/>
+                   <div class="sumList"><div v-if="this.childList ? true : null ">청소년/어린이{{childCount}}</div><div><p>{{childCount*1050}}원</p></div></div>
+                     <br/>
+                     <div class="sumList"><div v-if="this.babyList ? true : null ">유아{{babyCount}}</div><p>0원</p></div>
+
+                    </div>
+                     </div>
+                    
                     </div>
                     
                      <br/>
-                    <div>
-                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}</span>
-                     <br/>
-                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}</span>
-                     <br/>
-                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}</span>
-                    </div>
+                 
                   </v-row>
                 </v-container>
 
@@ -306,7 +315,6 @@
                   tile
                   >선택완료</v-btn
                 >
-                
               </v-card>
             </v-dialog>
 
@@ -785,9 +793,15 @@ export default {
     ...mapGetters({
       user: "user",
     }),
-    
+      
+   
+  
     totalPayment() {
       let num = (1500*this.adultCount) + (1050*this.childCount)+ (0*this.babyCount)
+      // let num1 = 1500*this.adultCount
+      // let num2 = 1050 *this.childCount
+      // let num3 = 0*this.babyCount
+      // let num = num1 + num2 + num3
       num = parseInt(num,10 )
       return num.toLocaleString()
     },
@@ -1381,18 +1395,16 @@ export default {
       this.temp = this.babyCount+this.adultCount+this.childCount;
     },
 
-
-
-
-    // 인원수 + 버튼
+// 인원수 + 버튼
     //유아 인원수 증가
     babyIncrement() {
-      this.babyList = true
       this.babyCount += 1;
-
+     this.babyList = true
       if (this.babyCount >= 14) {
         this.isDisabled2 = true;
         this.babyCount = 14;
+        this.babyPrice
+        
       } else {
         this.isDisabled2 = false;
       }
@@ -1404,6 +1416,9 @@ export default {
         this.isDisabled1 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+      
+      
+      
     },
      //일반 인원수 증가
       adultIncrement() {
@@ -1413,6 +1428,7 @@ export default {
       if (this.adultCount>= 14) {
         this.isDisabled3 = true;
         this.adultCount = 14;
+      
       } else {
         this.isDisabled3 = false;
       }
@@ -1424,6 +1440,8 @@ export default {
         this.isDisabled4 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+     
+      
     },
      //청소년/어린이 인원수 증가
 
@@ -1445,6 +1463,8 @@ export default {
         this.isDisabled6 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+       
+     
     },
 
     // 탑승인원 선택완료 버튼
@@ -1867,13 +1887,7 @@ export default {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-.count{
-  font-size: 18px;
-  line-height: 18px;
-  width: 30px;
-  margin:0;
-  text-align: center;
-}
+
 .v-btn{
   margin-top: 0.5rem;
 }
@@ -2104,5 +2118,46 @@ export default {
   width: 100%;
   border-top: 1px solid #333;
   margin: 10px;
+}
+
+.selected{
+  width: 342px;
+  height: 185px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.sum{
+  position:relative;
+  display: flex;
+ justify-content: space-between;
+ font-weight: 500;
+}
+.sum:after{
+  content:"";
+  display: block;
+  width: 320px;
+  height: 1px;
+  background-color:#bdbdbd;
+  position: absolute;
+  top: 49px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.count{
+  display: inline-block;
+  width: 80px;
+  font-size: 18px;
+  line-height: 18px;
+  margin:0;
+  text-align: center;
+}
+.sumList{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -15px;
 }
 </style>
