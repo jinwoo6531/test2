@@ -527,7 +527,7 @@
           </v-flex>
 
           <!-- 타시오 호출 Dialog -->
-          <v-flex class="pa-0 mt-1" v-if="callBtn">
+          <!-- <v-flex class="pa-0 mt-1" v-if="callBtn">
             <v-btn
               color="#E61773"
               tile
@@ -537,6 +537,18 @@
               height="50px"
               @click="requestCallBtn"
               >호출하기</v-btn
+            >
+          </v-flex> -->
+          <v-flex class="pa-0 mt-1" v-if="callBtn">
+            <v-btn
+              color="#E61773"
+              tile
+              depressed
+              class="pa-0 call-dialog-btn"
+              width="100%"
+              height="50px"
+              @click="requestPay"
+              >결제하기</v-btn
             >
           </v-flex>
         </v-flex>
@@ -576,6 +588,8 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 var control;
 var marker;
+var qs = require('qs')
+
 export default {
   data: () => ({
     map: null,
@@ -777,9 +791,15 @@ export default {
     ...mapGetters({
       user: "user",
     }),
-    
+      
+   
+  
     totalPayment() {
       let num = (1500*this.adultCount) + (1050*this.childCount)+ (0*this.babyCount)
+      // let num1 = 1500*this.adultCount
+      // let num2 = 1050 *this.childCount
+      // let num3 = 0*this.babyCount
+      // let num = num1 + num2 + num3
       num = parseInt(num,10 )
       return num.toLocaleString()
     },
@@ -876,7 +896,7 @@ export default {
       console.log("here", this.markerData);
     },
     vehicle_id() {
-      console.log(this.vehicle_id);
+      console.log('vehicle_id : ', this.vehicle_id);
       if (this.vehicle_id && !this.movingVehicle) {
         console.log("현재 운행 차량:", this.vehicle_id);
         this.movingVehicle = setInterval(this.realTimeVehicle, 1000);
@@ -1200,6 +1220,8 @@ export default {
               return a.sta_Order < b.sta_Order ? -1 : 1;
             });
 
+            console.log('stationList :', this.stationList)
+
             // 정류장 API와 셔틀 API의 response가 완료된 경우
             this.loading -= 1; // 로딩 딤 화면 끝내기
             // }
@@ -1371,18 +1393,16 @@ export default {
       this.temp = this.babyCount+this.adultCount+this.childCount;
     },
 
-
-
-
-    // 인원수 + 버튼
+// 인원수 + 버튼
     //유아 인원수 증가
     babyIncrement() {
-      this.babyList = true
       this.babyCount += 1;
-
+     this.babyList = true
       if (this.babyCount >= 14) {
         this.isDisabled2 = true;
         this.babyCount = 14;
+        this.babyPrice
+        
       } else {
         this.isDisabled2 = false;
       }
@@ -1394,6 +1414,9 @@ export default {
         this.isDisabled1 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+      
+      
+      
     },
      //일반 인원수 증가
       adultIncrement() {
@@ -1403,6 +1426,7 @@ export default {
       if (this.adultCount>= 14) {
         this.isDisabled3 = true;
         this.adultCount = 14;
+      
       } else {
         this.isDisabled3 = false;
       }
@@ -1414,6 +1438,8 @@ export default {
         this.isDisabled4 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+     
+      
     },
      //청소년/어린이 인원수 증가
 
@@ -1435,6 +1461,8 @@ export default {
         this.isDisabled6 = false;
       }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+       
+     
     },
 
     // 탑승인원 선택완료 버튼
@@ -1578,60 +1606,158 @@ export default {
 
     // 타시오 호출, 결제 창X 연결 -> views/calling-layout.vue
     requestCallBtn() {
-      this.$router.replace({
-        name: "CallingLayout",
-        query: {
-          site: this.siteId,
-          start: this.start,
-          end: this.end,
-          count: this.count,
-          minutes: this.minutes,
-          vehicle_id: this.vehicle_id,
-        },
-      });
+      // this.$router.replace({
+      //   name: "CallingLayout",
+      //   query: {
+      //     site: this.siteId,
+      //     start: this.start,
+      //     end: this.end,
+      //     count: this.count,
+      //     minutes: this.minutes,
+      //     vehicle_id: this.vehicle_id,
+      //   },
+      // });
       
-            const totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+            // const totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 
-            const IMP = window.IMP;
+            // const IMP = window.IMP;
 
-            // 가맹점 식별코드
-            IMP.init("imp19092456");
+            // // 가맹점 식별코드
+            // IMP.init("imp19092456");
 
-            // // 결제창 호출 코드
-            IMP.request_pay({ // param
-                pg: `mobilians.${this.meth}`, // PG사명
-                // pay_method: this.meth, // 결제수단
-                merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
-                name: '타시오 결제', // 주문명
-                amount: totalPayment, // 결제할 금액 (필수 항목)
-                buyer_email: '', // 주문자 ID (선택 항목)
-                buyer_name: '', // 주문자명 (선택항목)
-                buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-                buyer_addr: '', // 주문자 주소 (선택 항목)
-                buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
-                custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
-            });
+            // // // 결제창 호출 코드
+            // IMP.request_pay({ // param
+            //     pg: `mobilians.${this.meth}`, // PG사명
+            //     // pay_method: this.meth, // 결제수단
+            //     merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
+            //     name: '타시오 결제', // 주문명
+            //     amount: totalPayment, // 결제할 금액 (필수 항목)
+            //     buyer_email: '', // 주문자 ID (선택 항목)
+            //     buyer_name: '', // 주문자명 (선택항목)
+            //     buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+            //     buyer_addr: '', // 주문자 주소 (선택 항목)
+            //     buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+            //     custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+            //     m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
+            // });
 
     },
 
-    // payment added
-     requestPay(meth) {
-            if (meth == '191029079116') {
-                this.isRed1 = true;
-                this.isRed2 = false;
-                console.log(this.isRed1);
-                this.meth = meth;
-            } else if (meth == '170622040674') {
-                this.isRed1 = false;
-                this.isRed2 = true;
-                this.meth = meth;
-            }
-        },
+    requestPay() {
+          // 아임포트 객체
+          const IMP = window.IMP
 
-    cancelCallDialog() {
-      this.calldialog = false;
-    },
+          // 가맹점 식별코드
+          IMP.init('imp80546815')
+
+          // 결제창 호출 코드
+          IMP.request_pay({ // param
+              pg: 'mobilians.617160000106', // PG사명
+              pay_method: 'card', // 결제수단
+              merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
+              name: '타시오 결제', // 주문명
+              amount: 100, // 결제할 금액 (필수 항목)
+              buyer_email: '', // 주문자 ID (선택 항목)
+              buyer_name: '', // 주문자명 (선택항목)
+              buyer_tel: '010-7791-1383', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+              buyer_addr: '', // 주문자 주소 (선택 항목)
+              buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+              custom_data: {
+                imp_uid:this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+                count: this.count
+              }, 
+              m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${
+                this.siteId
+                }&siteName=${this.siteName}&start=${this.start}&end=${
+                this.end
+                }&startName=${this.stationList[0].name}&endName=${
+                this.stationList[0].name
+                }&station_startId=${this.station_startId}&station_endId=${
+                this.station_endId
+                }&count=${this.count}&minutes=${this.minutes}&vehicle_id=${
+                this.vehicle_id
+                }`
+          }, rsp => { // callback
+              if (rsp.success) {
+                  console.log('결제 성공 success!!: ', rsp.success)
+                  axios({
+                      url: 'https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put', // 가맹점 서버
+                      method: "post",
+                      headers: {
+                          'content-type': 'application/x-www-form-urlencoded'
+                      },
+                      data: qs.stringify({
+                          imp_uid: rsp.imp_uid,
+                          merchant_uid: rsp.merchant_uid,
+                          amount: rsp.paid_amount,
+                          userid: this.user.data.uid
+                      })
+                  }).then(data => {
+                      // 가맹점 서버 결제 API 성공시 로직
+                      console.log('가맹점 서버 결제 API 성공!', data)
+                      switch (data.status) {
+                          case 'success':
+                              break;
+                          case 'forgery':
+                              break;
+                      }
+                  }).catch(error => {
+                      // 가맹점 서버 결제 API 실패시 로직
+                      console.log('가맹점 서버 결제 API 실패ㅠㅠ: ', error)
+                  })
+              } else {
+                  // 결제 실패 시 로직
+                  // 돈이 안맞을 때?
+                  console.log('rsp.error_msg: ', rsp.error_msg)
+              }
+          });
+
+      },
+
+      cancelPay() {
+          // Firestore에서 회원정보를 조회하고 isRefund가 0이면 환불을 진행할 수 있게 1이면 이미 환불이 된 상태라 불가능하게하기
+          // merchant_uid에 last_merchant 담아서 보내주고 reason 담아서 보내주기
+          if (this.isrefund == '0') {
+              axios({
+                  url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/cancel",
+                  method: "post",
+                  headers: {
+                      'content-type': 'application/x-www-form-urlencoded'
+                  },
+                  data: {
+                      merchant_uid: this.last_mid, // 주문번호 *
+                      reason: "타시오 호출 취소", // 환불 사유 *
+                      cancel_request_amount: 500
+                  }
+              }).then(response => {
+                  alert('환불이 완료되었습니다.', response)
+              }).catch(error => {
+                  alert('환불을 실패하였습니다.', error)
+              })
+
+              this.$router.push('/')
+          } else {
+              alert('결제하신 내역이 없습니다.')
+          }
+      }
+
+    // // payment added
+    //  requestPay(meth) {
+    //         if (meth == '191029079116') {
+    //             this.isRed1 = true;
+    //             this.isRed2 = false;
+    //             console.log(this.isRed1);
+    //             this.meth = meth;
+    //         } else if (meth == '170622040674') {
+    //             this.isRed1 = false;
+    //             this.isRed2 = true;
+    //             this.meth = meth;
+    //         }
+    //     },
+
+    // cancelCallDialog() {
+    //   this.calldialog = false;
+    // },
 
   },
 };
