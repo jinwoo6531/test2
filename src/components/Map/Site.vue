@@ -163,7 +163,7 @@
                           :ripple="false"
                           @click="adultDecrement"
                           outlined
-                          color="#E61773"
+                         color ="#E61773"
                           fab
                           width="34.83px"
                           height="34.83px"
@@ -279,7 +279,7 @@
                        <span
                       >결제 금액</span
                     >
-                     <p
+                     <p class="[totalPayment >0 ? pinkColor, defaultColor]"
                       >{{totalPayment}}원</p
                     >
                     </div>
@@ -367,6 +367,64 @@
               </v-card>
             </v-card>
 
+                        <!-- 시간 선택 모달 -->
+            <v-overlay :z-index="zIndex" :value="overlay3">
+              <v-card color="#FFF" class="stationModal-card-size">
+                <v-card-text class="pa-0 stationModal-card-title">
+                  <span class="select-modal-btn">시간표</span>
+                </v-card-text>
+                <v-divider class="divider-style"></v-divider>
+                <v-card
+                  class="pa-0 stationModal-card-content"
+                  color="#FFF"
+                  tile
+                  flat
+                >
+                  <v-list light tile style="padding: 8px 0 22px 0">
+                    <v-list-item-group color="#E61773">
+                      <v-list-item
+                        class="pa-0"
+                        v-for="schedule in timeTable"
+                        @click="pickedStation = station"
+                        :key="schedule.id"
+                        :class="{
+                          'v-list-item--active': pickedTime == schedule,
+                        }"
+                      >
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-text="schedule.time"
+                            style="color: #333"
+                          ></v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-list-item-group>
+                  </v-list>
+                </v-card>
+                <v-card-actions class="pa-0" style="width: 100%; height: 50px">
+                  <v-btn
+                    class="pa-0 ma-0 onCancelBtn"
+                    tile
+                    depressed
+                    color="#FFF"
+                    @click="
+                      overlay3 = false;
+                      pickedTime = '';
+                    "
+                    >취소</v-btn
+                  >
+                  <v-btn
+                    class="pa-0 ma-0 onChangeBtn"
+                    tile
+                    depressed
+                    color="#E61773"
+                    @click="overlay1 = !overlay1"
+                    >선택하기</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-overlay>
+
             <!-- 출발지 선택 모달 -->
             <v-overlay :z-index="zIndex" :value="overlay1">
               <v-card color="#FFF" class="stationModal-card-size">
@@ -411,7 +469,7 @@
                       overlay1 = false;
                       pickedStation = '';
                     "
-                    >취소</v-btn
+                    >이전</v-btn
                   >
                   <v-btn
                     class="pa-0 ma-0 onChangeBtn"
@@ -496,7 +554,7 @@
                       class="pl-2"
                       :ripple="false"
                       color="transparent"
-                      @click="overlay1 = !overlay1"
+                      @click="overlay3 = !overlay3"
                       flat
                     >
                       <span v-if="start.id < 0" class="select_station"
@@ -602,6 +660,8 @@ export default {
     // loading
     loading: 2,
     getLocationLoading: false,
+    //timeTable
+    timeTable: [],
     // station
     stationList: [],
     waypoints2: [],
@@ -631,6 +691,7 @@ export default {
     zIndex: 10,
     overlay1: false,
     overlay2: false,
+    overlay3:false,
     // options
     start: {
       id: -1,
@@ -645,6 +706,7 @@ export default {
       stat2sta: "",
     },
     pickedStation: "",
+    pickedTime:"",
     startIcon: "",
     endIcon: "",
     options: [],
@@ -872,10 +934,11 @@ export default {
     // 사이트 id에 따라 다른 화면 표시
     this.siteId = this.$route.params.siteId;
 
-    // 정류장, 셔틀 API Request
+    // 정류장, 셔틀, 스케쥴 API Request
     this.getStation();
     this.setVehicle();
     this.createPickerIcons();
+    this.getTimeTable();
   },
   beforeDestroy() {
     clearInterval(this.movingVehicle);
@@ -914,6 +977,12 @@ export default {
     },
     overlay2() {
       if (this.overlay2 && marker) {
+        marker.closePopup();
+        marker = false;
+      }
+    },
+     overlay3() {
+      if (this.overlay3 && marker) {
         marker.closePopup();
         marker = false;
       }
@@ -1475,7 +1544,23 @@ export default {
         return;
       } 
     },
-    
+
+
+//운행 스케쥴 정보 호출
+getTimeTable(){
+  const requestOptions = {
+  method: 'GET',
+  redirect: 'follow',
+  
+};
+
+fetch("https://sgapi.springgo.io/api/reservations/stop_schedules/", requestOptions)
+  .then(response => response.json())
+  .then(res=>console.log(res))
+  // .then(result => this.timeTable(result))
+  .catch(error => console.log('error', error));
+
+  },
     
 
     // 출발지와 도착지 swap 버튼
@@ -1761,6 +1846,7 @@ export default {
     // },
 
   },
+ 
 };
 // };
 </script>
@@ -2170,6 +2256,12 @@ export default {
   line-height: 18px;
   margin:0;
   text-align: center;
+}
+.defaultColor{
+  color: #555555;
+}
+.pinkColor{
+  color: #e61773;
 }
 .sumList{
   display: flex;
