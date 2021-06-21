@@ -155,6 +155,7 @@
 
                   
                     <!-- 일반  -->
+                     <div v-if="this.temp<=14">
                     <v-card class="d-flex justify-space-around" flat>
                        <v-card-text class="select-max"
                       >일반<br>(1회 1,500원)</v-card-text
@@ -192,6 +193,9 @@
                         </v-btn>
                       </v-card>
                     </v-card>
+                    </div>
+                    
+                 
 
                     <!-- 청소년/어린이 -->
                       <v-card class="d-flex justify-space-around" flat>
@@ -275,7 +279,7 @@
 
                     </div>
 
-
+                  
                     <div class="total_payment">
                       <v-card class=" d-flex justify-space-between" flat>
                        <v-card-text class="select-max mt-9"
@@ -289,7 +293,8 @@
                       
                     </div>
                     <div class="selected">
-                     <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
+
+                     <p class="sum">수량 <span> 총{{ temp }}매 선택</span></p>
                      <br/>
                        <div>
                    <div class="sumList"><div v-if="this.adultList ? true : null ">일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
@@ -492,6 +497,7 @@
                 </v-flex>
                 <v-flex class="pa-0 flex-wrap" xs8 sm8 md8>
                   <div class="d-flex flex-column">
+                   
                     <v-card
                       style="text-align: left"
                       class="pl-2"
@@ -505,6 +511,7 @@
                       >
                       <span v-else class="sel_station">{{ start.name }}</span>
                     </v-card>
+                    
                     <span class="divide-bar mt-2 mb-2"></span>
                     <v-card
                       style="text-align: left"
@@ -816,7 +823,7 @@ export default {
     rideCount() {
       this.temp = this.babyCount+this.adultCount+this.childCount;
       this.dialog = false;
-      if(this.temp > 14) {
+      if(this.temp >= 14) {
         alert('초과입니다.')
         return;
       } 
@@ -1372,7 +1379,7 @@ export default {
       } else {
         this.isDisabled4 = false;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.temp = this.babyCount+this.adultCount+this.childCount ;
     },
      //청소년/어린이 인원수 감소
     childDecrement() {
@@ -1392,20 +1399,22 @@ export default {
       } else {
         this.isDisabled6 = false;
       }
-      this.temp = this.babyCount+this.adultCount+this.childCount;
+      this.temp = this.babyCount+this.adultCount+this.childCount ;
     },
-
+    
 // 인원수 + 버튼
     //유아 인원수 증가
+
     babyIncrement() {
       this.babyCount += 1;
      this.babyList = true
       if (this.babyCount >= 14) {
         this.isDisabled2 = true;
-        this.babyCount = 14;
-        this.babyPrice
+          this.babyCount = 14;
+        
         
       } else {
+      
         this.isDisabled2 = false;
       }
 
@@ -1422,49 +1431,54 @@ export default {
     },
      //일반 인원수 증가
       adultIncrement() {
+        this.adultCount += 1;
         this.adultList =true
-      this.adultCount += 1;
 
       if (this.adultCount>= 14) {
-        this.isDisabled3 = true;
-        this.adultCount = 14;
       
-      } else {
-        this.isDisabled3 = false;
-      }
+      this.isDisabled4 = true;
+         this.adultCount = 14;
+        
 
-      if (this.adultCount <= 0) {
-        this.isDisabled4 = true;
-        this.adultCount = 1;
       } else {
         this.isDisabled4 = false;
       }
+
+      if (this.adultCount <= 0) {
+        this.isDisabled3 = true;
+        this.adultCount = 1;
+      } else {
+        this.isDisabled3 = false;
+      }
       this.temp = this.babyCount+this.adultCount+this.childCount;
+      
      
       
     },
      //청소년/어린이 인원수 증가
 
     childIncrement(){
+      this.childCount += 1;
       this.childList = true
-        this.childCount += 1;
 
       if (this.childCount>= 14) {
-        this.isDisabled5 = true;
-        this.childCount = 14;
-      } else {
-        this.isDisabled5 = false;
-      }
-
-      if (this.childCount <= 0) {
+       
         this.isDisabled6 = true;
-        this.childCount = 1;
+         this.childCount = 14;
+       
       } else {
         this.isDisabled6 = false;
       }
+
+      if (this.childCount <= 0) {
+        this.isDisabled5 = true;
+        this.childCount = 1;
+      } else {
+        this.isDisabled5 = false;
+      }
       this.temp = this.babyCount+this.adultCount+this.childCount;
        
-     
+    
     },
 
     // 탑승인원 선택완료 버튼
