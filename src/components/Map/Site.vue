@@ -292,11 +292,11 @@
                      <p class="sum">수량 <span>총{{ temp }}매 선택</span></p>
                      <br/>
                        <div>
-                    <span v-if="this.adultList ? true : null ">일반{{this.adultCount}}</span>
+                   <div class="sumList"><div v-if="this.adultList ? true : null ">일반{{adultCount}}</div><div><p>{{adultCount*1500}}원</p></div></div>
                      <br/>
-                     <span v-if="this.childList ? true : null ">청소년/어린이{{this.childCount}}</span>
+                   <div class="sumList"><div v-if="this.childList ? true : null ">청소년/어린이{{childCount}}</div><div><p>{{childCount*1050}}원</p></div></div>
                      <br/>
-                     <span v-if="this.babyList ? true : null ">유아{{this.babyCount}}</span>
+                     <div class="sumList"><div v-if="this.babyList ? true : null ">유아{{babyCount}}</div><p>0원</p></div>
 
                     </div>
                      </div>
@@ -1761,14 +1761,7 @@ export default {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-.count{
-  display: inline-block;
-  width: 80px;
-  font-size: 18px;
-  line-height: 18px;
-  margin:0;
-  text-align: center;
-}
+
 .v-btn{
   margin-top: 0.5rem;
 }
@@ -2000,13 +1993,15 @@ export default {
   border-top: 1px solid #333;
   margin: 10px;
 }
+
 .selected{
   width: 342px;
-  height: 145px;
+  height: 185px;
   border: 1px solid #dbdbdb;
   font-size: 14px;
   padding: 10px;
   box-sizing: border-box;
+  margin-bottom: 20px;
 }
 .sum{
   position:relative;
@@ -2024,5 +2019,19 @@ export default {
   top: 49px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.count{
+  display: inline-block;
+  width: 80px;
+  font-size: 18px;
+  line-height: 18px;
+  margin:0;
+  text-align: center;
+}
+.sumList{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -15px;
 }
 </style>
