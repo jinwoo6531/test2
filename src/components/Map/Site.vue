@@ -386,16 +386,14 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="schedule in timeTable"
-                        @click="pickedStation = station"
-                        :key="schedule.id"
-                        :class="{
-                          'v-list-item--active': pickedTime == schedule,
-                        }"
+                        v-for="times in timeTable"
+                        @click="pickedTime = times"
+                        :key="times.id"
+                       
                       >
                         <v-list-item-content>
                           <v-list-item-title
-                            v-text="schedule.time"
+                            v-text="times.time_start"
                             style="color: #333"
                           ></v-list-item-title>
                         </v-list-item-content>
@@ -1565,6 +1563,7 @@ export default {
 
 //운행 스케쥴 정보 호출
 getTimeTable(){
+  
 
   var username = 'admin@aspringcloud.com'
   var password = 'spring#007'
@@ -1574,10 +1573,11 @@ getTimeTable(){
           Authorization: 'Basic ' + btoa(username + ':' + password)
       }
   })
-  .then(response => console.log(response))
-  // .then(res=>console.log(res))
-  // .then(result => this.timeTable(result))
-  // .catch(error => console.log('error', error));
+  .then(response => 
+  {console.log('timetable',response.data.results[0].time_start)
+  this.timeTable = response.data.results
+  })
+  .catch(error => console.log('error', error));
 
 },
 
