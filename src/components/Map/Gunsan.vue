@@ -209,7 +209,10 @@
                             </v-card>
                         </v-card>
 
-                        <v-overlay :z-index="zIndex" :value="overlay1">
+                        <v-overlay
+                            :z-index="zIndex"
+                            :value="start_station_popup"
+                        >
                             <v-card
                                 color="#FFF"
                                 style="width: 312px; height: 287px;"
@@ -231,7 +234,7 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            overlay1 = false;
+                                            start_station_popup = false;
                                             onChange();
                                         "
                                     >
@@ -240,7 +243,7 @@
                                 </v-card-actions>
                             </v-card>
                         </v-overlay>
-                        <v-overlay :z-index="zIndex" :value="overlay2">
+                        <v-overlay :z-index="zIndex" :value="destination_popup">
                             <v-card
                                 color="#FFF"
                                 style="width: 312px; height: 287px;"
@@ -262,7 +265,7 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            overlay2 = false;
+                                            destination_popup = false;
                                             onChange();
                                         "
                                     >
@@ -296,7 +299,9 @@
                                             class="pl-2"
                                             :ripple="false"
                                             color="transparent"
-                                            @click="overlay1 = !overlay1"
+                                            @click="
+                                                start_station_popup = !start_station_popup
+                                            "
                                             flat
                                         >
                                             <span v-if="start >= 0">{{
@@ -316,7 +321,9 @@
                                             class="pl-2"
                                             :ripple="false"
                                             color="transparent"
-                                            @click="overlay2 = !overlay2"
+                                            @click="
+                                                destination_popup = !destination_popup
+                                            "
                                             flat
                                         >
                                             <span v-if="end >= 0">{{
@@ -580,8 +587,8 @@ export default {
         temp: 0,
         isDisabled1: true,
         isDisabled2: false,
-        overlay1: false,
-        overlay2: false,
+        start_station_popup: false,
+        destination_popup: false,
         zIndex: 10,
         start_icon: {},
         end_icon: {},
@@ -1167,7 +1174,7 @@ export default {
             // // 결제창 호출 코드
             IMP.request_pay({
                 // param
-                pg:`html5_inicis`, // PG사명
+                pg: `html5_inicis`, // PG사명
                 // pay_method: this.meth, // 결제수단
                 merchant_uid:
                     "mid_" + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호

@@ -85,7 +85,10 @@
                             </p>
                         </v-flex>
 
-                        <v-overlay :z-index="zIndex" :value="overlay1">
+                        <v-overlay
+                            :z-index="zIndex"
+                            :value="start_station_popup"
+                        >
                             <v-card
                                 color="#FFF"
                                 style="width: 312px; height: 287px;"
@@ -107,7 +110,7 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            overlay1 = false;
+                                            start_station_popup = false;
                                             onChange();
                                         "
                                     >
@@ -116,7 +119,7 @@
                                 </v-card-actions>
                             </v-card>
                         </v-overlay>
-                        <v-overlay :z-index="zIndex" :value="overlay2">
+                        <v-overlay :z-index="zIndex" :value="destination_popup">
                             <v-card
                                 color="#FFF"
                                 style="width: 312px; height: 287px;"
@@ -138,7 +141,7 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            overlay2 = false;
+                                            destination_popup = false;
                                             onChange();
                                         "
                                     >
@@ -171,7 +174,9 @@
                                             style="text-align: left;"
                                             class="pl-2"
                                             color="transparent"
-                                            @click="overlay1 = !overlay1"
+                                            @click="
+                                                start_station_popup = !start_station_popup
+                                            "
                                             flat
                                         >
                                             <span v-if="start >= 7">{{
@@ -190,7 +195,9 @@
                                             style="text-align: left;"
                                             class="pl-2"
                                             color="transparent"
-                                            @click="overlay2 = !overlay2"
+                                            @click="
+                                                destination_popup = !destination_popup
+                                            "
                                             flat
                                         >
                                             <span v-if="end >= 7">{{
@@ -273,8 +280,8 @@ export default {
         sangamList: [],
         callBtn: false,
 
-        overlay1: false,
-        overlay2: false,
+        start_station_popup: false,
+        destination_popup: false,
         zIndex: 0,
 
         start_icon: {},
