@@ -1687,15 +1687,19 @@ export default {
         closePersonDialog() {
             this.dialog = false;
 
-            if (this.totalCount != 0) {
-                this.babyCount,
-                    this.adultCount,
-                    (this.childCount = this.totalCount);
-            } else {
-                this.babyCount, this.adultCount, (this.childCount = 1);
-                this.isDisabled_baby_plus = true;
-                this.isDisabled_baby_minus = false;
-            }
+            // 티켓 카운트 초기화
+            this.babyCount = 0
+            this.adultCount = 0
+            this.childCount = 0
+            this.totalCount = 0
+
+            // 카운트 버튼 초기화
+            this.isDisabled_adult_minus = true
+            this.isDisabled_adult_plus = false
+            this.isDisabled_child_minus = true
+            this.isDisabled_child_plus = false
+            this.isDisabled_baby_minus = true
+            this.isDisabled_baby_plus = false
         },
 
         // 인원수 - 버튼
