@@ -370,7 +370,7 @@
                                             <div class="payment-amount">
                                                 <span>결제 금액</span>
                                                 <p
-                                                    class="[totalPayment >0 ? pinkColor, defaultColor]"
+                                                    class="[totalPayment === 0 ? {color: '#E61773'} : {color: '#555555'}]"
                                                 >
                                                     {{ totalPayment }}원
                                                 </p>
@@ -508,6 +508,7 @@
                           font-weight: 500;
                           font-size: 18px;
                           padding-right: 12px;
+                          color: #ffffff;
                         "
                                                 >약 {{ minutes }}분</span
                                             >
