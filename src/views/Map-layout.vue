@@ -127,20 +127,31 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item class="boldMenu pa-0 mt-4" >
+                   <v-list-item class="boldMenu pa-0 mt-4" >
           <v-list-item-content class="pa-0">
             <v-list-item-title class="sidebar-menu-title">운행 시간표</v-list-item-title>
              <v-list-item link to="/schedule"
                             class="ma-0"
                         >
-                            <v-list-item-content class="pa-0">
-                                <v-list-item-title
-                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
-                                >
-                                    운임 안내
-                                </v-list-item-title>
-                            </v-list-item-content>
                         </v-list-item>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item class="boldMenu pa-0 mt-4" >
+          <v-list-item-content class="pa-0">
+            <v-list-item-title class="sidebar-menu-title">운임 안내</v-list-item-title>
+
+                        
+          </v-list-item-content>
+        </v-list-item>
+
+
+
+           <v-list-item class="boldMenu pa-0 mt-4" >
+          <v-list-item-content class="pa-0">
+            <v-list-item-title class="sidebar-menu-title">내 승차권 확인</v-list-item-title>
+            
+      
                           <v-list-item
                             link to="/ticket"
                             class="ma-0"
