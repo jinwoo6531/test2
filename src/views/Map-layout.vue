@@ -142,8 +142,7 @@
                             </v-list-item-content>
                         </v-list-item>
                           <v-list-item
-                            link
-                            :to="{ name: 'Site', params: { siteId: 18 } }"
+                            link to="/ticket"
                             class="ma-0"
                         >
                             <v-list-item-content class="pa-0">

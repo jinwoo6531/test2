@@ -1,102 +1,106 @@
 <template>
-<div id="ticket">
-   <div class="active-ticket">
-       <div class="ticket-tit">
-           <p>2021년 6월 8일 (화)</p><span>1매</span>
-       </div>
-       <div class="ticket-main">
-           <div class="ticekt-main-txt">
-                <p class="ticket-main-tit">
-                    <span>대구 수성 알파시티</span><span>15 : 00</span>
-                </p>
-                <br>
-                <p>
-                    일반 2명
-                </p>
-                 <p>
-                    청소년/어린이 2명
-                </p>
-           </div>
-           <p>
-               <span>승차 확인</span>
-           </p>
-       </div>
-   </div>
-   <div class="deactivated-ticket">
+  <div id="ticket">
+    <div class="active-ticket">
+    <!-- <div class="active-ticket" v-for="ticket in ticketList" :key="ticket.id"> -->
+      <div class="ticket-tit">
+        <p>2021년 6월 8일 (화)</p>
+        <p>1매</p>
+      </div>
+      <div class="ticket-main">
+        <div class="ticket-main-txt">
+          <p class="ticket-main-tit">
+            <span>대구 수성 알파시티</span><span>15 : 00</span>
+          </p>
+          <p>일반 2명</p>
+          <p>청소년/어린이 2명</p>
+        </div>
+        <p class="stamp">
+          <img src="../../assets/TASIO_stamp_color.png" alt="Tasio Stamp" />
+          <span>승차 확인</span>
+        </p>
+      </div>
+    </div>
+    <div class="deactivated-ticket"></div>
 
-   </div>
-
-      <v-footer class="copyrightStyle nav-footer justify-left pa-0">
-            <span>COPYRIGHT@SPRINGCLOUD INC. <br />
-                    ALL RIGHTS RESERVED.</span>
-        </v-footer>
-</div>
-
+    <v-footer class="copyrightStyle nav-footer justify-left pa-0">
+      <span
+        >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
+        승차권은 탑승일 일주일 이후 삭제됩니다.</span
+      >
+    
+    </v-footer>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'ticket',
+  name: "ticket",
 
-    data: () => ({
-       
-    }),
-
-    
-
-}
+  data: () => ({
+      ticketList: [],
+      isActive: true,
+  }),
+};
 </script>
 
-<style scoped>
+<style>
 
 #ticket {
-    font-family: Noto Sans KR;
-    width: 100%;
-    height: 100%;
+  font-family: Noto Sans KR;
+  width: 100%;
+  height: 100%;
+ 
+}
+.active-ticket {
+  width: 340px;
+  height: 150px;
+  border-radius: 5px;
+  border: 1px solid #dbdbdb;
+  margin: 0 auto;
+
+}
+.ticket-tit {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+  height:35px ;
+  background-color: #E61773;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    color: #fff;
+    padding: 5px 20px;
+    box-sizing: border-box;
+}
+.ticket-main {
+  display: flex;
+  justify-content: space-between;
+  position:relative;
+  margin: 20px;
+  
+}
+.ticket-main-txt p{
+    margin-bottom: -5px;
+    font-size: 13px;
+}
+.ticket-main-tit {
+    
+  display: flex;
+  color:  #E61773;
+  font-weight: 500;
+  padding-bottom: 20px;
 }
 
-.faq-title {
-    font-family: Roboto;
-    font-style: normal;
+.stamp {
+  display: flex;
+  flex-direction: column;
+  position:absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+.stamp span{
+      color:  #E61773;
+    font-size: 14px;
     font-weight: 500;
-    font-size: 40px;
-    color: #262626 !important;
-    padding: 12px 0 30px 0;
-}
-
-.mdi-chevron-down::before {
-    display: none;
-}
-
-.v-expansion-panel-content__wrap {
-    background: #F2F2F2;
-    padding: 15px 40px !important;
-    font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    color: #888;
-}
-
-button:focus {
-    outline: 0;
-}
-
-.pagination {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translate(-50%, 0);
-}
-.copyrightStyle {
-    font-family: Roboto !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 10px !important;
-    line-height: 14px;
-    color: #bdbdbd !important;
-    background: transparent !important;
-    position: absolute;
-    bottom: 0;
 }
 </style>
