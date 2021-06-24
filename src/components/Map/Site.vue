@@ -644,7 +644,7 @@
               width="100%"
               height="50px"
               @click="requestPay"
-              >결제하기</v-btn
+              >{{ totalPayment }}원 결제하기</v-btn
             >
           </v-flex>
         </v-flex>
@@ -684,7 +684,7 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 var control;
 var marker;
-var qs = require("qs");
+// var qs = require("qs");
 
 export default {
   data: () => ({
@@ -697,7 +697,7 @@ export default {
     // loading
     loading: 2,
     getLocationLoading: false,
-    // timeTable
+    //timeTable
     timeTable: [],
     // station
     stationList: [],
@@ -1808,47 +1808,55 @@ export default {
           buyer_postcode: "", // 주문자 우편 번호 (선택 항목)
           custom_data: {
             imp_uid: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-            count: this.count,
+            adult_count: this.adultCount,
+            child_count: this.childCount,
+            baby_count: this.babyCount,
+            stop_schedule: 0,
           },
-          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&siteName=${this.siteName}&start=${this.start}&end=${this.end}&startName=${this.stationList[0].name}&endName=${this.stationList[0].name}&station_startId=${this.station_startId}&station_endId=${this.station_endId}&count=${this.count}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
-        },
-        (rsp) => {
-          // callback
-          if (rsp.success) {
-            console.log("결제 성공 success!!: ", rsp.success);
-            axios({
-              url: "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put", // 가맹점 서버
-              method: "post",
-              headers: {
-                "content-type": "application/x-www-form-urlencoded",
-              },
-              data: qs.stringify({
-                imp_uid: rsp.imp_uid,
-                merchant_uid: rsp.merchant_uid,
-                amount: rsp.paid_amount,
-                userid: this.user.data.uid,
-              }),
-            })
-              .then((data) => {
-                // 가맹점 서버 결제 API 성공시 로직
-                console.log("가맹점 서버 결제 API 성공!", data);
-                switch (data.status) {
-                  case "success":
-                    break;
-                  case "forgery":
-                    break;
-                }
-              })
-              .catch((error) => {
-                // 가맹점 서버 결제 API 실패시 로직
-                console.log("가맹점 서버 결제 API 실패ㅠㅠ: ", error);
-              });
-          } else {
-            // 결제 실패 시 로직
-            // 돈이 안맞을 때?
-            console.log("rsp.error_msg: ", rsp.error_msg);
-          }
+          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start}&end=${this.end}&passenger=${this.count}&vehicle_id=${this.vehicle_id}`,
         }
+        // (rsp) => {
+        //     // callback
+        //     if (rsp.success) {
+        //         console.log("결제 성공 success!!: ", rsp.success);
+        //         axios({
+        //             url:
+        //                 "https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put", // 가맹점 서버
+        //             method: "post",
+        //             headers: {
+        //                 "content-type":
+        //                     "application/x-www-form-urlencoded",
+        //             },
+        //             data: qs.stringify({
+        //                 imp_uid: rsp.imp_uid,
+        //                 merchant_uid: rsp.merchant_uid,
+        //                 amount: rsp.paid_amount,
+        //                 userid: this.user.data.uid,
+        //             }),
+        //         })
+        //             .then((data) => {
+        //                 // 가맹점 서버 결제 API 성공시 로직
+        //                 console.log("가맹점 서버 결제 API 성공!", data);
+        //                 switch (data.status) {
+        //                     case "success":
+        //                         break;
+        //                     case "forgery":
+        //                         break;
+        //                 }
+        //             })
+        //             .catch((error) => {
+        //                 // 가맹점 서버 결제 API 실패시 로직
+        //                 console.log(
+        //                     "가맹점 서버 결제 API 실패ㅠㅠ: ",
+        //                     error
+        //                 );
+        //             });
+        //     } else {
+        //         // 결제 실패 시 로직
+        //         // 돈이 안맞을 때?
+        //         console.log("rsp.error_msg: ", rsp.error_msg);
+        //     }
+        // }
       );
     },
 
