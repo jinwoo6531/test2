@@ -2,26 +2,24 @@
   <div id="ticket">
     <div class="active-ticket">
     <!-- <div class="active-ticket" v-for="ticket in ticketList" :key="ticket.id"> -->
-      <div class="ticket-tit">
+      <div class="ticket-tit" v-bind:class="[{'ticket-tit':isActive}, {'deactive-ticket-tit':!isActive}]">
         <p>2021년 6월 8일 (화)</p>
         <p>1매</p>
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
-          <p class="ticket-main-tit">
-            <span>대구 수성 알파시티</span><span>15 : 00</span>
-          </p>
+          <div class="ticket-main-tit" >
+            <p v-bind:class="{'deactive-ticket-main-tit':!isActive}"><span>대구 수성 알파시티</span><span>15 : 00</span></p>
+          </div>
           <p>일반 2명</p>
           <p>청소년/어린이 2명</p>
         </div>
-        <p class="stamp">
-          <img src="../../assets/TASIO_stamp_color.png" alt="Tasio Stamp" />
-          <span>승차 확인</span>
+        <p class="stamp" @click="stampClicked">
+          <img v-if="isActive===true" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
+          <img v-else src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
         </p>
       </div>
     </div>
-    <div class="deactivated-ticket"></div>
-
     <v-footer class="copyrightStyle nav-footer justify-left pa-0">
       <span
         >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
@@ -40,6 +38,13 @@ export default {
       ticketList: [],
       isActive: true,
   }),
+  methods:{
+      stampClicked(e){
+          e.preventDefault();
+          console.log('stamped')
+          this.isActive=false;
+      }
+  }
 };
 </script>
 
@@ -71,6 +76,9 @@ export default {
     padding: 5px 20px;
     box-sizing: border-box;
 }
+.deactive-ticket-tit{
+    background-color: #999;
+}
 .ticket-main {
   display: flex;
   justify-content: space-between;
@@ -82,12 +90,15 @@ export default {
     margin-bottom: -5px;
     font-size: 13px;
 }
-.ticket-main-tit {
-    
+.ticket-main-tit {  
   display: flex;
   color:  #E61773;
   font-weight: 500;
   padding-bottom: 20px;
+}
+.deactive-ticket-main-tit{
+    color: #555;
+    font-weight: 500;
 }
 
 .stamp {
@@ -99,8 +110,13 @@ export default {
   transform: translateY(-50%);
 }
 .stamp span{
-      color:  #E61773;
+    color:  #E61773;
     font-size: 14px;
     font-weight: 500;
 }
+
+.copyrightStyle{    
+    text-align: center;
+}
+
 </style>
