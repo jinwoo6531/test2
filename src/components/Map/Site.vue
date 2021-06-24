@@ -423,7 +423,7 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="times in timeTable[9]"
+                        v-for="times in timeTable"
                         @click="pickedTime = times"
                         :key="times.id"
                       >
@@ -439,6 +439,7 @@
                 </v-card>
                 <v-card-actions class="pa-0" style="width: 100%; height: 50px">
                   <v-btn
+                    :disabled = true
                     class="pa-0 ma-0 onCancelBtn"
                     tile
                     depressed
@@ -450,6 +451,7 @@
                     >취소</v-btn
                   >
                   <v-btn
+                    :disabled = true
                     class="pa-0 ma-0 onChangeBtn"
                     tile
                     depressed
@@ -1598,31 +1600,45 @@ export default {
     getTimeTable() {
       var username = "admin@aspringcloud.com";
       var password = "spring#007";
-      (this.hour = this.timestamp.getHours()),
-        (this.min = this.timestamp.getMinutes()),
-        axios
-          .get("https://sgapi.springgo.io/api/reservations/rounds/", {
-            headers: {
-              Authorization: "Basic " + btoa(username + ":" + password),
-            },
-          })
-          .then((response) => {
-            this.timeTable = [
-              ...response.data.results,
-              response.data.results.map((time) => {
-                return time.time_start.substring(0, 5);
-              }),
-            ];
-            console.log(this.timeTable[9]);
 
-            this.hour = this.hour.toString();
-            this.min = this.min.toString();
+      this.hour = this.timestamp.getHours();
+      this.min = this.timestamp.getMinutes();
 
-            this.hour < 10 ? (this.hour = "0" + this.hour) : this.hour;
-            this.min < 10 ? (this.min = "0" + this.min) : this.min;
-            console.log(this.hour + ':' + this.min);
-          })
-          .catch((error) => console.log("error", error));
+      axios
+        .get("https://sgapi.springgo.io/api/reservations/rounds/", {
+          headers: {
+            Authorization: "Basic " + btoa(username + ":" + password),
+          },
+        })
+        .then((response) => {
+          console.log('response :', response);
+
+          let round_result = response.data.results;
+          let round_count = round_result.length;
+
+          round_result = round_result.sort(function (a, b) {
+            return a.id < b.id ? -1 : 1;
+          });
+
+          for (let i = 0; i < round_count; i++) {
+            this.timeTable.push(round_result[i].time_start.substring(0, 5));
+          }
+          console.log('this.timeTable :', this.timeTable);
+
+          this.hour = this.hour.toString();
+          this.min = this.min.toString();
+
+          this.hour < 10 ? (this.hour = "0" + this.hour) : this.hour;
+          this.min < 10 ? (this.min = "0" + this.min) : this.min;
+
+          console.log(this.timeTable[0].replace(':', ''));
+          console.log(this.hour + this.min);
+
+          if( this.timeTable[0].replace(':', '') < this.hour + this.min ){
+            console.log('운행 시간이 종료된 회차입니다!');
+          }
+        })
+        .catch((error) => console.log("error", error));
     },
 
     // 출발지와 도착지 swap 버튼
@@ -2139,6 +2155,7 @@ export default {
   font-weight: 500 !important;
   font-size: 16px !important;
   letter-spacing: 0 !important;
+  border-top: 0.5px solid #e61773 !important;
 }
 
 .select_station {
