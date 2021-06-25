@@ -59,7 +59,7 @@
                   ※ 비나 눈이 올 때는 안전상 운행 하지 않습니다.
                 </p>
               </v-card>
-                  <v-simple-table style="text-align: center">
+                  <v-simple-table class="schedule-table" style="text-align: center">
                     <template v-slot:default>
                       <thead class="table-head">
                         <tr>
@@ -151,6 +151,9 @@ export default {};
 </script>
 
 <style>
+*{
+  border-collapse: collapse;
+}
 .schedule-wrap {
   font-family: Noto Sans KR;
   font-style: normal;
@@ -178,6 +181,14 @@ table {
   font-size: 14px;
   color: #555555;
   border-collapse: collapse;
+}
+.schedule-table{
+  margin: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+.schedule-table tr td{
+  font-size: 14px;
+  height:35px;
 }
 .table-head{
   background-color:#F2F2F2;

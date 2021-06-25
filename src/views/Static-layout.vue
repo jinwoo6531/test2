@@ -302,13 +302,13 @@
                             >
                              <span
                                 flat
-                                v-if="this.$route.name == 'Schedule'"
+                                v-if="this.$route.name == 'Fair'"
                                 class="pa-0 static-title"
                                 >운임 안내</span
                             >
                               <span
                                 flat
-                                v-if="this.$route.name == 'Schedule'"
+                                v-if="this.$route.name == 'Ticket'"
                                 class="pa-0 static-title"
                                 >내 승차권 확인</span
                             >

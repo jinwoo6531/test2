@@ -1,31 +1,27 @@
 <template>
   <div id="ticket">
-    <div class="active-ticket">
-    <!-- <div class="active-ticket" v-for="ticket in ticketList" :key="ticket.id"> -->
+    <div class="active-ticket" v-for="ticket in ticketList" :key="ticket.id">
       <div class="ticket-tit" v-bind:class="[{'ticket-tit':isActive}, {'deactive-ticket-tit':!isActive}]">
-        <p>2021년 6월 8일 (화)</p>
-        <p>1매</p>
+        <p>{{ticket.date}}</p>
+        <p>{{ticket.ticketCount}}매</p>
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
           <div class="ticket-main-tit" >
-            <p v-bind:class="{'deactive-ticket-main-tit':!isActive}"><span>대구 수성 알파시티</span><span>15 : 00</span></p>
+            <p v-bind:class="{'deactive-ticket-main-tit':!isActive}"><span>{{ticket.siteName}}</span> &#9;<span>{{ticket.reserveTime}}</span></p>
           </div>
-          <p>일반 2명</p>
-          <p>청소년/어린이 2명</p>
+          {{ticket.adultCount}}<br>
+          {{ticket.childCount}}
         </div>
-        <p class="stamp" @click="stampClicked">
+        <p class="stamp" @click="stampClicked(ticket.id)">
           <img v-if="isActive===true" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
           <img v-else src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
         </p>
       </div>
     </div>
     <v-footer class="copyrightStyle nav-footer justify-left pa-0">
-      <span
-        >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
-        승차권은 탑승일 일주일 이후 삭제됩니다.</span
-      >
-    
+      <span>결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
+        승차권은 탑승일 일주일 이후 삭제됩니다.</span>    
     </v-footer>
   </div>
 </template>
@@ -35,16 +31,55 @@ export default {
   name: "ticket",
 
   data: () => ({
-      ticketList: [],
-      isActive: true,
+    date:'',
+    ticketCount:0,
+    siteName:'',
+    reserveTime:'',
+    isActive: true,
+    adultCount:'',
+    childCount:'',
+    babyCount:'',
+      ticketList: [{
+        id:1,
+        date:'2021년 6월 8일 (화)',
+        ticketCount:1,
+        siteName:'대구 수성 알파시티',
+        reserveTime: '14:00',
+        isActive:true,
+        adultCount:'일반 2명',
+        childCount: '청소년/어린이 2명'
+      },
+      {
+        id:2,
+        date:'2021년 6월 6일 (일)',
+        ticketCount:1,
+        siteName:'대구 수성 알파시티',
+        reserveTime: '14:00',
+        isActive:false,
+        adultCount:'일반 3명',
+        childCount: '청소년/어린이 5명'
+      },
+      {
+        id:3,
+        date:'2021년 6월 5일 (토)',
+        ticketCount:1,
+        siteName:'대구 수성 알파시티',
+        reserveTime: '13:00',
+        isActive:false,
+        adultCount:'일반 1명',
+        childCount: '청소년/어린이 1명'
+      }
+      ],
+      
   }),
   methods:{
-      stampClicked(e){
-          e.preventDefault();
-          console.log('stamped')
-          this.isActive=false;
+      stampClicked(ticketId){
+        const filterItem=this.ticketList.filter(ticket=>ticket.id!==ticketId)
+        filterItem.isActive=true;
+         console.log(filterItem)        
       }
   }
+  //function need to be fixed
 };
 </script>
 
@@ -61,8 +96,7 @@ export default {
   height: 150px;
   border-radius: 5px;
   border: 1px solid #dbdbdb;
-  margin: 0 auto;
-
+  margin: 0 auto 20px;
 }
 .ticket-tit {
   display: inline-flex;
@@ -115,7 +149,7 @@ export default {
     font-weight: 500;
 }
 
-.copyrightStyle{    
+.copyrightStyle{   
     text-align: center;
 }
 
