@@ -424,7 +424,7 @@
                       <v-list-item
                         class="pa-0"
                         v-for="times in timeTable"
-                        @click="pickedTime = times"
+                        @click="selectRoundingBtn(times)"
                         :key="times.id"
                       >
                         <v-list-item-content>
@@ -1644,7 +1644,7 @@ export default {
           console.log("realTimereplace:", this.hour + this.min);
 
 
-          for (let i = 0; i <= this.timeTable.length; i++) {
+          for (let i = 0; i < this.timeTable.length; i++) {
             if (this.timeTable[i].replace(":", "") < this.hour + this.min) {
               console.log("운행 시간이 종료된 회차입니다!!!!!!");
             } else {
@@ -1653,6 +1653,17 @@ export default {
           }
         })
         .catch((error) => console.log("error", error));
+    },
+
+    // 회차 선택
+    selectRoundingBtn(item) {
+      console.log('item :', item)
+
+      if (item.replace(":", "") < this.hour + this.min) {
+        console.log("운행 시간이 종료된 회차입니다!!!!!!");
+      } else {
+        console.log("운행 시간이 가능!!!!!!");
+      }
     },
 
     // 출발지와 도착지 swap 버튼
