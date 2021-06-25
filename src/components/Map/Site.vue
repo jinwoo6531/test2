@@ -459,16 +459,19 @@
                     @click="start_station_popup = !start_station_popup"
                     >선택하기</v-btn
                   >
-                   <v-btn
+                  <v-btn
                     class="pa-2 ma-1"
                     tile
                     depressed
                     v-if="ok"
-                    
-                    style="color: #E61773; backgroundColor: #fff; border-top: 0.5px solid #e61773;"
-                    
-                    > 이미 지난 회차는 선택할 수 없습니다.<br />차량 출발
-                      20분전에만 예약이 가능합니다.</v-btn
+                    style="
+                      color: #e61773;
+                      backgroundColor: #fff;
+                      border-top: 0.5px solid #e61773;
+                    "
+                  >
+                    이미 지난 회차는 선택할 수 없습니다.<br />차량 출발
+                    20분전에만 예약이 가능합니다.</v-btn
                   >
                 </v-card-actions>
               </v-card>
@@ -1672,7 +1675,7 @@ export default {
         this.rule = true;
         this.ok = false;
       }
-     },
+    },
 
     // 출발지와 도착지 swap 버튼
     swapDestination() {
