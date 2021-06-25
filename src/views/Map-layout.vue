@@ -137,7 +137,7 @@
                 </v-list-item>
 
                                           <v-list-item
-                           link to="/schedule"
+                           link to="/fair"
                            class="boldMenu pa-0 mt-2"
                         >
                             <v-list-item-content class="pa-0"
