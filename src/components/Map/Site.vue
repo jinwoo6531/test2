@@ -439,7 +439,7 @@
                 </v-card>
                 <v-card-actions class="pa-0" style="width: 100%; height: 50px">
                   <v-btn
-                    :disabled = true
+                    :disabled="true"
                     class="pa-0 ma-0 onCancelBtn"
                     tile
                     depressed
@@ -451,7 +451,7 @@
                     >취소</v-btn
                   >
                   <v-btn
-                    :disabled = true
+                    :disabled="true"
                     class="pa-0 ma-0 onChangeBtn"
                     tile
                     depressed
@@ -696,6 +696,7 @@ export default {
       lat: "",
       lon: "",
     },
+    time_start: [],
     // loading
     loading: 2,
     getLocationLoading: false,
@@ -709,6 +710,7 @@ export default {
     timestamp: new Date(),
     hour: "0",
     min: "0",
+    timeTest: ["19:00", "20:00"],
     // vehicle
     vehicle: {},
     vehicle_id: 0,
@@ -1611,9 +1613,15 @@ export default {
           },
         })
         .then((response) => {
-          console.log('response :', response);
-
+          console.log("response :", response);
+          let busTestTime = {
+            id: 10,
+            time_start: "19:00:00",
+            ordinary_count: 10,
+            site: 2,
+          };
           let round_result = response.data.results;
+          round_result.push(busTestTime);
           let round_count = round_result.length;
 
           round_result = round_result.sort(function (a, b) {
@@ -1623,7 +1631,8 @@ export default {
           for (let i = 0; i < round_count; i++) {
             this.timeTable.push(round_result[i].time_start.substring(0, 5));
           }
-          console.log('this.timeTable :', this.timeTable);
+          console.log("timeTable:", this.timeTable);
+          
 
           this.hour = this.hour.toString();
           this.min = this.min.toString();
@@ -1631,11 +1640,16 @@ export default {
           this.hour < 10 ? (this.hour = "0" + this.hour) : this.hour;
           this.min < 10 ? (this.min = "0" + this.min) : this.min;
 
-          console.log(this.timeTable[0].replace(':', ''));
-          console.log(this.hour + this.min);
+          console.log("timeTablereplace:", this.timeTable[0].replace(":", ""));
+          console.log("realTimereplace:", this.hour + this.min);
 
-          if( this.timeTable[0].replace(':', '') < this.hour + this.min ){
-            console.log('운행 시간이 종료된 회차입니다!');
+
+          for (let i = 0; i <= this.timeTable.length; i++) {
+            if (this.timeTable[i].replace(":", "") < this.hour + this.min) {
+              console.log("운행 시간이 종료된 회차입니다!!!!!!");
+            } else {
+              console.log("운행 시간이 가능!!!!!!");
+            }
           }
         })
         .catch((error) => console.log("error", error));
