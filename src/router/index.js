@@ -9,6 +9,7 @@ import AuthLayout from '@/views/Auth-layout'
 import MapLayout from '@/views/Map-layout'
 import StaticLayout from '@/views/Static-layout'
 import CallingLayout from '@/views/Calling-layout'
+import CompleteLayout from '@/views/CompleteReservation'
 import CallFail from '@/views/Call-fail'
 import Thanks from '@/views/Thanks'
 import AutoCancel from '@/views/Auto-cancel'
@@ -59,9 +60,20 @@ const routes = [
   component: Walkthrough
 },
 {
-  path: '/calling',
+  path: '/callingload',
   name: 'CallingLayout',
   component: CallingLayout,
+  beforeEnter: requireAuth(),
+  beforeRouteLeave(to, from, next) {
+    console.log(to)
+    console.log(from)
+    console.log(next)
+  }
+},
+{
+  path: '/calling',
+  name: 'CompleteLayout',
+  component: CompleteLayout,
   beforeEnter: requireAuth(),
   beforeRouteLeave(to, from, next) {
     console.log(to)

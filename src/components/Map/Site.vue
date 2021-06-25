@@ -439,7 +439,6 @@
                 </v-card>
                 <v-card-actions class="pa-0" style="width: 100%; height: 50px">
                   <v-btn
-                    :disabled="true"
                     class="pa-0 ma-0 onCancelBtn"
                     tile
                     depressed
@@ -451,7 +450,6 @@
                     >취소</v-btn
                   >
                   <v-btn
-                    :disabled="true"
                     class="pa-0 ma-0 onChangeBtn"
                     tile
                     depressed
