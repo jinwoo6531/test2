@@ -69,7 +69,7 @@
                     </v-list-item>
                 </template>
 
-                <v-divider class="mt-3 mb-4"></v-divider>
+                <v-divider class="mt-3 mb-2"></v-divider>
 
                 <v-list-item link to="/introduction" class="pa-0">
                     <v-list-item-content class="pa-0">
@@ -80,7 +80,7 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item class="boldMenu pa-0 mt-4">
+                <v-list-item class="boldMenu pa-0 mt-2">
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
@@ -134,8 +134,8 @@
                                     <v-badge
                                         color="#E61773"
                                         content="준비중"
-                                        offset-x="-2"
-                                        offset-y="10px"
+                                        offset-x="-10"
+                                        offset-y="15px"
                                         style="z-index: 15;"
                                     >
                                         세종 호수공원
@@ -152,8 +152,8 @@
                                     <v-badge
                                         color="#E61773"
                                         content="준비중"
-                                        offset-x="-2"
-                                        offset-y="10px"
+                                        offset-x="-10"
+                                        offset-y="15px"
                                         style="z-index: 15;"
                                     >
                                         고군산 관광벨트
@@ -170,8 +170,8 @@
                                     <v-badge
                                         color="#E61773"
                                         content="준비중"
-                                        offset-x="-2"
-                                        offset-y="10px"
+                                        offset-x="-10"
+                                        offset-y="15px"
                                         style="z-index: 15;"
                                     >
                                         상암DMC홍보관
@@ -182,40 +182,45 @@
                     </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item class="boldMenu pa-0 mt-4" link to="/schedule">
+                <v-list-item class="boldMenu pa-0 mt-2" link to="/schedule">
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
                         >
                             운행 시간표
                         </v-list-item-title>
-                          <v-list-item
+                    </v-list-item-content>
+                </v-list-item>
+
+                                          <v-list-item
                            link to="/schedule"
-                            class="ma-0"
+                           class="boldMenu pa-0 mt-2"
                         >
                             <v-list-item-content class="pa-0"
                             >
                                 <v-list-item-title
-                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                     style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
                                 >
                                     운임 안내
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
+
+                        
                           <v-list-item
                             link to="/ticket"
-                            class="ma-0"
+                             class="boldMenu pa-0 mt-2"
                         >
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
-                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                   style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
                                 >
                                     내 승차권 확인
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-                    </v-list-item-content>
-                </v-list-item>
+
+                
 
                 <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                     <v-list-item-content class="pa-0">
@@ -395,6 +400,10 @@ export default {
 .v-list-item {
     padding-right: 0 !important;
 }
+.v-list-item--dense, .v-list--dense .v-list-item{
+    min-height: 30px;
+    line-height: 30px;
+}
 
 .v-list .v-list-item--active {
     color: transparent;
@@ -426,7 +435,5 @@ export default {
     line-height: 14px;
     color: #bdbdbd !important;
     background: transparent !important;
-    position: absolute;
-    bottom: 0;
 }
 </style>

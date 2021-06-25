@@ -42,14 +42,14 @@
     </v-list-item>
 </template>
 
-        <v-divider class="mt-3 mb-4"></v-divider>
+        <v-divider class="mt-3 mb-2"></v-divider>
 
         <v-list-item link to="/introduction" class="pa-0">
           <v-list-item-content class="pa-0">
             <v-list-item-title class="sidebar-menu-title">타시오 소개</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item class="boldMenu pa-0 mt-4">
+        <v-list-item class="boldMenu pa-0 mt-2">
           <v-list-item-content class="pa-0">
             <v-list-item-title class="sidebar-menu-title">
               <v-list-item link to="/" class="pa-0">
@@ -89,8 +89,8 @@
                   <v-badge
                     color="#E61773"
                     content="준비중"
-                    offset-x="-2"
-                    offset-y="10px"
+                     offset-x="-10"
+                      offset-y="15px"
                     style="z-index: 15;"
                   >세종 호수공원</v-badge>
                 </v-list-item-title>
@@ -103,8 +103,8 @@
                   <v-badge
                     color="#E61773"
                     content="준비중"
-                    offset-x="-2"
-                    offset-y="10px"
+                     offset-x="-10"
+                      offset-y="15px"
                     style="z-index: 15;"
                   >고군산 관광벨트</v-badge>
                 </v-list-item-title>
@@ -117,8 +117,8 @@
                   <v-badge
                     color="#E61773"
                     content="준비중"
-                    offset-x="-2"
-                    offset-y="10px"
+                     offset-x="-10"
+                      offset-y="15px"
                     style="z-index: 15;"
                   >상암DMC홍보관</v-badge>
                 </v-list-item-title>
@@ -126,46 +126,45 @@
             </v-list-item>
           </v-list-item-content>
         </v-list-item>
-
-                   <v-list-item class="boldMenu pa-0 mt-4" >
-          <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title">운행 시간표</v-list-item-title>
-             <v-list-item link to="/schedule"
-                            class="ma-0"
+    <v-list-item class="boldMenu pa-0 mt-2" link to="/schedule">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
                         >
-                        </v-list-item>
-          </v-list-item-content>
-        </v-list-item>
+                            운행 시간표
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
-        <v-list-item class="boldMenu pa-0 mt-4" >
-          <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title">운임 안내</v-list-item-title>
+                                          <v-list-item
+                           link to="/schedule"
+                           class="boldMenu pa-0 mt-2"
+                        >
+                            <v-list-item-content class="pa-0"
+                            >
+                                <v-list-item-title
+                                     style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                >
+                                    운임 안내
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
 
                         
-          </v-list-item-content>
-        </v-list-item>
-
-
-
-           <v-list-item class="boldMenu pa-0 mt-4" >
-          <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title">내 승차권 확인</v-list-item-title>
-            
-      
                           <v-list-item
                             link to="/ticket"
-                            class="ma-0"
+                             class="boldMenu pa-0 mt-2"
                         >
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
-                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                   style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
                                 >
                                     내 승차권 확인
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-          </v-list-item-content>
-        </v-list-item>
+
+                
 
         <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                 <v-list-item-content class="pa-0">
