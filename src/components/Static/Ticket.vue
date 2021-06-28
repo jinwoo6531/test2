@@ -1,21 +1,21 @@
 <template>
   <div id="ticket">
-    <div class="active-ticket" v-for="ticket in ticketList" :key="ticket.id">
-      <div class="ticket-tit" v-bind:class="[{'ticket-tit':ticket.isActive}, {'deactive-ticket-tit':!ticket.isActive}]">
+    <div class="active-ticket" v-for="ticket in ticketList[0]" :key="ticket.reservation_seq">
+      <div class="ticket-tit" v-bind:class="[{'ticket-tit':ticket.state===1}, {'deactive-ticket-tit':ticket.state===2}]">
         <p>{{ticket.date}}</p>
         <p>{{ticket.ticketCount}}매</p>
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
           <div class="ticket-main-tit" >
-            <p v-bind:class="{'deactive-ticket-main-tit':!ticket.isActive}"><span>{{ticket.siteName}}</span> &#9;<span>{{ticket.reserveTime}}</span></p>
+            <p v-bind:class="{'deactive-ticket-main-tit':ticket.state===2}"><span>{{ticket.station_name}}</span> &#9;<span>{{ticket.schedule_time}}</span></p>
           </div>
           {{ticket.adultCount}}<br>
           {{ticket.childCount}}
         </div>
-        <p class="stamp" @click="stampClicked(ticket.id)">
-          <img v-if="ticket.isActive===true" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
-          <img v-else-if="ticket.isActive===false" src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
+        <p class="stamp" @click="stampClicked(ticket.reservation_seq)">
+          <img v-if="ticket.state===1" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
+          <img v-else-if="ticket.state===2" src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
         </p>
       </div>
     </div>
@@ -27,59 +27,46 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "ticket",
 
   data: () => ({
     date:'',
     ticketCount:0,
-    siteName:'',
-    reserveTime:'',
-    isActive: true,
+    reservation_seq:0,
+    state:0,
+    ordinalNo:0,
+    stationNo:0,
+    station_name:"",
+    schedule_time:"",
     adultCount:'',
     childCount:'',
     babyCount:'',
-      ticketList: [{
-        id:1,
-        date:'2021년 6월 8일 (화)',
-        ticketCount:1,
-        siteName:'대구 수성 알파시티',
-        reserveTime: '14:00',
-        isActive:true,
-        adultCount:'일반 2명',
-        childCount: '청소년/어린이 2명'
-      },
-      {
-        id:2,
-        date:'2021년 6월 6일 (일)',
-        ticketCount:1,
-        siteName:'대구 수성 알파시티',
-        reserveTime: '14:00',
-        isActive:false,
-        adultCount:'일반 3명',
-        childCount: '청소년/어린이 5명'
-      },
-      {
-        id:3,
-        date:'2021년 6월 5일 (토)',
-        ticketCount:1,
-        siteName:'대구 수성 알파시티',
-        reserveTime: '13:00',
-        isActive:false,
-        adultCount:'일반 1명',
-        childCount: '청소년/어린이 1명'
-      }
-      ],
+    ticketList: [],
       
   }),
+  created(){
+    this.getTicketInfo();
+  },
   methods:{
+    getTicketInfo(){
+      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/?userid=O3VtOx2eIXMxkUNgezAvyWBgoMg2`)
+      .then(res=>
+       { 
+         this.ticketList.push(res.data)
+         console.log('this ticket', this.ticketList)
+        }
+      )
+      .catch(error => {
+                    console.log(error);
+                })
+    },
       stampClicked(ticketId){
-        const findItem=this.ticketList.find(ticket=>ticket.id===ticketId)
-        findItem.isActive=false;
-         console.log(findItem.isActive)        
+        const findItem=this.ticketList.find(ticket=>ticket.reservation_seq===ticketId)
+        findItem.state=2;   
       }
   }
-  //function need to be fixed
 };
 </script>
 
@@ -89,7 +76,7 @@ export default {
   font-family: Noto Sans KR;
   width: 100%;
   height: 100%;
- 
+  position: relative;
 }
 .active-ticket {
   width: 340px;
@@ -150,7 +137,10 @@ export default {
 }
 
 .copyrightStyle{   
-    text-align: center;
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, 0%);
 }
 
 </style>
