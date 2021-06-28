@@ -423,8 +423,8 @@
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
-                        v-for="times in timeTable"
-                        @click="selectRoundingBtn(times)"
+                        v-for="(times, index) in timeTable"
+                        @click="selectRoundingBtn(times, index)"
                         :key="times.id"
                       >
                         <v-list-item-content>
@@ -470,8 +470,7 @@
                       border-top: 0.5px solid #e61773;
                     "
                   >
-                    이미 지난 회차는 선택할 수 없습니다.<br />차량 출발
-                    20분전에만 예약이 가능합니다.</v-btn
+                    이미 지난 회차는 선택할 수 없습니다.</v-btn
                   >
                 </v-card-actions>
               </v-card>
@@ -739,6 +738,9 @@ export default {
     babyList: false,
     childList: false,
     adultList: false,
+    // 회차, 정류장 1부터 시작
+    ordinary : 0,
+    station_seq : 0,
     test: 0,
     babyCount: 0,
     adultCount: 0,
@@ -1078,6 +1080,9 @@ export default {
     },
     start() {
       console.log("start changed", this.start);
+
+      this.station_seq = this.start.id
+
       start_icon = this.stationPicker(this.start, this.startIcon, start_icon);
 
       if (this.routePoints.length > 0) {
@@ -1663,8 +1668,10 @@ export default {
     },
 
     // 회차 선택
-    selectRoundingBtn(item) {
+    selectRoundingBtn(item, index) {
+
       console.log("item :", item);
+      console.log("index :", index);
 
       if (item.replace(":", "") < this.hour + this.min) {
         console.log("운행 시간이 종료된 회차입니다!!!!!!");
@@ -1674,6 +1681,7 @@ export default {
         console.log("운행 시간이 가능!!!!!!");
         this.rule = true;
         this.ok = false;
+        this.ordinary = index + 1;
       }
     },
 
@@ -1838,6 +1846,14 @@ export default {
     },
 
     requestPay() {
+
+      console.log('this.user.data.uid :', this.user.data.uid)
+      console.log('this.adultCount:', this.adultCount)
+      console.log('this.childCount :', this.childCount)
+      console.log('this.babyCount :', this.babyCount)
+      console.log('this.ordinary:', this.ordinary)
+      console.log('this.station_seq :', this.station_seq)
+
       // 아임포트 객체
       const IMP = window.IMP;
 
@@ -1863,7 +1879,8 @@ export default {
             adult_count: this.adultCount,
             child_count: this.childCount,
             baby_count: this.babyCount,
-            stop_schedule: 0,
+            ordinary : this.ordinary,
+            station_seq : this.station_seq,
           },
           m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start}&end=${this.end}&passenger=${this.count}&vehicle_id=${this.vehicle_id}`,
         }
