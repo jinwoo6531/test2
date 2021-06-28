@@ -60,7 +60,8 @@ export default {
   },
   methods:{
     getTicketInfo(){
-      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/?userid=O3VtOx2eIXMxkUNgezAvyWBgoMg2`)
+      console.log(this.uid)
+      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/?userid=${this.uid}`)
       .then(res=>
        { 
          this.ticketList.push(res.data)
