@@ -1848,11 +1848,21 @@ export default {
     requestPay() {
 
       console.log('this.user.data.uid :', this.user.data.uid)
-      console.log('this.adultCount:', this.adultCount)
+      console.log('this.adultCount :', this.adultCount)
       console.log('this.childCount :', this.childCount)
       console.log('this.babyCount :', this.babyCount)
-      console.log('this.ordinary:', this.ordinary)
+      console.log('this.ordinary :', this.ordinary)
       console.log('this.station_seq :', this.station_seq)
+
+      console.log('this.siteId :', this.siteId)
+      console.log('this.start.id :', this.start.id)
+      console.log('this.end.id:', this.end.id)
+      console.log('this.start.name :', this.start.name)
+      console.log('this.start.points_idx :', this.start.points_idx)
+      console.log('this.end.points_idx :', this.end.points_idx)
+      console.log('this.count:', this.count)
+      console.log('this.minutes :', this.minutes)
+      console.log('this.vehicle_id :', this.vehicle_id)
 
       // 아임포트 객체
       const IMP = window.IMP;
@@ -1882,8 +1892,7 @@ export default {
             ordinary : this.ordinary,
             station_seq : this.station_seq,
           },
-          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?
-          site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.count}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
+          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
         }
         // (rsp) => {
         //     // callback
