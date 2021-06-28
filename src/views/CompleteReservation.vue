@@ -15,10 +15,10 @@
         style="padding-top: 30px; font-size: 20px"
         v-if="paystate === '1'"
       >
-        승차권 결제가 완료 되었습니다!
+        승차권 예약이 완료 되었습니다!
       </p>
       <p class="page-title" style="padding-top: 30px; font-size: 20px" v-else>
-        승차권 결제가 취소 되었습니다
+        승차권 예약이 취소 되었습니다
       </p>
       <p class="complete-content" style="padding-top: 30px; font-size: 16px">
         승차권 확인은 메뉴의<br />

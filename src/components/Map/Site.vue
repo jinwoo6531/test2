@@ -1868,7 +1868,7 @@ export default {
           pay_method: "card", // 결제수단
           merchant_uid: "mid_" + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
           name: "타시오 결제", // 주문명
-          amount: 100, // 결제할 금액 (필수 항목)
+          amount: this.totalPayment, // 결제할 금액 (필수 항목)
           buyer_email: "", // 주문자 ID (선택 항목)
           buyer_name: "", // 주문자명 (선택항목)
           buyer_tel: "010-7791-1383", // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
