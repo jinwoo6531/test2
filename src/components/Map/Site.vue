@@ -1811,39 +1811,39 @@ export default {
       this.stopLocation();
     },
 
-    // 타시오 호출, 결제 창X 연결 -> views/calling-layout.vue
-    requestCallBtn() {
-      // this.$router.replace({
-      //   name: "CallingLayout",
-      //   query: {
-      //     site: this.siteId,
-      //     start: this.start,
-      //     end: this.end,
-      //     count: this.count,
-      //     minutes: this.minutes,
-      //     vehicle_id: this.vehicle_id,
-      //   },
-      // });
-      // const totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-      // const IMP = window.IMP;
-      // // 가맹점 식별코드
-      // IMP.init("imp19092456");
-      // // // 결제창 호출 코드
-      // IMP.request_pay({ // param
-      //     pg: `mobilians.${this.meth}`, // PG사명
-      //     // pay_method: this.meth, // 결제수단
-      //     merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
-      //     name: '타시오 결제', // 주문명
-      //     amount: totalPayment, // 결제할 금액 (필수 항목)
-      //     buyer_email: '', // 주문자 ID (선택 항목)
-      //     buyer_name: '', // 주문자명 (선택항목)
-      //     buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
-      //     buyer_addr: '', // 주문자 주소 (선택 항목)
-      //     buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
-      //     custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-      //     m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
-      // });
-    },
+    // // 타시오 호출, 결제 창X 연결 -> views/calling-layout.vue
+    // requestCallBtn() {
+    //   this.$router.replace({
+    //     name: "CallingLayout",
+    //     query: {
+    //       site: this.siteId,
+    //       start: this.start,
+    //       end: this.end,
+    //       count: this.count,
+    //       minutes: this.minutes,
+    //       vehicle_id: this.vehicle_id,
+    //     },
+    //   });
+    //   const totalPayment = String('1000' * this.count).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    //   const IMP = window.IMP;
+    //   // 가맹점 식별코드
+    //   IMP.init("imp19092456");
+    //   // // 결제창 호출 코드
+    //   IMP.request_pay({ // param
+    //       pg: `mobilians.${this.meth}`, // PG사명
+    //       // pay_method: this.meth, // 결제수단
+    //       merchant_uid: 'mid_' + new Date().getTime() + this.user.data.uid, // 가맹점에서 생성/관리하는 고유 주문번호
+    //       name: '타시오 결제', // 주문명
+    //       amount: totalPayment, // 결제할 금액 (필수 항목)
+    //       buyer_email: '', // 주문자 ID (선택 항목)
+    //       buyer_name: '', // 주문자명 (선택항목)
+    //       buyer_tel: '010-8433-9772', // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+    //       buyer_addr: '', // 주문자 주소 (선택 항목)
+    //       buyer_postcode: '', // 주문자 우편 번호 (선택 항목)
+    //       custom_data: this.user.data.uid, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
+    //       m_redirect_url: `https://connector.tasio.io/tasio-288c5/us-central1/app/api/payment/put?site=${this.pageId}&start=${this.start}&end=${this.end}&startName=${this.options[this.start - 1].name}&endName=${this.options[this.end - 1].name}&count=${this.count}&minutes=${this.minutes}`
+    //   });
+    // },
 
     requestPay() {
 
@@ -1882,7 +1882,8 @@ export default {
             ordinary : this.ordinary,
             station_seq : this.station_seq,
           },
-          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start}&end=${this.end}&passenger=${this.count}&vehicle_id=${this.vehicle_id}`,
+          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?
+          site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.count}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
         }
         // (rsp) => {
         //     // callback
