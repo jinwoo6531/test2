@@ -3,15 +3,18 @@
     <div class="active-ticket" v-for="ticket in ticketList[0]" :key="ticket.reservation_seq">
       <div class="ticket-tit" v-bind:class="[{'ticket-tit':ticket.state===1}, {'deactive-ticket-tit':ticket.state===2}]">
         <p>{{ticket.date}}</p>
-        <p>{{ticket.ticketCount}}매</p>
+        <!-- <p>{{ticket.ticketCount}}매</p> -->
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
           <div class="ticket-main-tit" >
             <p v-bind:class="{'deactive-ticket-main-tit':ticket.state===2}"><span>{{ticket.station_name}}</span> &#9;<span>{{ticket.schedule_time}}</span></p>
           </div>
-          {{ticket.adultCount}}<br>
-          {{ticket.childCount}}
+          <div class="count-info">
+          일반 {{ticket.adult_num}}명<br>
+         청소년/어린이 {{ticket.child_num}}명<br>
+         유아{{ticket.baby_num}}명
+          </div>
         </div>
         <p class="stamp" @click="stampClicked(ticket.reservation_seq)">
           <img v-if="ticket.state===1" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 import axios from 'axios';
 export default {
   name: "ticket",
@@ -40,14 +44,19 @@ export default {
     stationNo:0,
     station_name:"",
     schedule_time:"",
-    adultCount:'',
-    childCount:'',
-    babyCount:'',
-    ticketList: [],
-      
+    adult_num:'',
+    child_num:'',
+    baby_num:'',
+    ticketList: [],   
   }),
+  computed: {
+    ...mapGetters({
+      user: "user",
+    }),
+    ...mapState(["uid"]),
+  },
   created(){
-    this.getTicketInfo();
+    this.getTicketInfo()
   },
   methods:{
     getTicketInfo(){
@@ -62,11 +71,14 @@ export default {
                     console.log(error);
                 })
     },
+    //티켓 정보 받아오는 api
       stampClicked(ticketId){
         const findItem=this.ticketList.find(ticket=>ticket.reservation_seq===ticketId)
         findItem.state=2;   
       }
+      //탑승권 승차 확인 클릭 시
   }
+  
 };
 </script>
 
@@ -116,12 +128,15 @@ export default {
   color:  #E61773;
   font-weight: 500;
   padding-bottom: 20px;
+  margin-top: -10px;
 }
 .deactive-ticket-main-tit{
     color: #555;
     font-weight: 500;
 }
-
+.count-info{
+  font-size: 14px;
+}
 .stamp {
   display: flex;
   flex-direction: column;
