@@ -1,21 +1,21 @@
 <template>
   <div id="ticket">
     <div class="active-ticket" v-for="ticket in ticketList" :key="ticket.id">
-      <div class="ticket-tit" v-bind:class="[{'ticket-tit':isActive}, {'deactive-ticket-tit':!isActive}]">
+      <div class="ticket-tit" v-bind:class="[{'ticket-tit':ticket.isActive}, {'deactive-ticket-tit':!ticket.isActive}]">
         <p>{{ticket.date}}</p>
         <p>{{ticket.ticketCount}}매</p>
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
           <div class="ticket-main-tit" >
-            <p v-bind:class="{'deactive-ticket-main-tit':!isActive}"><span>{{ticket.siteName}}</span> &#9;<span>{{ticket.reserveTime}}</span></p>
+            <p v-bind:class="{'deactive-ticket-main-tit':!ticket.isActive}"><span>{{ticket.siteName}}</span> &#9;<span>{{ticket.reserveTime}}</span></p>
           </div>
           {{ticket.adultCount}}<br>
           {{ticket.childCount}}
         </div>
         <p class="stamp" @click="stampClicked(ticket.id)">
-          <img v-if="isActive===true" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
-          <img v-else src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
+          <img v-if="ticket.isActive===true" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
+          <img v-else-if="ticket.isActive===false" src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
         </p>
       </div>
     </div>
@@ -74,9 +74,9 @@ export default {
   }),
   methods:{
       stampClicked(ticketId){
-        const filterItem=this.ticketList.filter(ticket=>ticket.id!==ticketId)
-        filterItem.isActive=true;
-         console.log(filterItem)        
+        const findItem=this.ticketList.find(ticket=>ticket.id===ticketId)
+        findItem.isActive=false;
+         console.log(findItem.isActive)        
       }
   }
   //function need to be fixed
