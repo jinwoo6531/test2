@@ -5,7 +5,7 @@
       <img
         src="../assets/check-icon.svg"
         width="46"
-        v-if="$route.query.paystate === '1'"
+        v-if="$route.query.paystate === '0'"
       />
       <img src="../assets/warning.svg" width="46" v-else />
     </v-col>
@@ -13,12 +13,12 @@
       <p
         class="page-title"
         style="padding-top: 30px; font-size: 20px"
-        v-if="paystate === '1'"
+        v-if="paystate === '0'"
       >
         승차권 예약이 완료 되었습니다!
       </p>
       <p class="page-title" style="padding-top: 30px; font-size: 20px" v-else>
-        승차권 예약이 취소 되었습니다
+        승차권 결제가 취소 되었습니다
       </p>
       <p class="complete-content" style="padding-top: 30px; font-size: 16px">
         승차권 확인은 메뉴의<br />
@@ -83,16 +83,11 @@ export default {
 
   methods: {
     goToChkReservation() {
-      if (this.paystate === "1") {
+      if (this.paystate === "0") {
         this.$router.replace({
           name: "Ticket",
           query: {
-            site: this.site,
-            start: this.start,
-            end: this.end,
-            count: this.count,
-            minutes: this.minutes,
-            vehicle_id: this.$route.query.vehicle_id,
+
           },
         });
       } else {
