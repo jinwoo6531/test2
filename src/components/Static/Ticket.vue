@@ -1,53 +1,81 @@
 <template>
   <div id="ticket">
-    <div class="active-ticket" v-for="ticket in ticketList[0]" :key="ticket.reservation_seq">
-      <div class="ticket-tit" v-bind:class="[{'ticket-tit':ticket.state===1}, {'deactive-ticket-tit':ticket.state===2}]">
-        <p>{{ticket.date}}</p>
-        <p>{{ticket.adult_num+ticket.child_num+ticket.baby_num}}매</p>
+    <div
+      class="active-ticket"
+      v-for="ticket in ticketList[0]"
+      :key="ticket.reservation_seq"
+    >
+      <div
+        class="ticket-tit"
+        v-bind:class="[
+          { 'ticket-tit': ticket.state === 1 },
+          { 'deactive-ticket-tit': ticket.state === 2 },
+        ]"
+      >
+        <p>{{ ticket.date }}</p>
+        <p>{{ ticket.adult_num + ticket.child_num + ticket.baby_num }}매</p>
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
-          <div class="ticket-main-tit" >
-            <p v-bind:class="{'deactive-ticket-main-tit':ticket.state===2}"><span>{{ticket.station_name}}</span> &#9;<span>{{ticket.schedule_time}}</span></p>
+          <div class="ticket-main-tit">
+            <p
+              v-bind:class="{
+                'deactive-ticket-main-tit': ticket.state === 2,
+              }"
+            >
+              <span>{{ ticket.station_name }}</span> &#9;<span>{{
+                ticket.schedule_time
+              }}</span>
+            </p>
           </div>
           <div class="count-info">
-          일반 {{ticket.adult_num}}명<br>
-         청소년/어린이 {{ticket.child_num}}명<br>
-         유아{{ticket.baby_num}}명
+            일반 {{ ticket.adult_num }}명<br />
+            청소년/어린이 {{ ticket.child_num }}명<br />
+            유아{{ ticket.baby_num }}명
           </div>
         </div>
         <p class="stamp" @click="stampClicked(ticket.reservation_seq)">
-          <img v-if="ticket.state===1" src="../../assets/ticket_active_stamp.png" alt="Tasio Stamp" />
-          <img v-else-if="ticket.state===2" src='../../assets/deactive_stamp.png' alt="Tasio Stamp" />
+          <img
+            v-if="ticket.state === 1"
+            src="../../assets/ticket_active_stamp.png"
+            alt="Tasio Stamp"
+          />
+          <img
+            v-else-if="ticket.state === 2"
+            src="../../assets/deactive_stamp.png"
+            alt="Tasio Stamp"
+          />
         </p>
       </div>
     </div>
     <v-footer class="copyrightStyle">
-      <span>결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
-        승차권은 탑승일 일주일 이후 삭제됩니다.</span>    
+      <span
+        >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
+        승차권은 탑승일 일주일 이후 삭제됩니다.</span
+      >
     </v-footer>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import axios from 'axios';
+import axios from "axios";
 export default {
   name: "ticket",
 
   data: () => ({
-    date:'',
-    ticketCount:0,
-    reservation_seq:0,
-    state:0,
-    ordinalNo:0,
-    stationNo:0,
-    station_name:"",
-    schedule_time:"",
-    adult_num:'',
-    child_num:'',
-    baby_num:'',
-    ticketList: [],   
+    date: "",
+    ticketCount: 0,
+    reservation_seq: 0,
+    state: 0,
+    ordinalNo: 0,
+    stationNo: 0,
+    station_name: "",
+    schedule_time: "",
+    adult_num: "",
+    child_num: "",
+    baby_num: "",
+    ticketList: [],
   }),
   computed: {
     ...mapGetters({
@@ -55,42 +83,48 @@ export default {
     }),
     ...mapState(["uid"]),
   },
-  created(){
-    this.getTicketInfo()
+  created() {
+    this.getTicketInfo();
   },
-  methods:{
-    getTicketInfo(){
-      console.log('uid',this.uid)
-      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/`
-       ,{params:{
-          userid: this.uid
-        }}
-      )
-    
-      .then(res=>
-       { 
-         this.ticketList.push(res.data)
-         console.log('this ticket', this.ticketList)
-        },
-      )
-      .catch(error => {
+  methods: {
+    getTicketInfo() {
+      console.log("uid", this.uid);
+      axios
+        .get(
+          `https://sgapi.springgo.io/api/reservations/reservations/user-reservation/`,
+          {
+            params: {
+              userid: this.uid,
+            },
+          }
+        )
+
+        .then((res) => {
+          this.ticketList.push(res.data);
+          this.ticketList.sort(function (a, b) {
+            return a.schedule_time < b.schedule_time ? -1 : 1;
+          });
+          
+          console.log("this ticket", this.ticketList);
+        })
+        .catch((error) => {
           console.log(error);
-      })
+        });
     },
     //티켓 정보 받아오는 api
-      stampClicked(ticketId){
-        console.log('ticketId',ticketId)
-        let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
-        findItem.state=2;   
-      }
-      //탑승권 승차 확인 클릭 시
-  }
-  
+    stampClicked(ticketId) {
+      console.log("ticketId", ticketId);
+      let findItem = this.ticketList[0].find(
+        (ticket) => ticket.reservation_seq === ticketId
+      );
+      findItem.state = 2;
+    },
+    //탑승권 승차 확인 클릭 시
+  },
 };
 </script>
 
 <style>
-
 #ticket {
   font-family: Noto Sans KR;
   width: 100%;
@@ -108,62 +142,60 @@ export default {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  height:35px ;
-  background-color: #E61773;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    color: #fff;
-    padding: 5px 20px;
-    box-sizing: border-box;
+  height: 35px;
+  background-color: #e61773;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  color: #fff;
+  padding: 5px 20px;
+  box-sizing: border-box;
 }
-.deactive-ticket-tit{
-    background-color: #999;
+.deactive-ticket-tit {
+  background-color: #999;
 }
 .ticket-main {
   display: flex;
   justify-content: space-between;
-  position:relative;
+  position: relative;
   margin: 20px;
-  
 }
-.ticket-main-txt p{
-    margin-bottom: -5px;
-    font-size: 13px;
+.ticket-main-txt p {
+  margin-bottom: -5px;
+  font-size: 13px;
 }
-.ticket-main-tit {  
+.ticket-main-tit {
   display: flex;
-  color:  #E61773;
+  color: #e61773;
   font-weight: 500;
   padding-bottom: 20px;
   margin-top: -10px;
 }
-.deactive-ticket-main-tit{
-    color: #555;
-    font-weight: 500;
+.deactive-ticket-main-tit {
+  color: #555;
+  font-weight: 500;
 }
-.count-info{
+.count-info {
   font-size: 14px;
 }
 .stamp {
   display: flex;
   flex-direction: column;
-  position:absolute;
+  position: absolute;
   top: 50%;
   right: 0;
   transform: translateY(-50%);
 }
-.stamp span{
-    color:  #E61773;
-    font-size: 14px;
-    font-weight: 500;
+.stamp span {
+  color: #e61773;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.copyrightStyle{
-  width: 100%;   
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translate(-50%, 0%);
+.copyrightStyle {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translate(-50%, 0%);
 }
-
 </style>
