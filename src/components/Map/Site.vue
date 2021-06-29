@@ -106,9 +106,7 @@
                     :ripple="false"
                   >
                     <img src="../../assets/person-count.svg" />
-                    <span
-                      v-if="totalCount >= 1"
-                      style="padding-left: 12px"
+                    <span v-if="totalCount >= 1" style="padding-left: 12px"
                       >탑승인원 {{ totalCount }}명</span
                     >
                     <span
@@ -457,20 +455,24 @@
                     @click="start_station_popup = !start_station_popup"
                     >선택하기</v-btn
                   >
-                  <v-btn
-                    class="pa-3 ma-3"
+                  <v-card-text
+                    class="pa-4"
                     tile
                     depressed
                     v-if="ok"
                     style="
-                      color: #fff;                      
+                      color: #fff;
+                      text-align: center;
                       backgroundColor: #e61773;
-                      border-top: 1px solid #e61773;
                       font-weight: 600;
                     "
                   >
-                    이미 지난 회차는 선택할 수 없습니다.</v-btn
+                    이미 지난 회차는 선택할 수 없습니다.</v-card-text
                   >
+                  <v-card-text class="pa-12 ma-1" v-else>
+                    <span style="color: #e61773;">원하시는 시간을 선택해 주세요.</span
+                    >
+                  </v-card-text>
                 </v-card-actions>
               </v-card>
             </v-overlay>
@@ -738,8 +740,8 @@ export default {
     childList: false,
     adultList: false,
     // 회차, 정류장 1부터 시작
-    ordinary : 0,
-    station_seq : 0,
+    ordinary: 0,
+    station_seq: 0,
     test: 0,
     babyCount: 0,
     adultCount: 0,
@@ -1080,7 +1082,7 @@ export default {
     start() {
       console.log("start changed", this.start);
 
-      this.station_seq = this.start.id
+      this.station_seq = this.start.id;
 
       start_icon = this.stationPicker(this.start, this.startIcon, start_icon);
 
@@ -1633,7 +1635,6 @@ export default {
 
     // 회차 선택
     selectRoundingBtn(item, index) {
-
       this.hour = this.timestamp.getHours();
       this.min = this.timestamp.getMinutes();
 
@@ -1821,23 +1822,22 @@ export default {
     // },
 
     requestPay() {
+      console.log("this.user.data.uid :", this.user.data.uid);
+      console.log("this.adultCount :", this.adultCount);
+      console.log("this.childCount :", this.childCount);
+      console.log("this.babyCount :", this.babyCount);
+      console.log("this.ordinary :", this.ordinary);
+      console.log("this.station_seq :", this.station_seq);
 
-      console.log('this.user.data.uid :', this.user.data.uid)
-      console.log('this.adultCount :', this.adultCount)
-      console.log('this.childCount :', this.childCount)
-      console.log('this.babyCount :', this.babyCount)
-      console.log('this.ordinary :', this.ordinary)
-      console.log('this.station_seq :', this.station_seq)
-
-      console.log('this.siteId :', this.siteId)
-      console.log('this.start.id :', this.start.id)
-      console.log('this.end.id:', this.end.id)
-      console.log('this.start.name :', this.start.name)
-      console.log('this.start.points_idx :', this.start.points_idx)
-      console.log('this.end.points_idx :', this.end.points_idx)
-      console.log('this.count:', this.count)
-      console.log('this.minutes :', this.minutes)
-      console.log('this.vehicle_id :', this.vehicle_id)
+      console.log("this.siteId :", this.siteId);
+      console.log("this.start.id :", this.start.id);
+      console.log("this.end.id:", this.end.id);
+      console.log("this.start.name :", this.start.name);
+      console.log("this.start.points_idx :", this.start.points_idx);
+      console.log("this.end.points_idx :", this.end.points_idx);
+      console.log("this.count:", this.count);
+      console.log("this.minutes :", this.minutes);
+      console.log("this.vehicle_id :", this.vehicle_id);
 
       // 아임포트 객체
       const IMP = window.IMP;
@@ -1864,8 +1864,8 @@ export default {
             adult_count: this.adultCount,
             child_count: this.childCount,
             baby_count: this.babyCount,
-            ordinary : this.ordinary,
-            station_seq : this.station_seq,
+            ordinary: this.ordinary,
+            station_seq: this.station_seq,
           },
           m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
         }
