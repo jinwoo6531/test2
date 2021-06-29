@@ -332,8 +332,8 @@ export default {
     line-height: 14px;
     color: #bdbdbd !important;
     background: transparent !important;
-    position: absolute;
-    bottom: 0;
+    /* position: absolute;
+    bottom: 0; */
 }
 
 .map-container {

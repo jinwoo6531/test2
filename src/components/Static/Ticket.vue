@@ -3,7 +3,7 @@
     <div class="active-ticket" v-for="ticket in ticketList[0]" :key="ticket.reservation_seq">
       <div class="ticket-tit" v-bind:class="[{'ticket-tit':ticket.state===1}, {'deactive-ticket-tit':ticket.state===2}]">
         <p>{{ticket.date}}</p>
-        <!-- <p>{{ticket.ticketCount}}매</p> -->
+        <p>{{ticket.adult_num+ticket.child_num+ticket.baby_num}}매</p>
       </div>
       <div class="ticket-main">
         <div class="ticket-main-txt">
@@ -22,7 +22,7 @@
         </p>
       </div>
     </div>
-    <v-footer class="copyrightStyle nav-footer justify-left pa-0">
+    <v-footer class="copyrightStyle">
       <span>결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
         승차권은 탑승일 일주일 이후 삭제됩니다.</span>    
     </v-footer>
@@ -60,21 +60,27 @@ export default {
   },
   methods:{
     getTicketInfo(){
-      console.log(this.uid)
-      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/?userid=${this.uid}`)
+      console.log('uid',this.uid)
+      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/`
+       ,{params:{
+          userid: this.uid
+        }}
+      )
+    
       .then(res=>
        { 
          this.ticketList.push(res.data)
          console.log('this ticket', this.ticketList)
-        }
+        },
       )
       .catch(error => {
-                    console.log(error);
-                })
+          console.log(error);
+      })
     },
     //티켓 정보 받아오는 api
       stampClicked(ticketId){
-        const findItem=this.ticketList.find(ticket=>ticket.reservation_seq===ticketId)
+        console.log('ticketId',ticketId)
+        let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
         findItem.state=2;   
       }
       //탑승권 승차 확인 클릭 시
@@ -152,7 +158,8 @@ export default {
     font-weight: 500;
 }
 
-.copyrightStyle{   
+.copyrightStyle{
+  width: 100%;   
     position: absolute;
     left: 50%;
     bottom: 20px;

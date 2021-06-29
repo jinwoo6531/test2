@@ -183,5 +183,7 @@ button:focus {
     background: transparent !important;
     position: absolute;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 </style>

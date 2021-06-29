@@ -385,6 +385,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+
 .v-badge__badge {
     border-radius: 7px !important;
 }
@@ -426,7 +427,6 @@ export default {
     width: 100%;
     height: 100%;
 }
-
 .copyrightStyle {
     font-family: Roboto !important;
     font-style: normal !important;
@@ -435,5 +435,8 @@ export default {
     line-height: 14px;
     color: #bdbdbd !important;
     background: transparent !important;
+    position: relative;
+    bottom: 0px;
+    left:0; 
 }
 </style>
