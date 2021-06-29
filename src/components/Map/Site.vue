@@ -458,14 +458,15 @@
                     >선택하기</v-btn
                   >
                   <v-btn
-                    class="pa-2 ma-1"
+                    class="pa-3 ma-3"
                     tile
                     depressed
                     v-if="ok"
                     style="
-                      color: #e61773;
-                      backgroundColor: #fff;
-                      border-top: 0.5px solid #e61773;
+                      color: #fff;                      
+                      backgroundColor: #e61773;
+                      border-top: 1px solid #e61773;
+                      font-weight: 600;
                     "
                   >
                     이미 지난 회차는 선택할 수 없습니다.</v-btn
