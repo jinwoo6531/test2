@@ -74,14 +74,14 @@ export default {
         },
       )
       .catch(error => {
-          console.log(error);
+          console.log(error)
       })
     },
     //티켓 정보 받아오는 api
       stampClicked(ticketId){
         console.log('ticketId',ticketId)
         let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
-        findItem.state=2;   
+        findItem.state=2   
       }
       //탑승권 승차 확인 클릭 시
   }

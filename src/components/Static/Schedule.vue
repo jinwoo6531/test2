@@ -150,7 +150,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 *{
   border-collapse: collapse;
 }
@@ -235,9 +235,11 @@ table .th-title {
  
 }
 .copyrightStyle span{
+  display: block;
+  width: 100%;
   position:absolute;
-     left: 50%;
-    bottom: 60px; 
-    transform: translate(-50%);
+    left: 50%;
+    bottom: 0px; 
+    transform: translateX(-50%);
 }
 </style>
