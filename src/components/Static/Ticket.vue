@@ -4,6 +4,7 @@
       class="active-ticket"
       v-for="ticket in ticketList[0]"
       :key="ticket.reservation_seq"
+      :v-if="ticket.length >0"
     >
       <div
         class="ticket-tit"
@@ -47,6 +48,11 @@
           />
         </p>
       </div>
+    </div>
+    <div class="no-ticket" v-if='ticketList.length===0'>
+      <p>
+        승차권이 없습니다. 다시 한번 확인해주세요.
+      </p>
     </div>
     <v-footer class="copyrightStyle">
       <span
@@ -110,8 +116,9 @@ export default {
         console.log('ticketId',ticketId)
         let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
         findItem.state=2   
-      }
+      },
       //탑승권 승차 확인 클릭 시
+
   }
   
 };
@@ -123,6 +130,13 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+}
+.no-ticket{
+  color: #e61773;
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .active-ticket {
   width: 340px;
