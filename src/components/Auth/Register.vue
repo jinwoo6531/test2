@@ -80,6 +80,7 @@
 <script>
 import { mapGetters } from "vuex";
 import axios from "axios";
+var qs = require("qs");
 
 export default {
   data: () => ({
@@ -167,6 +168,8 @@ export default {
       }
 
       uid = this.user.data.uid;
+
+      // 파이어베이스에 저장
       this.$firebase.firestore().collection("users").doc(uid).set({
         uid: this.user.data.uid,
         phoneNumber: this.user.data.phoneNumber,
@@ -179,11 +182,7 @@ export default {
 
       this.user.data.displayName = this.form.name;
 
-      this.form.name = "";
-      this.form.email = "";
-      this.form.gender = "";
-      this.form.birth = "";
-
+      // 장고에 저장
       this.get();
 
       // 환영합니다 페이지로 이동
@@ -200,7 +199,13 @@ export default {
     },
 
     async get() {
-      console.log("this.user.data.uid: ", this.user.data.uid);
+      
+      console.log("userid : ", this.user.data.uid);
+      console.log("name : ", this.form.name);
+      console.log("phone : ", this.user.data.phoneNumber);
+      console.log("gender : ", this.form.gender);
+      console.log("birth : ", this.form.birth);
+      console.log("email : ", this.form.email);
 
       // 파이어베이스 유저 데이터
       await axios
@@ -219,14 +224,14 @@ export default {
             headers: {
               "content-type": "application/x-www-form-urlencoded",
             },
-            data: {
-              userid: response.data.uid,
-              name: response.data.displayName,
-              phone: response.data.phoneNumber,
-              gender: response.data.gender,
-              birth: response.data.birth,
-              email: response.data.uid.email,
-            },
+            data: qs.stringify({
+              userid: this.user.data.uid,
+              name: this.form.name,
+              phone: this.user.data.phoneNumber,
+              gender: this.form.gender,
+              birth: this.form.birth,
+              email: this.form.email,
+            }),
           })
             .then((response) => {
               console.log("장고에 유저 데이터 추가 성공", response);
@@ -234,6 +239,11 @@ export default {
             .catch((error) => {
               console.log("장고에 유저 데이터 추가 실패", error);
             });
+
+            this.form.name = "";
+            this.form.email = "";
+            this.form.gender = "";
+            this.form.birth = "";
         })
         .catch((error) => {
           console.log("firebase user read error: ", error);

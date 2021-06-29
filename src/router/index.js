@@ -28,7 +28,7 @@ const requireAuth = () => (to, from, next) => {
 
   // 인증 유무에 따른 진입 페이지 지정
   firebase.auth().onAuthStateChanged((user) => {
-    if (user.uid == null) {
+    if ( user == null || user.uid == null) {
       return next('/walkthrough')
     } else {
       return next()

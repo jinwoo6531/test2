@@ -969,7 +969,14 @@ export default {
               this.user.data.uid
           )
           .then(() => {
-            this.$router.replace("/goodbye");
+            axios
+              .delete(
+                "https://sgapi.springgo.io/api/reservations/appusers/" +
+                  this.user.data.uid
+              )
+              .then(() => {
+                this.$router.replace("/goodbye");
+              });
           });
       } else {
         this.$toasted
