@@ -109,12 +109,10 @@
                     <span
                       v-if="totalCount >= 1"
                       style="padding-left: 12px"
-                      @click="selectPerson"
                       >탑승인원 {{ totalCount }}명</span
                     >
                     <span
                       v-else
-                      @click="beforeSelectPerson"
                       style="
                         color: #262626;
                         padding-left: 12px;
@@ -1436,29 +1434,6 @@ export default {
       return vehicle_arr;
     },
 
-    //탑승인원
-    selectPerson() {
-      if (this.count < 0) {
-        this.isDisabled_baby_plus = true;
-      } else {
-        this.isDisabled_baby_plus = false;
-      }
-
-      if (this.count >= 14) {
-        this.isDisabled_baby_minus = true;
-      } else {
-        this.isDisabled_baby_minus = false;
-      }
-    },
-
-    async beforeSelectPerson() {
-      if (this.count == 0) {
-        this.count = 0;
-        this.isDisabled_baby_plus = true;
-        this.isDisabled_baby_minus = false;
-      }
-    },
-
     // 인원수 선택 모달 창 닫기 버튼 기능
     closePersonDialog() {
       this.dialog = false;
@@ -1625,9 +1600,6 @@ export default {
       var username = "admin@aspringcloud.com";
       var password = "spring#007";
 
-      this.hour = this.timestamp.getHours();
-      this.min = this.timestamp.getMinutes();
-
       axios
         .get("https://sgapi.springgo.io/api/reservations/rounds/", {
           headers: {
@@ -1654,21 +1626,23 @@ export default {
             this.timeTable.push(round_result[i].time_start.substring(0, 5));
           }
           console.log("timeTable:", this.timeTable);
-
-          this.hour = this.hour.toString();
-          this.min = this.min.toString();
-
-          this.hour < 10 ? (this.hour = "0" + this.hour) : this.hour;
-          this.min < 10 ? (this.min = "0" + this.min) : this.min;
-
-          console.log("timeTablereplace:", this.timeTable[0].replace(":", ""));
-          console.log("realTimereplace:", this.hour + this.min);
         })
         .catch((error) => console.log("error", error));
     },
 
     // 회차 선택
     selectRoundingBtn(item, index) {
+
+      this.hour = this.timestamp.getHours();
+      this.min = this.timestamp.getMinutes();
+
+      this.hour = this.hour.toString();
+      this.min = this.min.toString();
+
+      this.hour < 10 ? (this.hour = "0" + this.hour) : this.hour;
+      this.min < 10 ? (this.min = "0" + this.min) : this.min;
+
+      console.log("realTimereplace:", this.hour + this.min);
 
       console.log("item :", item);
       console.log("index :", index);
