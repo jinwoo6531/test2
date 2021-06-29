@@ -96,7 +96,7 @@ export default {
   }),
 
   created() {
-    this.get();
+    //this.get();
   },
 
   computed: {
@@ -184,6 +184,8 @@ export default {
       this.form.gender = "";
       this.form.birth = "";
 
+      this.get();
+
       // 환영합니다 페이지로 이동
       // Android에서 넘겨준 파라미터 값을 함께 전달해준다.
       this.$router.replace({
@@ -195,15 +197,47 @@ export default {
           token: this.token,
         },
       });
-
-      this.get();
     },
 
     async get() {
-      await axios.get(
-        "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/" +
-          this.user.data.uid
-      );
+      console.log("this.user.data.uid: ", this.user.data.uid);
+
+      // 파이어베이스 유저 데이터
+      await axios
+        .get(
+          "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/" +
+            this.user.data.uid
+        )
+        .then((response) => {
+
+          console.log("response: ", response);
+
+          // 우리쪽 장고에 저장
+          axios({
+            url: "https://sgapi.springgo.io/api/reservations/appusers/",
+            method: "post",
+            headers: {
+              "content-type": "application/x-www-form-urlencoded",
+            },
+            data: {
+              userid: response.data.uid,
+              name: response.data.displayName,
+              phone: response.data.phoneNumber,
+              gender: response.data.gender,
+              birth: response.data.birth,
+              email: response.data.uid.email,
+            },
+          })
+            .then((response) => {
+              console.log("장고에 유저 데이터 추가 성공", response);
+            })
+            .catch((error) => {
+              console.log("장고에 유저 데이터 추가 실패", error);
+            });
+        })
+        .catch((error) => {
+          console.log("firebase user read error: ", error);
+        });
     },
   },
 };

@@ -924,6 +924,13 @@ export default {
       user: "user",
     }),
 
+    getPhoneNumber() {
+      let start = String(this.user.data.phoneNumber).substring(3, 5);
+      let mid = String(this.user.data.phoneNumber).substring(5, 9);
+      let end = String(this.user.data.phoneNumber).substring(9, 13);
+      return "0" + start + "-" + mid + "-" + end;
+    },
+
     totalPayment() {
       let num =
         1500 * this.adultCount + 1050 * this.childCount + 0 * this.babyCount;
@@ -1822,22 +1829,25 @@ export default {
     // },
 
     requestPay() {
-      console.log("this.user.data.uid :", this.user.data.uid);
-      console.log("this.adultCount :", this.adultCount);
-      console.log("this.childCount :", this.childCount);
-      console.log("this.babyCount :", this.babyCount);
-      console.log("this.ordinary :", this.ordinary);
-      console.log("this.station_seq :", this.station_seq);
 
-      console.log("this.siteId :", this.siteId);
-      console.log("this.start.id :", this.start.id);
-      console.log("this.end.id:", this.end.id);
-      console.log("this.start.name :", this.start.name);
-      console.log("this.start.points_idx :", this.start.points_idx);
-      console.log("this.end.points_idx :", this.end.points_idx);
-      console.log("this.count:", this.count);
-      console.log("this.minutes :", this.minutes);
-      console.log("this.vehicle_id :", this.vehicle_id);
+      console.log('this.user.data.phoneNumber :', this.user.data.phoneNumber)
+
+      console.log('this.user.data.uid :', this.user.data.uid)
+      console.log('this.adultCount :', this.adultCount)
+      console.log('this.childCount :', this.childCount)
+      console.log('this.babyCount :', this.babyCount)
+      console.log('this.ordinary :', this.ordinary)
+      console.log('this.station_seq :', this.station_seq)
+
+      console.log('this.siteId :', this.siteId)
+      console.log('this.start.id :', this.start.id)
+      console.log('this.end.id:', this.end.id)
+      console.log('this.start.name :', this.start.name)
+      console.log('this.start.points_idx :', this.start.points_idx)
+      console.log('this.end.points_idx :', this.end.points_idx)
+      console.log('this.count:', this.count)
+      console.log('this.minutes :', this.minutes)
+      console.log('this.vehicle_id :', this.vehicle_id)
 
       // 아임포트 객체
       const IMP = window.IMP;
@@ -1856,7 +1866,7 @@ export default {
           amount: this.totalPayment, // 결제할 금액 (필수 항목)
           buyer_email: "", // 주문자 ID (선택 항목)
           buyer_name: "", // 주문자명 (선택항목)
-          buyer_tel: "010-7791-1383", // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
+          buyer_tel: this.getPhoneNumber, // 주문자 연락처 (필수 항목) 누락되거나 blank일 때 일부 PG사에서 오류 발생
           buyer_addr: "", // 주문자 주소 (선택 항목)
           buyer_postcode: "", // 주문자 우편 번호 (선택 항목)
           custom_data: {
