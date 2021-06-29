@@ -324,18 +324,6 @@ export default {
     font-size: 14px !important;
 }
 
-.copyrightStyle {
-    font-family: Roboto !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 10px !important;
-    line-height: 14px;
-    color: #bdbdbd !important;
-    background: transparent !important;
-    /* position: absolute;
-    bottom: 0; */
-}
-
 .map-container {
     position: absolute;
     left: 0;
@@ -456,6 +444,24 @@ export default {
     position: absolute;
     opacity: 0;
     animation: scaleIn 4s infinite cubic-bezier(0.36, 0.11, 0.89, 0.32);
+}
+.copyrightStyle {
+    font-family: Roboto !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 10px !important;
+    line-height: 14px;
+    color: #bdbdbd !important;
+    background: transparent !important;
+   position: relative;
+}
+.copyrightStyle span{
+  display: inline-flex;
+  width: 100%;
+  position:absolute;
+    left: 50%;
+    top:100%; 
+    transform: translateX(-50%);
 }
 
 @keyframes scaleIn {

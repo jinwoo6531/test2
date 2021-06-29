@@ -86,41 +86,34 @@ export default {
   created() {
     this.getTicketInfo();
   },
-  methods: {
-    getTicketInfo() {
-      console.log("uid", this.uid);
-      axios
-        .get(
-          `https://sgapi.springgo.io/api/reservations/reservations/user-reservation/`,
-          {
-            params: {
-              userid: this.uid,
-            },
-          }
-        )
-
-        .then((res) => {
-          this.ticketList.push(res.data);
-          this.ticketList.sort(function (a, b) {
-            return a.schedule_time < b.schedule_time ? -1 : 1;
-          });
-          
-          console.log("this ticket", this.ticketList);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  methods:{
+    getTicketInfo(){
+      console.log('uid',this.uid)
+      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/`
+       ,{params:{
+          userid: this.uid
+        }}
+      )
+    
+      .then(res=>
+       { 
+         this.ticketList.push(res.data)
+         console.log('this ticket', this.ticketList)
+        },
+      )
+      .catch(error => {
+          console.log(error)
+      })
     },
     //티켓 정보 받아오는 api
-    stampClicked(ticketId) {
-      console.log("ticketId", ticketId);
-      let findItem = this.ticketList[0].find(
-        (ticket) => ticket.reservation_seq === ticketId
-      );
-      findItem.state = 2;
-    },
-    //탑승권 승차 확인 클릭 시
-  },
+      stampClicked(ticketId){
+        console.log('ticketId',ticketId)
+        let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
+        findItem.state=2   
+      }
+      //탑승권 승차 확인 클릭 시
+  }
+  
 };
 </script>
 

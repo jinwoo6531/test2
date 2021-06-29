@@ -381,7 +381,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
@@ -436,7 +436,11 @@ export default {
     color: #bdbdbd !important;
     background: transparent !important;
     position: relative;
-    bottom: 0px;
-    left:0; 
+}
+.copyrightStyle span{
+  position:absolute;
+    left: 50%;
+    bottom: 0px; 
+    transform: translateX(-50%);
 }
 </style>
