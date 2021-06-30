@@ -139,10 +139,10 @@
         </v-flex>
       </v-layout>
     </v-container>
-     <v-footer class="copyrightStyle nav-footer pa-0">
+     <!-- <v-footer class="copyrightStyle nav-footer pa-0">
             <span>COPYRIGHT@SPRINGCLOUD INC. <br />
                     ALL RIGHTS RESERVED.</span>
-        </v-footer>
+        </v-footer> -->
   </div>
 </template>
 
@@ -155,6 +155,10 @@ export default {
 <style scoped>
 *{
   border-collapse: collapse;
+  
+}
+td{
+background-color: #fff;
 }
 .schedule-wrap {
   font-family: Noto Sans KR;
