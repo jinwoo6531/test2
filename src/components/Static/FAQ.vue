@@ -144,7 +144,7 @@ export default {
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 40px;
+    font-size: 30px;
     color: #262626 !important;
     padding: 12px 0 30px 0;
 }
@@ -161,6 +161,9 @@ export default {
     font-weight: normal;
     font-size: 12px;
     color: #888;
+}
+.v-expansion-panel-header{
+    font-size: 14px;
 }
 
 button:focus {

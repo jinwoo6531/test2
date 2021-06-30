@@ -181,12 +181,12 @@
         </v-list-item>
       </v-list>
 
-      <v-footer class="copyrightStyle nav-footer pa-0">
+  <!-- <footer class="copyrightStyle">
         <span>
           COPYRIGHT@SPRINGCLOUD INC.
           <br />ALL RIGHTS RESERVED.
         </span>
-      </v-footer>
+      </footer>-->
     </v-navigation-drawer>
 
     <!-- Main -->
@@ -450,7 +450,7 @@ export default {
     font-style: normal !important;
     font-weight: normal !important;
     font-size: 10px !important;
-    line-height: 14px;
+    /* line-height: 14px; */
     color: #bdbdbd !important;
     background: transparent !important;
    position: relative;

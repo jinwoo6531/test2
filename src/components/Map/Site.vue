@@ -469,7 +469,7 @@
                   >
                     이미 지난 회차는 선택할 수 없습니다.</v-card-text
                   >
-                  <v-card-text class="pa-12 ma-1" v-else>
+                  <v-card-text class="pa-3" v-else-if="!rule">
                     <span style="color: #e61773;">원하시는 시간을 선택해 주세요.</span
                     >
                   </v-card-text>
