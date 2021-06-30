@@ -121,8 +121,8 @@ export default {
          .catch(error => {
           console.log(error)
       })
-        let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
-        findItem.state=2   
+        // let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
+        // findItem.state=2   
       },
       //탑승권 승차 확인 클릭 시
 
