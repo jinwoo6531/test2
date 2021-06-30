@@ -51,14 +51,13 @@
     </div>
     <div class="no-ticket" v-if='ticketList.length===0'>
       <p>
-        승차권이 없습니다. 다시 한번 확인해주세요.
+        승차권이 없습니다.<br>다시 한번 확인해주세요.
       </p>
     </div>
     <v-footer class="copyrightStyle">
       <span
         >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
-        승차권은 탑승일 일주일 이후 삭제됩니다.</span
-      >
+        승차권은 탑승일 일주일 이후 삭제됩니다.</span>
     </v-footer>
   </div>
 </template>
@@ -95,7 +94,7 @@ export default {
   methods:{
     getTicketInfo(){
       console.log('uid',this.uid)
-      axios.get(`https://sgapi.springgo.io/api/reservations/reservations/user-reservation/`
+      axios.get(`https://test.aspringcloud.com/api/user-reservation/`
        ,{params:{
           userid: this.uid
         }}

@@ -147,7 +147,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name:'schedule'
+};
 </script>
 
 <style scoped>
