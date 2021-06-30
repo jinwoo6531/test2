@@ -1232,7 +1232,7 @@ export default {
                     imp_uid: this.user.data.uid,
                     count: this.count,
                 }, // import에서 제공하는 커스텀 데이터 변수에 useruid 를 담아서 보냄
-                m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${
+                m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${
                     this.pageId
                 }&siteName=${this.siteName}&start=${this.start}&end=${
                     this.end

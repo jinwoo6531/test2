@@ -219,7 +219,7 @@ export default {
 
           // 우리쪽 장고에 저장
           axios({
-            url: "https://sgapi.springgo.io/api/reservations/appusers/",
+            url: "https://test.aspringcloud.com/api/appusers/",
             method: "post",
             headers: {
               "content-type": "application/x-www-form-urlencoded",

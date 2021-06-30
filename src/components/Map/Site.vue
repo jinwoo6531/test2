@@ -1611,7 +1611,7 @@ export default {
       var password = "spring#007";
 
       axios
-        .get("https://sgapi.springgo.io/api/reservations/rounds/", {
+        .get("https://test.aspringcloud.com/api/rounds/", {
           headers: {
             Authorization: "Basic " + btoa(username + ":" + password),
           },
@@ -1877,7 +1877,7 @@ export default {
             ordinary: this.ordinary,
             station_seq: this.station_seq,
           },
-          m_redirect_url: `https://sgsapp.springgo.io:200/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
+          m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
         }
         // (rsp) => {
         //     // callback

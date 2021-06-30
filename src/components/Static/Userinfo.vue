@@ -971,7 +971,7 @@ export default {
           .then(() => {
             axios
               .delete(
-                "https://sgapi.springgo.io/api/reservations/appusers/" +
+                "https://test.aspringcloud.com/api/appusers/" +
                   this.user.data.uid
               )
               .then(() => {
