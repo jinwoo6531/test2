@@ -94,7 +94,7 @@ export default {
   methods:{
     getTicketInfo(){
       console.log('uid',this.uid)
-      axios.get(`https://test.aspringcloud.com/api/user-reservation/`
+      axios.get(`https://test.aspringcloud.com/api/reservations/user-reservation/`
        ,{params:{
           userid: this.uid
         }}
