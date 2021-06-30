@@ -94,7 +94,7 @@ export default {
   methods:{
     getTicketInfo(){
       console.log('uid',this.uid)
-      axios.get(`https://test.aspringcloud.com/api/user-reservation/`
+      axios.get(`https://test.aspringcloud.com/api/reservations/user-reservation/`
        ,{params:{
           userid: this.uid
         }}
@@ -113,6 +113,14 @@ export default {
     //티켓 정보 받아오는 api
       stampClicked(ticketId){
         console.log('ticketId',ticketId)
+        axios.put(`https://test.aspringcloud.com/api/reservations/${ticketId}/`,{
+          id:ticketId,
+          state:2
+        })
+        .then()
+         .catch(error => {
+          console.log(error)
+      })
         let findItem=this.ticketList[0].find(ticket=>ticket.reservation_seq===ticketId)
         findItem.state=2   
       },
