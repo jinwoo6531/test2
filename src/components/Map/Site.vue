@@ -1634,8 +1634,15 @@ export default {
         })
         .then((response) => {
           console.log("response :", response);
+          let busTestTime = {
+            id: 10,
+            time_start: "19:00:00",
+            orinary_count:10,
+            site: 2,
+          }
           
           let round_result = response.data.results;
+          round_result.push(busTestTime)
           
           let round_count = round_result.length;
 
