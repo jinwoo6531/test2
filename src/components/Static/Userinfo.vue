@@ -835,7 +835,7 @@ export default {
       this.watch1 = false;
 
       var check = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-      if (!check.test(this.email)) {
+      if ((!check.test(this.email))||(this.email.length>320)) {
         this.rules = "이메일 형식을 지켜주세요.";
         this.emaildialog = true;
       } else if (this.email == null) {

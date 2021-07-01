@@ -1170,6 +1170,7 @@ export default {
         //출발지 모달
         if (isStart) {
           this.start = picked;
+          this.destination_popup = true;
           this.start_station_popup = false;
           this.daegu_timetable_popup = false;
         }
