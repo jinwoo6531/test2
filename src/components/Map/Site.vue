@@ -470,7 +470,8 @@
                     이미 지난 회차는 선택할 수 없습니다.</v-card-text
                   >
                   <v-card-text class="pa-3" v-else-if="!rule">
-                    <span style="color: #e61773;">원하시는 시간을 선택해 주세요.</span
+                    <span style="color: #e61773"
+                      >원하시는 시간을 선택해 주세요.</span
                     >
                   </v-card-text>
                 </v-card-actions>
@@ -651,7 +652,10 @@
               >호출하기</v-btn
             >
           </v-flex> -->
-          <v-flex class="pa-0 mt-1" v-if="callBtn">
+          <v-flex
+            class="pa-0 mt-1"
+            v-if="(callBtn && adultCount > 0) || childCount > 0"
+          >
             <v-btn
               color="#E61773"
               tile
@@ -661,6 +665,20 @@
               height="50px"
               @click="requestPay"
               >{{ totalPayment }}원 결제하기</v-btn
+            >
+          </v-flex>
+          <v-flex
+            class="pa-0 mt-1"
+            v-if="callBtn && adultCount === 0 && childCount === 0"
+          >
+            <v-btn
+              color="#E61773"
+              tile
+              depressed
+              class="pa-0 call-dialog-btn"
+              width="100%"
+              height="50px"
+              >보호자와 함께 탑승해주세요.</v-btn
             >
           </v-flex>
         </v-flex>
@@ -952,10 +970,6 @@ export default {
   rideCount() {
     this.totalCount = this.babyCount + this.adultCount + this.childCount;
     this.dialog = false;
-    if (this.totalCount > 14) {
-      alert("초과입니다.");
-      return;
-    }
   },
 
   mounted() {
@@ -1618,14 +1632,9 @@ export default {
         })
         .then((response) => {
           console.log("response :", response);
-          let busTestTime = {
-            id: 10,
-            time_start: "19:00:00",
-            ordinary_count: 10,
-            site: 2,
-          };
+          
           let round_result = response.data.results;
-          round_result.push(busTestTime);
+          
           let round_count = round_result.length;
 
           round_result = round_result.sort(function (a, b) {
@@ -1829,25 +1838,24 @@ export default {
     // },
 
     requestPay() {
+      console.log("this.user.data.phoneNumber :", this.user.data.phoneNumber);
 
-      console.log('this.user.data.phoneNumber :', this.user.data.phoneNumber)
+      console.log("this.user.data.uid :", this.user.data.uid);
+      console.log("this.adultCount :", this.adultCount);
+      console.log("this.childCount :", this.childCount);
+      console.log("this.babyCount :", this.babyCount);
+      console.log("this.ordinary :", this.ordinary);
+      console.log("this.station_seq :", this.station_seq);
 
-      console.log('this.user.data.uid :', this.user.data.uid)
-      console.log('this.adultCount :', this.adultCount)
-      console.log('this.childCount :', this.childCount)
-      console.log('this.babyCount :', this.babyCount)
-      console.log('this.ordinary :', this.ordinary)
-      console.log('this.station_seq :', this.station_seq)
-
-      console.log('this.siteId :', this.siteId)
-      console.log('this.start.id :', this.start.id)
-      console.log('this.end.id:', this.end.id)
-      console.log('this.start.name :', this.start.name)
-      console.log('this.start.points_idx :', this.start.points_idx)
-      console.log('this.end.points_idx :', this.end.points_idx)
-      console.log('this.count:', this.count)
-      console.log('this.minutes :', this.minutes)
-      console.log('this.vehicle_id :', this.vehicle_id)
+      console.log("this.siteId :", this.siteId);
+      console.log("this.start.id :", this.start.id);
+      console.log("this.end.id:", this.end.id);
+      console.log("this.start.name :", this.start.name);
+      console.log("this.start.points_idx :", this.start.points_idx);
+      console.log("this.end.points_idx :", this.end.points_idx);
+      console.log("this.count:", this.count);
+      console.log("this.minutes :", this.minutes);
+      console.log("this.vehicle_id :", this.vehicle_id);
 
       // 아임포트 객체
       const IMP = window.IMP;
