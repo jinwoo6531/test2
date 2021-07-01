@@ -537,7 +537,7 @@
 
             <!-- 도착지 선택 모달 -->
             <v-overlay :z-index="zIndex" :value="destination_popup">
-              <v-card class="stationModal-card-wrap" color="#FFF">
+              <v-card class="stationModal-card-wrap; stationModal-card-size" color="#FFF">
                 <v-card-text class="pa-0 stationModal-card-title">
                   <span class="select-modal-btn">도착지</span>
                 </v-card-text>
@@ -548,7 +548,7 @@
                   tile
                   flat
                 >
-                  <v-list light tile style="padding: 8px 0 22px 0">
+                  <v-list light tile style="padding: 8px 0 22px 0; width: 100%">
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
