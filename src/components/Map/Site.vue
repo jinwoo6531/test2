@@ -667,6 +667,7 @@
               >{{ totalPayment }}원 결제하기</v-btn
             >
           </v-flex>
+          <!-- TEST수정 -->
           <v-flex
             class="pa-0 mt-1"
             v-if="callBtn && adultCount === 0 && childCount === 0"
