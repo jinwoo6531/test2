@@ -654,7 +654,7 @@
           </v-flex> -->
           <v-flex
             class="pa-0 mt-1"
-            v-if="(callBtn && adultCount > 0) || childCount > 0"
+            v-if="(callBtn && adultCount > 0) || childCount < 0"
           >
             <v-btn
               color="#E61773"
