@@ -217,6 +217,7 @@ export default {
 }
 .v-expansion-panel-header{
     font-size: 14px;
+    line-height: 130%;
 }
 
 button:focus {

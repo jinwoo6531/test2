@@ -46,7 +46,7 @@
 
         <v-list-item link to="/introduction" class="pa-0">
           <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title">타시오 소개</v-list-item-title>
+            <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">타시오 소개</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item class="boldMenu pa-0 mt-2">
@@ -54,14 +54,14 @@
             <v-list-item-title class="sidebar-menu-title">
               <v-list-item link to="/" class="pa-0">
                 <v-list-item-content class="pa-0">
-                  <v-list-item-title class="sidebar-menu-title">전체 지역보기</v-list-item-title>
+                  <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">전체 지역보기</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-title>
 
             <v-list-item link :to="{ name: 'Site', params: { siteId: 2 }}" class="ma-0">
               <v-list-item-content>
-                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;">
+                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;"  @click="closeSideMenu">
                   <!-- <v-badge
                     color="#E61773"
                     content="준비중"
@@ -77,7 +77,7 @@
 
             <v-list-item link :to="{ name: 'Site', params: { siteId: 18 }}" class="ma-0">
               <v-list-item-content>
-                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;">
+                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;"  @click="closeSideMenu">
                   세종 산학연클러스터 4-2
                 </v-list-item-title>
               </v-list-item-content>
@@ -130,6 +130,7 @@
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                             @click="closeSideMenu"
                         >
                             운행 시간표
                         </v-list-item-title>
@@ -144,6 +145,7 @@
                             >
                                 <v-list-item-title
                                      style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                      @click="closeSideMenu"
                                 >
                                     운임 안내
                                 </v-list-item-title>
@@ -158,6 +160,7 @@
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                    style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                    @click="closeSideMenu"
                                 >
                                     내 승차권 확인
                                 </v-list-item-title>
@@ -168,7 +171,7 @@
 
         <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                 <v-list-item-content class="pa-0">
-                    <v-list-item-title class="sidebar-menu-title">
+                    <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">
                         자주 묻는 질문
                     </v-list-item-title>
                 </v-list-item-content>
@@ -176,7 +179,7 @@
 
         <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
           <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title">서비스 정보</v-list-item-title>
+            <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">서비스 정보</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -240,6 +243,11 @@ export default {
             let mid = String(this.user.data.phoneNumber).substring(5, 9);
             let end = String(this.user.data.phoneNumber).substring(9, 13);
             return "0" + start + "-" + mid + "-" + end;
+        }
+    },
+    methods:{
+        closeSideMenu(){
+            this.drawer=false
         }
     }
 };

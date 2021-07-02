@@ -71,10 +71,11 @@
 
                 <v-divider class="mt-3 mb-2"></v-divider>
 
-                <v-list-item link to="/introduction" class="pa-0">
+                <v-list-item link to="/introduction" class="pa-0" >
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
                         >
                             타시오 소개
                         </v-list-item-title>
@@ -89,6 +90,7 @@
                                 <v-list-item-content class="pa-0">
                                     <v-list-item-title
                                         style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                         @click="closeSideMenu"
                                     >
                                         전체 지역보기
                                     </v-list-item-title>
@@ -104,6 +106,7 @@
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                     @click="closeSideMenu"
                                 >
                                     <!-- <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;"> -->
                                     대구 수성알파시티
@@ -120,6 +123,7 @@
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                     @click="closeSideMenu"
                                 >
                                     세종 산학연클러스터 4-2
                                 </v-list-item-title>
@@ -186,6 +190,7 @@
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                             @click="closeSideMenu"
                         >
                             운행 시간표
                         </v-list-item-title>
@@ -200,6 +205,7 @@
                             >
                                 <v-list-item-title
                                      style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                      @click="closeSideMenu"
                                 >
                                     운임 안내
                                 </v-list-item-title>
@@ -214,6 +220,7 @@
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                    style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                    @click="closeSideMenu"
                                 >
                                     내 승차권 확인
                                 </v-list-item-title>
@@ -226,6 +233,7 @@
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                             @click="closeSideMenu"
                         >
                             자주 묻는 질문
                         </v-list-item-title>
@@ -236,6 +244,7 @@
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                             @click="closeSideMenu"
                         >
                             서비스 정보
                         </v-list-item-title>
@@ -378,6 +387,11 @@ export default {
             return "0" + start + "-" + mid + "-" + end;
         },
     },
+    methods:{
+        closeSideMenu(){
+            this.drawer=false
+        }
+    }
 };
 </script>
 
