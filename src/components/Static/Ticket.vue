@@ -49,10 +49,12 @@
         </p>
       </div>
     </div>
-    <div class="no-ticket" v-if='ticketList.length===0'>
-      <p>
-        승차권이 없습니다.<br>다시 한번 확인해주세요.
-      </p>
+    <div class="no-ticket" v-if='ticketList.length===1'>
+      <h3>구매하신 승차권이 없어요</h3>
+        <img src="../../assets/no_ticket_02.svg"/> 
+      <p class="no-ticket-text" style="font-size:13px">구매하신 승차권이 없습니다.
+        <br/>이전 페이지나 메인으로 이동해주세요.</p>
+     
     </div>
     <v-footer class="copyrightStyle">
       <span
@@ -143,12 +145,22 @@ export default {
   height: 100%;
   position: relative;
 }
+.no-ticket-text{
+  color:#828282;
+  margin-top:100px;
+  text-align: center;
+  
+}
 .no-ticket{
-  color: #e61773;
-  position: absolute;
-  top:50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top:150px;
+ 
+}
+.no-ticket >h3{
+  margin-bottom: 50px
 }
 .active-ticket {
   width: 340px;
