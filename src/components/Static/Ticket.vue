@@ -49,7 +49,7 @@
         </p>
       </div>
     </div>
-    <div class="no-ticket" v-if='ticketList.length===1'>
+    <div class="no-ticket" v-if='ticketList[0].length===0'>
       <h3>구매하신 승차권이 없어요</h3>
         <img src="../../assets/no_ticket_02.svg"/> 
       <p class="no-ticket-text" style="font-size:13px">구매하신 승차권이 없습니다.
