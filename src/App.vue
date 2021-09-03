@@ -46,15 +46,15 @@ export default {
 
 /* Navigation-drawer */
 .boldMenu {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .nav-footer {
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 10px;
-  line-height: 14px;
+  font-size: 0.625rem;
+  line-height: 0.875rem;
   display: flex;
   align-items: flex-end;
   color: #bdbdbd;
