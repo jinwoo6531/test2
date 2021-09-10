@@ -106,14 +106,14 @@
                     :ripple="false"
                   >
                     <img src="../../assets/person-count.svg" />
-                    <span v-if="totalCount >= 1" style="padding-left: 12px"
+                    <span v-if="totalCount >= 1" style="padding-left: 0.75rem"
                       >탑승인원 {{ totalCount }}명</span
                     >
                     <span
                       v-else
                       style="
                         color: #262626;
-                        padding-left: 12px;
+                        padding-left: 0.75rem;
                         letter-spacing: 0.5px;
                       "
                       >탑승인원 선택</span
@@ -162,8 +162,8 @@
                             outlined
                             color="#E61773"
                             fab
-                            width="34.83px"
-                            height="34.83px"
+                            width="2.177rem"
+                            height="2.177rem"
                           >
                             <v-icon dark>mdi-minus</v-icon>
                           </v-btn>
@@ -182,8 +182,8 @@
                             outlined
                             color="#E61773"
                             fab
-                            width="34.83px"
-                            height="34.83px"
+                            width="2.177rem"
+                            height="2.177rem"
                           >
                             <v-icon dark>mdi-plus</v-icon>
                           </v-btn>
@@ -204,8 +204,8 @@
                             outlined
                             color="#E61773"
                             fab
-                            width="34.83px"
-                            height="34.83px"
+                            width="2.177rem"
+                            height="2.177rem"
                           >
                             <v-icon dark>mdi-minus</v-icon>
                           </v-btn>
@@ -224,8 +224,8 @@
                             outlined
                             color="#E61773"
                             fab
-                            width="34.83px"
-                            height="34.83px"
+                            width="2.177rem"
+                            height="2.177rem"
                           >
                             <v-icon dark>mdi-plus</v-icon>
                           </v-btn>
@@ -245,8 +245,8 @@
                             outlined
                             color="#E61773"
                             fab
-                            width="34.83px"
-                            height="34.83px"
+                            width="2.177rem"
+                            height="2.177rem"
                           >
                             <v-icon dark>mdi-minus</v-icon>
                           </v-btn>
@@ -265,8 +265,8 @@
                             outlined
                             color="#E61773"
                             fab
-                            width="34.83px"
-                            height="34.83px"
+                            width="2.177rem"
+                            height="2.177rem"
                           >
                             <v-icon dark>mdi-plus</v-icon>
                           </v-btn>
@@ -353,7 +353,7 @@
 
             <span v-if="callBtn" style="display: inline-block; width: 70%">
               <v-flex class="mb-3 spendTime-wrap">
-                <p class="ma-0" style="color: #fff; height: 30px">
+                <p class="ma-0" style="color: #fff; height: 1.875rem">
                   <span style="display: inline-block; height: 100%">
                     <img
                       style="vertical-align: middle"
@@ -365,8 +365,8 @@
                       <span
                         style="
                           font-weight: 500;
-                          font-size: 18px;
-                          padding-right: 12px;
+                          font-size: 1.125rem;
+                          padding-right: 0.75rem;
                           color: #ffffff;
                         "
                         >약 {{ minutes }}분</span
@@ -415,7 +415,7 @@
                   tile
                   flat
                 >
-                  <v-list light tile style="padding: 8px 0 22px 0">
+                  <v-list light tile style="padding: 0.5rem 0 22px 0">
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
@@ -433,7 +433,7 @@
                     </v-list-item-group>
                   </v-list>
                 </v-card>
-                <v-card-actions class="pa-0" style="width: 100%; height: 50px">
+                <v-card-actions class="pa-0" style="width: 100%; height: 3.125rem">
                   <v-btn
                     class="pa-0 ma-0 onCancelBtn"
                     tile
@@ -491,7 +491,7 @@
                   tile
                   flat
                 >
-                  <v-list light tile style="padding: 8px 0 22px 0">
+                  <v-list light tile style="padding: 0.5rem 0 22px 0">
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
@@ -512,7 +512,7 @@
                     </v-list-item-group>
                   </v-list>
                 </v-card>
-                <v-card-actions class="pa-0" style="width: 100%; height: 50px">
+                <v-card-actions class="pa-0" style="width: 100%; height: 3.125rem">
                   <v-btn
                     class="pa-0 ma-0 onCancelBtn"
                     tile
@@ -549,7 +549,7 @@
                   tile
                   flat
                 >
-                  <v-list light tile style="padding: 8px 0 22px 0; width: 100%">
+                  <v-list light tile style="padding: 0.5rem 0 22px 0; width: 100%">
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
@@ -570,7 +570,7 @@
                     </v-list-item-group>
                   </v-list>
                 </v-card>
-                <v-card-actions class="pa-0" style="width: 100%; height: 50px">
+                <v-card-actions class="pa-0" style="width: 100%; height: 3.125rem">
                   <v-btn
                     class="pa-0 ma-0 onCancelBtn"
                     tile
@@ -647,7 +647,7 @@
               depressed
               class="pa-0 call-dialog-btn"
               width="100%"
-              height="50px"
+              height="3.125rem"
               @click="requestCallBtn"
               >호출하기</v-btn
             >
@@ -662,7 +662,7 @@
               depressed
               class="pa-0 call-dialog-btn"
               width="100%"
-              height="50px"
+              height="3.125rem"
               @click="requestPay"
               >{{ totalPayment }}원 결제하기</v-btn
             >
@@ -678,7 +678,7 @@
               depressed
               class="pa-0 call-dialog-btn"
               width="100%"
-              height="50px"
+              height="3.125rem"
               >보호자와 함께 탑승해주세요.</v-btn
             >
           </v-flex>
@@ -1259,10 +1259,10 @@ export default {
         console.log("같은 정류장은 선택이 불가능합니다.");
       } else {
         //   아닌 경우는 popup 창을 띄워준다.
-        const template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 14px; margin: 14px 0 7px 0 !important;">${markerVal.name}</p>
+        const template = `<p id="stationName" style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 0.875rem; margin: 0.875rem 0 7px 0 !important;">${markerVal.name}</p>
                  <form>
-                    <button id="startBtn${markerVal.id}" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px; padding-bottom: 2px;">출발지로 설정</button> <br>
-                    <button id="endBtn${markerVal.id}" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 13px;">도착지로 설정</button>
+                    <button id="startBtn${markerVal.id}" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 0.813rem; padding-bottom: 2px;">출발지로 설정</button> <br>
+                    <button id="endBtn${markerVal.id}" type="button" style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 0.813rem;">도착지로 설정</button>
                 </form>`;
         marker.bindPopup(template).openPopup();
 
@@ -1871,16 +1871,16 @@ export default {
 </script>
 <style>
 .leaflet-popup-content-wrapper {
-  min-width: 130px;
+  min-width: 8.1235rem;
   width: max-content;
-  min-height: 100px;
+  min-height: 6.25rem;
   height: max-content;
   text-align: center;
 }
 
 .leaflet-popup-content {
   width: 100% !important;
-  padding: 4px 5px 10px 5px;
+  padding: 0.25rem 0.313rem 0.625rem 0.313rem;
   margin: 0 !important;
 }
 
@@ -1894,9 +1894,9 @@ export default {
 .leaflet-container a.leaflet-popup-close-button {
   padding: 1px 5px 0 0 !important;
   text-align: center;
-  width: 20px !important;
-  height: 20px !important;
-  font: 20px/20px Noto Sans !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  font: 1.25rem/1.25rem Noto Sans !important;
   color: #ffffff !important;
   font-weight: 100 !important;
 }
@@ -1913,7 +1913,7 @@ export default {
 .map-loading {
   display: flex;
   position: absolute;
-  margin-top: -57px;
+  margin-top: -3.563rem;
   background: rgba(0, 0, 0, 0.5);
   height: 100%;
   pointer-events: inherit !important;
@@ -1923,7 +1923,7 @@ export default {
 .locat-loading {
   display: flex;
   position: absolute;
-  margin-top: -57px;
+  margin-top: -3.563rem;
   height: 100%;
   pointer-events: inherit !important;
   z-index: 20;
@@ -1933,13 +1933,13 @@ export default {
   position: absolute;
   height: 100%;
   display: flex;
-  margin-top: -57px;
+  margin-top: -3.563rem;
   pointer-events: inherit !important;
   z-index: 20;
 }
 
 .cantServiceCard {
-  margin-top: -57px;
+  margin-top: -3.563rem;
   width: 100%;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
@@ -1948,9 +1948,9 @@ export default {
 .soFarMsg {
   letter-spacing: -1px;
   margin: 0;
-  padding-top: 6px;
-  padding-bottom: 24px;
-  font-size: 18px;
+  padding-top: 0.375rem;
+  padding-bottom: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: #262626;
 }
@@ -1958,7 +1958,7 @@ export default {
 .spendTime-wrap {
   background: #e61773;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 3px;
+  border-radius: 0.188rem;
   display: inline-block;
 }
 
@@ -1966,7 +1966,7 @@ export default {
   vertical-align: middle;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #fff;
 }
 
@@ -2000,7 +2000,7 @@ export default {
   margin-top: 0.5rem;
 }
 .dialog-background {
-  width: 2801px;
+  width: 175.063rem;
   background-image: url("~@/assets/call-dialog.png");
 }
 
@@ -2008,73 +2008,73 @@ export default {
   font-family: Noto Sans KR !important;
   font-style: normal !important;
   font-weight: normal !important;
-  font-size: 13px !important;
-  line-height: 19px;
-  padding-left: 12px !important;
-  padding-right: 14px !important;
+  font-size: 0.813rem !important;
+  line-height: 1.188rem;
+  padding-left: 0.75rem !important;
+  padding-right: 0.875rem !important;
 }
 .select-person-title {
   font-style: normal;
   font-weight: 500;
   position: absolute;
-  top: 45px;
+  top: 2.813rem;
   text-align: center;
-  font-size: 16px;
+  font-size: 1rem;
   color: #262626;
 }
 .select-max-title {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-align: center;
   color: #bdbdbd;
-  margin: -60px;
+  margin: -3.75rem;
 }
 
 .select-max {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-align: center;
   color: #bdbdbd;
-  margin: -16px;
-  margin-right: 40px;
+  margin: -1rem;
+  margin-right: 2.5rem;
 }
 
 .select-person-btn {
-  height: 50px !important;
+  height: 3.125rem !important;
 }
 
 .select-modal-btn {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem;
   display: inline-block;
-  padding: 9px 0 8px 14px;
+  padding: 0.563rem 0 0.5rem 0.875rem;
 }
 
 .stationModal-card-size {
-  width: 290px;
-  height: 376px;
+  width: 18.125rem;
+  height: 23.5rem;
 }
 
 .stationModal-card-title {
   color: #333 !important;
-  height: 37px;
+  height: 2.313rem;
 }
 
 .divider-style {
-  width: 262px;
+  width: 16.375rem;
   margin: 0 auto;
   border-color: #e0e0e0 !important;
 }
 
 .stationModal-card-content {
   width: 100%;
-  height: 289px;
+  height: 18.063rem;
   overflow: scroll;
   text-align: center;
 }
@@ -2085,7 +2085,7 @@ export default {
   color: #e61773 !important;
   font-style: normal !important;
   font-weight: 500 !important;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   border-top: 0.5px solid #e61773 !important;
   box-sizing: border-box !important;
   letter-spacing: 0 !important;
@@ -2096,7 +2096,7 @@ export default {
   height: 100% !important;
   font-style: normal !important;
   font-weight: 500 !important;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   letter-spacing: 0 !important;
   border-top: 0.5px solid #e61773 !important;
 }
@@ -2105,7 +2105,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 13px;
+  font-size: 0.813rem;
   color: #bdbdbd;
 }
 
@@ -2113,7 +2113,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #262626;
 }
 
@@ -2121,7 +2121,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   color: #4f4f4f !important;
 }
 
@@ -2129,7 +2129,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px !important;
+  font-size: 0.75rem !important;
   color: #bdbdbd !important;
 }
 
@@ -2137,7 +2137,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 24px !important;
+  font-size: 1.5rem !important;
   color: #eb5757 !important;
 }
 
@@ -2145,7 +2145,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #262626;
 }
 
@@ -2153,8 +2153,8 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 13px !important;
-  line-height: 19px;
+  font-size: 0.813rem !important;
+  line-height: 1.188rem;
   color: #4f4f4f !important;
 }
 
@@ -2162,8 +2162,8 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 13px !important;
-  line-height: 19px;
+  font-size: 0.813rem !important;
+  line-height: 1.188rem;
   color: #828282 !important;
 }
 
@@ -2171,7 +2171,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   color: #262626 !important;
   letter-spacing: 1px;
 }
@@ -2180,7 +2180,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   color: #ffffff !important;
   letter-spacing: 1px;
 }
@@ -2189,7 +2189,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px !important;
+  font-size: 0.875rem !important;
   color: #262626;
   letter-spacing: -0.5px;
   margin: 0 !important;
@@ -2200,32 +2200,32 @@ export default {
 }
 
 .goReturn {
-  width: 196px;
-  height: 41px !important;
+  width: 12.25rem;
+  height: 2.563rem !important;
   background: #e61773;
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px !important;
+  font-size: 1rem !important;
   color: #ffffff !important;
   border-radius: 0;
-  margin-top: 15px !important;
-  margin-bottom: 18px !important;
+  margin-top: 0.938rem !important;
+  margin-bottom: 1.125rem !important;
   letter-spacing: 0px;
 }
 
 .paymentMethod {
   position: relative;
-  width: 154px !important;
-  height: 65px !important;
+  width: 9.625rem !important;
+  height: 4.063rem !important;
   border: 1.5px solid #e61773 !important;
   box-sizing: border-box !important;
   background: transparent !important;
-  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px !important;
+  font-size: 0.875rem !important;
   color: #e61773 !important;
   letter-spacing: -0.1px;
 }
@@ -2235,7 +2235,7 @@ export default {
 }
 
 .payment-amount {
-  /* margin-top: 15px; */
+  /* margin-top: 0.938rem; */
   display: flex;
   justify-content: space-between;
 }
@@ -2245,34 +2245,35 @@ export default {
 }
 .total_payment {
   width: 90vw;
-  height: 150px;
+  height: 13.125rem;
   border-top: 1px solid #dbdbdb;
-  padding-top: 17px;
+  padding-top: 1.063rem;
   box-sizing: border-box;
-  font-size: 15px;
+  font-size: 0.938rem;
+  margin: 0 auto
 }
 .nonSelected {
   width: 100%;
-  height: 53px;
+  height: 3.313rem;
   border: 1px solid #c6c6c6;
   display: flex;
   justify-content: space-between;
   color: #c6c6c6;
-  line-height: 53px;
-  padding: 0 10px;
+  line-height: 3.313rem;
+  padding: 0 0.625rem;
   box-sizing: border-box;
 }
 .nonSelected > span {
   letter-spacing: 1.5px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .selected {
-  width: 330px;
-  height: 165px;
+  width: 90vw;
+  height: 10.313rem;
   border: 1px solid #dbdbdb;
-  font-size: 14px;
-  padding: 10px;
+  font-size: 0.875rem;
+  padding: 0.625rem;
   box-sizing: border-box;
   margin-bottom: 20px;
 }
@@ -2285,20 +2286,20 @@ export default {
 .sum:after {
   content: "";
   display: block;
-  width: 320px;
+  width: 100%;
   height: 1px;
   background-color: #bdbdbd;
   position: absolute;
-  top: 35px;
+  top: 3.313rem;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .count {
   display: inline-block;
-  width: 60px;
-  font-size: 18px;
-  line-height: 18px;
+  width: 3.75rem;
+  font-size: 1.125rem;
+  line-height: 1.125rem;
   margin: 0;
   text-align: center;
 }
@@ -2311,6 +2312,6 @@ export default {
 .sumList {
   display: flex;
   justify-content: space-between;
-  margin-bottom: -30px;
+  margin-bottom: -1.875rem;
 }
 </style>
