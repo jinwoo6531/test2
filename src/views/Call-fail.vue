@@ -114,8 +114,8 @@ export default {
             "content-type": "application/x-www-form-urlencoded",
           },
           data: {
-            merchant_uid: this.latest_mid, // 주문번호 *
-            reason: "타시오 호출 취소", // 환불 사유 *,
+            merchant_uid: this.latest_mid,
+            reason: "타시오 호출 취소",
             cancel_request_amount: 1000 * parseInt(this.count),
           },
         })
