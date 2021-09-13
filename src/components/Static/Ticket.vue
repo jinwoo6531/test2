@@ -100,10 +100,9 @@ export default {
         isrefund: "",
         merchant_uid: "",
         amount: 0,
+        showModal: false,
     }),
-    components: {
-        // VueQr
-    },
+
     computed: {
         ...mapGetters({
             user: "user",
@@ -121,7 +120,7 @@ export default {
             console.log("uid", this.uid)
             axios
                 .get(
-                    `https://test.aspringcloud.com/api/reservations/user-reservation/`,
+                    `https://tasioapi.springgo.io/api/reservations/user-reservation/`,
                     {
                         params: {
                             userid: this.uid,
@@ -147,7 +146,7 @@ export default {
             console.log("ticketId", ticketId)
             axios
                 .put(
-                    `https://test.aspringcloud.com/api/reservations/${ticketId}/`,
+                    `https://tasioapi.springgo.io/api/reservations/${ticketId}/`,
                     {
                         id: ticketId,
                         state: 2,
@@ -208,7 +207,7 @@ export default {
     color: #e61773;
     font-size: 14px;
     font-weight: 600;
-     display: flex;
+    display: flex;
     text-align: center;
 }
 
