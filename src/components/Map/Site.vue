@@ -1037,6 +1037,7 @@ export default {
             2: { name: "daegu", setPoints: [35.836673, 128.68652], zoom: 15 },
             3: { name: "sejong", setPoints: [36.599351, 127.270606], zoom: 15 },
             4: { name: "sangam", setPoints: [37.5792, 126.8917], zoom: 15 },
+            24: { name: "yeosu", setPoints: [34.741, 127.754], zoom: 15 },
             18: {
                 name: "sejong_Rfree",
                 setPoints: [36.4945, 127.3274],
@@ -1157,6 +1158,18 @@ export default {
                     lat: 36.49918,
                     lon: 127.3277,
                     type: 6,
+                },
+            ],
+            24: [
+                {
+                    lat: 34.72710,
+                    lon: 127.7449,
+                    type: 3,
+                },
+                {
+                    lat: 34.73118,
+                    lon: 127.75042,
+                    type: 3,
                 },
             ],
         },
@@ -1620,27 +1633,33 @@ export default {
                 .get("/api/stations/")
                 .then(async (response) => {
                     if (response.status == 200) {
+                        console.log('getStation :',response);
                         let station_result = response.data
                         // let station_count = Object.keys(station_result).length;
                         let points_idx = -1
                         for (let station of station_result) {
                             if (station.site == this.siteId) {
+                                console.log(this.siteId);
                                 while (
                                     points_idx++ <
                                     this.points[this.siteId].length
                                 ) {
+                                    console.log(this.points);
                                     if (
                                         this.points[this.siteId][points_idx]
                                             .lat == station.lat &&
                                         this.points[this.siteId][points_idx]
                                             .lon == station.lon
-                                    ) {
+                                    )
+                                     {
                                         station.points_idx = Number(points_idx)
                                         station.stat2sta = JSON.parse(
                                             station.stat2sta
                                         )
                                         this.stationList.push(station)
+                                        console.log('station :',this.stationList);
                                         break
+
                                     }
                                 }
                             }

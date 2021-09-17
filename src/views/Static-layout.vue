@@ -100,7 +100,7 @@
 
                          <v-list-item
                             link
-                            :to="{ name: 'Site', params: { siteId: 1 } }"
+                            :to="{ name: 'Site', params: { siteId: 24 } }"
                             class="ma-0"
                         >
                             <v-list-item-content class="pa-0">

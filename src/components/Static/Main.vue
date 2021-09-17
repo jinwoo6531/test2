@@ -105,7 +105,7 @@ export default {
         title:
           '<span style="width: 100%; text-align: center;">여수<br>엑스포 공원</span>',
         src: require("../../assets/yeosu-btn.png"),
-        to: "/map/1",
+        to: "/map/24",
         disabled: false,
         gradient: undefined,
         color: "transparent",
