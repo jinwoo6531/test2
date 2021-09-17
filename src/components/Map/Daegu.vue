@@ -550,7 +550,7 @@
         </v-container>
     </div>
 </template>
-
+*/
 <script>
 import axios from "axios";
 var control;

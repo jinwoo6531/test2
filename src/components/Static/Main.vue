@@ -62,7 +62,7 @@
               </v-col>
               <v-col cols="6" class="mb-5" align="center" justify="center">
                 <v-badge color="transparent"></v-badge>
-                <v-card
+                <!-- <v-card
                   flat
                   width="128px"
                   height="128px"
@@ -73,8 +73,8 @@
                     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
                     border-radius: 20px;
                   "
-                >
-                  <v-avatar class="ma-0 pa-0 mt-5" size="50" tile>
+                > -->
+                  <!-- <v-avatar class="ma-0 pa-0 mt-5" size="50" tile>
                     <img
                       class="align-center"
                       width="100%"
@@ -84,8 +84,8 @@
                   <v-card-text class="site-btn-none pa-0 pt-2"
                     >다음 운행 지역은 <br />
                     어디가 될까?</v-card-text
-                  >
-                </v-card>
+                  > -->
+                <!-- </v-card> -->
               </v-col>
             </v-row>
           </v-container>
@@ -102,6 +102,16 @@ export default {
   data: () => ({
     cards: [
       {
+        title:
+          '<span style="width: 100%; text-align: center;">여수<br>엑스포 공원</span>',
+        src: require("../../assets/yeosu-btn.png"),
+        to: "/map/1",
+        disabled: false,
+        gradient: undefined,
+        color: "transparent",
+        hidden: true,
+      },
+       {
         title:
           '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
         src: require("../../assets/daegu-btn.png"),
