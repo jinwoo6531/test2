@@ -951,7 +951,8 @@ var marker
 export default {
     data: () => ({
         map: null,
-        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl:
+            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         currentlocation: {
             lat: "",
             lon: "",
@@ -1187,12 +1188,11 @@ export default {
                     lon: 127.75146,
                     type: 2,
                 },
-                   {
+                {
                     lat: 34.74794,
                     lon: 127.75006,
                     type: 3,
                 },
-
             ],
         },
         movingVehicle: "",
@@ -1714,11 +1714,9 @@ export default {
                     await this.addMarker() // 정류장 마커 표시
                     await this.addRouting2(
                         this.waypoints2,
-                        "#00CFFF",
+                        "#fc9eb6",
                         "#FFFFFF"
                     ) // 서비스 경로 표시
-                  
-                   
                 })
                 .catch((error) => {
                     console.log("station (GET) error: ")

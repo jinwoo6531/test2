@@ -110,8 +110,8 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            start_station_popup = false;
-                                            onChange();
+                                            start_station_popup = false
+                                            onChange()
                                         "
                                     >
                                         출발지 적용하기
@@ -141,8 +141,8 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            destination_popup = false;
-                                            onChange();
+                                            destination_popup = false
+                                            onChange()
                                         "
                                     >
                                         도착지 적용하기
@@ -233,8 +233,8 @@
 </template>
 
 <script>
-import axios from "axios";
-var control;
+import axios from "axios"
+var control
 
 export default {
     name: "Sejong",
@@ -242,7 +242,8 @@ export default {
     data: () => ({
         pageId: 3,
         map: null,
-        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl:
+            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [
@@ -277,7 +278,7 @@ export default {
     }),
 
     created() {
-        this.getStation();
+        this.getStation()
     },
 
     mounted() {
@@ -285,16 +286,16 @@ export default {
             zoomControl: false,
             routeWhileDragging: false,
             attributionControl: false,
-        });
+        })
 
         // Open Street Map Layer Service Load
-        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
 
         // Map View Center Load
-        this.map.setView([36.599351, 127.270606], 15);
+        this.map.setView([36.599351, 127.270606], 15)
 
-        this.addMarker();
-        this.addRouting(this.waypoints);
+        this.addMarker()
+        this.addRouting(this.waypoints)
     },
 
     methods: {
@@ -302,14 +303,14 @@ export default {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12],
-            });
+            })
 
             this.$utils.map.createMakerByXY(this.map, [36.499351, 127.270606], {
                 icon: gifIcon,
-            });
+            })
             this.$utils.map.createMakerByXY(this.map, [36.50169, 127.272315], {
                 icon: gifIcon,
-            });
+            })
         },
 
         addRouting(waypoints) {
@@ -333,9 +334,9 @@ export default {
                 autoRoute: true,
                 show: false,
                 createMarker: function() {
-                    return null;
+                    return null
                 },
-            });
+            })
         },
 
         getStation() {
@@ -343,17 +344,17 @@ export default {
                 .get("/api/stations/")
                 .then((response) => {
                     if (response.status == 200) {
-                        let station_result = response.data;
-                        let station_count = Object.keys(station_result).length;
+                        let station_result = response.data
+                        let station_count = Object.keys(station_result).length
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
-                                this.sejongList.push(station_result[i]);
+                                this.sejongList.push(station_result[i])
                                 this.sejongList = this.sejongList.sort(function(
                                     a,
                                     b
                                 ) {
-                                    return a.id < b.id ? -1 : 1;
-                                });
+                                    return a.id < b.id ? -1 : 1
+                                })
                             }
                         }
                     }
@@ -362,23 +363,23 @@ export default {
                         this.options.push({
                             name: arr.name,
                             value: arr.id,
-                        });
+                        })
                     }
                 })
                 .catch((error) => {
-                    console.log("station (GET) error: ");
-                    this.error = error;
-                    console.log(error);
-                });
+                    console.log("station (GET) error: ")
+                    this.error = error
+                    console.log(error)
+                })
         },
 
         onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6);
-            this.waypoints = [];
+            control.spliceWaypoints(0, 6)
+            this.waypoints = []
 
-            console.log("this.start", this.start);
-            console.log("this.end", this.end);
+            console.log("this.start", this.start)
+            console.log("this.end", this.end)
 
             if (this.start >= 5 && this.end >= 5) {
                 // ADD Between Station
@@ -387,7 +388,7 @@ export default {
                         this.waypoints.push({
                             lat: this.sejongList[i - 5].lat,
                             lng: this.sejongList[i - 5].lon,
-                        });
+                        })
                     }
                 } else if (this.start > this.end) {
                     this.$toasted
@@ -395,7 +396,7 @@ export default {
                             theme: "bubble",
                             position: "top-center",
                         })
-                        .goAway(2000);
+                        .goAway(2000)
                     // SAME Station Id
                 } else if (this.start == this.end) {
                     this.$toasted
@@ -403,64 +404,64 @@ export default {
                             theme: "bubble",
                             position: "top-center",
                         })
-                        .goAway(2000);
+                        .goAway(2000)
                 }
 
                 let startIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40],
-                });
+                })
 
                 if (this.start === 5) {
-                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.start_icon)
                     this.start_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sejongList[0].lat, this.sejongList[0].lon],
                         {
                             icon: startIcon,
                         }
-                    );
+                    )
                 } else if (this.start === 6) {
-                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.start_icon)
                     this.start_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sejongList[1].lat, this.sejongList[1].lon],
                         {
                             icon: startIcon,
                         }
-                    );
+                    )
                 }
 
                 let endIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/end-icon.svg"),
                     iconSize: [40, 40],
-                });
+                })
 
                 if (this.end === 5) {
-                    this.map.removeLayer(this.end_icon);
+                    this.map.removeLayer(this.end_icon)
                     this.end_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sejongList[0].lat, this.sejongList[0].lon],
                         {
                             icon: endIcon,
                         }
-                    );
+                    )
                 } else if (this.end === 6) {
-                    this.map.removeLayer(this.end_icon);
+                    this.map.removeLayer(this.end_icon)
                     this.end_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sejongList[1].lat, this.sejongList[1].lon],
                         {
                             icon: endIcon,
                         }
-                    );
+                    )
                 }
 
-                this.map.removeLayer(endIcon);
+                this.map.removeLayer(endIcon)
 
                 // SET New Routing
-                this.addRouting(this.waypoints);
-                this.totalDistance();
+                this.addRouting(this.waypoints)
+                this.totalDistance()
             }
         },
 
@@ -468,17 +469,17 @@ export default {
             control
                 .on("routesfound", (e) => {
                     // 출발지와 도착지의 totalDistance
-                    this.km = e.routes[0].summary.totalDistance / 1000;
+                    this.km = e.routes[0].summary.totalDistance / 1000
                     this.minutes = Math.round(
                         (e.routes[0].summary.totalTime % 3600) / 60
-                    );
+                    )
                 })
-                .addTo(this.map);
+                .addTo(this.map)
 
-            this.callBtn = true;
+            this.callBtn = true
         },
     },
-};
+}
 </script>
 
 <style scoped>

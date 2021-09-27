@@ -234,8 +234,8 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            start_station_popup = false;
-                                            onChange();
+                                            start_station_popup = false
+                                            onChange()
                                         "
                                     >
                                         출발지 적용하기
@@ -265,8 +265,8 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            destination_popup = false;
-                                            onChange();
+                                            destination_popup = false
+                                            onChange()
                                         "
                                     >
                                         도착지 적용하기
@@ -552,9 +552,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import axios from "axios";
-var control;
+import { mapGetters } from "vuex"
+import axios from "axios"
+var control
 
 export default {
     name: "Gunsan",
@@ -563,7 +563,8 @@ export default {
         res: true,
         pageId: 1,
         map: null,
-        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl:
+            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [],
@@ -615,16 +616,16 @@ export default {
             return String("1000" * this.count).replace(
                 /(\d)(?=(?:\d{3})+(?!\d))/g,
                 "$1,"
-            );
+            )
         },
     },
 
     created() {
-        this.getStation();
-        this.getVehicle();
+        this.getStation()
+        this.getVehicle()
 
-        this.start = parseInt(this.start);
-        this.end = parseInt(this.end);
+        this.start = parseInt(this.start)
+        this.end = parseInt(this.end)
     },
 
     mounted() {
@@ -632,20 +633,20 @@ export default {
             zoomControl: false,
             routeWhileDragging: false,
             attributionControl: false,
-        });
+        })
 
         // Open Street Map Layer Service Load
-        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
 
         // Map View Center Load
-        this.map.setView([35.812484, 126.4091], 15);
+        this.map.setView([35.812484, 126.4091], 15)
     },
 
     updated() {
         if (this.count >= 1 && this.start >= 0 && this.end >= 0) {
-            this.callBtn = true;
+            this.callBtn = true
         } else {
-            this.callBtn = false;
+            this.callBtn = false
         }
     },
 
@@ -660,14 +661,14 @@ export default {
                     enableHighAccuracy: true,
                 })
                 .on("locationfound", (e) => {
-                    console.log("Location found: " + e.latitude + e.longitude);
-                    console.log("stationMarker: ", this.stationMarker);
+                    console.log("Location found: " + e.latitude + e.longitude)
+                    console.log("stationMarker: ", this.stationMarker)
 
                     if (!this.usermarker) {
                         let currentUser = this.$utils.map.createIcon({
                             iconUrl: require("../../assets/current.svg"),
                             iconSize: [17, 17],
-                        });
+                        })
 
                         return (this.usermarker = this.$utils.map.createMakerByXY(
                             this.map,
@@ -675,9 +676,9 @@ export default {
                             {
                                 icon: currentUser,
                             }
-                        ));
+                        ))
                     } else {
-                        return this.usermarker.setLatLng(e.latlng);
+                        return this.usermarker.setLatLng(e.latlng)
                     }
                 })
                 .on("locationerror", (error) => {
@@ -686,77 +687,77 @@ export default {
                             theme: "bubble",
                             position: "top-center",
                         })
-                        .goAway(2000);
+                        .goAway(2000)
 
-                    console.log("Location error:", error);
+                    console.log("Location error:", error)
                     if (this.usermarker) {
-                        this.map.removeLayer(this.usermarker);
-                        this.usermarker = null;
+                        this.map.removeLayer(this.usermarker)
+                        this.usermarker = null
                     }
-                });
-            this.res = false;
+                })
+            this.res = false
         },
 
         stopLocation() {
             if (this.usermarker != null || this.usermarker != undefined) {
-                this.map.removeLayer(this.usermarker);
-                this.usermarker = null;
-                this.map.stopLocate();
-                this.map.setView([35.812484, 126.4091], 15);
-                console.log("stopLocation usermarker", this.usermarker);
+                this.map.removeLayer(this.usermarker)
+                this.usermarker = null
+                this.map.stopLocate()
+                this.map.setView([35.812484, 126.4091], 15)
+                console.log("stopLocation usermarker", this.usermarker)
             }
 
-            this.res = true;
+            this.res = true
         },
 
         increment() {
-            this.count += 1;
+            this.count += 1
 
             if (this.count >= 14) {
-                this.isDisabled2 = true;
-                this.count = 14;
+                this.isDisabled2 = true
+                this.count = 14
             } else {
-                this.isDisabled2 = false;
+                this.isDisabled2 = false
             }
 
             if (this.count <= 1) {
-                this.isDisabled1 = true;
-                this.count = 1;
+                this.isDisabled1 = true
+                this.count = 1
             } else {
-                this.isDisabled1 = false;
+                this.isDisabled1 = false
             }
         },
 
         decrement() {
-            this.count -= 1;
+            this.count -= 1
 
             if (this.count <= 1) {
-                this.isDisabled1 = true;
-                this.count = 1;
+                this.isDisabled1 = true
+                this.count = 1
             } else {
-                this.isDisabled1 = false;
+                this.isDisabled1 = false
             }
 
             if (this.count >= 14) {
-                this.isDisabled2 = true;
-                this.count = 14;
+                this.isDisabled2 = true
+                this.count = 14
             } else {
-                this.isDisabled2 = false;
+                this.isDisabled2 = false
             }
         },
 
         selectPerson() {
-            this.count = 1;
+            this.count = 1
         },
 
         closePersonDialog() {
-            this.dialog = false;
-            this.count = this.temp;
+            this.dialog = false
+            this.count = this.temp
         },
 
         rideCount() {
-            this.temp = this.count;
-            this.dialog = false;
+            this.temp = this.count
+            this.dialog = false
         },
 
         switchDestination() {
@@ -766,19 +767,19 @@ export default {
                 this.start > this.end &&
                 this.start != this.end
             ) {
-                var change = this.start;
-                this.start = this.end;
-                this.end = change;
-                this.onChange();
+                var change = this.start
+                this.start = this.end
+                this.end = change
+                this.onChange()
             } else {
                 this.$toasted
                     .show("지원하지 않는 경로입니다...", {
                         theme: "bubble",
                         position: "top-center",
                     })
-                    .goAway(800);
+                    .goAway(800)
 
-                this.callBtn = false;
+                this.callBtn = false
             }
         },
 
@@ -786,7 +787,7 @@ export default {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12],
-            });
+            })
 
             for (let i = 0; i < this.waypoints.length; i++) {
                 this.$utils.map.createMakerByXY(
@@ -795,14 +796,14 @@ export default {
                     {
                         icon: gifIcon,
                     }
-                );
+                )
             }
 
             for (var arr of this.waypoints) {
                 this.stationMarker.push({
                     stationLat: arr.lat,
                     stationLng: arr.lng,
-                });
+                })
             }
         },
 
@@ -827,9 +828,9 @@ export default {
                 autoRoute: true,
                 show: false,
                 createMarker: function() {
-                    return null;
+                    return null
                 },
-            });
+            })
         },
 
         async getStation() {
@@ -837,22 +838,22 @@ export default {
                 .get("/api/stations/")
                 .then(async (response) => {
                     if (response.status == 200) {
-                        let station_result = response.data;
-                        let station_count = Object.keys(station_result).length;
+                        let station_result = response.data
+                        let station_count = Object.keys(station_result).length
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
-                                this.gunsanList.push(station_result[i]);
+                                this.gunsanList.push(station_result[i])
                                 this.gunsanList = this.gunsanList.sort(function(
                                     a,
                                     b
                                 ) {
-                                    return a.id < b.id ? -1 : 1;
-                                });
+                                    return a.id < b.id ? -1 : 1
+                                })
                             }
                         }
                     }
 
-                    console.log("gunsanList", this.gunsanList);
+                    console.log("gunsanList", this.gunsanList)
                     // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
                     this.waypoints.push(
                         {
@@ -883,7 +884,7 @@ export default {
                             lat: 35.814184,
                             lng: 126.409845,
                         }
-                    );
+                    )
 
                     // this.waypoints.push({
                     //     lat: this.gunsanList[3].lat,
@@ -919,42 +920,42 @@ export default {
                         this.options.push({
                             name: arr2.name,
                             value: i,
-                        });
+                        })
                     }
 
-                    this.start_options = this.options;
-                    this.end_options = this.options;
+                    this.start_options = this.options
+                    this.end_options = this.options
 
-                    await this.addMarker();
-                    await this.addRouting(this.waypoints);
+                    await this.addMarker()
+                    await this.addRouting(this.waypoints)
                 })
                 .catch((error) => {
-                    console.log("station (GET) error: ");
-                    this.error = error;
-                    console.log(error);
-                });
+                    console.log("station (GET) error: ")
+                    this.error = error
+                    console.log(error)
+                })
         },
 
         async onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 6);
-            this.waypoints = [];
+            control.spliceWaypoints(0, 6)
+            this.waypoints = []
 
             this.start_options = this.options.filter(
                 (opt) => opt.value != this.end
-            );
+            )
             this.end_options = this.options.filter(
                 (opt) => opt.value != this.start
-            );
+            )
 
             let startIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/start-icon.svg"),
                 iconSize: [40, 40],
-            });
+            })
             let endIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/end-icon.svg"),
                 iconSize: [40, 40],
-            });
+            })
 
             // 12 -> 13 -> 11 -> 18 -> 9 -> 19 -> 10
             // 3 -> 4 -> 2 -> 5 -> 0 -> 6 -> 1
@@ -968,7 +969,7 @@ export default {
                         lat: this.gunsanList[4].lat,
                         lng: this.gunsanList[4].lon,
                     }
-                );
+                )
             }
             if (this.start == 3 && this.end == 2) {
                 this.waypoints.push(
@@ -984,10 +985,10 @@ export default {
                         lat: this.gunsanList[2].lat,
                         lng: this.gunsanList[2].lon,
                     }
-                );
+                )
             }
 
-            this.map.removeLayer(this.start_icon);
+            this.map.removeLayer(this.start_icon)
             this.start_icon = this.$utils.map.createMakerByXY(
                 this.map,
                 [
@@ -997,20 +998,20 @@ export default {
                 {
                     icon: startIcon,
                 }
-            );
-            this.map.removeLayer(this.end_icon);
+            )
+            this.map.removeLayer(this.end_icon)
             this.end_icon = this.$utils.map.createMakerByXY(
                 this.map,
                 [this.gunsanList[this.end].lat, this.gunsanList[this.end].lon],
                 {
                     icon: endIcon,
                 }
-            );
-            this.map.removeLayer(endIcon);
+            )
+            this.map.removeLayer(endIcon)
 
             // SET New Routing
-            this.addRouting(this.waypoints);
-            this.totalDistance();
+            this.addRouting(this.waypoints)
+            this.totalDistance()
         },
 
         // async onChange() {
@@ -1079,12 +1080,12 @@ export default {
             control
                 .on("routesfound", (e) => {
                     // 출발지와 도착지의 totalDistance
-                    this.distanceKm = e.routes[0].summary.totalDistance / 1000;
+                    this.distanceKm = e.routes[0].summary.totalDistance / 1000
                     this.minutes = Math.round(
                         (e.routes[0].summary.totalTime % 3600) / 60
-                    );
+                    )
                 })
-                .addTo(this.map);
+                .addTo(this.map)
         },
 
         getVehicle() {
@@ -1092,15 +1093,15 @@ export default {
                 .get("/api/vehicles/")
                 .then(async (response) => {
                     var vehicle_data = response.data.sort(function(a, b) {
-                        return a.id < b.id ? -1 : 1;
-                    });
-                    var vehicleCount = Object.keys(vehicle_data).length;
+                        return a.id < b.id ? -1 : 1
+                    })
+                    var vehicleCount = Object.keys(vehicle_data).length
                     for (let i = 0; i < vehicleCount; i++) {
                         if (vehicle_data[i].site == 1) {
                             var vehicleIcon = this.$utils.map.createIcon({
                                 iconUrl: require("../../assets/vehicle1.svg"),
                                 iconSize: [32, 32],
-                            });
+                            })
                             if (
                                 vehicle_data[i].lat != null ||
                                 vehicle_data[i].lon != null ||
@@ -1116,14 +1117,14 @@ export default {
                                         draggable: false,
                                         icon: vehicleIcon,
                                     }
-                                );
+                                )
                             }
                         }
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
-                });
+                    console.log(error)
+                })
             setInterval(
                 async function() {
                     axios
@@ -1133,9 +1134,9 @@ export default {
                                 a,
                                 b
                             ) {
-                                return a.id < b.id ? -1 : 1;
-                            });
-                            var vehicleCount = Object.keys(vehicle_data).length;
+                                return a.id < b.id ? -1 : 1
+                            })
+                            var vehicleCount = Object.keys(vehicle_data).length
                             for (let i = 0; i < vehicleCount; i++) {
                                 if (vehicle_data[i].site == 1) {
                                     if (
@@ -1147,29 +1148,29 @@ export default {
                                         this.vehicle[i].setLatLng([
                                             vehicle_data[i].lat,
                                             vehicle_data[i].lon,
-                                        ]);
+                                        ])
                                     }
                                 }
                             }
                         })
                         .catch((error) => {
-                            console.log(error);
-                        });
+                            console.log(error)
+                        })
                 }.bind(this),
                 1000
-            );
+            )
         },
 
         requestCallBtn() {
             var totalPayment = String("1000" * this.count).replace(
                 /(\d)(?=(?:\d{3})+(?!\d))/g,
                 "$1,"
-            );
+            )
 
-            const IMP = window.IMP;
+            const IMP = window.IMP
 
             // 가맹점 식별코드
-            IMP.init("imp80546815");
+            IMP.init("imp80546815")
 
             // // 결제창 호출 코드
             IMP.request_pay({
@@ -1193,23 +1194,23 @@ export default {
                 }&endName=${this.end_options[this.end].name}&count=${
                     this.count
                 }&minutes=${this.minutes}`,
-            });
+            })
         },
 
         requestPay(meth) {
             if (meth == "617160000106") {
-                this.isRed1 = true;
-                this.isRed2 = false;
-                console.log(this.isRed1);
-                this.meth = meth;
+                this.isRed1 = true
+                this.isRed2 = false
+                console.log(this.isRed1)
+                this.meth = meth
             } else if (meth == "617160000105") {
-                this.isRed1 = false;
-                this.isRed2 = true;
-                this.meth = meth;
+                this.isRed1 = false
+                this.isRed2 = true
+                this.meth = meth
             }
         },
     },
-};
+}
 </script>
 
 <style scoped>

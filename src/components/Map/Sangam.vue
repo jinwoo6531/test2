@@ -110,8 +110,8 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            start_station_popup = false;
-                                            onChange();
+                                            start_station_popup = false
+                                            onChange()
                                         "
                                     >
                                         출발지 적용하기
@@ -141,8 +141,8 @@
                                         color="#E61773"
                                         style="height: 50px; font-style: normal; font-weight: 500; font-size: 16px;"
                                         @click="
-                                            destination_popup = false;
-                                            onChange();
+                                            destination_popup = false
+                                            onChange()
                                         "
                                     >
                                         도착지 적용하기
@@ -233,8 +233,8 @@
 </template>
 
 <script>
-import axios from "axios";
-var control;
+import axios from "axios"
+var control
 
 export default {
     name: "Sangam",
@@ -242,7 +242,8 @@ export default {
     data: () => ({
         pageId: 4,
         map: null,
-        OSMUrl: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
+        OSMUrl:
+            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         staticAnchor: [16, 37],
         vehicleReady: false,
         waypoints: [
@@ -289,7 +290,7 @@ export default {
     }),
 
     created() {
-        this.getStation();
+        this.getStation()
     },
 
     mounted() {
@@ -297,16 +298,16 @@ export default {
             zoomControl: false,
             routeWhileDragging: false,
             attributionControl: false,
-        });
+        })
 
         // Open Street Map Layer Service Load
-        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {});
+        this.$utils.map.createTileLayer(this.map, this.OSMUrl, {})
 
         // Map View Center Load
-        this.map.setView([37.5792, 126.88888], 15);
+        this.map.setView([37.5792, 126.88888], 15)
 
-        this.addMarker();
-        this.addRouting(this.waypoints);
+        this.addMarker()
+        this.addRouting(this.waypoints)
     },
 
     methods: {
@@ -314,14 +315,14 @@ export default {
             let gifIcon = this.$utils.map.createIcon({
                 iconUrl: require("../../assets/station_icon.svg"),
                 iconSize: [12, 12],
-            });
+            })
 
             this.$utils.map.createMakerByXY(this.map, [37.579333, 126.889036], {
                 icon: gifIcon,
-            });
+            })
             this.$utils.map.createMakerByXY(this.map, [37.581296, 126.885693], {
                 icon: gifIcon,
-            });
+            })
         },
 
         addRouting(waypoints) {
@@ -345,9 +346,9 @@ export default {
                 autoRoute: true,
                 show: false,
                 createMarker: function() {
-                    return null;
+                    return null
                 },
-            });
+            })
         },
 
         getStation() {
@@ -355,17 +356,17 @@ export default {
                 .get("/api/stations/")
                 .then((response) => {
                     if (response.status == 200) {
-                        let station_result = response.data;
-                        let station_count = Object.keys(station_result).length;
+                        let station_result = response.data
+                        let station_count = Object.keys(station_result).length
                         for (let i = 0; i < station_count; i++) {
                             if (station_result[i].site == this.pageId) {
-                                this.sangamList.push(station_result[i]);
+                                this.sangamList.push(station_result[i])
                                 this.sangamList = this.sangamList.sort(function(
                                     a,
                                     b
                                 ) {
-                                    return a.id < b.id ? -1 : 1;
-                                });
+                                    return a.id < b.id ? -1 : 1
+                                })
                             }
                         }
                     }
@@ -374,20 +375,20 @@ export default {
                         this.options.push({
                             name: arr.name,
                             value: arr.id,
-                        });
+                        })
                     }
                 })
                 .catch((error) => {
-                    console.log("station (GET) error: ");
-                    this.error = error;
-                    console.log(error);
-                });
+                    console.log("station (GET) error: ")
+                    this.error = error
+                    console.log(error)
+                })
         },
 
         onChange() {
             // REMOVE Default Routing
-            control.spliceWaypoints(0, 4);
-            this.waypoints = [];
+            control.spliceWaypoints(0, 4)
+            this.waypoints = []
 
             if (this.start >= 7 && this.end >= 7) {
                 // ADD Between Station
@@ -396,7 +397,7 @@ export default {
                         this.waypoints.push({
                             lat: this.sangamList[i - 7].lat,
                             lng: this.sangamList[i - 7].lon,
-                        });
+                        })
                     }
                 } else if (this.start > this.end) {
                     this.waypoints.push(
@@ -408,7 +409,7 @@ export default {
                             lat: this.sangamList[0].lat,
                             lng: this.sangamList[0].lon,
                         }
-                    );
+                    )
                     // SAME Station Id
                 } else if (this.start == this.end) {
                     switch (this.start) {
@@ -434,8 +435,8 @@ export default {
                                     lat: this.sangamList[0].lat,
                                     lng: this.sangamList[0].lon,
                                 }
-                            );
-                            break;
+                            )
+                            break
                         case 8:
                             this.waypoints.push(
                                 {
@@ -458,66 +459,66 @@ export default {
                                     lat: this.sangamList[1].lat,
                                     lng: this.sangamList[1].lon,
                                 }
-                            );
-                            break;
+                            )
+                            break
                     }
                 }
 
                 let startIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/start-icon.svg"),
                     iconSize: [40, 40],
-                });
+                })
 
                 if (this.start === 7) {
-                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.start_icon)
                     this.start_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sangamList[0].lat, this.sangamList[0].lon],
                         {
                             icon: startIcon,
                         }
-                    );
+                    )
                 } else if (this.start === 8) {
-                    this.map.removeLayer(this.start_icon);
+                    this.map.removeLayer(this.start_icon)
                     this.start_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sangamList[1].lat, this.sangamList[1].lon],
                         {
                             icon: startIcon,
                         }
-                    );
+                    )
                 }
 
                 let endIcon = this.$utils.map.createIcon({
                     iconUrl: require("../../assets/end-icon.svg"),
                     iconSize: [40, 40],
-                });
+                })
 
                 if (this.end === 7) {
-                    this.map.removeLayer(this.end_icon);
+                    this.map.removeLayer(this.end_icon)
                     this.end_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sangamList[0].lat, this.sangamList[0].lon],
                         {
                             icon: endIcon,
                         }
-                    );
+                    )
                 } else if (this.end === 8) {
-                    this.map.removeLayer(this.end_icon);
+                    this.map.removeLayer(this.end_icon)
                     this.end_icon = this.$utils.map.createMakerByXY(
                         this.map,
                         [this.sangamList[1].lat, this.sangamList[1].lon],
                         {
                             icon: endIcon,
                         }
-                    );
+                    )
                 }
 
-                this.map.removeLayer(endIcon);
+                this.map.removeLayer(endIcon)
 
                 // SET New Routing
-                this.addRouting(this.waypoints);
-                this.totalDistance();
+                this.addRouting(this.waypoints)
+                this.totalDistance()
             }
         },
 
@@ -525,17 +526,17 @@ export default {
             control
                 .on("routesfound", (e) => {
                     // 출발지와 도착지의 totalDistance
-                    this.km = e.routes[0].summary.totalDistance / 1000;
+                    this.km = e.routes[0].summary.totalDistance / 1000
                     this.minutes = Math.round(
                         (e.routes[0].summary.totalTime % 3600) / 60
-                    );
+                    )
                 })
-                .addTo(this.map);
+                .addTo(this.map)
 
-            this.callBtn = true;
+            this.callBtn = true
         },
     },
-};
+}
 </script>
 
 <style scoped>
