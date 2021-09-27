@@ -171,6 +171,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "Schedule" */ '@/components/Static/Schedule')
   },
   {
+    path: 'canclepayment',
+    name: 'CanclePayment',
+    component: () => import(/* webpackChunkName: "canclepayment" */ '@/components/Static/CanclePayment')
+  },
+  {
+    path: 'userhistory',
+    name: 'UserHistory',
+    component: () => import(/* webpackChunkName: "userhistory" */ '@/components/Static/UserHistory')
+  },
+  {
     path: 'fair',
     name: 'Fair',
     component: () => import(/* webpackChunkName: "Schedule" */ '@/components/Static/Fair')

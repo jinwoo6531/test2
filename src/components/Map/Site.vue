@@ -1037,7 +1037,7 @@ export default {
             2: { name: "daegu", setPoints: [35.836673, 128.68652], zoom: 15 },
             3: { name: "sejong", setPoints: [36.599351, 127.270606], zoom: 15 },
             4: { name: "sangam", setPoints: [37.5792, 126.8917], zoom: 15 },
-            24: { name: "yeosu", setPoints: [34.741, 127.754], zoom: 15 },
+            24: { name: "yeosu", setPoints: [34.7477, 127.7502], zoom: 15 },
             18: {
                 name: "sejong_Rfree",
                 setPoints: [36.4945, 127.3274],
@@ -1046,7 +1046,7 @@ export default {
         },
         points: {
             //type:2 -> route, type:3 -> station, type:6 -> route&&station
-            //군산
+            // 군산
             1: [],
             // 대구
             2: [
@@ -1160,17 +1160,39 @@ export default {
                     type: 6,
                 },
             ],
+            // 여수 엑스포
             24: [
                 {
-                    lat: 34.72710,
-                    lon: 127.7449,
+                    lat: 34.75244,
+                    lon: 127.74858,
+                    type: 2,
+                },
+                {
+                    lat: 34.74992,
+                    lon: 127.74839,
+                    type: 2,
+                },
+                {
+                    lat: 34.74609,
+                    lon: 127.7483,
                     type: 3,
                 },
                 {
-                    lat: 34.73118,
-                    lon: 127.75042,
+                    lat: 34.74233,
+                    lon: 127.75365,
+                    type: 2,
+                },
+                {
+                    lat: 34.74605,
+                    lon: 127.75146,
+                    type: 2,
+                },
+                   {
+                    lat: 34.74794,
+                    lon: 127.75006,
                     type: 3,
                 },
+
             ],
         },
         movingVehicle: "",
@@ -1633,33 +1655,34 @@ export default {
                 .get("/api/stations/")
                 .then(async (response) => {
                     if (response.status == 200) {
-                        console.log('getStation :',response);
+                        console.log("getStation :", response)
                         let station_result = response.data
                         // let station_count = Object.keys(station_result).length;
                         let points_idx = -1
                         for (let station of station_result) {
                             if (station.site == this.siteId) {
-                                console.log(this.siteId);
+                                console.log(this.siteId)
                                 while (
                                     points_idx++ <
                                     this.points[this.siteId].length
                                 ) {
-                                    console.log(this.points);
+                                    console.log(this.points)
                                     if (
                                         this.points[this.siteId][points_idx]
                                             .lat == station.lat &&
                                         this.points[this.siteId][points_idx]
                                             .lon == station.lon
-                                    )
-                                     {
+                                    ) {
                                         station.points_idx = Number(points_idx)
                                         station.stat2sta = JSON.parse(
                                             station.stat2sta
                                         )
                                         this.stationList.push(station)
-                                        console.log('station :',this.stationList);
+                                        console.log(
+                                            "station :",
+                                            this.stationList
+                                        )
                                         break
-
                                     }
                                 }
                             }
@@ -1694,6 +1717,8 @@ export default {
                         "#00CFFF",
                         "#FFFFFF"
                     ) // 서비스 경로 표시
+                  
+                   
                 })
                 .catch((error) => {
                     console.log("station (GET) error: ")

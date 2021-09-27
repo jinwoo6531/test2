@@ -71,7 +71,7 @@
 
                 <v-divider class="mt-3 mb-2"></v-divider>
 
-                <v-list-item link to="/introduction" class="pa-0" >
+                <v-list-item link to="/introduction" class="pa-0">
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
@@ -90,7 +90,7 @@
                                 <v-list-item-content class="pa-0">
                                     <v-list-item-title
                                         style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                                         @click="closeSideMenu"
+                                        @click="closeSideMenu"
                                     >
                                         전체 지역보기
                                     </v-list-item-title>
@@ -98,18 +98,17 @@
                             </v-list-item>
                         </v-list-item-title>
 
-                         <v-list-item
+                        <v-list-item
                             link
                             :to="{ name: 'Site', params: { siteId: 24 } }"
                             class="ma-0"
                         >
                             <v-list-item-content class="pa-0">
-                                
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
-                                     @click="closeSideMenu"
+                                    @click="closeSideMenu"
                                 >
-                                  여수 엑스포공원
+                                    여수 엑스포공원
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
@@ -119,10 +118,9 @@
                             class="ma-0"
                         >
                             <v-list-item-content class="pa-0">
-                                
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
-                                     @click="closeSideMenu"
+                                    @click="closeSideMenu"
                                 >
                                     <!-- <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;"> -->
                                     대구 수성알파시티
@@ -139,13 +137,13 @@
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
-                                     @click="closeSideMenu"
+                                    @click="closeSideMenu"
                                 >
                                     세종 산학연클러스터 4-2
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-
+<!-- 
                         <v-list-item class="ma-0">
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
@@ -162,9 +160,9 @@
                                     </v-badge>
                                 </v-list-item-title>
                             </v-list-item-content>
-                        </v-list-item>
+                        </v-list-item> -->
 
-                        <v-list-item class="ma-0">
+                        <!-- <v-list-item class="ma-0">
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;"
@@ -180,9 +178,9 @@
                                     </v-badge>
                                 </v-list-item-title>
                             </v-list-item-content>
-                        </v-list-item>
+                        </v-list-item> -->
 
-                        <v-list-item class="ma-0">
+                        <!-- <v-list-item class="ma-0">
                             <v-list-item-content class="pa-0">
                                 <v-list-item-title
                                     style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;"
@@ -198,7 +196,7 @@
                                     </v-badge>
                                 </v-list-item-title>
                             </v-list-item-content>
-                        </v-list-item>
+                        </v-list-item> -->
                     </v-list-item-content>
                 </v-list-item>
 
@@ -206,50 +204,68 @@
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                             @click="closeSideMenu"
+                            @click="closeSideMenu"
                         >
                             운행 시간표
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 
-                                          <v-list-item
-                           link to="/fair"
-                           class="boldMenu pa-0 mt-2"
+                <v-list-item link to="/fair" class="boldMenu pa-0 mt-2">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
                         >
-                            <v-list-item-content class="pa-0"
-                            >
-                                <v-list-item-title
-                                     style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                                      @click="closeSideMenu"
-                                >
-                                    운임 안내
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
+                            운임 안내
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
-                        
-                          <v-list-item
-                            link to="/ticket"
-                             class="boldMenu pa-0 mt-2"
+                <v-list-item link to="/ticket" class="boldMenu pa-0 mt-2">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
                         >
-                            <v-list-item-content class="pa-0">
-                                <v-list-item-title
-                                   style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                                    @click="closeSideMenu"
-                                >
-                                    내 승차권 확인
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-
-                
+                            내 승차권 확인
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    link
+                    to="/canclepayment"
+                    class="boldMenu pa-0 mt-2"
+                >
+                    <v-list-item-content class="pa-0" link to="/canclepayment">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            환불 및 취소 규정
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                    <v-list-item
+                    link
+                    to="/userhistory"
+                    class="boldMenu pa-0 mt-2"
+                >
+                    <v-list-item-content class="pa-0" link to="/userhistory">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            나의 이용내역
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
                 <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                             @click="closeSideMenu"
+                            @click="closeSideMenu"
                         >
                             자주 묻는 질문
                         </v-list-item-title>
@@ -260,7 +276,7 @@
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                             @click="closeSideMenu"
+                            @click="closeSideMenu"
                         >
                             서비스 정보
                         </v-list-item-title>
@@ -325,17 +341,29 @@
                                 class="pa-0 static-title"
                                 >운행 시간표</span
                             >
-                             <span
+                            <span
                                 flat
                                 v-if="this.$route.name == 'Fair'"
                                 class="pa-0 static-title"
                                 >운임 안내</span
                             >
-                              <span
+                            <span
                                 flat
                                 v-if="this.$route.name == 'Ticket'"
                                 class="pa-0 static-title"
                                 >내 승차권 확인</span
+                            >
+                             <span
+                                flat
+                                v-if="this.$route.name == 'CanclePayment'"
+                                class="pa-0 static-title"
+                                >환불 및 취소 규정</span
+                            >
+                            <span
+                                flat
+                                v-if="this.$route.name == 'UserHistory'"
+                                class="pa-0 static-title"
+                                >나의 이용내역</span
                             >
                             <span
                                 flat
@@ -366,6 +394,12 @@
                     v-if="this.$route.name == 'Introduction'"
                 ></v-divider>
                 <v-divider v-if="this.$route.name == 'Schedule'"></v-divider>
+                <v-divider
+                    v-if="this.$route.name == 'CancelPayment'"
+                ></v-divider>
+                   <v-divider
+                    v-if="this.$route.name == 'UserHistory'"
+                ></v-divider>
                 <v-divider v-if="this.$route.name == 'FAQ'"></v-divider>
                 <v-divider v-if="this.$route.name == 'Userinfo'"></v-divider>
                 <v-divider v-if="this.$route.name == 'Serviceinfo'"></v-divider>
@@ -380,7 +414,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 
 export default {
     data: () => ({
@@ -393,22 +427,22 @@ export default {
         }),
 
         getHeight() {
-            return this.$vuetify.breakpoint.xs ? 57 : "70";
+            return this.$vuetify.breakpoint.xs ? 57 : "70"
         },
 
         getPhoneNumber() {
-            let start = String(this.user.data.phoneNumber).substring(3, 5);
-            let mid = String(this.user.data.phoneNumber).substring(5, 9);
-            let end = String(this.user.data.phoneNumber).substring(9, 13);
-            return "0" + start + "-" + mid + "-" + end;
+            let start = String(this.user.data.phoneNumber).substring(3, 5)
+            let mid = String(this.user.data.phoneNumber).substring(5, 9)
+            let end = String(this.user.data.phoneNumber).substring(9, 13)
+            return "0" + start + "-" + mid + "-" + end
         },
     },
-    methods:{
-        closeSideMenu(){
-            this.drawer=false
-        }
-    }
-};
+    methods: {
+        closeSideMenu() {
+            this.drawer = false
+        },
+    },
+}
 </script>
 
 <style scoped>
@@ -431,7 +465,8 @@ export default {
 .v-list-item {
     padding-right: 0 !important;
 }
-.v-list-item--dense, .v-list--dense .v-list-item{
+.v-list-item--dense,
+.v-list--dense .v-list-item {
     min-height: 30px;
     line-height: 30px;
 }
@@ -467,10 +502,10 @@ export default {
     background: transparent !important;
     position: relative;
 }
-.copyrightStyle span{
-  position:absolute;
+.copyrightStyle span {
+    position: absolute;
     left: 50%;
-    bottom: 0px; 
+    bottom: 0px;
     transform: translateX(-50%);
 }
 </style>
