@@ -8,7 +8,11 @@
                         <v-list-item-title>
                             <img src="../assets/side-logo.svg" />
                         </v-list-item-title>
-                        <v-list-item-subtitle class="logo-content">스프링클라우드 자율주행 셔틀</v-list-item-subtitle>
+                       <v-list-item-subtitle
+                            style="font-style: normal; font-weight: bold; font-size: 12px; color: #E61773; margin-top: 10px;"
+                        >
+                            스프링클라우드 자율주행 셔틀
+                        </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
     
@@ -18,15 +22,31 @@
                   <v-row class="ma-0" style="height: 30px;">
                     <v-col class="pa-0" cols="10">
                       <v-row class="ma-0">
-                        <v-col class="pa-0 sidebar-displayName">{{ user.data.displayName }}님</v-col>
+                       <v-col
+                                            class="pa-0"
+                                            cols="12"
+                                            style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                        >
+                                            {{ user.data.displayName }}님
+                                        </v-col>
                       </v-row>
                       <v-row class="ma-0">
-                        <v-col class="pa-0 pt-1 sidebar-phoneNumber">{{ getPhoneNumber }}</v-col>
+                       <v-col
+                                            class="pa-0 pt-1"
+                                            cols="12"
+                                            style="font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 12px; color: #828282;"
+                                        >
+                                            {{ getPhoneNumber }}
+                                        </v-col>
                       </v-row>
                     </v-col>
-                    <v-col class="pa-0 setting-btn">
-                      <router-link to="/userinfo">
-                        <img src="../assets/setting.svg" />
+                  <v-col
+                                    class="pa-0 persentH"
+                                    cols="2"
+                                    style="line-height: 34px; text-align: center;"
+                                >
+                                    <router-link to="/userinfo">
+                                        <img src="../assets/setting.svg" />
                       </router-link>
                     </v-col>
                   </v-row>
@@ -34,158 +54,231 @@
               </v-list-item>
 </template>
 
-<template v-else>
-    <v-list-item link to="/auth/accessphone">
-        <v-list-item-content>
-            <v-list-item-title>로그인</v-list-item-title>
-        </v-list-item-content>
-    </v-list-item>
-</template>
+   <template v-else>
+                    <v-list-item link to="/auth/accessphone" class="pa-0">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                로그인
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
 
         <v-divider class="mt-3 mb-2"></v-divider>
 
         <v-list-item link to="/introduction" class="pa-0">
           <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">타시오 소개</v-list-item-title>
+             <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            타시오 소개
+                        </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item class="boldMenu pa-0 mt-2">
           <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title">
-              <v-list-item link to="/" class="pa-0">
-                <v-list-item-content class="pa-0">
-                  <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">전체 지역보기</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-title>
+               <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                        >
+                            <v-list-item link to="/" class="pa-0">
+                                <v-list-item-content class="pa-0">
+                                    <v-list-item-title
+                                        style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                                        @click="closeSideMenu"
+                                    >
+                                        전체 지역보기
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list-item-title>
+                                <v-list-item
+                            link
+                            :to="{ name: 'Site', params: { siteId: 24 } }"
+                            class="ma-0"
+                        >
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                    @click="closeSideMenu"
+                                >
+                                    여수 엑스포공원
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
 
-            <v-list-item link :to="{ name: 'Site', params: { siteId: 2 }}" class="ma-0">
-              <v-list-item-content>
-                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;"  @click="closeSideMenu">
-                  <!-- <v-badge
-                    color="#E61773"
-                    content="준비중"
-                    offset-x="-2"
-                    offset-y="10px"
-                    style="z-index: 15;"
-                  > -->
-                  대구 수성알파시티
-                  <!-- </v-badge> -->
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item link :to="{ name: 'Site', params: { siteId: 18 }}" class="ma-0">
-              <v-list-item-content>
-                <v-list-item-title class="sidebar-submenu-title" style="color: #828282;"  @click="closeSideMenu">
-                  세종 산학연클러스터 4-2
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+             <v-list-item
+                            link
+                            :to="{ name: 'Site', params: { siteId: 2 } }"
+                            class="ma-0"
+                        >
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                    @click="closeSideMenu"
+                                >
+                                    <!-- <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;"> -->
+                                    대구 수성알파시티
+                                    <!-- </v-badge> -->
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+            <v-list-item
+                            link
+                            :to="{ name: 'Site', params: { siteId: 18 } }"
+                            class="ma-0"
+                        >
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                    @click="closeSideMenu"
+                                >
+                                    세종 산학연클러스터 4-2
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
             
-            
 
-            <v-list-item class="ma-0">
-              <v-list-item-content class="pa-0">
-                <v-list-item-title class="sidebar-submenu-title" style="color: #BDBDBD;">
-                  <v-badge
-                    color="#E61773"
-                    content="준비중"
-                     offset-x="-10"
-                      offset-y="15px"
-                    style="z-index: 15;"
-                  >세종 호수공원</v-badge>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+    <!-- 
+                        <v-list-item class="ma-0">
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;"
+                                >
+                                    <v-badge
+                                        color="#E61773"
+                                        content="준비중"
+                                        offset-x="-10"
+                                        offset-y="15px"
+                                        style="z-index: 15;"
+                                    >
+                                        세종 호수공원
+                                    </v-badge>
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item> -->
 
-             <v-list-item class="ma-0">
-              <v-list-item-content class="pa-0">
-                <v-list-item-title class="sidebar-submenu-title" style="color: #BDBDBD;">
-                  <v-badge
-                    color="#E61773"
-                    content="준비중"
-                     offset-x="-10"
-                      offset-y="15px"
-                    style="z-index: 15;"
-                  >고군산 관광벨트</v-badge>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item> 
-            
-            <v-list-item class="ma-0">
-              <v-list-item-content class="pa-0">
-                <v-list-item-title class="sidebar-submenu-title" style="color: #BDBDBD;">
-                  <v-badge
-                    color="#E61773"
-                    content="준비중"
-                     offset-x="-10"
-                      offset-y="15px"
-                    style="z-index: 15;"
-                  >상암DMC홍보관</v-badge>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-content>
-        </v-list-item>
-    <v-list-item class="boldMenu pa-0 mt-2" link to="/schedule">
+                        <!-- <v-list-item class="ma-0">
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;"
+                                >
+                                    <v-badge
+                                        color="#E61773"
+                                        content="준비중"
+                                        offset-x="-10"
+                                        offset-y="15px"
+                                        style="z-index: 15;"
+                                    >
+                                        고군산 관광벨트
+                                    </v-badge>
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item> -->
+
+                        <!-- <v-list-item class="ma-0">
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #BDBDBD;"
+                                >
+                                    <v-badge
+                                        color="#E61773"
+                                        content="준비중"
+                                        offset-x="-10"
+                                        offset-y="15px"
+                                        style="z-index: 15;"
+                                    >
+                                        상암DMC홍보관
+                                    </v-badge>
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item> -->
+                    </v-list-item-content>
+                </v-list-item>
+   <v-list-item class="boldMenu pa-0 mt-2" link to="/schedule">
                     <v-list-item-content class="pa-0">
                         <v-list-item-title
                             style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                             @click="closeSideMenu"
+                            @click="closeSideMenu"
                         >
                             운행 시간표
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 
-                                          <v-list-item
-                           link to="/fair"
-                           class="boldMenu pa-0 mt-2"
+                <v-list-item link to="/fair" class="boldMenu pa-0 mt-2">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
                         >
-                            <v-list-item-content class="pa-0"
-                            >
-                                <v-list-item-title
-                                     style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                                      @click="closeSideMenu"
-                                >
-                                    운임 안내
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
+                            운임 안내
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
-                        
-                          <v-list-item
-                            link to="/ticket"
-                             class="boldMenu pa-0 mt-2"
+                <v-list-item link to="/ticket" class="boldMenu pa-0 mt-2">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
                         >
-                            <v-list-item-content class="pa-0">
-                                <v-list-item-title
-                                   style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
-                                    @click="closeSideMenu"
-                                >
-                                    내 승차권 확인
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                        
+                            내 승차권 확인
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    link
+                    to="/canclepayment"
+                    class="boldMenu pa-0 mt-2"
+                >
+                    <v-list-item-content class="pa-0" link to="/canclepayment">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            환불 및 취소 규정
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                    <v-list-item
+                    link
+                    to="/userhistory"
+                    class="boldMenu pa-0 mt-2"
+                >
+                    <v-list-item-content class="pa-0" link to="/userhistory">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            나의 이용내역
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
-                
+                <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            자주 묻는 질문
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
-        <v-list-item class="boldMenu pa-0 mt-2" link to="/faq">
-                <v-list-item-content class="pa-0">
-                    <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">
-                        자주 묻는 질문
-                    </v-list-item-title>
-                </v-list-item-content>
-        </v-list-item>
+                <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
+                    <v-list-item-content class="pa-0">
+                        <v-list-item-title
+                            style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
+                            @click="closeSideMenu"
+                        >
+                            서비스 정보
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
 
-        <v-list-item class="boldMenu pa-0 mt-2" link to="/serviceinfo">
-          <v-list-item-content class="pa-0">
-            <v-list-item-title class="sidebar-menu-title"  @click="closeSideMenu">서비스 정보</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
 
   <!-- <footer class="copyrightStyle">
         <span>
@@ -258,9 +351,17 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
 .leaflet-control-container .leaflet-routing-container-hide {
     display: none;
 }
+.v-list-item--dense,
+.v-list--dense .v-list-item {
+    min-height: 30px;
+    line-height: 30px;
+}
+
 
 .v-navigation-drawer__content {
     position: relative !important;

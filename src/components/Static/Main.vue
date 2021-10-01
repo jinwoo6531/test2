@@ -73,8 +73,8 @@
                     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
                     border-radius: 20px;
                   "
-                > -->
-                  <!-- <v-avatar class="ma-0 pa-0 mt-5" size="50" tile>
+                >
+                  <v-avatar class="ma-0 pa-0 mt-5" size="50" tile>
                     <img
                       class="align-center"
                       width="100%"
@@ -84,8 +84,8 @@
                   <v-card-text class="site-btn-none pa-0 pt-2"
                     >다음 운행 지역은 <br />
                     어디가 될까?</v-card-text
-                  > -->
-                <!-- </v-card> -->
+                  >
+                </v-card> -->
               </v-col>
             </v-row>
           </v-container>
@@ -142,28 +142,28 @@ export default {
         color: "#F2F2F2",
         hidden: false,
       },
-      {
-        title:
-          '<span style="width: 100%; text-align: center;">고군산<br>관광벨트</span>',
-        src: require("../../assets/gunsan-btn.png"),
-        to: "/map/1",
-        disabled: true,
-        gradient:
-          "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
-        color: "#F2F2F2",
-        hidden: false,
-      },
-      {
-        title:
-          '<span style="width: 100%; text-align: center;">상암<br>DMC홍보관</span>',
-        src: require("../../assets/sangam-btn.png"),
-        to: "/map/4",
-        disabled: true,
-        gradient:
-          "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
-        color: "#F2F2F2",
-        hidden: false,
-      },
+      // {
+      //   title:
+      //     '<span style="width: 100%; text-align: center;">고군산<br>관광벨트</span>',
+      //   src: require("../../assets/gunsan-btn.png"),
+      //   to: "/map/1",
+      //   disabled: true,
+      //   gradient:
+      //     "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
+      //   color: "#F2F2F2",
+      //   hidden: false,
+      // },
+      // {
+      //   title:
+      //     '<span style="width: 100%; text-align: center;">상암<br>DMC홍보관</span>',
+      //   src: require("../../assets/sangam-btn.png"),
+      //   to: "/map/4",
+      //   disabled: true,
+      //   gradient:
+      //     "to top right, rgba(242, 242, 242, .8), rgba(242, 242, 242, .75)",
+      //   color: "#F2F2F2",
+      //   hidden: false,
+      // },
     ],
   }),
 

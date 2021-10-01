@@ -80,6 +80,7 @@
         </v-container>
 
         <!-- Map container -->
+        
         <v-container
             class="map-container pa-0 ma-0 flex-wrap"
             fluid
@@ -99,6 +100,7 @@
                 </v-flex>
 
                 <!-- 탑승인원 선택 모달창 -->
+
                 <v-flex class="pa-0 selectBox" xs12 sm12 md12>
                     <v-flex class="pa-4 pt-0" xs12 sm12 md12>
                         <v-dialog
@@ -108,6 +110,7 @@
                             transition="dialog-bottom-transition"
                         >
                             <template v-slot:activator="{ on }">
+                                
                                 <span style="display: inline-block; width: 70%">
                                     <v-btn
                                         class="pa-0 person-modal"
@@ -135,6 +138,8 @@
                                     </v-btn>
                                 </span>
                             </template>
+                            
+                            
 
                             <v-card class="persentH" style="position: absolute">
                                 <v-toolbar
@@ -564,6 +569,17 @@
                                     class="pa-0 stationModal-card-title"
                                 >
                                     <span class="select-modal-btn">시간표</span>
+
+                                    <v-btn
+                                        class="closing-button"
+                                        color="#FFF"
+                                        @click="
+                                            daegu_timetable_popup = false
+                                            pickedTime = ''
+                                        "
+                                        ><img
+                                            src="../../assets/closing-button.png"
+                                    /></v-btn>
                                 </v-card-text>
                                 <v-divider class="divider-style"></v-divider>
                                 <v-card
@@ -605,6 +621,17 @@
                                     style="width: 100%; height: 3.125rem"
                                 >
                                     <v-btn
+                                        class="pa-0 ma-0 onChangeBtn"
+                                        tile
+                                        depressed
+                                        v-if="rule"
+                                        color="#E61773"
+                                        @click="
+                                            start_station_popup = !start_station_popup
+                                        "
+                                        >선택하기</v-btn
+                                    >
+                                    <v-btn
                                         class="pa-0 ma-0 onCancelBtn"
                                         tile
                                         depressed
@@ -615,17 +642,6 @@
                                             pickedTime = ''
                                         "
                                         >취소</v-btn
-                                    >
-                                    <v-btn
-                                        class="pa-0 ma-0 onChangeBtn"
-                                        tile
-                                        depressed
-                                        v-if="rule"
-                                        color="#E61773"
-                                        @click="
-                                            start_station_popup = !start_station_popup
-                                        "
-                                        >선택하기</v-btn
                                     >
                                     <v-card-text
                                         class="pa-4"
