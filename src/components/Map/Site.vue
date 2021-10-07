@@ -1005,6 +1005,8 @@ export default {
         // 회차, 정류장 1부터 시작
         ordinary: 0,
         station_seq: 0,
+        destination: "",
+        ticket_type:0,
         test: 0,
         babyCount: 0,
         adultCount: 0,
@@ -2208,6 +2210,8 @@ export default {
                     baby_count: this.babyCount,
                     ordinary: this.ordinary,
                     station_seq: this.station_seq,
+                    destination: this.destination,
+                    ticket_type: this.ticket_type,
                     siteId: this.siteId,
                 },
                 m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
