@@ -5,7 +5,7 @@
             centered
             fixed-tabs
             color="gray"
-            slider-color="white"
+            slider-color="#DBDBDB"
         >
             <v-tab class="tab-items" v-for="item in menus" :key="item">{{
                 item
@@ -19,9 +19,9 @@
                     :v-if="ticket.length > 0"
                 >
                     <div
-                        class="ticket-tit2"
+                        class="ticket-tit3"
                         v-bind:class="[
-                            { 'ticket-tit2': ticket.state === 1 },
+                            { 'ticket-tit3': ticket.state === 1 },
                             { 'deactive-ticket-tit2': ticket.state === 2 },
                         ]"
                     >
@@ -80,9 +80,9 @@
                     :v-if="ticket.length > 0"
                 >
                     <div
-                        class="ticket-tit2"
+                        class="ticket-tit3"
                         v-bind:class="[
-                            { 'ticket-tit2': ticket.state === 1 },
+                            { 'ticket-tit3': ticket.state === 1 },
                             { 'deactive-ticket-tit2': ticket.state === 2 },
                         ]"
                     >
@@ -281,7 +281,7 @@ export default {
     margin: 0 auto 20px;
     margin-top: 20px;
 }
-.ticket-tit2 {
+.ticket-tit3 {
     display: inline-flex;
     justify-content: space-between;
     width: 100%;

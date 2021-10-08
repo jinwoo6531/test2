@@ -1,8 +1,8 @@
 <template>
     <div id="ticket">
-        <v-tabs v-model="tab" centered fixed-tabs>
+        <v-tabs v-model="tab" centered fixed-tabs  color="gray"
+            slider-color="#DBDBDB">
                 <v-tab v-for="item in menus" :key="item">{{item}}</v-tab>
-
                  <!--1회 승차권  -->
                 <v-tab-item>
                     <div
@@ -10,7 +10,6 @@
                     v-for="ticket in ticketList[0]"
                     :key="ticket.reservation_seq"
                     :v-if="ticket.length > 0"
-                    
                     >
                 <div
                 class="ticket-tit"
@@ -26,13 +25,16 @@
                     }}매
                 </p>
             </div>
-  
             <div class="ticket-main">
                 <div class="ticket-main-txt">
                     <div class="ticket-main-tit">
-                        <img src="../../assets/tasio-logo3.png" alt="" />
-                            <!-- <img src="../../assets/qrqr.png" alt="" class="tit-img" /> -->
-                            <qrcode-stream v-if="isShowingCamera" @init="onInit" @decode="onDecode"></qrcode-stream>
+                            <img src="../../assets/tasio-logo3.png" alt="" class="tit-img" />
+                            <qr-code
+                            :text="`${ticket.qr}`"
+                            size=120
+                            error-level="L">
+                            </qr-code>
+                            <br/>
                             <div class="ticket-main-tit-div">
                             <span>{{ticket.station_name}} {{ticket.schedule_time}}</span> 
                             <span class="ticket-main-tit-div-span"><img src="../../assets/arrow-right.png" alt="arrow-right"/> </span>
@@ -45,7 +47,6 @@
                         청소년 {{ ticket.child_num }}명,
                         유아 {{ ticket.baby_num }}명
                         </div>
-                        
                         <div>
                          <v-btn @click="cancelPay()" small color="white">
                             환불하기
@@ -55,7 +56,6 @@
                 </div>
             </div>
         </div>
-
         <!-- no ticket -->
         <div class="no-ticket" v-if="ticketList[0].length === 0">
             <h3>구매하신 승차권이 없어요</h3>
@@ -66,7 +66,6 @@
             </p>
         </div>
                 </v-tab-item>
-
                 <!-- 종일 승차권 -->
                 <v-tab-item>
                     <div
@@ -94,28 +93,30 @@
             <div class="ticket-main">
                 <div class="ticket-main-txt">
                     <div class="ticket-main-tit">
-                            <img src="../../assets/tasio-logo3.png" alt="" />
-                            <img src="../../assets/qrqr.png" alt="" class="tit-img" />       
+                            <img src="../../assets/tasio-logo3.png" alt="" class="tit-img" />
+                            <qr-code
+                            :text="`${ticket.qr}`"
+                            size=120
+                            error-level="L">
+                            </qr-code>
+                            <br/>
                             <span>여수 스페이스 M 종일 승차권</span>                        
                     </div>
-                </div>
                 <div class="count-info">
                     <div class="count-info-div">
                       일반 {{ ticket.adult_num }}명,
                       청소년 {{ ticket.child_num }}명,
                       유아 {{ ticket.baby_num }}명
                     </div>
-                        
                     <div>
                       <v-btn @click="cancelPay()" small color="white">
                         환불하기
                       </v-btn>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
-
-
         <!-- no ticket -->
         <div class="no-ticket" v-if="allDayTicket[0].length === 0">
             <h3>구매하신 승차권이 없어요</h3>
@@ -125,11 +126,8 @@
                 이동해주세요.
             </p>
         </div>
-
             </v-tab-item>
         </v-tabs>
-
-
         <v-footer class="copyrightStyle">
             <span
                 >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
@@ -138,12 +136,12 @@
         </v-footer>
     </div>
 </template>
-
 <script>
+import Vue from 'vue'
 import { mapGetters, mapState } from "vuex"
 import axios from "axios"
-
-
+import VueQRCodeComponent from 'vue-qrcode-component'
+Vue.component('qr-code', VueQRCodeComponent)
 export default {
     name: "ticket",
     data: () => ({
@@ -166,9 +164,8 @@ export default {
         showModal: false,
         menus: ['1회 승차권', '종일 승차권'],
         tab: null,
-        isShowingCamera: true,
+        linkToProfile: "http://www.example.com/johnDoe",
     }),
-
     computed: {
         ...mapGetters({
             user: "user",
@@ -179,12 +176,10 @@ export default {
         this.getTicketInfo()
         this.getAllDayTicketInfo()
     },
-    
     methods: {
           test(dataUrl,id){
             console.log(dataUrl, id)
         },
-
         //1회 승차권 불러오기
         getTicketInfo() {
             console.log("uid", this.uid)
@@ -198,7 +193,6 @@ export default {
                         },
                     }
                 )
-
                 .then((res) => {
                     console.log(123,res);
                     this.ticketList.push(res.data)
@@ -212,7 +206,6 @@ export default {
                     console.log(error)
                 })
         },
-
         getAllDayTicketInfo() {
             axios
                 .get(
@@ -224,7 +217,6 @@ export default {
                         },
                     }
                 )
-
                 .then((res) => {
                     console.log(456,res);
                     this.allDayTicket.push(res.data)
@@ -237,10 +229,6 @@ export default {
                     console.log(error)
                 })
         },
-
-
-
-
         //티켓 정보 받아오는 api
         stampClicked(ticketId) {
             console.log("ticketId", ticketId)
@@ -264,7 +252,6 @@ export default {
             findItem.state = 2
         },
         //탑승권 승차 확인 클릭 시
-
         cancelPay() {
             console.log("고유ID :", this.uid)
             console.log("주문번호 :", this.merchant_uid)
@@ -290,15 +277,12 @@ export default {
                 .catch((error) => {
                     alert("환불을 실패하였습니다.", error)
                 })
-
             this.$router.push("/")
         },
     },
 }
 </script>
-
 <style>
-
 .payment-date {
     font-size: x-small;
     color: gray;
@@ -311,13 +295,11 @@ export default {
     display: flex;
     text-align: center;
 }
-
 #ticket {
     font-family: Noto Sans KR;
     width: 100%;
     height: 100%;
     position: relative;
-    
 }
 .no-ticket-text {
     color: #828282;
@@ -367,7 +349,9 @@ export default {
     color: #fff;
     padding: 10px 20px;
     box-sizing: border-box;
-    
+}
+.tit-img {
+    padding-bottom: 10px;
 }
 .tit-img {
     padding-bottom: 10px;
@@ -387,7 +371,7 @@ export default {
     margin-bottom: -5px;
     font-size: 14px;
 }
-.ticket-main-tit { 
+.ticket-main-tit {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -423,7 +407,6 @@ export default {
 .count-info-div {
     padding:7px;
 }
-
 .copyrightStyle {
     width: 100%;
     position: absolute;

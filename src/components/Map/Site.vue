@@ -80,7 +80,7 @@
         </v-container>
 
         <!-- Map container -->
-        
+
         <v-container
             class="map-container pa-0 ma-0 flex-wrap"
             fluid
@@ -110,7 +110,6 @@
                             transition="dialog-bottom-transition"
                         >
                             <template v-slot:activator="{ on }">
-                                
                                 <span style="display: inline-block; width: 70%">
                                     <v-btn
                                         class="pa-0 person-modal"
@@ -138,8 +137,6 @@
                                     </v-btn>
                                 </span>
                             </template>
-                            
-                            
 
                             <v-card class="persentH" style="position: absolute">
                                 <v-toolbar
@@ -1006,7 +1003,7 @@ export default {
         ordinary: 0,
         station_seq: 0,
         destination: "",
-        ticket_type:0,
+        ticket_type: 0,
         test: 0,
         babyCount: 0,
         adultCount: 0,
@@ -1473,6 +1470,7 @@ export default {
                     stat2sta: this.pickedStation.stat2sta,
                 }
                 this.pickedStation = ""
+
                 //출발지 모달
                 if (isStart) {
                     this.start = picked
@@ -2172,7 +2170,6 @@ export default {
             console.log("this.babyCount :", this.babyCount)
             console.log("this.ordinary :", this.ordinary)
             console.log("this.station_seq :", this.station_seq)
-
             console.log("this.siteId :", this.siteId)
             console.log("this.start.id :", this.start.id)
             console.log("this.end.id:", this.end.id)
@@ -2210,7 +2207,7 @@ export default {
                     baby_count: this.babyCount,
                     ordinary: this.ordinary,
                     station_seq: this.station_seq,
-                    destination: this.destination,
+                    destination: this.end.name,
                     ticket_type: this.ticket_type,
                     siteId: this.siteId,
                 },
