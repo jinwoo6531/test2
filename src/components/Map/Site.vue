@@ -99,15 +99,151 @@
                     ></v-card>
                 </v-flex>
 
-                <!-- 탑승인원 선택 모달창 -->
+                <!-- 탑승인원 선택 모달창 여기에 넣기-->
 
                 <v-flex class="pa-0 selectBox" xs12 sm12 md12>
                     <v-flex class="pa-4 pt-0" xs12 sm12 md12>
+
+
+                    <v-dialog
+                    v-model="dialog"
+                    fullscreen
+                    >
+                    <template v-slot:activator="{ on }">
+                        <v-btn
+                        class="pa-0 person-modal"
+                        color="#fff"
+                        v-on="on"
+                        v-if="testtest.length === 0"
+                        :ripple="false"
+                        >
+                        <img
+                               src="../../assets/person-count.svg"
+                        />
+                           
+                        <span
+                            v-if="totalCount >= 1"
+                            style="padding-left: 0.75rem"
+                               >탑승인원 {{ totalCount }}명</span
+                           >
+                        <span
+                            v-else
+                               style="
+                            color: #262626;
+                            padding-left: 0.75rem;
+                            letter-spacing: 0.5px;
+                            "
+                            >탑승인원 선택 
+                        </span>
+                    </v-btn>
+                    </template>
+
+                    <v-card>
+                        <v-card-title class="text-h3 white lighten-2">
+                        
+                        </v-card-title>
+                        
+                        
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <div style="width:100%;height: 95vh; background-color: #fff">
+                        <div id="main">
+                            <v-container
+                            class="pa-0 ma-0 flex-wrap"
+                            fluid
+                            justify-center
+                            grid-list-md
+                            fill-height
+                            >
+                            <v-layout row wrap class="ma-0">
+                                <v-flex class="pa-0 mt-12 mb-12 main-title persentH" xs12 sm12 md12>
+                                이용하실 서비스를 선택하세요
+                                </v-flex>
+                                <v-flex>
+                                <v-container fluid>
+                                    <v-row dense no-gutters align="center" justify="center">
+                                <img src="../../assets/shuttle.png" alt="shuttle image" style="margin-bottom:1.75rem">
+                                        <v-col
+                                    cols="6"
+                                    class="mb-5"
+                                    align="center"
+                                    justify="center"
+                                >
+                                    <v-card
+                                    :ripple="false"
+                                    link
+                                    flat
+                                    width="8.5rem"
+                                    height="5.5rem"
+                                    :disabled="false"
+                                    style="
+                                        margin: 0;
+                                        text-align: center;
+                                        border-radius: 20px;
+                                        padding: 1.438rem;
+                                        box-sizing: border-box;
+                                        background-color: #E61773;
+                                    "
+                                    @click="goToOneTime"
+                                    >
+                                        <v-card-text
+                                        class="site-btn pa-0 mb-9"
+                                        style="width: 100%; text-align: center; color: #fff; font-size: 1rem;"
+                                        >1회 승차권<br>발권하기</v-card-text>
+                                    </v-card>
+                                </v-col>
+                                 <v-col
+                                    cols="6"
+                                    class="mb-5"
+                                    align="center"
+                                    justify="center"
+                                >
+                                    <v-card
+                                    :ripple="false"
+                                    link
+                                    flat
+                                    width="8.5rem"
+                                    height="5.5rem"
+                                    :disabled="false"
+                                    style="
+                                        margin: 0;
+                                        text-align: center;
+                                        border-radius: 20px;
+                                        padding: 1.438rem;
+                                        box-sizing: border-box;
+                                        background-color: #12ABBF;
+                                    "
+                                    @click="goToOneDay"
+                                    >
+                                        <v-card-text
+                                        class="site-btn pa-0 mb-9"
+                                        style="width: 100%; text-align: center; color: #fff; font-size: 1rem;"
+                                        >종일 승차권<br>발권하기</v-card-text>
+                                    </v-card>
+                                </v-col>
+                                </v-row>
+                            </v-container>
+                            </v-flex>
+                        </v-layout>
+                        </v-container>
+                    </div>
+                    </div>
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>
+
+
+                        <!-- 재영 -->
                         <v-dialog
                             v-model="dialog"
                             fullscreen
                             hide-overlay
                             transition="dialog-bottom-transition"
+                            v-if="testtest.length > 0"
+                            
                         >
                             <template v-slot:activator="{ on }">
                                 <span style="display: inline-block; width: 70%">
@@ -120,6 +256,7 @@
                                         <img
                                             src="../../assets/person-count.svg"
                                         />
+                                        
                                         <span
                                             v-if="totalCount >= 1"
                                             style="padding-left: 0.75rem"
@@ -128,12 +265,12 @@
                                         <span
                                             v-else
                                             style="
-                        color: #262626;
-                        padding-left: 0.75rem;
-                        letter-spacing: 0.5px;
-                      "
-                                            >탑승인원 선택</span
-                                        >
+                                            color: #262626;
+                                            padding-left: 0.75rem;
+                                            letter-spacing: 0.5px;
+                                            "
+                                            >탑승인원 선택 
+                                        </span>
                                     </v-btn>
                                 </span>
                             </template>
@@ -163,7 +300,7 @@
                                         class="ma-0"
                                     >
                                         <v-card-text class="select-person-title"
-                                            >탑승인원 선택</v-card-text
+                                            >{{testtest}} 탑승인원 선택 </v-card-text
                                         >
                                         <v-card-text
                                             class="select-max-title mb-5"
@@ -174,19 +311,17 @@
                                             <!-- 1회권 -->
 
                                             <!-- 일반  -->
-                                            <v-card
-                                                class="d-flex justify-space-around mb-5"
-                                                flat
-                                            >
-                                                <v-card-text class="select-max"
-                                                    >일반<br />(1회
-                                                    1,500원)</v-card-text
-                                                >
-                                                <v-card
-                                                    :ripple="false"
-                                                    flat
-                                                    tile
-                                                >
+                                            <v-card class="d-flex justify-space-around mb-5" flat>
+                                                <v-card-text class="select-max" v-if="testtest === '1회 승차권'">
+                                                    일반<br />(1회 6,000원)
+                                                </v-card-text>
+
+                                                <v-card-text class="select-max" v-if="testtest === '종일 승차권'">
+                                                    일반<br />(종일 9,000원)
+                                                </v-card-text>
+
+                                                
+                                                <v-card :ripple="false" flat tile>
                                                     <v-btn
                                                         :disabled="
                                                             isDisabled_adult_minus
@@ -243,9 +378,13 @@
                                                 flat
                                             >
                                                 <!-- mt-9 생략 -->
-                                                <v-card-text class="select-max"
+                                                <v-card-text class="select-max" v-if="testtest === '1회 승차권'"
                                                     >청소년/어린이<br />(1회
-                                                    1,050원)</v-card-text
+                                                    4,000원)</v-card-text
+                                                >
+                                                <v-card-text class="select-max" v-if="testtest === '종일 승차권'"
+                                                    >청소년/어린이<br />(종일
+                                                    6,000원)</v-card-text
                                                 >
                                                 <v-card
                                                     :ripple="false"
@@ -429,12 +568,20 @@
                                                             일반{{ adultCount }}
                                                         </div>
                                                         <div>
-                                                            <p>
+                                                            <p v-if="testtest === '종일 승차권'">
                                                                 {{
                                                                     adultCount *
-                                                                        1500
+                                                                        9000
                                                                 }}원
                                                             </p>
+
+                                                            <p v-if="testtest === '1회 승차권'">
+                                                                {{
+                                                                    adultCount *
+                                                                        6000
+                                                                }}원
+                                                            </p>
+
                                                         </div>
                                                     </div>
                                                     <br />
@@ -452,10 +599,17 @@
                                                             }}
                                                         </div>
                                                         <div>
-                                                            <p>
+                                                            <p v-if="testtest === '종일 승차권'">
                                                                 {{
                                                                     childCount *
-                                                                        1050
+                                                                        6000
+                                                                }}원
+                                                            </p>
+
+                                                            <p v-if="testtest === '1회 승차권'">
+                                                                {{
+                                                                    childCount *
+                                                                        4000
                                                                 }}원
                                                             </p>
                                                         </div>
@@ -963,6 +1117,8 @@ var marker
 
 export default {
     data: () => ({
+        dialog2: true,
+        testtest:'',
         map: null,
         OSMUrl:
             "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
@@ -1218,6 +1374,8 @@ export default {
         movingVehicle: "",
         routePoints: [],
         markerData: "",
+
+        
     }),
 
     computed: {
@@ -1233,14 +1391,19 @@ export default {
         },
 
         totalPayment() {
-            let num =
-                1500 * this.adultCount +
-                1050 * this.childCount +
-                0 * this.babyCount
-            // let num1 = 1500*this.adultCount
-            // let num2 = 1050 *this.childCount
-            // let num3 = 0*this.babyCount
-            // let num = num1 + num2 + num3
+            // let num =
+            //     1500 * this.adultCount +
+            //     1050 * this.childCount +
+            //     0 * this.babyCount
+            // num = parseInt(num, 10)
+            // return num.toLocaleString()
+
+            let num = 0;
+            if(this.testtest === '종일 승차권') {
+                num = 9000 * this.adultCount + 6000 * this.childCount + 0 * this.babyCount
+            } else {
+                num = 6000 * this.adultCount + 4000 * this.childCount + 0 * this.babyCount
+            }
             num = parseInt(num, 10)
             return num.toLocaleString()
         },
@@ -1457,7 +1620,17 @@ export default {
         },
     },
     methods: {
-        //출발지,도착지 선택 모달 '선택하기'버튼 연결 함수
+    modal9() {
+        this.dialog2 = false;
+    },
+
+    goToOneTime() {
+        this.testtest = '1회 승차권';
+    },
+    goToOneDay(){
+        this.testtest = '종일 승차권';
+    },
+            //출발지,도착지 선택 모달 '선택하기'버튼 연결 함수
         pickStation(isStart) {
             //정류장 선택 안했으면 아무 반응 없게
             if (!this.pickedStation) return

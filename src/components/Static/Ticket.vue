@@ -16,6 +16,7 @@
                 v-bind:class="[
                     { 'ticket-tit': ticket.state === 1 },
                     { 'deactive-ticket-tit': ticket.state === 2 },
+                    
                 ]"
                 >
                 <p>{{ ticket.date.substring(0,13) + '('+ticket.date.substring(14,15)+')' }}</p>
@@ -57,6 +58,7 @@
                         <v-btn
                         v-bind="attrs"
                         v-on="on"
+                        @click="modal9(ticket.merchant_uid)"
                         >
                         환불하기
                         </v-btn>
@@ -99,7 +101,7 @@
                         <v-btn
                             color="#ffffff"
                             text
-                            @click="[modal3(),modal4(),modal5(ticket.merchant_uid)]"
+                            @click="[modal3(),modal4(),modal5()]"
                         >
                             환불하기
                         </v-btn>
@@ -116,7 +118,7 @@
         <v-dialog
                 v-model="test"
                 width="300"
-                v-if="test == true"
+    
         >
         <v-card >
                         
@@ -357,7 +359,8 @@ export default {
         menus: ['1회 승차권', '종일 승차권'],
         tab: null,
         dialog: false,
-        test: false
+        test: false,
+        m_id: ''
         
     }),
     computed: {
@@ -386,10 +389,8 @@ export default {
                     }
                 )
                 .then((res) => {
-                    console.log(123,res);
-                    this.ticketList.push(res.data)
-                    console.log("this ticket", this.ticketList)
                     console.log("예약정보 :", res.data)
+                    this.ticketList.push(res.data)
                     this.merchant_uid = res.data[0].merchant_uid
                     this.amount = res.data[0].amount
                     this.data = res.data[0].date
@@ -444,8 +445,8 @@ export default {
             findItem.state = 2
         },
         //탑승권 승차 확인 클릭 시
-        cancelPay(item) {
-            console.log(99999999,item);
+        cancelPay() {
+            
             console.log("고유ID :", this.uid)
             console.log("주문번호 :", this.merchant_uid)
             console.log("환불금액 :", this.amount)
@@ -459,7 +460,7 @@ export default {
                 },
                 data: {
                     // merchant_uid: this.merchant_uid,
-                    merchant_uid: item,
+                    merchant_uid: this.m_id,
                     reason: "승차권 예약취소",
                     cancel_request_amount: this.amount,
                 },
@@ -491,6 +492,9 @@ export default {
         },
         modal5(item){
             console.log(item);
+        },
+        modal9(item) {
+            this.m_id = item
         }
     },
 }
