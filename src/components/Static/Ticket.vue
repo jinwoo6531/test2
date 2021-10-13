@@ -18,7 +18,7 @@
                     { 'deactive-ticket-tit': ticket.state === 2 },
                 ]"
                 >
-                <p>{{ ticket.date }}</p>
+                <p>{{ ticket.date.substring(0,13) + '('+ticket.date.substring(14,15)+')' }}</p>
                 <p>
                     {{
                         ticket.adult_num + ticket.child_num + ticket.baby_num
@@ -29,6 +29,7 @@
                 <div class="ticket-main-txt">
                     <div class="ticket-main-tit">
                             <img src="../../assets/tasio-logo3.png" alt="" class="tit-img" />
+                            <span style="line-height:50%"><br></span>
                             <qr-code
                             :text="`${ticket.qr}`"
                             size=120
@@ -43,19 +44,113 @@
                     </div>
                      <div class="count-info">
                         <div class="count-info-div">
-                        일반 {{ ticket.adult_num }}명,
-                        청소년 {{ ticket.child_num }}명,
-                        유아 {{ ticket.baby_num }}명
+                        <span v-if="ticket.adult_num > 0">일반 {{ ticket.adult_num }}명<span v-if="ticket.child_num > 0">,</span></span>
+                        <span v-if="ticket.child_num > 0">청소년 {{ ticket.child_num }}명<span v-if="ticket.baby_num > 0">,</span></span>
+                        <span v-if="ticket.baby_num > 0">유아 {{ ticket.baby_num }}명</span>
                         </div>
                         <div>
-                         <v-btn @click="cancelPay()" small color="white">
+                    <v-dialog
+                    v-model="dialog"
+                    width="310"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                        환불하기
+                        </v-btn>
+                    </template>
+
+                    <v-card>
+                        <v-card-title class="text-h3 white lighten-2">
+                        환불하기
+                        </v-card-title>
+                        <hr class="card-hr"/>
+                        <br/>
+                        <v-card-text>
+                        <span class="cancelPayfontMain">
+                        환불시 영업일 기준으로 당일결제/<br/>
+                        당일환불 건은 당일 취소 처리되며,<br/>
+                        그외 건은 7일 이내 취소 처리됩니다.<br/>
+                        일부 승차권의 부분 환불, 일정 변경은<br/>
+                        불가하오니 전체 환불 신청 후 재결제를<br/>
+                        부탁드립니다.<br/><br/>
+                        </span>
+                        <span class="cancelPayfontCard">* 카드사별 결제일, 환불 일자 상이<br/><br/></span>
+                        <span class="cancelPayfontFooter">정말 환불하시겠습니까?</span>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <div class="modalBtn">
+                        <div class="modalBtn1">
+                        <v-btn
+                            color="black"
+                            text
+                            @click="dialog = false"
+                        >
+                            취소하기
+                        </v-btn>
+                        </div>
+                        <div class="modalBtn2">
+                        <v-btn
+                            color="#ffffff"
+                            text
+                            @click="[modal3(),modal4(),modal5(ticket.merchant_uid)]"
+                        >
                             환불하기
                         </v-btn>
+                        </div>
+                        </div>
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- 2번째 modal -->
+        <v-dialog
+                v-model="test"
+                width="300"
+                v-if="test == true"
+        >
+        <v-card >
+                        
+        <hr/>
+        <br/>
+        <v-card-text class="cancelPayfontMain2">
+        탑승권이 정상 환불되었습니다.<br/>
+        신용(체크)카드의 경우,<br/>
+        환불 신청 7일 이후 카드사를 통해<br/>
+        확인하시기 바랍니다.<br/>
+        </v-card-text>
+
+          <v-divider></v-divider>
+
+         <v-card-actions class="modalBtn3">
+         <v-spacer></v-spacer>
+                        
+        <v-btn
+            class="modalBtn4"
+            color="#FFFFFF"
+            text
+            @click="cancelPay(ticket.merchant_uid)"
+                        
+        >
+            최종 환불확인
+        </v-btn>
+        </v-card-actions>
+        </v-card>
+        </v-dialog>
         </div>
+        
+    
+        
+        
         <!-- no ticket -->
         <div class="no-ticket" v-if="ticketList[0].length === 0">
             <h3>구매하신 승차권이 없어요</h3>
@@ -65,15 +160,15 @@
                 이동해주세요.
             </p>
         </div>
-                </v-tab-item>
-                <!-- 종일 승차권 -->
-                <v-tab-item>
-                    <div
+            </v-tab-item>
+        <!-- 종일 승차권 -->
+            <v-tab-item>
+                <div
                     class="active-ticket"
                     v-for="ticket in allDayTicket[0]"
                     :key="ticket.reservation_seq"
                     :v-if="ticket.length > 0"
-                    >
+                >
             <!-- 상단 -->
             <div
                 class="ticket-tit2"
@@ -82,7 +177,7 @@
                     { 'deactive-ticket-tit': ticket.state === 2 },
                 ]"
             >
-                <p>{{ ticket.date }}</p>
+                <p>{{ ticket.date.substring(0,13) + '('+ticket.date.substring(14,15)+')' }}</p>
                 <p>
                     {{
                         ticket.adult_num + ticket.child_num + ticket.baby_num
@@ -94,6 +189,7 @@
                 <div class="ticket-main-txt">
                     <div class="ticket-main-tit">
                             <img src="../../assets/tasio-logo3.png" alt="" class="tit-img" />
+                            <span style="line-height:50%"><br></span>
                             <qr-code
                             :text="`${ticket.qr}`"
                             size=120
@@ -104,18 +200,111 @@
                     </div>
                 <div class="count-info">
                     <div class="count-info-div">
-                      일반 {{ ticket.adult_num }}명,
-                      청소년 {{ ticket.child_num }}명,
-                      유아 {{ ticket.baby_num }}명
+                      <span v-if="ticket.adult_num > 0">일반 {{ ticket.adult_num }}명<span v-if="ticket.child_num > 0">,</span></span>
+                      <span v-if="ticket.child_num > 0">청소년 {{ ticket.child_num }}명<span v-if="ticket.baby_num > 0">,</span></span>
+                      <span v-if="ticket.baby_num > 0">유아 {{ ticket.baby_num }}명</span>
                     </div>
                     <div>
-                      <v-btn @click="cancelPay()" small color="white">
+                    <v-dialog
+                    v-model="dialog"
+                    width="310"
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        >
                         환불하기
-                      </v-btn>
+                        </v-btn>
+                    </template>
+
+                    <v-card>
+                        <v-card-title class="text-h3 white lighten-2">
+                        환불하기
+                        </v-card-title>
+                        <hr class="card-hr"/>
+                        <br/>
+                        <v-card-text>
+                        <span class="cancelPayfontMain">
+                        환불시 영업일 기준으로 당일결제/<br/>
+                        당일환불 건은 당일 취소 처리되며,<br/>
+                        그외 건은 7일 이내 취소 처리됩니다.<br/>
+                        일부 승차권의 부분 환불, 일정 변경은<br/>
+                        불가하오니 전체 환불 신청 후 재결제를<br/>
+                        부탁드립니다.<br/><br/>
+                        </span>
+                        <span class="cancelPayfontCard">* 카드사별 결제일, 환불 일자 상이<br/><br/></span>
+                        <span class="cancelPayfontFooter">정말 환불하시겠습니까?</span>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <div class="modalBtn">
+                        <div class="modalBtn1">
+                        <v-btn
+                            color="black"
+                            text
+                            @click="dialog = false"
+                        >
+                            취소하기
+                        </v-btn>
+                        </div>
+                        <div class="modalBtn2">
+                        <v-btn
+                            color="#ffffff"
+                            text
+                            @click="[modal1(),modal2()]"
+                        >
+                            환불하기
+                        </v-btn>
+                        </div>
+                        </div>
+
+                    
+                        </v-card-actions>
+                    </v-card>
+                    </v-dialog>
+
                     </div>
                 </div>
                 </div>
             </div>
+            <!-- 2번째 modal -->
+        <v-dialog
+                v-model="test"
+                width="300"
+                v-if="test == true"
+        >
+        <v-card >
+                        
+        <hr/>
+        <br/>
+        <v-card-text class="cancelPayfontMain2">
+        탑승권이 정상 환불되었습니다.<br/>
+        신용(체크)카드의 경우,<br/>
+        환불 신청 7일 이후 카드사를 통해<br/>
+        확인하시기 바랍니다.<br/>
+        </v-card-text>
+
+          <v-divider></v-divider>
+
+         <v-card-actions class="modalBtn3">
+         <v-spacer></v-spacer>
+                        
+        <v-btn
+            class="modalBtn4"
+            color="#FFFFFF"
+            text
+            @click="cancelPay(ticket.merchant_uid)"
+                        
+        >
+            최종 환불확인
+        </v-btn>
+        </v-card-actions>
+        </v-card>
+        </v-dialog>
         </div>
         <!-- no ticket -->
         <div class="no-ticket" v-if="allDayTicket[0].length === 0">
@@ -135,6 +324,9 @@
             >
         </v-footer>
     </div>
+
+
+    
 </template>
 <script>
 import Vue from 'vue'
@@ -164,7 +356,9 @@ export default {
         showModal: false,
         menus: ['1회 승차권', '종일 승차권'],
         tab: null,
-        linkToProfile: "http://www.example.com/johnDoe",
+        dialog: false,
+        test: false
+        
     }),
     computed: {
         ...mapGetters({
@@ -177,9 +371,7 @@ export default {
         this.getAllDayTicketInfo()
     },
     methods: {
-          test(dataUrl,id){
-            console.log(dataUrl, id)
-        },
+          
         //1회 승차권 불러오기
         getTicketInfo() {
             console.log("uid", this.uid)
@@ -252,7 +444,8 @@ export default {
             findItem.state = 2
         },
         //탑승권 승차 확인 클릭 시
-        cancelPay() {
+        cancelPay(item) {
+            console.log(99999999,item);
             console.log("고유ID :", this.uid)
             console.log("주문번호 :", this.merchant_uid)
             console.log("환불금액 :", this.amount)
@@ -265,7 +458,8 @@ export default {
                     userid: this.uid,
                 },
                 data: {
-                    merchant_uid: this.merchant_uid,
+                    // merchant_uid: this.merchant_uid,
+                    merchant_uid: item,
                     reason: "승차권 예약취소",
                     cancel_request_amount: this.amount,
                 },
@@ -279,6 +473,25 @@ export default {
                 })
             this.$router.push("/")
         },
+        modal1() {
+            console.log(1);
+            this.dialog = false;
+        },
+        modal2(){
+            console.log(2);
+            this.test = true;
+        },
+        modal3() {
+            console.log(3);
+            this.dialog = false;
+        },
+        modal4(){
+            console.log(4);
+            this.test = true;
+        },
+        modal5(item){
+            console.log(item);
+        }
     },
 }
 </script>
@@ -300,6 +513,7 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+    
 }
 .no-ticket-text {
     color: #828282;
@@ -318,11 +532,12 @@ export default {
 }
 .active-ticket {
     width: 340px;
-    height: 376px;
+    height: 405px;
     border-radius: 5px;
     border: 1px solid #dbdbdb;
     margin: 0 auto 20px;
     margin-top:23px;
+ 
 }
 .ticket-tit2 {
     font-size: 14px;
@@ -349,6 +564,7 @@ export default {
     color: #fff;
     padding: 10px 20px;
     box-sizing: border-box;
+    
 }
 .tit-img {
     padding-bottom: 10px;
@@ -405,7 +621,7 @@ export default {
     background-color: #F9F9F9;
 }
 .count-info-div {
-    padding:7px;
+    padding:11px;
 }
 .copyrightStyle {
     width: 100%;
@@ -414,4 +630,54 @@ export default {
     bottom: 20px;
     transform: translate(-50%, 0%);
 }
+.modalBtn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    
+    
+}
+.modalBtn1 {
+    width:100%;
+    text-align: center;
+    
+}
+.modalBtn2 {
+    width:100%;
+    text-align: center;
+    background-color:#e61773;
+}
+
+.cancelPayfontMain{
+    color:#262626;
+    font-size: 16px;
+}
+
+.cancelPayfontCard {
+    color:#555555;
+    font-size: 14px;
+}
+.cancelPayfontFooter{
+    color:#e61773;
+    font-size: 16px;
+}
+.cancelPayfontMain2{
+    text-align: center;
+    color:#262626;
+    font-size:16px;
+}
+.modalBtn3{
+    background-color: #e61773 !important;
+}
+.modalBtn4{
+    text-align: center;
+    width: 100%;
+}
+.card-hr{
+    margin: 0 auto;
+    width:85%;
+}
+
+
+
 </style>
