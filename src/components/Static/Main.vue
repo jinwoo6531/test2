@@ -22,7 +22,7 @@
                 align="center"
                 justify="center"
               >
-                <!-- <v-badge
+                <v-badge
                   color="#E61773"
                   content="준비중"
                   left
@@ -30,7 +30,7 @@
                   offset-y="20px"
                   style="z-index: 10; padding: 1px 5px 3px 5px"
                   :hidden="card.hidden"
-                ></v-badge> -->
+                ></v-badge>
                 <v-card
                   :ripple="false"
                   link
@@ -129,7 +129,7 @@ export default {
         disabled: false,
         gradient: undefined,
         color: "#transparent",
-        hidden: true,
+        hidden:true,
       },
       {
         title:
