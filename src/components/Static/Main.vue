@@ -14,7 +14,7 @@
                     sm12
                     md12
                 >
-                    탑승하실 지역을 선택하세요1
+                    탑승하실 지역을 선택하세요
                 </v-flex>
                 <v-flex>
                     <v-container fluid>
