@@ -103,83 +103,101 @@
 
                 <v-flex class="pa-0 selectBox" xs12 sm12 md12>
                     <v-flex class="pa-4 pt-0" xs12 sm12 md12>
-
-
-                    <v-dialog
-                    v-model="dialog"
-                    fullscreen
-                    >
-                    <template v-slot:activator="{ on }">
-                        <v-btn
-                        class="pa-0 person-modal"
-                        color="#fff"
-                        v-on="on"
-                        v-if="testtest.length === 0"
-                        :ripple="false"
-                        >
-                        <img
-                               src="../../assets/person-count.svg"
-                        />
-                           
-                        <span
-                            v-if="totalCount >= 1"
-                            style="padding-left: 0.75rem"
-                               >탑승인원 {{ totalCount }}명</span
-                           >
-                        <span
-                            v-else
-                               style="
-                            color: #262626;
-                            padding-left: 0.75rem;
-                            letter-spacing: 0.5px;
-                            "
-                            >탑승인원 선택 
-                        </span>
-                    </v-btn>
-                    </template>
-
-                    <v-card>
-                        <v-card-title class="text-h3 white lighten-2">
-                        
-                        </v-card-title>
-                        
-                        
-
-                        <v-divider></v-divider>
-
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <div style="width:100%;height: 95vh; background-color: #fff">
-                        <div id="main">
-                            <v-container
-                            class="pa-0 ma-0 flex-wrap"
-                            fluid
-                            justify-center
-                            grid-list-md
-                            fill-height
-                            >
-                            <v-layout row wrap class="ma-0">
-                                <v-flex class="pa-0 mt-12 mb-12 main-title persentH" xs12 sm12 md12>
-                                이용하실 서비스를 선택하세요
-                                </v-flex>
-                                <v-flex>
-                                <v-container fluid>
-                                    <v-row dense no-gutters align="center" justify="center">
-                                <img src="../../assets/shuttle.png" alt="shuttle image" style="margin-bottom:1.75rem">
-                                        <v-col
-                                    cols="6"
-                                    class="mb-5"
-                                    align="center"
-                                    justify="center"
-                                >
-                                    <v-card
+                        <v-dialog v-model="dialog" fullscreen>
+                            <template v-slot:activator="{ on }">
+                                <v-btn
+                                    class="pa-0 person-modal"
+                                    color="#fff"
+                                    v-on="on"
                                     :ripple="false"
-                                    link
-                                    flat
-                                    width="8.5rem"
-                                    height="5.5rem"
-                                    :disabled="false"
-                                    style="
+                                >
+                                    <img src="../../assets/person-count.svg" />
+
+                                    <span
+                                        v-if="totalCount >= 1"
+                                        style="padding-left: 0.75rem"
+                                        >탑승인원 {{ totalCount }}명
+                                    </span>
+
+                                    <span
+                                        v-else
+                                        style="
+                                           color: #262626;
+                                            padding-left: 0.75rem;
+                                            letter-spacing: 0.5px;
+                                            "
+                                        >탑승인원 선택
+                                    </span>
+                                </v-btn>
+                            </template>
+
+                            <v-card>
+                                <v-card-actions>
+                                    <div
+                                        style="width:100%;height: 95vh; background-color: #fff"
+                                    >
+                                        <div id="main">
+                                            <span class="highbottom-logo">
+                                                <img
+                                                    class="high-logo"
+                                                    src="../../assets/highlogo.png"
+                                                    alt="high image"
+                                                    style="margin-bottom:3.88px"
+                                                />
+                                                <img
+                                                    class="bottom-logo"
+                                                    src="../../assets/bottomlogo.png"
+                                                    alt="bottom image"
+                                                />
+                                            </span>
+                                            <v-container
+                                                class="pa-0 ma-0 flex-wrap"
+                                                fluid
+                                                justify-center
+                                                grid-list-md
+                                                fill-height
+                                            >
+                                                <v-layout row wrap class="ma-0">
+                                                    <v-flex
+                                                        class="pa-0 mt-12 mb-12 main-title persentH"
+                                                        xs12
+                                                        sm12
+                                                        md12
+                                                    >
+                                                        이용하실 서비스를
+                                                        선택하세요
+                                                    </v-flex>
+                                                    <v-flex>
+                                                        <v-container fluid>
+                                                            <v-row
+                                                                dense
+                                                                no-gutters
+                                                                align="center"
+                                                                justify="center"
+                                                            >
+                                                                <img
+                                                                    src="../../assets/shuttle.png"
+                                                                    alt="shuttle image"
+                                                                    style="margin-bottom:1.75rem"
+                                                                />
+                                                                <v-col
+                                                                    cols="6"
+                                                                    class="mb-5"
+                                                                    align="center"
+                                                                    justify="center"
+                                                                >
+                                                                    <v-card
+                                                                        :ripple="
+                                                                            false
+                                                                        "
+                                                                        link
+                                                                        flat
+                                                                        width="8.5rem"
+                                                                        height="5.5rem"
+                                                                        :disabled="
+                                                                            false
+                                                                        "
+                                                                        style="
                                         margin: 0;
                                         text-align: center;
                                         border-radius: 20px;
@@ -187,28 +205,36 @@
                                         box-sizing: border-box;
                                         background-color: #E61773;
                                     "
-                                    @click="goToOneTime"
-                                    >
-                                        <v-card-text
-                                        class="site-btn pa-0 mb-9"
-                                        style="width: 100%; text-align: center; color: #fff; font-size: 1rem;"
-                                        >1회 승차권<br>발권하기</v-card-text>
-                                    </v-card>
-                                </v-col>
-                                 <v-col
-                                    cols="6"
-                                    class="mb-5"
-                                    align="center"
-                                    justify="center"
-                                >
-                                    <v-card
-                                    :ripple="false"
-                                    link
-                                    flat
-                                    width="8.5rem"
-                                    height="5.5rem"
-                                    :disabled="false"
-                                    style="
+                                                                        @click="
+                                                                            goToOneTime
+                                                                        "
+                                                                    >
+                                                                        <v-card-text
+                                                                            class="site-btn pa-0 mb-9"
+                                                                            style="width: 100%; text-align: center; color: #fff; font-size: 1rem;"
+                                                                            >1회
+                                                                            승차권<br />발권하기</v-card-text
+                                                                        >
+                                                                    </v-card>
+                                                                </v-col>
+                                                                <v-col
+                                                                    cols="6"
+                                                                    class="mb-5"
+                                                                    align="center"
+                                                                    justify="center"
+                                                                >
+                                                                    <v-card
+                                                                        :ripple="
+                                                                            false
+                                                                        "
+                                                                        link
+                                                                        flat
+                                                                        width="8.5rem"
+                                                                        height="5.5rem"
+                                                                        :disabled="
+                                                                            false
+                                                                        "
+                                                                        style="
                                         margin: 0;
                                         text-align: center;
                                         border-radius: 20px;
@@ -216,25 +242,28 @@
                                         box-sizing: border-box;
                                         background-color: #12ABBF;
                                     "
-                                    @click="goToOneDay"
-                                    >
-                                        <v-card-text
-                                        class="site-btn pa-0 mb-9"
-                                        style="width: 100%; text-align: center; color: #fff; font-size: 1rem;"
-                                        >종일 승차권<br>발권하기</v-card-text>
-                                    </v-card>
-                                </v-col>
-                                </v-row>
-                            </v-container>
-                            </v-flex>
-                        </v-layout>
-                        </v-container>
-                    </div>
-                    </div>
-                        </v-card-actions>
-                    </v-card>
-                    </v-dialog>
-
+                                                                        @click="
+                                                                            goToOneDay
+                                                                        "
+                                                                    >
+                                                                        <v-card-text
+                                                                            class="site-btn pa-0 mb-9"
+                                                                            style="width: 100%; text-align: center; color: #fff; font-size: 1rem;"
+                                                                            >종일
+                                                                            승차권<br />발권하기</v-card-text
+                                                                        >
+                                                                    </v-card>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-container>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-container>
+                                        </div>
+                                    </div>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
 
                         <!-- 재영 -->
                         <v-dialog
@@ -243,38 +272,7 @@
                             hide-overlay
                             transition="dialog-bottom-transition"
                             v-if="testtest.length > 0"
-                            
                         >
-                            <template v-slot:activator="{ on }">
-                                <span style="display: inline-block; width: 70%">
-                                    <v-btn
-                                        class="pa-0 person-modal"
-                                        color="#fff"
-                                        v-on="on"
-                                        :ripple="false"
-                                    >
-                                        <img
-                                            src="../../assets/person-count.svg"
-                                        />
-                                        
-                                        <span
-                                            v-if="totalCount >= 1"
-                                            style="padding-left: 0.75rem"
-                                            >탑승인원 {{ totalCount }}명</span
-                                        >
-                                        <span
-                                            v-else
-                                            style="
-                                            color: #262626;
-                                            padding-left: 0.75rem;
-                                            letter-spacing: 0.5px;
-                                            "
-                                            >탑승인원 선택 
-                                        </span>
-                                    </v-btn>
-                                </span>
-                            </template>
-
                             <v-card class="persentH" style="position: absolute">
                                 <v-toolbar
                                     color="transparent"
@@ -300,28 +298,62 @@
                                         class="ma-0"
                                     >
                                         <v-card-text class="select-person-title"
-                                            >{{testtest}} 탑승인원 선택 </v-card-text
-                                        >
-                                        <v-card-text
-                                            class="select-max-title mb-5"
+                                            >{{ testtest }}
+                                            <span class="select-person-title2"
+                                                >탑승인원 선택</span
+                                            >
+                                        </v-card-text>
+                                        <v-card-text class="select-max-title"
                                             >탑승인원은 최대 14명까지 선택
-                                            가능합니다.</v-card-text
-                                        >
+                                            가능합니다.
+                                        </v-card-text>
                                         <div class="tabs">
                                             <!-- 1회권 -->
 
                                             <!-- 일반  -->
-                                            <v-card class="d-flex justify-space-around mb-5" flat>
-                                                <v-card-text class="select-max" v-if="testtest === '1회 승차권'">
-                                                    일반<br />(1회 6,000원)
+                                            <v-card
+                                                class="d-flex justify-space-around mb-5"
+                                                flat
+                                            >
+                                                <v-card-text
+                                                    class="select-max"
+                                                    v-if="
+                                                        testtest ===
+                                                            '1회 승차권'
+                                                    "
+                                                >
+                                                    <span
+                                                        class="adultChildbaby2"
+                                                    >
+                                                        일반</span
+                                                    ><br /><span
+                                                        class="adultChildbaby"
+                                                        >(1회 6,000원)</span
+                                                    >
                                                 </v-card-text>
 
-                                                <v-card-text class="select-max" v-if="testtest === '종일 승차권'">
-                                                    일반<br />(종일 9,000원)
+                                                <v-card-text
+                                                    class="select-max"
+                                                    v-if="
+                                                        testtest ===
+                                                            '종일 승차권'
+                                                    "
+                                                >
+                                                    <span
+                                                        class="adultChildbaby2"
+                                                    >
+                                                        일반</span
+                                                    ><br />
+                                                    <span class="adultChildbaby"
+                                                        >(종일 9,000원)</span
+                                                    >
                                                 </v-card-text>
 
-                                                
-                                                <v-card :ripple="false" flat tile>
+                                                <v-card
+                                                    :ripple="false"
+                                                    flat
+                                                    tile
+                                                >
                                                     <v-btn
                                                         :disabled="
                                                             isDisabled_adult_minus
@@ -378,13 +410,35 @@
                                                 flat
                                             >
                                                 <!-- mt-9 생략 -->
-                                                <v-card-text class="select-max" v-if="testtest === '1회 승차권'"
-                                                    >청소년/어린이<br />(1회
-                                                    4,000원)</v-card-text
+                                                <v-card-text
+                                                    class="select-max"
+                                                    v-if="
+                                                        testtest ===
+                                                            '1회 승차권'
+                                                    "
                                                 >
-                                                <v-card-text class="select-max" v-if="testtest === '종일 승차권'"
-                                                    >청소년/어린이<br />(종일
-                                                    6,000원)</v-card-text
+                                                    <span
+                                                        class="adultChildbaby2"
+                                                        >청소년</span
+                                                    ><br />
+                                                    <span class="adultChildbaby"
+                                                        >(1회 4,000원)</span
+                                                    ></v-card-text
+                                                >
+                                                <v-card-text
+                                                    class="select-max"
+                                                    v-if="
+                                                        testtest ===
+                                                            '종일 승차권'
+                                                    "
+                                                >
+                                                    <span
+                                                        class="adultChildbaby2"
+                                                        >청소년</span
+                                                    ><br />
+                                                    <span class="adultChildbaby"
+                                                        >(종일 6,000원)</span
+                                                    ></v-card-text
                                                 >
                                                 <v-card
                                                     :ripple="false"
@@ -446,9 +500,14 @@
                                                 class="d-flex justify-space-around mb-10"
                                                 flat
                                             >
-                                                <v-card-text class="select-max"
-                                                    >유아<br />(만6세 미만
-                                                    무료)</v-card-text
+                                                <v-card-text class="select-max">
+                                                    <span
+                                                        class="adultChildbaby2"
+                                                        >유아</span
+                                                    ><br />
+                                                    <span class="adultChildbaby"
+                                                        >(만6세 미만 무료)</span
+                                                    ></v-card-text
                                                 >
                                                 <v-card
                                                     :ripple="false"
@@ -522,7 +581,9 @@
                             '#555555'}]
                           "
                                                 >
-                                                    {{ totalPayment }}원
+                                                    <span class="payment2">
+                                                        {{ totalPayment }}원
+                                                    </span>
                                                 </p>
                                             </div>
                                             <div
@@ -539,6 +600,13 @@
                                                     선택</span
                                                 >
                                             </div>
+                                            <v-card-text
+                                                style="font-size:0.8rem; text-align:center; font-weight: regular; position: absolute; bottom:3.125rem; left: 0; color:#777777"
+                                                >최종 결제 전 취소 및 환불규정을
+                                                반드시 확인하시기
+                                                바랍니다.</v-card-text
+                                            >
+
                                             <div
                                                 class="selected"
                                                 v-if="
@@ -555,6 +623,7 @@
                                                     >
                                                 </p>
                                                 <br />
+
                                                 <div>
                                                     <div
                                                         class="sumList"
@@ -568,20 +637,29 @@
                                                             일반{{ adultCount }}
                                                         </div>
                                                         <div>
-                                                            <p v-if="testtest === '종일 승차권'">
+                                                            <p
+                                                                v-if="
+                                                                    testtest ===
+                                                                        '종일 승차권'
+                                                                "
+                                                            >
                                                                 {{
                                                                     adultCount *
                                                                         9000
                                                                 }}원
                                                             </p>
 
-                                                            <p v-if="testtest === '1회 승차권'">
+                                                            <p
+                                                                v-if="
+                                                                    testtest ===
+                                                                        '1회 승차권'
+                                                                "
+                                                            >
                                                                 {{
                                                                     adultCount *
                                                                         6000
                                                                 }}원
                                                             </p>
-
                                                         </div>
                                                     </div>
                                                     <br />
@@ -599,14 +677,24 @@
                                                             }}
                                                         </div>
                                                         <div>
-                                                            <p v-if="testtest === '종일 승차권'">
+                                                            <p
+                                                                v-if="
+                                                                    testtest ===
+                                                                        '종일 승차권'
+                                                                "
+                                                            >
                                                                 {{
                                                                     childCount *
                                                                         6000
                                                                 }}원
                                                             </p>
 
-                                                            <p v-if="testtest === '1회 승차권'">
+                                                            <p
+                                                                v-if="
+                                                                    testtest ===
+                                                                        '1회 승차권'
+                                                                "
+                                                            >
                                                                 {{
                                                                     childCount *
                                                                         4000
@@ -721,7 +809,7 @@
                                 >
                                     <span class="select-modal-btn">시간표</span>
 
-                                    <v-btn
+                                    <!-- <v-btn
                                         class="closing-button"
                                         color="#FFF"
                                         @click="
@@ -730,7 +818,7 @@
                                         "
                                         ><img
                                             src="../../assets/closing-button.png"
-                                    /></v-btn>
+                                    /></v-btn> -->
                                 </v-card-text>
                                 <v-divider class="divider-style"></v-divider>
                                 <v-card
@@ -1004,9 +1092,7 @@
                                             class="pl-2"
                                             :ripple="false"
                                             color="transparent"
-                                            @click="
-                                                destination_popup = !destination_popup
-                                            "
+                                            @click="abc()"
                                             flat
                                         >
                                             <span
@@ -1118,7 +1204,7 @@ var marker
 export default {
     data: () => ({
         dialog2: true,
-        testtest:'',
+        testtest: "",
         map: null,
         OSMUrl:
             "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
@@ -1374,8 +1460,6 @@ export default {
         movingVehicle: "",
         routePoints: [],
         markerData: "",
-
-        
     }),
 
     computed: {
@@ -1398,11 +1482,17 @@ export default {
             // num = parseInt(num, 10)
             // return num.toLocaleString()
 
-            let num = 0;
-            if(this.testtest === '종일 승차권') {
-                num = 9000 * this.adultCount + 6000 * this.childCount + 0 * this.babyCount
+            let num = 0
+            if (this.testtest === "종일 승차권") {
+                num =
+                    9000 * this.adultCount +
+                    6000 * this.childCount +
+                    0 * this.babyCount
             } else {
-                num = 6000 * this.adultCount + 4000 * this.childCount + 0 * this.babyCount
+                num =
+                    6000 * this.adultCount +
+                    4000 * this.childCount +
+                    0 * this.babyCount
             }
             num = parseInt(num, 10)
             return num.toLocaleString()
@@ -1587,9 +1677,9 @@ export default {
                 }
                 this.addRouting(this.routePoints, "#E51973", "transparent")
             }
+            console.log("111", this.end.name)
         },
         end() {
-            console.log("end changed", this.end)
             end_icon = this.stationPicker(this.end, this.endIcon, end_icon)
 
             if (this.routePoints.length > 0) {
@@ -1620,17 +1710,28 @@ export default {
         },
     },
     methods: {
-    modal9() {
-        this.dialog2 = false;
-    },
+        async abc() {
+            if (this.start.name === "start") {
+                await alert("출발지를 먼저 선택해주세요.")
+                this.start_station_popup = true
+                this.destination_popup = false
+            }
+            console.log(1111, this.end.name)
+            // if (this.end.name.length > 0) {
+            //     alert("도착지 이미 선택되어있음.")
+            // }
+        },
+        modal9() {
+            this.dialog2 = false
+        },
 
-    goToOneTime() {
-        this.testtest = '1회 승차권';
-    },
-    goToOneDay(){
-        this.testtest = '종일 승차권';
-    },
-            //출발지,도착지 선택 모달 '선택하기'버튼 연결 함수
+        goToOneTime() {
+            this.testtest = "1회 승차권"
+        },
+        goToOneDay() {
+            this.testtest = "종일 승차권"
+        },
+        //출발지,도착지 선택 모달 '선택하기'버튼 연결 함수
         pickStation(isStart) {
             //정류장 선택 안했으면 아무 반응 없게
             if (!this.pickedStation) return
@@ -1975,6 +2076,7 @@ export default {
         // 인원수 선택 모달 창 닫기 버튼 기능
         closePersonDialog() {
             this.dialog = false
+            this.testtest = ""
 
             // 티켓 카운트 초기화
             this.babyCount = 0
@@ -2384,13 +2486,28 @@ export default {
                     ticket_type: this.ticket_type,
                     siteId: this.siteId,
                 },
-                m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
+                m_redirect_url: `https://sgsapp.springgo.io:100/paycomplete?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
             })
         },
     },
 }
 </script>
 <style>
+.highbottom-logo {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.high-logo {
+    height: 23.88px;
+    width: 86px;
+}
+.bottom-logo {
+    height: 15px;
+    width: 123px;
+}
+
 .leaflet-popup-content-wrapper {
     min-width: 8.1235rem;
     width: max-content;
@@ -2490,7 +2607,20 @@ export default {
     font-size: 0.875rem;
     color: #fff;
 }
-
+.adultChildbaby {
+    color: #9d9d9d;
+    letter-spacing: -1px;
+    font-size: 12px;
+}
+.adultChildbaby2 {
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-weight: medium;
+    letter-spacing: -1px;
+}
+.payment2 {
+    color: #e61773;
+}
 /* 탑승 인원 */
 
 .is-disabled1 {
@@ -2540,26 +2670,34 @@ export default {
     position: absolute;
     top: 2.813rem;
     text-align: center;
-    font-size: 1rem;
-    color: #262626;
+    font-size: 18px;
+    letter-spacing: -1px;
+    color: #e61773;
+    font-weight: bold;
+    border-bottom: 1px solid #dbdbdb;
+    margin-top: -41px;
+}
+.select-person-title2 {
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: -1px;
+    margin-left: 5px;
+    margin-bottom: 20px;
 }
 .select-max-title {
     font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 0.875rem;
+    font-size: 14px;
     text-align: center;
-    color: #bdbdbd;
-    margin: -3.75rem;
+    color: #888888;
+    margin-top: -100px;
+    margin-bottom: 30px;
 }
 
 .select-max {
     font-family: Noto Sans KR;
-    font-style: normal;
-    font-weight: normal;
     font-size: 0.875rem;
     text-align: center;
-    color: #bdbdbd;
+    color: black;
     margin: -1rem;
     margin-right: 2.5rem;
 }
@@ -2759,10 +2897,14 @@ export default {
     /* margin-top: 0.938rem; */
     display: flex;
     justify-content: space-between;
+
+    padding: 8px;
 }
 .payment-amount span,
 .payment-amount p {
     font-weight: 500;
+
+    margin-top: 5px;
 }
 .total_payment {
     width: 90vw;
@@ -2785,8 +2927,9 @@ export default {
     box-sizing: border-box;
 }
 .nonSelected > span {
-    letter-spacing: 1.5px;
-    font-size: 0.875rem;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: medium;
 }
 
 .selected {
@@ -2834,5 +2977,13 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: -1.875rem;
+}
+.main-title {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+    color: #262626;
 }
 </style>
