@@ -1,11 +1,19 @@
 <template>
     <div id="ticket">
-        <v-tabs v-model="tab" centered fixed-tabs  color="gray"
-            slider-color="#DBDBDB">
-                <v-tab v-for="item in menus" :key="item">{{item}}</v-tab>
+        <v-container
+      class="pa-0 ma-0 flex-wrap"
+      fluid 
+      justify-center
+      grid-list-md
+      fill-height
+    >
+              <v-layout wrap >
+        <v-tabs  v-model="tab" centered fixed-tabs  color="#555"
+            slider-color="#fff" background-color="#F8F8F8">
+                <v-tab class="tab-items2" style="border: 1px solid #dbdbdb" v-for="item in menus" :key="item">{{item}}</v-tab>
                  <!--1회 승차권  -->
-                <v-tab-item>
-                    <div
+                <v-tab-item class="ma-0">
+                    <v-card
                     class="active-ticket"
                     v-for="ticket in ticketList[0]"
                     :key="ticket.reservation_seq"
@@ -148,11 +156,7 @@
         </v-card-actions>
         </v-card>
         </v-dialog>
-        </div>
-        
-    
-        
-        
+        </v-card>  
         <!-- no ticket -->
         <div class="no-ticket" v-if="ticketList[0].length === 0">
             <h3>구매하신 승차권이 없어요</h3>
@@ -162,10 +166,14 @@
                 이동해주세요.
             </p>
         </div>
-            </v-tab-item>
+        <v-footer class="copyrightStyle">
+            <p>결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다</p>
+        </v-footer>
+        </v-tab-item>
         <!-- 종일 승차권 -->
-            <v-tab-item>
-                <div
+            <v-tab-item
+            >
+                <v-card
                     class="active-ticket"
                     v-for="ticket in allDayTicket[0]"
                     :key="ticket.reservation_seq"
@@ -299,15 +307,14 @@
             class="modalBtn4"
             color="#FFFFFF"
             text
-            @click="cancelPay(ticket.merchant_uid)"
-                        
+            @click="cancelPay(ticket.merchant_uid)"                        
         >
             최종 환불확인
         </v-btn>
         </v-card-actions>
         </v-card>
         </v-dialog>
-        </div>
+        </v-card>
         <!-- no ticket -->
         <div class="no-ticket" v-if="allDayTicket[0].length === 0">
             <h3>구매하신 승차권이 없어요</h3>
@@ -317,14 +324,19 @@
                 이동해주세요.
             </p>
         </div>
+         <!-- <v-alert
+                tile
+                dense
+                type="info"
+                color="#E61773 "
+                style="position: fixed; bottom:0; left:0; z-index: index 9;"
+            >
+                <strong style="font-weight: 500; font-size:0.813rem; margin-left:-10px">1일 승차권의 경우 해당 결제일이 지나면 자동 삭제됩니다.</strong>
+                </v-alert> -->
             </v-tab-item>
         </v-tabs>
-        <v-footer class="copyrightStyle">
-            <span
-                >결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다<br />
-                승차권은 탑승일 일주일 이후 삭제됩니다.</span
-            >
-        </v-footer>
+              </v-layout>
+          </v-container>
     </div>
 
 
@@ -499,7 +511,18 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
+.tab-items2{
+ font-size: 16px;
+  font-family: Noto Sans KR;
+  letter-spacing: -1px;
+  line-height: 26px;
+}
+/* 수정 */
+.v-tab--active{
+    background-color: #fff;
+}
+
 .payment-date {
     font-size: x-small;
     color: gray;
@@ -514,10 +537,10 @@ export default {
 }
 #ticket {
     font-family: Noto Sans KR;
-    width: 100%;
+    width: 100vw;
     height: 100%;
     position: relative;
-    
+    background-color: #fff;  
 }
 .no-ticket-text {
     color: #828282;
@@ -530,6 +553,7 @@ export default {
     flex-direction: column;
     align-items: center;
     margin-top: 150px;
+    height: 80vh;
 }
 .no-ticket > h3 {
     margin-bottom: 50px;
@@ -627,19 +651,27 @@ export default {
 .count-info-div {
     padding:11px;
 }
+
 .copyrightStyle {
-    width: 100%;
+    font-size: 0.813rem;
+    color: #777;
     position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translate(-50%, 0%);
+    left: 10%;
+    bottom: 0%;
 }
+
+.v-alert{
+    width:100%;
+    height:2.75rem;
+    box-sizing: border-box;
+    margin:0;
+    border-radius: 0;
+}
+
 .modalBtn {
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    
-    
+    justify-content: space-between;   
 }
 .modalBtn1 {
     width:100%;

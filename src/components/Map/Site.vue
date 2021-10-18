@@ -1380,7 +1380,7 @@ export default {
             .slice(this.start.points_idx)
             .concat(this.points[this.siteId].slice(0, this.end.points_idx + 1))
         }
-        this.addRouting(this.routePoints, "#E51973", "transparent")
+        this.addRouting(this.routePoints, "#95C8FA" )
       }
       console.log("111", this.end.name)
     },
@@ -1405,7 +1405,7 @@ export default {
             .slice(this.start.points_idx)
             .concat(this.points[this.siteId].slice(0, this.end.points_idx + 1))
         }
-        this.addRouting(this.routePoints, "#E51973", "transparent")
+        this.addRouting(this.routePoints, "#95C8FA")
       }
     },
   },
@@ -1463,8 +1463,8 @@ export default {
     addMarker() {
       // 사용 마커 정의
       this.zoomStatus = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/station_icon.svg"),
-        iconSize: [12, 12],
+        iconUrl: require("../../assets/bus.png"),
+        iconSize: [20, 20],
       })
       for (let station of this.stationList) {
         var markersLayer = this.$utils.map.createMakerByXY(
@@ -1583,7 +1583,7 @@ export default {
           styles: [
             {
               color: borderColor,
-              weight: 5,
+              weight: 8,
             },
             {
               color: fullColor,
@@ -1617,7 +1617,8 @@ export default {
             // 경로 스타일
             {
               color: borderColor,
-              weight: 6,
+              
+              weight: 8,
             },
             {
               color: fullColor,
@@ -1684,7 +1685,7 @@ export default {
           this.waypoints2.push(this.waypoints2[0])
 
           await this.addMarker() // 정류장 마커 표시
-          await this.addRouting2(this.waypoints2, "#fc9eb6", "#FFFFFF") // 서비스 경로 표시
+          await this.addRouting2(this.waypoints2, "#FFB6C8") // 서비스 경로 표시
         })
         .catch((error) => {
           console.log("station (GET) error: ")
@@ -2574,30 +2575,30 @@ export default {
   margin: 0 auto;
 }
 .nonSelected {
-  width: 100%;
-  height: 3.313rem;
-  border: 1px solid #c6c6c6;
-  display: flex;
-  justify-content: space-between;
-  color: #c6c6c6;
-  line-height: 3.313rem;
-  padding: 0 0.625rem;
-  box-sizing: border-box;
+    width: 100%;
+    height: 3rem;
+    border: 1px solid #c6c6c6;
+    display: flex;
+    justify-content: space-between;
+    color: #c6c6c6;
+    padding: 0.625rem;
+    box-sizing: border-box;
 }
 .nonSelected > span {
-  letter-spacing: 1px;
-  font-size: 14px;
-  font-weight: medium;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 0.875rem;
 }
 
 .selected {
-  width: 90vw;
-  height: 10.313rem;
-  border: 1px solid #dbdbdb;
-  font-size: 0.875rem;
-  padding: 0.625rem;
-  box-sizing: border-box;
-  margin-bottom: 20px;
+    width: 90vw;
+    height: 10.313rem;
+    border: 1px solid #dbdbdb;
+    font-size: 0.875rem;
+    padding: 0.625rem;
+    letter-spacing: 0.5px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
 }
 .sum {
   position: relative;
