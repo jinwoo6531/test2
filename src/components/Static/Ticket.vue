@@ -7,7 +7,7 @@
       grid-list-md
       fill-height
     >
-              <v-layout wrap >
+        <v-layout wrap >
         <v-tabs  v-model="tab" centered fixed-tabs  color="#555"
             slider-color="#fff" background-color="#F8F8F8">
                 <v-tab class="tab-items2" style="border: 1px solid #dbdbdb" v-for="item in menus" :key="item">{{item}}</v-tab>
@@ -67,6 +67,7 @@
                         v-bind="attrs"
                         v-on="on"
                         @click="modal9(ticket.merchant_uid)"
+                        style="background-color:#ffffff; font-size:14px; font-weight:medium; color:#555555; letter-spacing:-1px;"
                         >
                         환불하기
                         </v-btn>
@@ -93,7 +94,7 @@
 
                         <v-divider></v-divider>
 
-                        <v-card-actions>
+                        <v-card-actions class="pa-0">
                         <v-spacer></v-spacer>
                         <div class="modalBtn">
                         <div class="modalBtn1">
@@ -166,9 +167,7 @@
                 이동해주세요.
             </p>
         </div>
-        <v-footer class="copyrightStyle">
-            <p>결제하신 셔틀 탑승 시 승차권을 제시해주시기 바랍니다</p>
-        </v-footer>
+        |
         </v-tab-item>
         <!-- 종일 승차권 -->
             <v-tab-item
@@ -223,6 +222,7 @@
                         <v-btn
                         v-bind="attrs"
                         v-on="on"
+                        style="background-color:#ffffff; font-size:14px; font-weight:medium; color:#555555; letter-spacing:-1px;"
                         >
                         환불하기
                         </v-btn>
@@ -247,20 +247,23 @@
                         <span class="cancelPayfontFooter">정말 환불하시겠습니까?</span>
                         </v-card-text>
 
-                        <v-divider></v-divider>
 
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
+
+                        
+                        
                         <div class="modalBtn">
+
                         <div class="modalBtn1">
                         <v-btn
                             color="black"
+                            tile
                             text
                             @click="dialog = false"
                         >
                             취소하기
                         </v-btn>
                         </div>
+
                         <div class="modalBtn2">
                         <v-btn
                             color="#ffffff"
@@ -273,7 +276,7 @@
                         </div>
 
                     
-                        </v-card-actions>
+                        
                     </v-card>
                     </v-dialog>
 
@@ -487,19 +490,19 @@ export default {
             this.$router.push("/")
         },
         modal1() {
-            console.log(1);
+            
             this.dialog = false;
         },
         modal2(){
-            console.log(2);
+            
             this.test = true;
         },
         modal3() {
-            console.log(3);
+            
             this.dialog = false;
         },
         modal4(){
-            console.log(4);
+            
             this.test = true;
         },
         modal5(item){
@@ -668,20 +671,78 @@ export default {
     border-radius: 0;
 }
 
+.onChangeBtn1 {
+
+width: 50% !important;
+
+height: 100% !important;
+
+font-style: normal !important;
+
+font-weight: 500 !important;
+
+font-size: 1rem !important;
+
+letter-spacing: 0 !important;
+
+border-top: 0.5px solid #e61773 !important;
+
+}
+
+.onCancelBtn1 {
+
+width: 50% !important;
+
+height: 100% !important;
+
+color: #e61773 !important;
+
+font-style: normal !important;
+
+font-weight: 500 !important;
+
+font-size: 1rem !important;
+
+border-top: 0.5px solid #e61773 !important;
+
+box-sizing: border-box !important;
+
+letter-spacing: 0 !important;
+
+}
+
+.tttt{
+    padding: 0;
+    background-color: #e61773;
+    
+}
+
 .modalBtn {
     width: 100%;
     display: flex;
     justify-content: space-between;   
+    height: 3.125rem;
+    font-size: 16px;
+    font-weight: medium;
+    
 }
 .modalBtn1 {
     width:100%;
     text-align: center;
+    padding:6px;
+    font-size: 16px;
+    height: 3.125rem;
+    background-color: #FAFAFA;
+    font-family: Noto Sans KR;
+    font-weight: medium;
     
 }
 .modalBtn2 {
     width:100%;
     text-align: center;
     background-color:#e61773;
+    padding:6px;
+    font-family: Noto Sans KR;
 }
 
 .cancelPayfontMain{
@@ -704,6 +765,7 @@ export default {
 }
 .modalBtn3{
     background-color: #e61773 !important;
+ 
 }
 .modalBtn4{
     text-align: center;

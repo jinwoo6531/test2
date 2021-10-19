@@ -125,6 +125,13 @@
                 <v-card-actions>
                   <div style="width:100%;height: 95vh; background-color: #fff">
                     <div id="main">
+                      <span
+                        class="dialog-closing-button"
+                        color="#FFF"
+                        @click="dialog = false"
+                        >
+                        <img src="../../assets/closing-button.png"/>
+                        </span>
                       <span class="highbottom-logo">
                         <img
                           class="high-logo"
@@ -583,19 +590,23 @@
             <v-overlay :z-index="zIndex" :value="daegu_timetable_popup">
               <v-card color="#FFF" class="stationModal-card-size">
                 <v-card-text class="pa-0 stationModal-card-title">
+                  <div class="timetable_header">
                   <span class="select-modal-btn">시간표</span>
 
-                  <!-- <v-btn
-                                        class="closing-button"
-                                        color="#FFF"
-                                        @click="
-                                            daegu_timetable_popup = false
-                                            pickedTime = ''
-                                        "
-                                        ><img
-                                            src="../../assets/closing-button.png"
-                                    /></v-btn> -->
+                  <span
+                   class="closing-button"
+                   color="#FFF"
+                   @click="
+                   daegu_timetable_popup = false
+                   pickedTime = ''
+                   "
+                   >
+                   <img src="../../assets/closing-button.png"/>
+                   </span>
+                  </div>
                 </v-card-text>
+
+
                 <v-divider class="divider-style"></v-divider>
                 <v-card
                   class="pa-0 stationModal-card-content"
@@ -603,7 +614,7 @@
                   tile
                   flat
                 >
-                  <v-list light tile style="padding: 0.5rem 0 22px 0">
+                  <v-list light tile style="padding: 0.5rem 0 22px 0;">
                     <v-list-item-group color="#E61773">
                       <v-list-item
                         class="pa-0"
@@ -2161,6 +2172,7 @@ export default {
 .high-logo {
   height: 23.88px;
   width: 86px;
+  
 }
 .bottom-logo {
   height: 15px;
@@ -2372,16 +2384,21 @@ export default {
   font-size: 0.875rem;
   display: inline-block;
   padding: 0.563rem 0 0.5rem 0.875rem;
+  
 }
 
 .stationModal-card-size {
   width: 18.125rem;
-  height: 23.5rem;
+  height: 23.5rem;  
+
+  
 }
 
 .stationModal-card-title {
   color: #333 !important;
-  height: 2.313rem;
+  z-index: 1 !important;
+  
+  
 }
 
 .divider-style {
@@ -2644,5 +2661,18 @@ export default {
   font-size: 24px;
   text-align: center;
   color: #262626;
+}
+.timetable_header {
+  display: flex;
+  justify-content: space-between;
+}
+.closing-button {  
+  padding:9px;  
+}
+
+.dialog-closing-button {
+  margin-left: 0;
+  
+   
 }
 </style>
