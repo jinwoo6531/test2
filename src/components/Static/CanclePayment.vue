@@ -12,7 +12,7 @@
           <v-card xs12 sm12 md12 lg12 xl12 flat tile>
             <v-card xs12 sm12 md12 lg12 xl12 flat tile>
               <img
-                src="../../assets/schedule-img.png"
+                src="../../assets/cancle.png"
                 style="display: inlin-block; width: 100%"
               />
             </v-card>

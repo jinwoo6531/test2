@@ -2384,7 +2384,6 @@ export default {
   font-size: 0.875rem;
   display: inline-block;
   padding: 0.563rem 0 0.5rem 0.875rem;
-  
 }
 
 .stationModal-card-size {
@@ -2667,7 +2666,8 @@ export default {
   justify-content: space-between;
 }
 .closing-button {  
-  padding:9px;  
+  padding:10px;  
+  width: -20px;
 }
 
 .dialog-closing-button {

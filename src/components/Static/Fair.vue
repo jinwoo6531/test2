@@ -2,7 +2,7 @@
   <div id="fair">
     <v-container
       class="pa-0 ma-0 flex-wrap"
-      fluid 
+      fluid
       justify-center
       grid-list-md
       fill-height
@@ -12,7 +12,7 @@
           <v-card xs12 sm12 md12 lg12 xl12 flat tile>
             <v-card xs12 sm12 md12 lg12 xl12 flat tile>
               <img
-                src="../../assets/schedule-img.png"
+                src="../../assets/timetable.png"
                 style="display: inlin-block; width: 100%"
               />
             </v-card>
@@ -26,6 +26,48 @@
                 tile
               >
                 TASIO에서 운영중인 자율주행 셔틀 노선의 운임 안내입니다.
+              </v-card>
+              <v-card
+                class="text-justify pa-5 schedule-wrap"
+                xs12
+                sm6
+                md6
+                flat
+                tile
+              >
+                <p class="site-title">여수 엑스포 공원</p>
+                <p>
+                  <v-simple-table style="text-align: center">
+                    <template v-slot:default>
+                      <tbody>
+                        <tr>
+                          <td class="th-title">구분</td>
+                          <td>일일권</td>
+                          <td>종일권</td>
+                        </tr>
+                        <tr>
+                          <td class="th-title">일반</td>
+                          <td>6,000원</td>
+                          <td>9,000원</td>
+                          
+                        </tr>
+                        <tr>
+                          <td class="th-title">청소년</td>
+                          <td>4,000원</td>
+                          <td>6,000원</td>
+                        </tr>
+                        <tr>
+                          <td class="th-title">유아(만 6세 미만)</td>
+                          <td>무료</td>
+                          <td>무료</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </p>
+                <!-- <p class="schedule-info">
+                  ※ 1회권 결제시 1회 이용 가능합니다.
+                </p> -->
               </v-card>
 
               <v-card
@@ -46,15 +88,15 @@
                           <td>1회권</td>
                         </tr>
                         <tr>
-                         <td class="th-title">일반</td>
+                          <td class="th-title">일반</td>
                           <td>1,500원</td>
                         </tr>
-                         <tr>
-                         <td class="th-title">청소년/어린이</td>
+                        <tr>
+                          <td class="th-title">청소년</td>
                           <td>1,050원</td>
                         </tr>
-                         <tr>
-                         <td class="th-title">유아(만 6세 미만)</td>
+                        <tr>
+                          <td class="th-title">유아(만 6세 미만)</td>
                           <td>무료</td>
                         </tr>
                       </tbody>
@@ -64,7 +106,7 @@
                 <p class="schedule-info">
                   ※ 1회권 결제시 1회 이용 가능합니다.
                 </p>
-              </v-card>              
+              </v-card>
               <v-card
                 class="text-justify pa-5 schedule-wrap"
                 xs12
@@ -77,21 +119,21 @@
                 <p>
                   <v-simple-table style="text-align: center">
                     <template v-slot:default>
-                     <tbody>
+                      <tbody>
                         <tr>
                           <td class="th-title">구분</td>
                           <td>1회권</td>
                         </tr>
                         <tr>
-                         <td class="th-title">일반</td>
+                          <td class="th-title">일반</td>
                           <td>시범 운행</td>
                         </tr>
-                         <tr>
-                         <td class="th-title">청소년/어린이</td>
+                        <tr>
+                          <td class="th-title">청소년</td>
                           <td>시범 운행</td>
                         </tr>
-                         <tr>
-                         <td class="th-title">유아(만 6세 미만)</td>
+                        <tr>
+                          <td class="th-title">유아(만 6세 미만)</td>
                           <td>무료</td>
                         </tr>
                       </tbody>
@@ -107,15 +149,11 @@
         </v-flex>
       </v-layout>
     </v-container>
-     <v-footer class="copyrightStyle nav-footer pa-0">
-            <span>COPYRIGHT@SPRINGCLOUD INC. <br />
-                    ALL RIGHTS RESERVED.</span>
-        </v-footer>
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style>
@@ -126,7 +164,6 @@ export default {};
   font-size: 14px;
   line-height: 23px;
   color: #555555;
-  
 }
 .site-title {
   font-family: Noto Sans KR;
@@ -147,13 +184,14 @@ table {
   color: #555555;
   border-collapse: collapse;
 }
-.table-head{
-  background-color:#F2F2F2;
+.table-head {
+  background-color: #f2f2f2;
 }
-.table-head >tr>th, tbody>tr>td{
-  border-right: 1px solid #dbdbdb; 
+.table-head > tr > th,
+tbody > tr > td {
+  border-right: 1px solid #dbdbdb;
 }
-.table-head >tr>th:last-child{
+.table-head > tr > th:last-child {
   border-right: none;
 }
 
@@ -175,26 +213,25 @@ table .th-title {
   color: #888888;
   /* margin-bottom: 140px !important; */
 }
-.container{
+.container {
   margin-bottom: 140px !important;
 }
 .copyrightStyle {
   border-top: 1px solid #3333;
-    height:107px;
-    font-family: Roboto !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-size: 10px !important;
-    line-height: 14px;
-    /* color: #bdbdbd !important; */
-    background: transparent !important;
-    position: relative;
- 
+  height: 107px;
+  font-family: Roboto !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-size: 10px !important;
+  line-height: 14px;
+  /* color: #bdbdbd !important; */
+  background: transparent !important;
+  position: relative;
 }
-.copyrightStyle span{
-  position:absolute;
-     left: 50%;
-    bottom: 60px; 
-    transform: translate(-50%);
+.copyrightStyle span {
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  transform: translate(-50%);
 }
 </style>
