@@ -27,7 +27,7 @@
                                 align="center"
                                 justify="center"
                             >
-                                <!-- <v-badge
+                                <v-badge
                                     color="#E61773"
                                     content="준비중"
                                     left
@@ -35,7 +35,7 @@
                                     offset-y="20px"
                                     style="z-index: 10; padding: 1px 5px 3px 5px"
                                     :hidden="card.hidden"
-                                ></v-badge> -->
+                                ></v-badge>
                                 <v-card
                                     :ripple="false"
                                     link
@@ -113,16 +113,6 @@ export default {
         cards: [
             {
                 title:
-                    '<span style="width: 100%; text-align: center;">여수<br>엑스포 공원</span>',
-                src: require("../../assets/yeosu-btn.png"),
-                to: "/map/24",
-                disabled: false,
-                gradient: undefined,
-                color: "transparent",
-                hidden: true,
-            },
-            {
-                title:
                     '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
                 src: require("../../assets/daegu-btn.png"),
                 to: "/map/2",
@@ -140,6 +130,16 @@ export default {
                 gradient: undefined,
                 color: "#transparent",
                 hidden: true,
+            },
+            {
+                title:
+                    '<span style="width: 100%; text-align: center;">여수<br>엑스포 공원</span>',
+                src: require("../../assets/yeosu-btn.png"),
+                to: "/map/24",
+                disabled: false,
+                gradient: undefined,
+                color: "transparent",
+                hidden: false,
             },
             {
                 title:

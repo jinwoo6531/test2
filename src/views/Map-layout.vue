@@ -92,22 +92,7 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list-item-title>
-                                <v-list-item
-                            link
-                            :to="{ name: 'Site', params: { siteId: 24 } }"
-                            class="ma-0"
-                        >
-                            <v-list-item-content class="pa-0">
-                                <v-list-item-title
-                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
-                                    @click="closeSideMenu"
-                                >
-                                    여수 엑스포공원
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-
-             <v-list-item
+                          <v-list-item
                             link
                             :to="{ name: 'Site', params: { siteId: 2 } }"
                             class="ma-0"
@@ -123,6 +108,22 @@
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
+                                <v-list-item
+                            link
+                            :to="{ name: 'Site', params: { siteId: 24 } }"
+                            class="ma-0"
+                        >
+                            <v-list-item-content class="pa-0">
+                                <v-list-item-title
+                                    style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                                    @click="closeSideMenu"
+                                >
+                                    여수 엑스포공원
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+
+           
             <v-list-item
                             link
                             :to="{ name: 'Site', params: { siteId: 18 } }"

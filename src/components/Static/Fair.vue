@@ -35,7 +35,7 @@
                 flat
                 tile
               >
-                <p class="site-title">여수 엑스포 공원</p>
+                <p class="site-title">여수 엑스포 공원</p> 
                 <p>
                   <v-simple-table style="text-align: center">
                     <template v-slot:default>
