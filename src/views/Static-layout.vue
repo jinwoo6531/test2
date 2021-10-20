@@ -237,7 +237,7 @@
               style="font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
               @click="closeSideMenu"
             >
-              환불 및 취소 규정
+              환불 및 취소규정
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -339,7 +339,7 @@
                 flat
                 v-if="this.$route.name == 'CanclePayment'"
                 class="pa-0 static-title"
-                >환불 및 취소 규정</span
+                >환불 및 취소규정</span
               >
               <span
                 flat

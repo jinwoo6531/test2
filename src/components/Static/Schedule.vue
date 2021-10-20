@@ -43,10 +43,10 @@
                       <tbody>
                         <tr>
                           <td class="th-title" rowspan="2">평일</td>
-                          <td>오전 10:00 ~ 오전 11:30</td>
+                          <td class="th-body">오전 10:00 ~ 오전 11:30</td>
                         </tr>
                         <tr>
-                          <td>오후 2:00 ~ 오후 5:00</td>
+                          <td class="th-body">오후 2:00 ~ 오후 5:00</td>
                         </tr>
                       </tbody>
                     </template>
@@ -123,10 +123,10 @@
                       <tbody>
                         <tr>
                           <td class="th-title" rowspan="2">목요일, 금요일</td>
-                          <td>오전 10:30 ~ 오후 12:00</td>
+                          <td class="th-body">오전 10:30 ~ 오후 12:00</td>
                         </tr>
                         <tr>
-                          <td>오후 2:00 ~ 오후 4:00</td>
+                          <td class="th-body">오후 2:00 ~ 오후 4:00</td>
                         </tr>
                       </tbody>
                     </template>
@@ -247,5 +247,8 @@ table .th-title {
   left: 50%;
   bottom: 0px;
   transform: translateX(-50%);
+}
+.th-body {
+  font-size: 12px !important;
 }
 </style>

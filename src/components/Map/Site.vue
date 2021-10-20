@@ -275,9 +275,9 @@
                       >{{ testtest }}
                       <span class="select-person-title2">탑승인원 선택</span>
                     </v-card-text>
-                    <v-card-text class="select-max-title"
+                    <!-- <v-card-text class="select-max-title"
                       >탑승인원은 최대 14명까지 선택 가능합니다.
-                    </v-card-text>
+                    </v-card-text> -->
                     <div class="tabs">
                       <!-- 1회권 -->
 
@@ -465,11 +465,11 @@
                         <span>수량</span>
                         <span>총{{ totalCount }}매 선택</span>
                       </div>
-                      <v-card-text
+                      <!-- <v-card-text
                         style="font-size:0.8rem; text-align:center; font-weight: regular; position: absolute; bottom:3.125rem; left: 0; color:#777777"
                         >최종 결제 전 취소 및 환불규정을 반드시 확인하시기
                         바랍니다.</v-card-text
-                      >
+                      > -->
 
                       <div
                         class="selected"

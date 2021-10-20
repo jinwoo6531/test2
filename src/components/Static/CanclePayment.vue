@@ -26,7 +26,7 @@
                 flat
                 tile
               >
-                <p class="site-title">타시오 환불 및 취소 규정</p>
+                <p class="site-title">타시오 환불 및 취소규정</p>
                 
                   <v-simple-table style="text-align: center">
                     <template v-slot:default>
