@@ -1470,6 +1470,7 @@ export default {
         }
       }
     },
+    //test
     // 정류장 위치에 따른 마커 표시
     addMarker() {
       // 사용 마커 정의
