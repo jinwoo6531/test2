@@ -128,6 +128,7 @@
                       <span
                         class="dialog-closing-button"
                         color="#FFF"
+                        style="padding:10px;"
                         @click="dialog = false"
                         >
                         <img src="../../assets/closing-button.png"/>

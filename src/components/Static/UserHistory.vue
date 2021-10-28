@@ -220,10 +220,10 @@ export default {
   border-top: 1px solid #dbdbdb;
   display: flex;
   justify-content: space-between;
-  width: 83vw;
-  margin-top: 15px;
-  padding-top: 10px;
-  font-size: 18px;
+  width: 81vw;
+  margin-top: 13px;
+  padding-top: 9px;
+  font-size: 17px;
 }
 .payment-date2 {
   font-size: x-small;
@@ -288,7 +288,7 @@ export default {
   display: flex;
   justify-content: space-between;
   position: relative;
-  margin: 25px;
+  margin: 20px;
 }
 .ticket-main-txt2 p {
   margin-bottom: -5px;

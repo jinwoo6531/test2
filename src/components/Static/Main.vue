@@ -8,7 +8,15 @@
       fill-height
     >
       <v-layout row wrap class="ma-0">
-        <v-flex class="pa-0 mt-12 mb-12 main-title persentH" xs12 sm12 md12>
+        <v-flex
+          class="pa-0 mt-12 mb-12 main-title"
+          xs12
+          sm12
+          md12
+          lg12
+          xl12
+          style="width: 100%; height: 100%;"
+        >
           탑승하실 지역을 선택하세요
         </v-flex>
         <v-flex>
@@ -22,15 +30,15 @@
                 align="center"
                 justify="center"
               >
-                <!-- <v-badge
+                <v-badge
                   color="#E61773"
                   content="준비중"
                   left
                   offset-x="-30px"
                   offset-y="20px"
-                  style="z-index: 10; padding: 1px 5px 3px 5px"
+                  style="z-index: 10; padding: 1px 5px 3px 5px;"
                   :hidden="card.hidden"
-                ></v-badge> -->
+                ></v-badge>
                 <v-card
                   :ripple="false"
                   link
@@ -40,12 +48,7 @@
                   height="128px"
                   :disabled="card.disabled"
                   :color="card.color"
-                  style="
-                    margin: 0;
-                    text-align: center;
-                    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-                    border-radius: 20px;
-                  "
+                  style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;"
                 >
                   <v-img
                     :src="card.src"
@@ -55,24 +58,19 @@
                     <v-card-text
                       v-html="card.title"
                       class="site-btn pa-0 mb-9"
-                      style="padding: 3px"
+                      style="padding: 3px;"
                     ></v-card-text>
                   </v-img>
                 </v-card>
               </v-col>
-              <v-col cols="6" class="mb-5" align="center" justify="center">
+              <v-col style="margin:20px; margin-top:-20px;" >
                 <v-badge color="transparent"></v-badge>
-                <!-- <v-card
+                <v-card
                   flat
                   width="128px"
                   height="128px"
                   color="#F2F2F2"
-                  style="
-                    margin: 0;
-                    text-align: center;
-                    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-                    border-radius: 20px;
-                  "
+                  style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;"
                 >
                   <v-avatar class="ma-0 pa-0 mt-5" size="50" tile>
                     <img
@@ -85,7 +83,7 @@
                     >다음 운행 지역은 <br />
                     어디가 될까?</v-card-text
                   >
-                </v-card> -->
+                </v-card>
               </v-col>
             </v-row>
           </v-container>
@@ -101,6 +99,16 @@ import { mapState } from "vuex"
 export default {
   data: () => ({
     cards: [
+      {
+        title:
+          '<span style="width: 100%; text-align: center;">여수<br>엑스포 공원</span>',
+        src: require("../../assets/yeosu-btn.png"),
+        to: "/map/24",
+        disabled: false,
+        gradient: undefined,
+        color: "transparent",
+        hidden: true,
+      },
       {
         title:
           '<span style="width: 100%; text-align: center;">대구<br>수성 알파시티</span>',
@@ -120,16 +128,6 @@ export default {
         gradient: undefined,
         color: "transparent",
         hidden: true,
-      },
-      {
-        title:
-          '<span style="width: 100%; text-align: center;">여수<br>엑스포 공원</span>',
-        src: require("../../assets/yeosu-btn.png"),
-        to: "/map/24",
-        disabled: false,
-        gradient: undefined,
-        color: "transparent",
-        hidden: false,
       },
       {
         title:

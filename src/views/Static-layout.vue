@@ -99,6 +99,21 @@
             </v-list-item-title>
             <v-list-item
               link
+              :to="{ name: 'Site', params: { siteId: 24 } }"
+              class="ma-0"
+            >
+              <v-list-item-content class="pa-0">
+                <v-list-item-title
+                  style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
+                  @click="closeSideMenu"
+                >
+                  여수 엑스포공원
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item
+              link
               :to="{ name: 'Site', params: { siteId: 2 } }"
               class="ma-0"
             >
@@ -110,20 +125,6 @@
                   <!-- <v-badge color="#E61773" content="준비중" offset-x="-2" offset-y="10px" style="z-index: 15;"> -->
                   대구 수성알파시티
                   <!-- </v-badge> -->
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              link
-              :to="{ name: 'Site', params: { siteId: 24 } }"
-              class="ma-0"
-            >
-              <v-list-item-content class="pa-0">
-                <v-list-item-title
-                  style="font-style: normal; font-weight: normal; font-size: 14px; color: #828282;"
-                  @click="closeSideMenu"
-                >
-                  여수 엑스포공원
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
