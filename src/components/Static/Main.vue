@@ -65,7 +65,7 @@
               </v-col>
               <v-col style="margin:20px; margin-top:-20px;" >
                 <v-badge color="transparent"></v-badge>
-                <v-card
+                <!-- <v-card
                   flat
                   width="128px"
                   height="128px"
@@ -83,7 +83,7 @@
                     >다음 운행 지역은 <br />
                     어디가 될까?</v-card-text
                   >
-                </v-card>
+                </v-card> -->
               </v-col>
             </v-row>
           </v-container>

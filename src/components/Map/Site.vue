@@ -1392,7 +1392,7 @@ export default {
             .slice(this.start.points_idx)
             .concat(this.points[this.siteId].slice(0, this.end.points_idx + 1))
         }
-        this.addRouting(this.routePoints, "#95C8FA" )
+        this.addRouting(this.routePoints, "#CE8D9D","#FFB6C8" )
       }
       console.log("111", this.end.name)
     },
@@ -1417,7 +1417,7 @@ export default {
             .slice(this.start.points_idx)
             .concat(this.points[this.siteId].slice(0, this.end.points_idx + 1))
         }
-        this.addRouting(this.routePoints, "#95C8FA")
+        this.addRouting(this.routePoints, "#CE8D9D","#FFB6C8")
       }
     },
   },
@@ -1596,11 +1596,11 @@ export default {
           styles: [
             {
               color: borderColor,
-              weight: 8,
+              weight: 10,
             },
             {
               color: fullColor,
-              weight: 2,
+              weight: 7,
             },
           ],
         },
@@ -1631,11 +1631,11 @@ export default {
             {
               color: borderColor,
               
-              weight: 8,
+              weight: 10,
             },
             {
               color: fullColor,
-              weight: 2,
+              weight: 7,
             },
           ],
         },
@@ -1698,7 +1698,7 @@ export default {
           this.waypoints2.push(this.waypoints2[0])
 
           await this.addMarker() // 정류장 마커 표시
-          await this.addRouting2(this.waypoints2, "#FFB6C8") // 서비스 경로 표시
+          await this.addRouting2(this.waypoints2, "#50A1F2","#95C8FA") // 서비스 경로 표시
         })
         .catch((error) => {
           console.log("station (GET) error: ")
