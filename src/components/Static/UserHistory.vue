@@ -1,20 +1,9 @@
 <template>
   <div id="userhistory">
-    <v-tabs
-      v-model="test"
-      centered
-      fixed-tabs
-      color="#555"
-      slider-color="#fff"
-      background-color="#F8F8F8"
-    >
-      <v-tab
-        style="border: 1px solid #dbdbdb"
-        class="tab-items"
-        v-for="item in menus"
-        :key="item"
-        >{{ item }}</v-tab
-      >
+    <v-tabs color="#000000de accent-4" centered fixed-tabs>
+      <v-tab class="tab-items" v-for="item in menus" :key="item">{{
+        item
+      }}</v-tab>
       <!--1회 승차권  -->
       <v-tab-item>
         <div
@@ -56,7 +45,6 @@
             </div>
           </div>
         </div>
-
         <div class="no-ticket2" v-if="ticketList[0].length === 0">
           <h3>구매하신 승차권이 없어요</h3>
           <img src="../../assets/no_ticket_02.svg" />
@@ -119,14 +107,12 @@
     </v-tabs>
   </div>
 </template>
-
 <script>
 import { mapGetters, mapState } from "vuex"
 import axios from "axios"
 // import VueQr from "vue-qr"
 export default {
   name: "ticket",
-
   data: () => ({
     date: "",
     ticketCount: 0,
@@ -148,7 +134,6 @@ export default {
     menus: ["탑승내역", "환불내역"],
     test: null,
   }),
-
   computed: {
     ...mapGetters({
       user: "user",
@@ -161,6 +146,7 @@ export default {
   },
   methods: {
     getTicketInfo0() {
+      console.log(111, this.uid)
       axios
         .get(`https://tasioapi.springgo.io/api/reservations/user-history/`, {
           params: {
@@ -168,7 +154,6 @@ export default {
             state: 2,
           },
         })
-
         .then((res) => {
           this.ticketList.push(res.data)
           console.log("this ticket", this.ticketList)
@@ -188,7 +173,6 @@ export default {
             state: 4,
           },
         })
-
         .then((res) => {
           this.ttt.push(res.data)
           console.log("this ticket2", this.ttt)
@@ -203,27 +187,24 @@ export default {
   },
 }
 </script>
-
 <style scoped>
 .v-tab--active {
   background-color: #fff;
 }
-
 .tab-items {
   font-size: 16px;
   font-family: Noto Sans KR;
   letter-spacing: -1px;
   line-height: 26px;
 }
-
 .count-amount2 {
   border-top: 1px solid #dbdbdb;
   display: flex;
   justify-content: space-between;
-  width: 81vw;
-  margin-top: 13px;
-  padding-top: 9px;
-  font-size: 17px;
+  width: 290px;
+  margin-top: 15px;
+  padding-top: 10px;
+  font-size: 18px;
 }
 .payment-date2 {
   font-size: x-small;
@@ -237,7 +218,6 @@ export default {
   display: flex;
   text-align: center;
 }
-
 #userhistory {
   font-family: Noto Sans KR;
   width: 100%;
@@ -288,7 +268,7 @@ export default {
   display: flex;
   justify-content: space-between;
   position: relative;
-  margin: 20px;
+  margin: 25px;
 }
 .ticket-main-txt2 p {
   margin-bottom: -5px;
