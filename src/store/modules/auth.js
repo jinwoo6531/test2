@@ -127,6 +127,7 @@ const actions = {
     commit('loading', true)
     window.confirmationResult.confirm(otp)
       .then(result => {
+        
         axios.get('https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/read/' + result.user.uid)
           .then(response => {
             Vue.toasted.show("인증이 완료되었습니다.", {
@@ -146,6 +147,7 @@ const actions = {
               });
             } else {
               router.replace('/auth/agreecheck')
+              
             }
           }).catch(error => {
             console.log('User read: ', error)
