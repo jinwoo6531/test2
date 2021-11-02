@@ -12,7 +12,7 @@
           <v-card xs12 sm12 md12 lg12 xl12 flat tile>
             <v-card xs12 sm12 md12 lg12 xl12 flat tile>
               <img
-                src="../../assets/cancle.png"
+                src="../../assets/refund.png"
                 style="display: inlin-block; width: 100%"
               />
             </v-card>
@@ -25,10 +25,9 @@
                 flat
                 tile
               >
-                <p class="site-title">타시오 환불 및 취소 규정</p>
+                <p class="site-title">타시오 환불 규정</p>
 
-                  <v-simple-table class="table" style="text-align: center; margin-bottom:1.25rem ">
-                    <template v-slot:default>
+                  <table class="table" style="text-align: center; margin-bottom:1.25rem ">
                       <tbody>
                         <tr>
                           <td class="th-title">출발 전</td>
@@ -39,8 +38,7 @@
                           <td>환불 불가</td>
                         </tr>
                       </tbody>
-                    </template>
-                  </v-simple-table>
+                  </table>
                         <p style="margin-bottom:2.5rem ">
                           환불시 영업일 기준으로 당일결제, 당일환불 건은 당일
                           취소되며, 그 외 건은 7일 이내 취소 처리 됩니다. 
@@ -96,6 +94,8 @@ background-color: #fff;
 }
 
 .table {
+  width: 100%;
+  margin: 0 auto;
   border: 1px solid #dbdbdb;
   font-family: Noto Sans KR;
   font-style: normal;
@@ -103,15 +103,17 @@ background-color: #fff;
   font-size: 14px;
   color: #555555;
   border-collapse: collapse;
-  box-sizing: border-box;
-  border-radius: 0pt;
+  border-radius: 0px;
 }
 .schedule-table{
   margin: 20px;
 }
-.schedule-table tr td{
+.table tr td{
+   border: 1px solid #dbdbdb;
   font-size: 14px;
   height:35px;
+  padding: 0 16px;
+  box-sizing: border-box;
 }
 .table-head{
   background-color:#F2F2F2;
