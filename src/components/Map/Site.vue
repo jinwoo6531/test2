@@ -879,6 +879,7 @@
               class="pa-0 call-dialog-btn"
               width="100%"
               height="3.125rem"
+              v-if="end.id > 0 && start.id > 0"
               @click="requestPay"
               >{{ totalPayment }}원 결제하기</v-btn
             >

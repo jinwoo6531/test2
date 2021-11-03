@@ -212,6 +212,7 @@ export default {
 </script>
 
 <style>
+ .v-tab:before {background-color: #ffffff } 
 .v-tab--active {
   background-color: #fff;
 }
