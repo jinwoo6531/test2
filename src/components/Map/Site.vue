@@ -868,6 +868,7 @@
               >호출하기</v-btn
             >
           </v-flex> -->
+          <!-- 1회 이용권 결제버튼 -->
           <v-flex
             class="pa-0 mt-1"
             v-if="(callBtn && adultCount > 0) || childCount > 0"
@@ -879,11 +880,30 @@
               class="pa-0 call-dialog-btn"
               width="100%"
               height="3.125rem"
-              v-if="end.id > 0 && start.id > 0"
+              v-if="testtest == '1회 승차권' && end.id > 0 && start.id > 0"
               @click="requestPay"
-              >{{ totalPayment }}원 결제하기</v-btn
-            >
+              >{{ totalPayment }}원 결제하기
+              </v-btn>
           </v-flex>
+
+          <!-- 종일 이용권 결제버튼 -->
+          <v-flex
+            class="pa-0 mt-1"
+            v-if="(callBtn && adultCount > 0) || childCount > 0"
+          >
+            <v-btn
+              color="#E61773"
+              tile
+              depressed
+              class="pa-0 call-dialog-btn"
+              width="100%"
+              height="3.125rem"
+              v-if="testtest == '종일 승차권'"
+              @click="requestPay(ticket_type = 1)"
+              >{{ totalPayment }}원 결제하기
+              </v-btn>
+          </v-flex>
+          
           <!-- TEST수정 -->
           <v-flex
             class="pa-0 mt-1"
@@ -2128,6 +2148,7 @@ export default {
       console.log("this.count:", this.count)
       console.log("this.minutes :", this.minutes)
       console.log("this.vehicle_id :", this.vehicle_id)
+      
 
       // 아임포트 객체
       const IMP = window.IMP
@@ -2159,7 +2180,7 @@ export default {
           ticket_type: this.ticket_type,
           siteId: this.siteId,
         },
-        m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/test?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
+        m_redirect_url: `https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/put?site=${this.siteId}&start=${this.start.id}&end=${this.end.id}&startName=${this.start.name}&endName=${this.end.name}&station_startId=${this.start.points_idx}&station_endId=${this.end.points_idx}&count=${this.totalCount}&minutes=${this.minutes}&vehicle_id=${this.vehicle_id}`,
       })
       // 대구디파 테스트
     },
