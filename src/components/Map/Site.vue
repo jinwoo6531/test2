@@ -898,7 +898,7 @@
               class="pa-0 call-dialog-btn"
               width="100%"
               height="3.125rem"
-              v-if="testtest == '종일 승차권'"
+              v-if="testtest == '종일 승차권' && end.id > 0 && start.id > 0"
               @click="requestPay(ticket_type = 1)"
               >{{ totalPayment }}원 결제하기
               </v-btn>

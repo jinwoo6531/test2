@@ -359,11 +359,11 @@
                   </v-alert>
             <!-- refund fail -->
                 <v-alert
-                        dense
-                        text
-                        type="success"
+                       dense
+                        outlined
+                        type="error"
                       >
-                        <strong>환불이 완료되었습니다</strong>
+                        <strong>환불에 실패하였습니다</strong>
                       </v-alert>
             <!-- no ticket -->
             <div class="no-ticket" v-if="allDayTicket[0].length === 0">
