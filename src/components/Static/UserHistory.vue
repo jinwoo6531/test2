@@ -188,6 +188,7 @@ export default {
 }
 </script>
 <style scoped>
+ .v-tab:before {background-color: #ffffff } 
 .v-tab--active {
   background-color: #fff;
 }

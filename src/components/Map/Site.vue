@@ -891,7 +891,7 @@
               class="pa-0 call-dialog-btn"
               width="100%"
               height="3.125rem"
-              v-if="testtest == '1회 승차권'"
+              v-if="testtest == '1회 승차권' && end.id > 0 && start.id > 0"
               @click="requestPay"
               >{{ totalPayment }}원 결제하기
               </v-btn>
@@ -909,7 +909,7 @@
               class="pa-0 call-dialog-btn"
               width="100%"
               height="3.125rem"
-              v-if="testtest == '종일 승차권'"
+              v-if="testtest == '종일 승차권' && end.id > 0 && start.id > 0"
               @click="requestPay(ticket_type = 1)"
               >{{ totalPayment }}원 결제하기
               </v-btn>
@@ -961,6 +961,7 @@ function rad2deg(rad) {
 let start_icon = {}
 let end_icon = {}
 
+import Vue from 'vue'
 import { mapGetters } from "vuex"
 import axios from "axios"
 var control
@@ -1457,7 +1458,11 @@ export default {
   methods: {
     async abc() {
       if (this.start.name === "start") {
-        await alert("출발지를 먼저 선택해주세요.")
+          Vue.toasted.show("출발지를 먼저 선택해주세요.", {
+              type:"error",
+              theme: "bubble",
+              position: "top-center"
+            }).goAway(1000);
         this.start_station_popup = true
         this.destination_popup = false
       }
