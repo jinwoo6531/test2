@@ -623,7 +623,7 @@
                         @click="selectRoundingBtn(times, index)"
                         :key="times.id"
                       >
-                        <v-list-item-content v-if="times > nowTime">
+                        <v-list-item-content v-if="times >= nowTime">
                           <v-list-item-title
                             v-text="times"
                             style="color: #333"
