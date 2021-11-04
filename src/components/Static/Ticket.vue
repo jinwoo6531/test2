@@ -540,7 +540,6 @@ export default {
           console.log(response)
         })
         .catch((error) => {
-          //alert("환불을 실패하였습니다.", error)
           setTimeout(()=>{
             this.refund===false
           }, 1000)
