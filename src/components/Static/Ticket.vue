@@ -54,9 +54,9 @@
                     </qr-code>
                     <br />
                     <div class="ticket-main-tit-div">
-                      <span@
+                      <span
                         >{{ ticket.station_name }}
-                        {{ ticket.schedule_time }}</span@
+                        {{ ticket.schedule_time }}</span
                       >
                       <span class="ticket-main-tit-div-span"
                         ><img

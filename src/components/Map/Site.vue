@@ -623,13 +623,24 @@
                         @click="selectRoundingBtn(times, index)"
                         :key="times.id"
                       >
-                        <v-list-item-content>
+                        <v-list-item-content v-if="times > nowTime">
                           <v-list-item-title
                             v-text="times"
                             style="color: #333"
                           ></v-list-item-title>
                         </v-list-item-content>
+
+                        <v-list-item-content v-else-if="times < nowTime">
+                          <v-list-item-title
+                            v-text="times"
+                            style="color: lightgray"
+                          ></v-list-item-title>
+                        </v-list-item-content>
+
+                        
                       </v-list-item>
+
+                      
                     </v-list-item-group>
                   </v-list>
                 </v-card>
@@ -979,6 +990,7 @@ export default {
     waypoints: [],
     // 현재시간
     timestamp: new Date(),
+    nowTime: "",
     hour: "0",
     min: "0",
     timeTest: ["19:00", "20:00"],
@@ -1449,10 +1461,7 @@ export default {
         this.start_station_popup = true
         this.destination_popup = false
       }
-      console.log(1111, this.end.name)
-      // if (this.end.name.length > 0) {
-      //     alert("도착지 이미 선택되어있음.")
-      // }
+      
     },
     modal9() {
       this.dialog2 = false
@@ -1950,7 +1959,6 @@ export default {
           },
         })
         .then((response) => {
-          console.log("response :", response)
           let busTestTime = {
             id: 10,
             time_start: "19:00:00",
@@ -1966,17 +1974,22 @@ export default {
           round_result = round_result.sort(function(a, b) {
             return a.id < b.id ? -1 : 1
           })
+            let hours = this.timestamp.getHours();
+            let minutes = this.timestamp.getMinutes();
+            
+            this.nowTime = hours + ":" + minutes;
 
+            console.log('jw', this.nowTime);
           for (let i = 0; i < round_count; i++) {
-            this.timeTable.push(round_result[i].time_start.substring(0, 5))
+            this.timeTable.push(round_result[i].time_start.substring(0, 5))  
           }
-          console.log("timeTable:", this.timeTable)
         })
         .catch((error) => console.log("error", error))
     },
 
     // 회차 선택
     selectRoundingBtn(item, index) {
+      
       this.hour = this.timestamp.getHours()
       this.min = this.timestamp.getMinutes()
 
