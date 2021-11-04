@@ -2031,7 +2031,6 @@ export default {
     getLocation() {
       this.getLocationLoading = true
       var count = 0
-
       this.map
         .locate({
           setView: true,
