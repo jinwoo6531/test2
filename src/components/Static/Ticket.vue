@@ -354,6 +354,8 @@
                     dense
                     text
                     type="success"
+                    v-if="refund"
+                    style="position:relative; top: 0; left: 0"
                   >
                     <strong>환불이 완료되었습니다</strong>
                   </v-alert>
@@ -362,6 +364,8 @@
                        dense
                         outlined
                         type="error"
+                        v-else-if="refund===false"
+                        style="position:relative; top: 0; left: 0"
                       >
                         <strong>환불에 실패하였습니다</strong>
                       </v-alert>
@@ -428,6 +432,7 @@ export default {
     dialog: false,
     test: false,
     m_id: "",
+    refund: null,
   }),
   computed: {
     ...mapGetters({
@@ -529,10 +534,16 @@ export default {
       })
         .then((response) => {
           //alert("환불이 완료되었습니다.", response)
+          setTimeout(()=>{
+            this.refund===true
+          }, 1000)
           console.log(response)
         })
         .catch((error) => {
           //alert("환불을 실패하였습니다.", error)
+          setTimeout(()=>{
+            this.refund===false
+          }, 1000)
           console.log("error : ", error)
         })
       this.$router.push("/")
