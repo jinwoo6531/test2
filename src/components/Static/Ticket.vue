@@ -350,7 +350,7 @@
               </v-dialog>
             </v-card>
             <!-- refund success -->
-                <v-alert
+                <!-- <v-alert
                     dense
                     text
                     type="success"
@@ -358,9 +358,9 @@
                     style="position:relative; top: 0; left: 0"
                   >
                     <strong>환불이 완료되었습니다</strong>
-                  </v-alert>
+                  </v-alert> -->
             <!-- refund fail -->
-                <v-alert
+                <!-- <v-alert
                        dense
                         outlined
                         type="error"
@@ -368,7 +368,7 @@
                         style="position:relative; top: 0; left: 0"
                       >
                         <strong>환불에 실패하였습니다</strong>
-                      </v-alert>
+                      </v-alert> -->
             <!-- no ticket -->
             <div class="no-ticket" v-if="allDayTicket[0].length === 0">
               <h3>구매하신 승차권이 없어요</h3>
@@ -533,16 +533,26 @@ export default {
         },
       })
         .then((response) => {
+          Vue.toasted.show("환불이 완료되었습니다.", {
+              type:"success",
+              theme: "bubble",
+              position: "top-center"
+            }).goAway(1000);
           //alert("환불이 완료되었습니다.", response)
-          setTimeout(()=>{
-            this.refund===true
-          }, 1000)
+          // setTimeout(()=>{
+          //   this.refund===true
+          // }, 1000)
           console.log(response)
         })
         .catch((error) => {
-          setTimeout(()=>{
-            this.refund===false
-          }, 1000)
+            Vue.toasted.show("환불에 실패했습니다.", {
+              type:"error",
+              theme: "bubble",
+              position: "top-center"
+            }).goAway(1000);
+          // setTimeout(()=>{
+          //   this.refund===false
+          // }, 1000)
           console.log("error : ", error)
         })
       this.$router.push("/")

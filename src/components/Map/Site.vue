@@ -950,6 +950,7 @@ function rad2deg(rad) {
 let start_icon = {}
 let end_icon = {}
 
+import Vue from 'vue'
 import { mapGetters } from "vuex"
 import axios from "axios"
 var control
@@ -1445,7 +1446,11 @@ export default {
   methods: {
     async abc() {
       if (this.start.name === "start") {
-        await alert("출발지를 먼저 선택해주세요.")
+          Vue.toasted.show("출발지를 먼저 선택해주세요.", {
+              type:"error",
+              theme: "bubble",
+              position: "top-center"
+            }).goAway(1000);
         this.start_station_popup = true
         this.destination_popup = false
       }
