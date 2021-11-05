@@ -1511,7 +1511,7 @@ export default {
     addMarker() {
       // 사용 마커 정의
       this.zoomStatus = this.$utils.map.createIcon({
-        iconUrl: require("../../assets/bus.png"),
+        iconUrl: require("../../assets/bus(blue).png"),
         iconSize: [20, 20],
       })
       for (let station of this.stationList) {
