@@ -482,7 +482,6 @@ export default {
           }
         )
         .then((res) => {
-          console.log(456, res)
           this.allDayTicket.push(res.data)
           console.log("this ticket", this.allDayTicket)
           this.merchant_uid = res.data[0].merchant_uid

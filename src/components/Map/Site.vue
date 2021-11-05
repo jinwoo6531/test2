@@ -1982,7 +1982,7 @@ export default {
             let hours = this.timestamp.getHours();
             let minutes = this.timestamp.getMinutes();
             
-            this.nowTime = hours + ":" + minutes;
+            this.nowTime = "0"+hours + ":" + minutes;
 
             console.log('jw', this.nowTime);
           for (let i = 0; i < round_count; i++) {

@@ -254,7 +254,7 @@ export default {
   justify-content: space-between;
   width: 100%;
   height: 42px;
-  background-color: #999999;
+  background-color: #60AFA7;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   color: #fff;
@@ -263,7 +263,7 @@ export default {
   font-size: 14px;
 }
 .deactive-ticket-tit2 {
-  background-color: #999;
+  background-color: #5E93C7;
 }
 .ticket-main2 {
   display: flex;
