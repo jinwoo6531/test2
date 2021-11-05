@@ -1462,7 +1462,7 @@ export default {
               type:"error",
               theme: "bubble",
               position: "top-center"
-            }).goAway(1000);
+            }).goAway(3000);
         this.start_station_popup = true
         this.destination_popup = false
       }

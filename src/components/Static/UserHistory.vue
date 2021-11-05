@@ -1,6 +1,7 @@
 <template>
   <div id="userhistory">
-    <v-tabs color="#000000de accent-4" centered fixed-tabs>
+    <v-tabs  v-model="tab" centered fixed-tabs  color="#555"
+            slider-color="#fff" background-color="#F8F8F8">
       <v-tab class="tab-items" v-for="item in menus" :key="item">{{
         item
       }}</v-tab>
