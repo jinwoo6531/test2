@@ -7,8 +7,7 @@
       grid-list-md
       fill-height
     >
-      <!-- <v-tabs  v-model="tab" centered fixed-tabs  color="#555" slider-color="#fff" background-color="#F8F8F8"> -->
-      <v-tabs color="#000000de accent-4" centered fixed-tabs>
+      <v-tabs  v-model="tab" centered fixed-tabs  color="#555" slider-color="#fff" background-color="#F8F8F8">
         <v-tab href="#tab-1">일반 질문</v-tab>
         <v-tab href="#tab-2">기술 질문</v-tab>
 

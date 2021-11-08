@@ -8,9 +8,8 @@
       fill-height
     >
       <v-layout wrap>
-        <!-- <v-tabs  v-model="tab" centered fixed-tabs  color="#555"
-            slider-color="#fff" background-color="#F8F8F8"> -->
-        <v-tabs color="#E61773" centered fixed-tabs>
+        <v-tabs  v-model="tab" centered fixed-tabs  color="#555"
+            slider-color="#fff" background-color="#F8F8F8">
           <v-tab class="tab-items2" v-for="item in menus" :key="item">{{
             item
           }}</v-tab>
@@ -538,7 +537,7 @@ export default {
               type:"success",
               theme: "bubble",
               position: "top-center"
-            }).goAway(1000);
+            }).goAway(3000);
           //alert("환불이 완료되었습니다.", response)
           // setTimeout(()=>{
           //   this.refund===true
@@ -550,7 +549,7 @@ export default {
               type:"error",
               theme: "bubble",
               position: "top-center"
-            }).goAway(1000);
+            }).goAway(3000);
           // setTimeout(()=>{
           //   this.refund===false
           // }, 1000)

@@ -12,7 +12,14 @@
         <v-list-item class="pl-0">
           <v-list-item-content>
             <v-list-item-title>
+               <v-btn
+                          depressed
+                          tile 
+                          :ripple="false"
+                          style="padding:0; background: #fff"
+                          @click="goToWelcome">
               <img src="../assets/side-logo.svg" />
+               </v-btn>
             </v-list-item-title>
             <v-list-item-subtitle
               style="font-style: normal; font-weight: bold; font-size: 12px; color: #E61773; margin-top: 10px;"
@@ -33,7 +40,9 @@
                       cols="12"
                       style="font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 16px; color: #262626;"
                     >
+                     <router-link to="/userinfo" style="text-decoration: none; color:#262626">
                       {{ user.data.displayName }}님
+                     </router-link>
                     </v-col>
                   </v-row>
                   <v-row class="ma-0">
