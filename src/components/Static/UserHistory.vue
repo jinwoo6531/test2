@@ -148,7 +148,6 @@ export default {
   },
   methods: {
     getTicketInfo0() {
-      console.log(111, this.uid)
       axios
         .get(`https://tasioapi.springgo.io/api/reservations/user-history/`, {
           params: {
@@ -160,7 +159,7 @@ export default {
           this.ticketList.push(res.data)
           console.log("this ticket", this.ticketList)
           this.merchant_uid = res.data[0].merchant_uid
-          this.amount = res.data[0].amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          this.amount = res.data[0].amount
           this.data = res.data[0].date
         })
         .catch((error) => {
@@ -179,7 +178,7 @@ export default {
           this.ttt.push(res.data)
           console.log("this ticket2", this.ttt)
           this.merchant_uid = res.data[0].merchant_uid
-          this.amount =res.data[0].cancle_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          this.amount =res.data[0].cancle_amount
           this.data = res.data[0].date
         })
         .catch((error) => {
