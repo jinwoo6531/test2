@@ -22,7 +22,7 @@
         <v-flex>
           <v-container fluid>
             <v-row dense no-gutters align="center" justify="center">
-              <v-col
+              <!-- <v-col
                 v-for="card in cards"
                 :key="card.title"
                 cols="6"
@@ -57,6 +57,170 @@
                   >
                     <v-card-text
                       v-html="card.title"
+                      class="site-btn pa-0 mb-9"
+                      style="padding: 3px;"
+                    ></v-card-text>
+                  </v-img>
+                </v-card>
+              </v-col> -->
+              <v-col
+                
+                :key="cards[0].title"
+                cols="6"
+                class="mb-5"
+                align="center"
+                justify="center"
+              >
+                <v-badge
+                  color="#E61773"
+                  content="준비중"
+                  left
+                  offset-x="-30px"
+                  offset-y="20px"
+                  style="z-index: 10; padding: 1px 5px 3px 5px;"
+                  v-bind:hidden="true"
+                ></v-badge>
+                <v-card
+                  :ripple="false"
+                  link
+                  :to="cards[0].to"
+                  flat
+                  width="128px"
+                  height="128px"
+                  :disabled="cards[0].disabled"
+                  :color="cards[0].color"
+                  style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;"
+                >
+                  <v-img
+                    :src="cards[0].src"
+                    :gradient="cards[0].gradient"
+                    class="align-center"
+                  >
+                    <v-card-text
+                      v-html="cards[0].title"
+                      class="site-btn pa-0 mb-9"
+                      style="padding: 3px;"
+                    ></v-card-text>
+                  </v-img>
+                </v-card>
+              </v-col>
+              <v-col
+                
+                :key="cards[1].title"
+                cols="6"
+                class="mb-5"
+                align="center"
+                justify="center"
+              >
+                <v-badge
+                  color="#E61773"
+                  content="준비중"
+                  left
+                  offset-x="-30px"
+                  offset-y="20px"
+                  style="z-index: 10; padding: 1px 5px 3px 5px;"
+                  v-bind:hidden="true"
+                ></v-badge>
+                <v-card
+                  :ripple="false"
+                  link
+                  :to="cards[1].to"
+                  flat
+                  width="128px"
+                  height="128px"
+                  :disabled="cards[1].disabled"
+                  :color="cards[1].color"
+                  style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;"
+                >
+                  <v-img
+                    :src="cards[1].src"
+                    :gradient="cards[1].gradient"
+                    class="align-center"
+                  >
+                    <v-card-text
+                      v-html="cards[1].title"
+                      class="site-btn pa-0 mb-9"
+                      style="padding: 3px;"
+                    ></v-card-text>
+                  </v-img>
+                </v-card>
+              </v-col>
+              <v-col
+                
+                :key="cards[2].title"
+                cols="6"
+                class="mb-5"
+                align="center"
+                justify="center"
+              >
+                <v-badge
+                  color="#E61773"
+                  content="준비중"
+                  left
+                  offset-x="-30px"
+                  offset-y="20px"
+                  style="z-index: 10; padding: 1px 5px 3px 5px;"
+                  v-bind:hidden="true"
+                ></v-badge>
+                <v-card
+                  :ripple="false"
+                  link
+                  :to="cards[2].to"
+                  flat
+                  width="128px"
+                  height="128px"
+                  :disabled="cards[2].disabled"
+                  :color="cards[2].color"
+                  style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;"
+                >
+                  <v-img
+                    :src="cards[2].src"
+                    :gradient="cards[2].gradient"
+                    class="align-center"
+                  >
+                    <v-card-text
+                      v-html="cards[2].title"
+                      class="site-btn pa-0 mb-9"
+                      style="padding: 3px;"
+                    ></v-card-text>
+                  </v-img>
+                </v-card>
+              </v-col>
+              <v-col
+                
+                :key="cards[3].title"
+                cols="6"
+                class="mb-5"
+                align="center"
+                justify="center"
+              >
+                <v-badge
+                  color="#E61773"
+                  content="준비중"
+                  left
+                  offset-x="-30px"
+                  offset-y="20px"
+                  style="z-index: 10; padding: 1px 5px 3px 5px;"
+                  v-bind:hidden="false"
+                ></v-badge>
+                <v-card
+                  :ripple="false"
+                  link
+                  :to="cards[3].to"
+                  flat
+                  width="128px"
+                  height="128px"
+                  :disabled="cards[3].disabled"
+                  :color="cards[3].color"
+                  style="margin: 0; text-align: center; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); border-radius: 20px;"
+                >
+                  <v-img
+                    :src="cards[3].src"
+                    :gradient="cards[3].gradient"
+                    class="align-center"
+                  >
+                    <v-card-text
+                      v-html="cards[3].title"
                       class="site-btn pa-0 mb-9"
                       style="padding: 3px;"
                     ></v-card-text>
