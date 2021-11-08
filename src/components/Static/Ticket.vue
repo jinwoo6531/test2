@@ -516,6 +516,7 @@ export default {
       console.log("고유ID :", this.uid)
       console.log("주문번호 :", this.merchant_uid)
       console.log("환불금액 :", this.amount)
+      console.log(this.m_id);
       axios({
         url:
           "https://ondemand.springgo.io:100/tasio-288c5/us-central1/app/api/payment/cancel",
@@ -530,6 +531,7 @@ export default {
           reason: "승차권 예약취소",
           cancel_request_amount: this.amount,
         },
+        
       })
         .then((response) => {
           Vue.toasted.show("환불이 완료되었습니다.", {

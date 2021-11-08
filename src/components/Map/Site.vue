@@ -1982,9 +1982,12 @@ export default {
             let hours = this.timestamp.getHours();
             let minutes = this.timestamp.getMinutes();
             
-            this.nowTime = "0"+hours + ":" + minutes;
-
-            console.log('jw', this.nowTime);
+            if(this.nowTime.substring(0,1) > 1) {
+              this.nowTime = "0"+hours + ":" + minutes;
+            } else {
+              this.nowTime = hours + ":" + minutes;
+            }
+            
           for (let i = 0; i < round_count; i++) {
             this.timeTable.push(round_result[i].time_start.substring(0, 5))  
           }

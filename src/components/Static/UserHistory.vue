@@ -40,7 +40,7 @@
               </div>
               <div class="count-amount2">
                 총 결제금액
-                <span class="count-amount-one2">{{ ticket.amount }}원</span>
+                <span class="count-amount-one2">{{ ticket.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span>
               </div>
             </div>
           </div>
@@ -90,7 +90,8 @@
               </div>
               <div class="count-amount2">
                 <span>총 환불금액</span>
-                <span>{{ ticket.cancel_amount }}원</span>
+                <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span>
+                <span v-else>{{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span>
               </div>
             </div>
           </div>
@@ -158,7 +159,7 @@ export default {
           this.ticketList.push(res.data)
           console.log("this ticket", this.ticketList)
           this.merchant_uid = res.data[0].merchant_uid
-          this.amount = res.data[0].amount
+          this.amount = res.data[0].amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           this.data = res.data[0].date
         })
         .catch((error) => {
@@ -177,13 +178,14 @@ export default {
           this.ttt.push(res.data)
           console.log("this ticket2", this.ttt)
           this.merchant_uid = res.data[0].merchant_uid
-          this.amount = res.data[0].cancle_amount
+          this.amount =res.data[0].cancle_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           this.data = res.data[0].date
         })
         .catch((error) => {
           console.log(error)
         })
     },
+    
   },
 }
 </script>
