@@ -22,7 +22,7 @@
         <v-flex>
           <v-container fluid>
             <v-row dense no-gutters align="center" justify="center">
-              <!-- <v-col
+              <v-col
                 v-for="card in cards"
                 :key="card.title"
                 cols="6"
@@ -30,14 +30,14 @@
                 align="center"
                 justify="center"
               >
-                <v-badge
-                  color="#E61773"
-                  content="준비중"
-                  left
-                  offset-x="-30px"
-                  offset-y="20px"
-                  style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  v-bind:hidden="card.hidden"
+                 <v-badge
+                 v-if="card.hidden == false"
+                 color="#E61773"
+                 style="z-index: 10; padding: 1px 5px 3px 5px;"
+                 left
+                 offset-x="-30px"
+                offset-y="20px"
+                 content="준비중"
                 ></v-badge>
                 <v-card
                   :ripple="false"
@@ -62,24 +62,17 @@
                     ></v-card-text>
                   </v-img>
                 </v-card>
-              </v-col> -->
-              <v-col
+              </v-col>
+
+
+              <!-- 여기서부터 -->
+              <!-- <v-col
                 :key="cards[0].title"
                 cols="6"
                 class="mb-5"
                 align="center"
                 justify="center"
-              >
-                <!-- <v-badge
-                  color="#E61773"
-                  content="준비중"
-                  left
-                  offset-x="-30px"
-                  offset-y="20px"
-                  style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  hidden="true"
-                ></v-badge> -->
-                
+              > 
                 <v-card
                   :ripple="false"
                   link
@@ -105,7 +98,6 @@
                 </v-card>
               </v-col>
               <v-col
-                
                 :key="cards[1].title"
                 cols="6"
                 class="mb-5"
@@ -138,7 +130,6 @@
                 </v-card>
               </v-col>
               <v-col
-                
                 :key="cards[2].title"
                 cols="6"
                 class="mb-5"
@@ -171,7 +162,6 @@
                 </v-card>
               </v-col>
               <v-col
-                
                 :key="cards[3].title"
                 cols="6"
                 class="mb-5"
@@ -209,7 +199,7 @@
                     ></v-card-text>
                   </v-img>
                 </v-card>
-              </v-col>
+              </v-col> -->
               <v-col style="margin:20px; margin-top:-20px;" >
                 <v-badge color="transparent"></v-badge>
                 <!-- <v-card
