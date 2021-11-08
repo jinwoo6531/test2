@@ -37,7 +37,7 @@
                   offset-x="-30px"
                   offset-y="20px"
                   style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  :hidden="card.hidden"
+                  v-bind:hidden="card.hidden"
                 ></v-badge>
                 <v-card
                   :ripple="false"
