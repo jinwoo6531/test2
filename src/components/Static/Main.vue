@@ -64,22 +64,22 @@
                 </v-card>
               </v-col> -->
               <v-col
-                
                 :key="cards[0].title"
                 cols="6"
                 class="mb-5"
                 align="center"
                 justify="center"
               >
-                <v-badge
+                <!-- <v-badge
                   color="#E61773"
                   content="준비중"
                   left
                   offset-x="-30px"
                   offset-y="20px"
                   style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  v-bind:hidden="true"
-                ></v-badge>
+                  hidden="true"
+                ></v-badge> -->
+                
                 <v-card
                   :ripple="false"
                   link
@@ -112,15 +112,7 @@
                 align="center"
                 justify="center"
               >
-                <v-badge
-                  color="#E61773"
-                  content="준비중"
-                  left
-                  offset-x="-30px"
-                  offset-y="20px"
-                  style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  v-bind:hidden="true"
-                ></v-badge>
+                
                 <v-card
                   :ripple="false"
                   link
@@ -153,15 +145,7 @@
                 align="center"
                 justify="center"
               >
-                <v-badge
-                  color="#E61773"
-                  content="준비중"
-                  left
-                  offset-x="-30px"
-                  offset-y="20px"
-                  style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  v-bind:hidden="true"
-                ></v-badge>
+                
                 <v-card
                   :ripple="false"
                   link
@@ -195,13 +179,12 @@
                 justify="center"
               >
                 <v-badge
-                  color="#E61773"
-                  content="준비중"
-                  left
-                  offset-x="-30px"
-                  offset-y="20px"
-                  style="z-index: 10; padding: 1px 5px 3px 5px;"
-                  v-bind:hidden="false"
+                 color="#E61773"
+                 style="z-index: 10; padding: 1px 5px 3px 5px;"
+                 left
+                 offset-x="-30px"
+                offset-y="20px"
+                 content="준비중"
                 ></v-badge>
                 <v-card
                   :ripple="false"
