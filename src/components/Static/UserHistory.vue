@@ -91,8 +91,9 @@
               </div>
               <div class="count-amount2">
                 <span>총 환불금액</span>
-                <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span>
-                <span v-else>{{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span>
+                <!-- <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span> -->
+                <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount }}원</span>
+                <span v-else>{{ ticket.cancel_amount }}원</span>
               </div>
             </div>
           </div>
@@ -148,6 +149,7 @@ export default {
   },
   methods: {
     getTicketInfo0() {
+      console.log(111, this.uid)
       axios
         .get(`https://tasioapi.springgo.io/api/reservations/user-history/`, {
           params: {
@@ -159,7 +161,7 @@ export default {
           this.ticketList.push(res.data)
           console.log("this ticket", this.ticketList)
           this.merchant_uid = res.data[0].merchant_uid
-          this.amount = res.data[0].amount
+          this.amount = res.data[0].amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           this.data = res.data[0].date
         })
         .catch((error) => {
@@ -178,7 +180,7 @@ export default {
           this.ttt.push(res.data)
           console.log("this ticket2", this.ttt)
           this.merchant_uid = res.data[0].merchant_uid
-          this.amount =res.data[0].cancle_amount
+          this.amount =res.data[0].cancle_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           this.data = res.data[0].date
         })
         .catch((error) => {
