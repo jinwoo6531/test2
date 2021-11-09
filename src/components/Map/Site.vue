@@ -1688,6 +1688,7 @@ export default {
       await axios
         .get("/api/stations/")
         .then(async (response) => {
+          console.log('ojy',response);
           if (response.status == 200) {
             console.log("getStation :", response)
             let station_result = response.data
@@ -1964,6 +1965,7 @@ export default {
           },
         })
         .then((response) => {
+          console.log(9898,response);
           let busTestTime = {
             id: 10,
             time_start: "19:00:00",

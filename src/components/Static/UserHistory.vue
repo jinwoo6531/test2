@@ -91,8 +91,7 @@
               </div>
               <div class="count-amount2">
                 <span>총 환불금액</span>
-                <!-- <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span> -->
-                <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount }}원</span>
+                <span v-if="ticket.cancel_amount > 0">- {{ ticket.cancel_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}원</span>                
                 <span v-else>{{ ticket.cancel_amount }}원</span>
               </div>
             </div>
